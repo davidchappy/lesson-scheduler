@@ -22,10 +22,12 @@ var Form = React.createClass({
       )
     }
     return (
-      <div>
-        <h3>{this.props.form.student_name}</h3>
-        <p>Instrument: {this.state.instrument.name}</p>
-        <p>Teacher: {this.state.teacher.first_name} {this.state.teacher.last_name}</p>
+      <div className="form">
+        <div className="form-header">
+          <h3>{this.props.form.student_name}</h3>
+          <p>Instrument: {this.state.instrument.name}</p>
+          <p>Teacher: {this.state.teacher.first_name} {this.state.teacher.last_name}</p>
+        </div>
         <Weeks form_id={this.props.form.id} />
       </div>
     )

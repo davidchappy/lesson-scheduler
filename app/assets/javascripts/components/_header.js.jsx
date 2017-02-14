@@ -44,7 +44,7 @@ var Header = React.createClass({
     var possibleDiscount = this.state.possibleDiscount;
 
     return (
-      <div>
+      <div className="header">
         <h1>The {family.last_name} Family</h1>
         <p>Total: {total} </p>
         <p>Discount: {totalDiscount} </p>

@@ -23,13 +23,11 @@ var Weeks = React.createClass({
     }
     var weeks = this.state.weeks.map((week, index) => {
       return (
-        <div key={week.id}>
-          <Week week={week} index={index} />
-        </div>
+        <Week week={week} index={index} />
       )
     });
     return (
-      <div>{weeks}</div>
+      <div className="weeks">{weeks}</div>
     )
   }
 })

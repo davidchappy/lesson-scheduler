@@ -21,7 +21,7 @@ var Body = React.createClass({
     }
 
     return (
-      <div>
+      <div className="body">
         <AllForms forms={this.state.forms} />
       </div>
     )

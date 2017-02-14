@@ -2,13 +2,11 @@ var AllForms = React.createClass({
   render() {
     var forms = this.props.forms.map((form) => {
       return (
-        <div key={form.id}>
-          <Form form={form} />
-        </div>
+        <Form form={form} />
       )
     })
     return (
-      <div>{forms}</div>
+      <div className="forms">{forms}</div>
     )
   }
 });

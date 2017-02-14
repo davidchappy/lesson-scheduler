@@ -5,7 +5,7 @@ class Api::V1::FormsController < Api::V1::BaseController
     if current_user.type == 'Family'
       @family = Family.find(current_user.id)
       @forms = Form.where(family_id: @family.id)
-      respond_with [@family, @forms]
+      respond_with @forms
     else
       respond_with Form.all
     end

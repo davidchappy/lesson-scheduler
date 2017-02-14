@@ -6,10 +6,16 @@ class Api::V1::WeeksController < Api::V1::BaseController
     respond_with @weeks
   end
 
-  def create
+  def update
+    @week = Week.find(params[:id])
+    @week.update_attributes(week_params)
+    respond_with @weeks
   end
 
-  def destroy
-  end
+  private
+
+    def week_params
+      params.require(:week).permit(:lesson)
+    end
 
 end

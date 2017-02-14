@@ -3,12 +3,19 @@ class Api::V1::FormsController < Api::V1::BaseController
 
   def index
     if current_user.type == 'Family'
-      @family = Family.find(current_user.id)
-      @forms = Form.where(family_id: @family.id)
+      family = Family.find(current_user.id)
+      @forms = Form.where(family_id: family.id)
       respond_with @forms
     else
       respond_with Form.all
     end
+  end
+
+  def show
+    @form = Form.find(params[:id])
+    @instrument = @form.instrument
+    @teacher = @form.teacher
+    respond_with [@instrument, @teacher]
   end
 
   def new

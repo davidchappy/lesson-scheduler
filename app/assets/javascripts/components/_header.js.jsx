@@ -8,7 +8,6 @@ var Header = React.createClass({
       type: 'GET',
       success: (response) => { 
         this.setState({ family: response });
-        console.log(this.state.family);
         this.calculateDiscount(); 
       }
     });

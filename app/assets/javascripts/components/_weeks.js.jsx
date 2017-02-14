@@ -1,15 +1,15 @@
 var Weeks = React.createClass({
   getInitialState() {
-    return { weeks: undefined }
+    return { weeks: undefined, lesson_count:undefined }
   },
   componentDidMount() {
     var id = this.props.form_id;
-    console.log(id);
     $.ajax({
       url: `/api/v1/weeks.json?form_id=${id}`, 
       type: 'GET',
       success: (response) => { 
         this.setState({ weeks: response });
+        this.props.updateLessonCount(this.state.weeks);
       }
     });
   },
@@ -23,7 +23,7 @@ var Weeks = React.createClass({
     }
     var weeks = this.state.weeks.map((week, index) => {
       return (
-        <Week week={week} index={index} />
+        <Week key={week.id} week={week} index={index} />
       )
     });
     return (

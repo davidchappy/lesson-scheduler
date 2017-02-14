@@ -1,0 +1,57 @@
+// Temporary
+.logout, .login {
+  list-style: none;
+  border: 1px solid #ccc;
+  width: 70px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 0.5rem; 
+}
+
+// App styles
+.body.container {
+  padding-top: 8rem;
+}
+
+.form-header {
+  padding: 0;
+  position: relative;
+  height: 6rem;
+  border: 1px solid #eee;
+  
+  h3, p {
+    position: absolute;
+    margin: 0;
+  }
+  
+  h3 {
+    top:1rem;
+    left:1rem;
+    font-size: 1.4em;
+  }
+
+  .instrument {
+    bottom:1rem;
+    left:1rem;
+    font-size: 0.8em;
+  }
+
+  .teacher {
+    top:1rem;
+    right:1rem;
+    font-size: 1em;
+  }
+
+  .lesson-count {
+    bottom:1rem;
+    right:1rem;
+    font-size: 1em;
+  }
+}
+
+.weeks {
+  width: 80%;
+  margin: 2rem auto 0;
+}

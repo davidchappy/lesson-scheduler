@@ -1,4 +1,6 @@
 class Form < ApplicationRecord
+  include ApplicationHelper
+
   after_initialize :set_defaults
   after_create :generate_weeks
 
@@ -24,14 +26,6 @@ class Form < ApplicationRecord
     self.end_date ||= finish
   end
 
-  def stringify_week(week, index, divider='-')
-    start = ActiveSupport::Inflector.ordinalize(week.start_date.day)
-    finish = ActiveSupport::Inflector.ordinalize(week.end_date.day)
-    wk_string = week.start_date.strftime("%b #{start}")
-    wk_string += divider
-    wk_string += week.end_date.strftime("%b #{finish}")
-  end
-
   private
 
     def generate_weeks
@@ -41,6 +35,7 @@ class Form < ApplicationRecord
         new_week = self.weeks.create
         new_week.start_date = week
         new_week.end_date = week + 4.days
+        new_week.week_string = stringify_week(new_week)
         new_week.save
       end
     end

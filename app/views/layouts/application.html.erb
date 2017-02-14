@@ -13,11 +13,11 @@
   <body>
     <%= yield %>
     <% if user_signed_in? %>
-      <li>
+      <li class="logout">
       <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
       </li>
     <% else %>
-      <li>
+      <li class="login">
       <%= link_to('Login', new_user_session_path)  %>  
       </li>
     <% end %>

@@ -1,10 +1,9 @@
 var Form = React.createClass({
   getInitialState() {
-    return { instrument: undefined, teacher: undefined }
+    return { instrument: undefined, teacher: undefined, lesson_count: undefined }
   },
   componentDidMount() {
     var id = this.props.form.id;
-    // console.log("Form id: " + id);
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'GET',
@@ -12,6 +11,13 @@ var Form = React.createClass({
         this.setState({ instrument: response[0], teacher: response[1] });
       }
     });
+  },
+  updateLessonCount(weeks) {
+    var count = 0;
+    weeks.map((week) => {
+      week.lesson ? count += 1 : count += 0;
+    });
+    this.setState({lesson_count: count});
   },
   render() {
     if ( !this.state.instrument ) {
@@ -22,13 +28,14 @@ var Form = React.createClass({
       )
     }
     return (
-      <div className="form">
+      <div className="form col-sm-4">
         <div className="form-header">
           <h3>{this.props.form.student_name}</h3>
-          <p>Instrument: {this.state.instrument.name}</p>
-          <p>Teacher: {this.state.teacher.first_name} {this.state.teacher.last_name}</p>
+          <p className="instrument">{this.state.instrument.name}</p>
+          <p className="teacher">{this.state.teacher.first_name} {this.state.teacher.last_name}</p>
+          <p className="lesson-count"><strong>{this.state.lesson_count}</strong> Lessons</p>
         </div>
-        <Weeks form_id={this.props.form.id} />
+        <Weeks form_id={this.props.form.id} updateLessonCount={this.updateLessonCount}/>
       </div>
     )
   }

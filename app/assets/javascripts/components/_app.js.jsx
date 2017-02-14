@@ -3,8 +3,6 @@ var App = React.createClass({
     return (
       <div>
         <Header />
-        <Forms />
-        <Footer />
       </div>
     )
   }

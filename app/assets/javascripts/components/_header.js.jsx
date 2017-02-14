@@ -1,19 +1,21 @@
 var Header = React.createClass({
   getInitialState() {
-    return { response: undefined }
+    return { family: undefined, forms: [] }
   },
   componentDidMount() {
     $.ajax({
       url: '/api/v1/forms.json', 
       type: 'GET',
       success: (response) => { 
-        console.log('Success');
-        this.setState({ items: response }); 
+        this.setState({ family: response[0], forms: response[1] }); 
+        console.log(response);
+        console.log(this.state.family);
+        console.log(this.state.forms);
       }
     });
   },
   render() {
-    if ( !this.state.response ) {
+    if ( !this.state.family ) {
       return (
         <div>
           <p>Loading</p>
@@ -21,26 +23,10 @@ var Header = React.createClass({
       )
     }
 
-    if ( !this.state.response.length === 0 ) {
-      return (
-        <div>
-          <p>No matches!</p>
-        </div>
-      )
-    }
-
-    // console.log(this.state.items);
-    var family = this.state.forms[0];
-    // var summer = this.state.forms[1];
-    // var forms = this.state.forms[2];
-    // var weeks = this.state.forms[3].map((week) => {
-    //   return (
-    //     <div>
-    //       <h3>Week {week[0]}</h3>
-    //       <p>{week[1]}</p>
-    //     </div>
-    //   )
-    // });
+    var family = this.state.family;
+    console.log(family);
+    var forms = this.state.forms;
+    console.log(forms);
     return (
       <div>
         <h1>The {family.last_name} Family</h1>

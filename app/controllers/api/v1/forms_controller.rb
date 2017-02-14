@@ -1,6 +1,5 @@
 class Api::V1::FormsController < Api::V1::BaseController
   include ApplicationHelper
-  before_action :authenticate_user!
 
   def index
     if current_user.type == 'Family'

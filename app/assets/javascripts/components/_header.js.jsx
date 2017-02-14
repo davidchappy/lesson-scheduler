@@ -17,17 +17,19 @@ var Header = React.createClass({
     var week_count = Number(this.state.family.week_count);
     var form_count = Number(this.state.family.form_count);
     var total_owed = Number(this.state.family.total_owed);
-    var original_total = form_count * 80;
+    var original_total = form_count * 8000;
     var discount = 0;
-    discount += (form_count-1) * 20;
-    discount += week_count * 1;
+    discount += (form_count-1) * 2000;
+    discount += week_count * 100;
 
     this.setState({
       totalDiscount: discount,
       totalOwed: original_total - discount,
-      possibleDiscount: form_count * 13
+      possibleDiscount: form_count * 13 * 100
     })
-
+  },
+  monetize(amount) {
+    return ("$" + (amount/100));
   },
   render() {
     if ( !this.state.family ) {
@@ -39,16 +41,33 @@ var Header = React.createClass({
     }
 
     var family = this.state.family;
-    var total = this.state.totalOwed;
-    var totalDiscount = this.state.totalDiscount;
-    var possibleDiscount = this.state.possibleDiscount;
+    var total = this.monetize(this.state.totalOwed);
+    var totalDiscount = this.monetize(this.state.totalDiscount);
+    var possibleDiscount = this.monetize(this.state.possibleDiscount);
 
     return (
-      <div className="header">
-        <h1>The {family.last_name} Family</h1>
-        <p>Total: {total} </p>
-        <p>Discount: {totalDiscount} </p>
-        <p>Possible Discount: {possibleDiscount} </p>
+      <div className="navbar navbar-inverse navbar-fixed-top header">
+        <div className="container">
+          <div className="navbar-header">
+            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span className="sr-only">Toggle navigation</span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+            </button>
+            <a className="navbar-brand" href="#">The {family.last_name} Family</a>
+          </div>
+          <div id="navbar" className="navbar-collapse collapse">
+            <ul className="nav navbar-nav navbar-right">
+              <li role="separator" className="divider"></li>
+              <li><a>Possible Discount: {possibleDiscount}</a></li>                
+              <li role="separator" className="divider"></li>
+              <li><a>Total: {total}</a></li>
+              <li role="separator" className="divider"></li>
+              <li><a>Discount: {totalDiscount}</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
     )
   }

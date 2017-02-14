@@ -21,3 +21,9 @@ family = Family.create(first_name: 'Lovely', last_name: 'Family',
 
 student = Student.create(first_name: 'First', last_name: 'Student', 
   family_id:family.id,  instrument_id: piano.id)
+
+summer = Summer.generate_summer
+weeks = summer.weeks
+
+form = Form.create(teacher_id: teacher.id, 
+  student_id: student.id, summer_id: summer.id)

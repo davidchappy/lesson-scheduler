@@ -10,48 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170213221105) do
+ActiveRecord::Schema.define(version: 20170214120236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "forms", force: :cascade do |t|
-    t.integer  "summer_id"
-    t.integer  "student_id"
     t.integer  "teacher_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "year"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "student_name"
+    t.integer  "family_id"
+    t.integer  "instrument_id"
   end
 
   create_table "instruments", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "lessons", force: :cascade do |t|
-    t.integer  "form_id"
-    t.integer  "teacher_id"
-    t.integer  "student_id"
-    t.integer  "instrument_id"
-    t.integer  "week_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
-  create_table "students", force: :cascade do |t|
-    t.integer  "instrument_id"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.integer  "family_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
-  create_table "summers", force: :cascade do |t|
-    t.date     "start_date"
-    t.date     "end_date"
-    t.integer  "year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -80,17 +57,17 @@ ActiveRecord::Schema.define(version: 20170213221105) do
     t.datetime "updated_at",                          null: false
     t.string   "first_name"
     t.string   "last_name"
+    t.integer  "amount_owed"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   create_table "weeks", force: :cascade do |t|
-    t.integer  "summer_id"
-    t.integer  "teacher_id"
     t.date     "start_date"
     t.date     "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "form_id"
   end
 
 end

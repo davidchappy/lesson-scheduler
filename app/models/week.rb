@@ -1,4 +1,3 @@
 class Week < ApplicationRecord
-	belongs_to :summer
-	belongs_to :teacher
+	belongs_to :form
 end

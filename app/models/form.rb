@@ -1,5 +1,6 @@
 class Form < ApplicationRecord
-  after_initialize :set_defaults, unless: :persisted?
+  after_initialize :set_defaults
+  after_create :generate_weeks
 
 	belongs_to :family
   belongs_to :instrument
@@ -21,9 +22,6 @@ class Form < ApplicationRecord
       finish += 1.days until finish.wday == 5
     end
     self.end_date ||= finish
-
-    self.save
-    Form.generate_weeks(self)
   end
 
   def stringify_week(week, index, divider='-')
@@ -36,11 +34,11 @@ class Form < ApplicationRecord
 
   private
 
-    def self.generate_weeks(form)
-      start = form.start_date
-      finish = form.end_date
+    def generate_weeks
+      start = self.start_date
+      finish = self.end_date
       start.step(finish, 7) do |week|
-        new_week = form.weeks.create
+        new_week = self.weeks.create
         new_week.start_date = week
         new_week.end_date = week + 4.days
         new_week.save

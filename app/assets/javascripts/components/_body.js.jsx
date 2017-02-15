@@ -2,6 +2,9 @@ var Body = React.createClass({
   getInitialState() {
     return { forms: undefined }
   },
+  passLessonCount(count) {
+    this.props.passLessonCount(count);
+  },
   componentDidMount() {
     $.ajax({
       url: '/api/v1/forms.json', 
@@ -22,7 +25,7 @@ var Body = React.createClass({
 
     return (
       <div className="body container">
-        <AllForms forms={this.state.forms} />
+        <AllForms forms={this.state.forms} passLessonCount={this.passLessonCount}/>
       </div>
     )
   }

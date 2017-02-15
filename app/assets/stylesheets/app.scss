@@ -10,7 +10,16 @@
   padding: 0.5rem; 
 }
 
+$activeColor: #27ae60; //green
+$darkenColor: darken($activeColor, 20%);
+$background: #3498db;
+
 // App styles
+* {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
 .body.container {
   padding-top: 8rem;
 }
@@ -51,7 +60,50 @@
   }
 }
 
+
+
 .weeks {
-  width: 80%;
+  width: 85%;
+  padding: 0 5%;
   margin: 2rem auto 0;
+  
+  .week {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 35px;
+    line-height: 35px;
+    vertical-align: middle;
+    position: relative;
+    
+    .select-week {
+      overflow: hidden;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      margin-top: -15px;
+      margin-bottom: 0;
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      box-shadow: none;
+      text-shadow: none;
+      border: 3px solid #eee;
+      background: #fff;
+      cursor: pointer;
+      
+      &:focus {
+        outline: 0;
+      }
+
+      &:hover {
+        background: rgba(0,0,0,0.1);
+      }
+      
+      &.selected {
+        background: #ccc;
+        border: none;
+      }
+    }
+  }
 }

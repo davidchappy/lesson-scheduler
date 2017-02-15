@@ -1,30 +1,26 @@
 var Header = React.createClass({
   getInitialState() {
-    return { family: undefined, totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
+    return { totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
   },
   componentDidMount() {
-    $.ajax({
-      url: '/api/v1/families.json', 
-      type: 'GET',
-      success: (response) => { 
-        this.setState({ family: response });
-        this.calculateDiscount(); 
-      }
-    });
+    this.setState({family: this.props.family });
+  },
+  componentWillReceiveProps() {
+    this.calculateDiscount(); 
   },
   calculateDiscount() {
-    var week_count = Number(this.state.family.week_count);
-    var form_count = Number(this.state.family.form_count);
-    var total_owed = Number(this.state.family.total_owed);
-    var original_total = form_count * 8000;
+    var lessonCount = Number(this.props.lessonCount);
+    var formCount = Number(this.props.family.form_count);
+    var originalTotal = formCount * 8000;
     var discount = 0;
-    discount += (form_count-1) * 2000;
-    discount += week_count * 100;
+    discount += (formCount-1) * 2000;
+    discount += lessonCount * 100;
+    console.log("Discount: " + discount);
 
     this.setState({
       totalDiscount: discount,
-      totalOwed: original_total - discount,
-      possibleDiscount: form_count * 13 * 100
+      totalOwed: originalTotal - discount,
+      possibleDiscount: formCount * 13 * 100
     })
   },
   monetize(amount) {
@@ -39,7 +35,7 @@ var Header = React.createClass({
       )
     }
 
-    var family = this.state.family;
+    var family = this.props.family;
     var total = this.monetize(this.state.totalOwed);
     var totalDiscount = this.monetize(this.state.totalDiscount);
     var possibleDiscount = this.monetize(this.state.possibleDiscount);
@@ -59,11 +55,13 @@ var Header = React.createClass({
           <div id="navbar" className="navbar-collapse collapse">
             <ul className="nav navbar-nav navbar-right">
               <li role="separator" className="divider"></li>
+              <li><a>Total Lessons: {this.props.lessonCount}</a></li>
+              <li role="separator" className="divider"></li>
               <li><a>Possible Discount: {possibleDiscount}</a></li>                
               <li role="separator" className="divider"></li>
-              <li><a>Total: {total}</a></li>
+              <li><a>Discount: {totalDiscount}</a></li>              
               <li role="separator" className="divider"></li>
-              <li><a>Discount: {totalDiscount}</a></li>
+              <li><a>Total: {total}</a></li>
             </ul>
           </div>
         </div>

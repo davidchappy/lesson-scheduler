@@ -2,7 +2,8 @@ class Api::V1::WeeksController < Api::V1::BaseController
   include ApplicationHelper
 
   def index
-    @weeks = Week.where(form_id: params[:form_id])
+    weeks = Week.where(form_id: params[:form_id])
+    @weeks = weeks.sort_by { |week| week.start_date }
     respond_with @weeks
   end
 

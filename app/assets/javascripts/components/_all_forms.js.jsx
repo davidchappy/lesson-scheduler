@@ -1,12 +1,15 @@
 var AllForms = React.createClass({
+  passLessonCount(count) {
+    this.props.passLessonCount(count);
+  },
   render() {
     var forms = this.props.forms.map((form) => {
       return (
-        <Form key={form.id} form={form} />
+        <Form key={form.id} form={form} updateLessonCount={this.passLessonCount} />
       )
     })
     return (
-      <div className="forms">{forms}</div>
+      <div className="forms row">{forms}</div>
     )
   }
 });

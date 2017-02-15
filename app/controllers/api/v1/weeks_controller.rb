@@ -10,6 +10,8 @@ class Api::V1::WeeksController < Api::V1::BaseController
   def update
     @week = Week.find(params[:id])
     @week.update_attributes(week_params)
+    form = Form.find(@week.form_id)
+    form.update_lesson_count
     respond_with @weeks
   end
 

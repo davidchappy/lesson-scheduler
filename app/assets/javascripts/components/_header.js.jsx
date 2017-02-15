@@ -2,32 +2,72 @@ var Header = React.createClass({
   getInitialState() {
     return { totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
   },
-  componentDidMount() {
-    this.setState({family: this.props.family });
-  },
   componentWillReceiveProps() {
-    this.calculateDiscount(); 
+    this.calculateTotalCost(); 
   },
-  calculateDiscount() {
+  calculateTotalCost() {
+    // get values from props
     var lessonCount = Number(this.props.lessonCount);
+    console.log(lessonCount);
     var formCount = Number(this.props.family.form_count);
-    var originalTotal = formCount * 8000;
+    var forms = this.props.forms;
+
+    // initialize vars
+    var possibleDiscount = 0;
     var discount = 0;
-    discount += (formCount-1) * 2000;
-    discount += lessonCount * 100;
-    console.log("Discount: " + discount);
+    var totalOwed = 0;
+    var rawTotal = lessonCount * 2000;
+
+    // iterate through forms and calculate cost and discounts
+    forms.map((form) => {
+      totalOwed += this.calculateFormCost(form);
+      possibleDiscount += this.calculatePossibleDiscount(form);
+    })
+    discount = rawTotal - totalOwed;
 
     this.setState({
       totalDiscount: discount,
-      totalOwed: originalTotal - discount,
-      possibleDiscount: formCount * 13 * 100
+      totalOwed: totalOwed,
+      possibleDiscount: possibleDiscount
     })
+  },
+  calculateFormCost(form) {
+    var lessonCount = form.lesson_count;
+    var formCount = this.props.forms.length;
+    var formDiscount = 0;
+    var lessonRate = 2000;
+    var cost = 0;
+
+    // Apply discount for more than 1 form
+    if(formCount == 2) {
+      lessonRate = 1800;
+    } else if (formCount >= 3) {
+      lessonRate = 1600;
+    }
+
+    // Apply discount for more than 8 lessons per form
+    if(lessonCount >= 9 && lessonCount <= 10) {
+      formDiscount += 2000;
+    } else if (lessonCount >= 11) {
+      formDiscount += 3000;
+    }
+
+    // Apply discount for more than 9 lessons and more than 1 form
+    if(lessonCount > 9 && formCount > 1) {
+      formDiscount += 500;
+    }
+
+    cost = (lessonCount * lessonRate) - formDiscount;
+    return cost;
+  },
+  calculatePossibleDiscount(form) {
+    return 0;
   },
   monetize(amount) {
     return ("$" + (amount/100));
   },
   render() {
-    if ( !this.state.family ) {
+    if ( !this.props.family ) {
       return (
         <div>
           <p>Loading</p>
@@ -36,6 +76,7 @@ var Header = React.createClass({
     }
 
     var family = this.props.family;
+    var lessonCount = this.props.lessonCount;
     var total = this.monetize(this.state.totalOwed);
     var totalDiscount = this.monetize(this.state.totalDiscount);
     var possibleDiscount = this.monetize(this.state.possibleDiscount);
@@ -55,7 +96,7 @@ var Header = React.createClass({
           <div id="navbar" className="navbar-collapse collapse">
             <ul className="nav navbar-nav navbar-right">
               <li role="separator" className="divider"></li>
-              <li><a>Total Lessons: {this.props.lessonCount}</a></li>
+              <li><a>Total Lessons: {lessonCount}</a></li>
               <li role="separator" className="divider"></li>
               <li><a>Possible Discount: {possibleDiscount}</a></li>                
               <li role="separator" className="divider"></li>

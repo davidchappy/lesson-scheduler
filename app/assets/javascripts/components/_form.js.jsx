@@ -4,6 +4,7 @@ var Form = React.createClass({
   },
   componentDidMount() {
     var id = this.props.form.id;
+
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'GET',
@@ -18,12 +19,12 @@ var Form = React.createClass({
       week.lesson ? count += 1 : count += 0;
     });
     this.setState({lesson_count: count});
-    this.props.updateLessonCount(count);
+    this.props.updateLessonCount(count, this.props.form);
   },
   changeLessonCount(change) {
     var newCount = this.state.lesson_count + change;
     this.setState({ lesson_count: newCount })
-    this.props.updateLessonCount(change);
+    this.props.updateLessonCount(newCount, this.props.form);
   },
   render() {
     if ( !this.state.instrument ) {

@@ -2,12 +2,10 @@ class Api::V1::FormsController < Api::V1::BaseController
   include ApplicationHelper
 
   def index
-    if current_user.type == 'Family'
-      family = Family.find(current_user.id)
-      @forms = Form.where(family_id: family.id)
-      respond_with @forms
-    else
+    if current_user.type == 'Admin'
       respond_with Form.all
+    else
+      redirect_to root_url
     end
   end
 

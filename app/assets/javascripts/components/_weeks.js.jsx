@@ -10,6 +10,9 @@ var Weeks = React.createClass({
       success: (response) => { 
         this.setState({ weeks: response });
         this.props.getLessonCount(this.state.weeks);
+        // response.map((week) => {
+        //   this.markChecked(week);
+        // });
       }
     });
   },

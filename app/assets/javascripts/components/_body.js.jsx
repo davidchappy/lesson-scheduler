@@ -1,31 +1,19 @@
 var Body = React.createClass({
-  getInitialState() {
-    return { forms: undefined }
-  },
-  passLessonCount(count) {
-    this.props.passLessonCount(count);
-  },
-  componentDidMount() {
-    $.ajax({
-      url: '/api/v1/forms.json', 
-      type: 'GET',
-      success: (response) => { 
-        this.setState({ forms: response });
-      }
-    });
+  passLessonCount(count, form) {
+    this.props.passLessonCount(count, form);
   },
   render() {
-    if ( !this.state.forms ) {
+    if ( !this.props.forms ) {
       return (
         <div>
-          <p>Loading</p>
+          <p>Loading Forms..</p>
         </div>
       )
     }
 
     return (
       <div className="body container">
-        <AllForms forms={this.state.forms} passLessonCount={this.passLessonCount}/>
+        <AllForms forms={this.props.forms} passLessonCount={this.passLessonCount}/>
       </div>
     )
   }

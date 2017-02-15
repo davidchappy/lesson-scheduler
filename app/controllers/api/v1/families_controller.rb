@@ -4,7 +4,8 @@ class Api::V1::FamiliesController < Api::V1::BaseController
   def index
     if current_user.type == 'Family'
       @family = Family.find(current_user.id)
-      respond_with @family
+      @forms = Form.where(family_id: @family.id)
+      respond_with [@family, @forms]
     else
       respond_with Family.all
     end

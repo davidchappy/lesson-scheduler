@@ -26,6 +26,14 @@ class Form < ApplicationRecord
     self.end_date ||= finish
   end
 
+  def update_lesson_count
+    count = 0
+    self.weeks.each do |week|
+      count += 1 if week.lesson
+    end
+    self.update_attribute(:lesson_count, count)
+  end
+
   private
 
     def generate_weeks
@@ -38,6 +46,8 @@ class Form < ApplicationRecord
         new_week.week_string = stringify_week(new_week)
         new_week.save
       end
+      self.lesson_count = self.weeks.length
+      self.save
     end
 
 end

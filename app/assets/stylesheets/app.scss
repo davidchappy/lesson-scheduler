@@ -11,9 +11,10 @@
   background: #fff;
 }
 
-$activeColor: #27ae60; //green
-$darkenColor: darken($activeColor, 20%);
-$background: #3498db;
+$green: #00FF48; 
+$blue: #3498db;
+$red: #E82C0C;
+$orange: #FF530D;
 
 // App styles
 * {
@@ -24,6 +25,101 @@ $background: #3498db;
 .body.container {
   padding-top: 8rem;
 }
+
+// Header
+.header {
+
+  .navbar-nav {
+
+    .header-small {
+      text-transform: uppercase;
+    }
+
+    a {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .total-lessons {
+      height: 44px;
+      line-height: 44px;
+      border-right: 1px solid #9d9d9d;
+      margin-top: 10px;
+      
+      .header-small {
+        margin-right: 5px;
+        font-size: 0.9em;
+      }
+
+      .header-large {
+        font-weight: bold;
+      }
+    }
+
+    .current-discount,
+    .possible-discount {
+      max-width: 140px;
+      margin-right: 1rem;
+      border-right: 1px solid #9d9d9d;
+      margin-top: 10px;
+
+
+      a {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      
+      .header-small {
+        display: inline-block;
+        font-size: 0.8em;
+        margin-right: 0.5rem;
+        line-height: 1.2;
+      }
+
+      .header-large {
+        display: inline-block;
+        font-size: 1.4em;
+      }
+
+    }
+
+    .current-discount .header-large {
+      color: $green;
+    }
+
+    .possible-discount .header-large {
+      color: $orange;
+      
+      &.max-discount {
+        color: $green;
+      }
+    }
+    
+    .total-owed {
+    
+      .header-small {
+        font-size: 0.8em;
+        display: block;
+      }
+
+      .header-large {
+        font-size: 1.5em;
+        color: #fff;
+        letter-spacing: 1px;
+      }
+      
+    }
+  }
+  
+}
+
+
+
+
+
+// Forms
 
 .form-header {
   padding: 0;

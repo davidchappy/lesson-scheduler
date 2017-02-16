@@ -92,6 +92,7 @@ var Header = React.createClass({
     var total = this.monetize(this.state.totalOwed);
     var totalDiscount = this.monetize(this.state.totalDiscount);
     var possibleDiscount = this.monetize(this.state.possibleDiscount);
+    var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
 
     return (
       <div className="navbar navbar-inverse navbar-fixed-top header">
@@ -108,13 +109,25 @@ var Header = React.createClass({
           <div id="navbar" className="navbar-collapse collapse">
             <ul className="nav navbar-nav navbar-right">
               <li role="separator" className="divider"></li>
-              <li><a>Total Lessons: {lessonCount}</a></li>
+              <li className="total-lessons"><a>
+                <span className="header-small">Lessons:</span> 
+                <span className="header-large">{lessonCount}</span>
+              </a></li>
               <li role="separator" className="divider"></li>
-              <li><a>Possible Discount: {possibleDiscount}</a></li>                
+              <li id="possibleDiscount" className={"possible-discount"}><a>
+                <span className="header-small">Possible Discount:</span> 
+                <span className={"header-large " + maxDiscountClass}>{possibleDiscount}</span>
+              </a></li>                
               <li role="separator" className="divider"></li>
-              <li><a>Discount: {totalDiscount}</a></li>              
+              <li id="currentDiscount" className="current-discount"><a>
+                <span className="header-small">Current Discount:</span> 
+                <span className="header-large">{totalDiscount}</span>
+              </a></li>              
               <li role="separator" className="divider"></li>
-              <li><a>Total: {total}</a></li>
+              <li id="totalOwed" className="total-owed"><a>
+                <span className="header-small">Total:</span>
+                <span className="header-large">{total}</span>
+              </a></li>
             </ul>
           </div>
         </div>

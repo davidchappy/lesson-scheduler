@@ -10,15 +10,19 @@
 #   email: 'admin@dmusicstudios.com', 
 #   password: 'password', password_confirmation: 'password')
 
-piano = Instrument.create(name: 'Piano')
-
-teacher = Teacher.create(first_name: 'Piano', last_name: 'Teacher', 
-  instrument_id: piano.id)
-
-family = Family.create(first_name: 'Lovely', last_name: 'Family', 
+family = Family.create(first_name: 'John', last_name: 'Smith', 
   email: 'family@example.com',
   password: 'password', password_confirmation: 'password')
 
+piano = Instrument.create(name: 'Piano')
+guitar = Instrument.create(name: 'Guitar')
+
+teacher = Teacher.create(first_name: 'Nathan', last_name: 'Arnold', 
+  instrument_id: piano.id)
+teacher2 = Teacher.create(first_name: 'David', last_name: 'Chapman', 
+  instrument_id: guitar.id)
+
 form = Form.create(teacher_id: teacher.id, instrument_id: piano.id, 
   student_name: 'Jim', family_id: family.id)
-
+form2 = Form.create(teacher_id: teacher2.id, instrument_id: guitar.id, 
+  student_name: 'Billy', family_id: family.id)

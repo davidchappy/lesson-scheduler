@@ -26,3 +26,5 @@ form = Form.create(teacher_id: teacher.id, instrument_id: piano.id,
   student_name: 'Jim', family_id: family.id)
 form2 = Form.create(teacher_id: teacher2.id, instrument_id: guitar.id, 
   student_name: 'Billy', family_id: family.id)
+form3 = Form.create(teacher_id: teacher.id, instrument_id: piano.id, 
+  student_name: 'Sarah', family_id: family.id)

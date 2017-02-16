@@ -12,17 +12,17 @@ var Header = React.createClass({
     var forms = this.props.forms;
 
     // initialize vars
-    var possibleDiscount = 0;
     var discount = 0;
     var totalOwed = 0;
     var rawTotal = lessonCount * 2000;
 
     // iterate through forms and calculate cost and discounts
     forms.map((form) => {
-      totalOwed += this.calculateFormCost(form);
-      possibleDiscount += this.calculatePossibleDiscount(form);
+      totalOwed += this.calculateFormCost(form, formCount, forms);
     })
     discount = rawTotal - totalOwed;
+
+    var possibleDiscount = this.calculatePossibleDiscount(formCount);
 
     this.setState({
       totalDiscount: discount,
@@ -30,10 +30,8 @@ var Header = React.createClass({
       possibleDiscount: possibleDiscount
     })
   },
-  calculateFormCost(form) {
+  calculateFormCost(form, formCount, forms) {
     var lessonCount = form.lesson_count;
-    var forms = this.props.forms;
-    var formCount = forms.length;
     var formDiscount = 0;
     var lessonRate = 2000;
     var cost = 0;
@@ -58,14 +56,24 @@ var Header = React.createClass({
 
     // Apply discount for more than 9 lessons and more than 1 form
     if(lessonCount > 9 && formCount > 1) {
-      formDiscount += 500;
+      if(forms.indexOf(form) >= 1) {
+        formDiscount += 500;
+      }
     }
 
     cost = (lessonCount * lessonRate) - formDiscount;
     return cost;
   },
-  calculatePossibleDiscount(form) {
-    return 0;
+  calculatePossibleDiscount(formCount) {
+    var possibleDiscount = 0;
+    possibleDiscount = (3000 * formCount) + (500 * (formCount-1));
+    if(formCount >= 2) { 
+      possibleDiscount += (200 * 13); 
+    } 
+    if(formCount > 2) { 
+      possibleDiscount += ((400*13) * (formCount-2)); 
+    } 
+    return possibleDiscount;
   },
   monetize(amount) {
     return ("$" + (amount/100));

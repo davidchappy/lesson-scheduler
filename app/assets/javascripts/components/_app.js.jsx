@@ -16,12 +16,9 @@ var App = React.createClass({
   adjustLessonCount(newCount, form) {
     // update the form and forms array
     form.lesson_count = newCount;
-    console.log(form.lesson_count);
     var forms = this.state.forms;
-    console.log(forms);
     var formIndex = forms.indexOf(form);
     forms[formIndex] = form;
-    console.log(forms);
 
     // update the lesson count
     var newTotal = 0;
@@ -30,8 +27,11 @@ var App = React.createClass({
     });
 
     // set state with changes
-    this.setState({ totalLessonCount: newTotal, forms: forms });
-    console.log(this.state.totalLessonCount);
+    this.setState({ totalLessonCount: newTotal });
+    this.setState({ forms: forms });
+  },
+  getLessonCount() {
+    return this.state.totalLessonCount;
   },
   render() {
     if ( !this.state.family ) {

@@ -8,7 +8,6 @@ var Header = React.createClass({
   calculateTotalCost() {
     // get values from props
     var lessonCount = Number(this.props.lessonCount);
-    console.log(lessonCount);
     var formCount = Number(this.props.family.form_count);
     var forms = this.props.forms;
 
@@ -33,16 +32,21 @@ var Header = React.createClass({
   },
   calculateFormCost(form) {
     var lessonCount = form.lesson_count;
-    var formCount = this.props.forms.length;
+    var forms = this.props.forms;
+    var formCount = forms.length;
     var formDiscount = 0;
     var lessonRate = 2000;
     var cost = 0;
 
     // Apply discount for more than 1 form
-    if(formCount == 2) {
-      lessonRate = 1800;
-    } else if (formCount >= 3) {
-      lessonRate = 1600;
+    if(formCount >= 2) {
+      if(forms.indexOf(form) == 0) {
+        lessonRate = 2000;
+      } else if(forms.indexOf(form) == 1) {
+        lessonRate = 1800;
+      } else {
+        lessonRate = 1600;
+      }
     }
 
     // Apply discount for more than 8 lessons per form

@@ -16,7 +16,7 @@ var Week = React.createClass({
     return (
       <div className={"week"}>
         <span>{week.week_string}</span>
-        <div className={"form-group"}>
+        <div className={"checkbox"}>
           <input ref='week' id={weekNumber} type="checkbox" className={"form-control select-week " + selected} onChange={this.handleClick}></input>
         </div>
       </div>

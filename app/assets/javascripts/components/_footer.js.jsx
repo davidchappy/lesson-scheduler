@@ -1,5 +1,7 @@
-var Footer = React.createClass({
-  render() {
+// var Footer = React.createClass({
+//   render() {
+//     return (
 
-  }
-});
+//     )
+//   }
+// });

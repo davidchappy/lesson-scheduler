@@ -16,4 +16,11 @@ jQuery( document ).ready(function( $ ) {
     var target = event.target;
     $(target).toggleClass('selected');
   });
+
+  $("body").on('click', '#add-student', function(e) {
+    console.log("Clicked");
+    $('html, body').animate({
+        scrollTop: $("#siteFooter").offset().top
+    }, 1000);
+  })
 });

@@ -22,7 +22,9 @@ class Api::V1::FormsController < Api::V1::BaseController
 
   def create
     form = Form.create(forms_params)
-    respond_with :api, :v1, [form, form.weeks]
+    form.family_id = current_user.id
+    form.save
+    respond_with "Success"
   end
 
   def edit
@@ -43,7 +45,7 @@ class Api::V1::FormsController < Api::V1::BaseController
   private
 
     def forms_params
-      params.require(:form).permit(:student_name, :teacher_id, :family_id, :instrument_id)
+      params.require(:form).permit(:student_name, :teacher_id, :instrument_id)
     end
 
 end

@@ -9,7 +9,18 @@ var AllForms = React.createClass({
       )
     })
     return (
-      <div className="forms row">{forms}</div>
+      <div className="forms row">
+        {forms}
+        {this.props.showAddStudent ? 
+          <NewForm  instruments={this.props.instruments} 
+                    teachers={this.props.teachers} 
+                    showAddStudent={this.props.showAddStudent} 
+                    handleTypeName={this.props.handleTypeName}
+                    handleInstrumentSelect={this.props.handleInstrumentSelect}
+                    handleTeacherSelect={this.props.handleTeacherSelect}  /> :
+          null
+        }  
+      </div>
     )
   }
 });

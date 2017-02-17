@@ -1,5 +1,8 @@
+
+
 // Temporary
 .logout, .login {
+  z-index: 101;
   list-style: none;
   border: 1px solid #ccc;
   width: 70px;
@@ -16,10 +19,21 @@ $blue: #3498db;
 $red: #E82C0C;
 $orange: #FF530D;
 
+$small: 768px;
+
 // App styles
 * {
   appearance: none;
   -webkit-appearance: none;
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  margin-bottom: 30px;
 }
 
 .body.container {
@@ -121,10 +135,15 @@ $orange: #FF530D;
 
 // Forms
 
+
+.forms {
+  padding: 3rem 0;
+}
+
 .form-header {
   padding: 0;
   position: relative;
-  height: 6rem;
+  min-height: 6rem;
   border: 1px solid #eee;
   
   h3, p {
@@ -206,4 +225,79 @@ $orange: #FF530D;
       }
     }
   }
+}
+
+// New Student section
+.new-student-button {
+  display: block;
+  position: fixed;
+  top: 50px;
+  text-align: center;
+  margin: 0 auto;
+  width: 100vw;
+
+  button {
+    width: 100%;
+    border-radius: 0;
+    height: 40px;
+  }
+
+  @media screen and (min-width: $small) {
+    position: fixed;
+    right: 0;
+    top: 200px;
+    z-index: 2001;
+    width: 90px;
+    height: 30px;
+    
+    button {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+  }
+}
+
+.new-student-form {
+
+  min-height: 80px;
+  position: relative;
+
+  * {
+    position: absolute;
+  }
+  
+  #selectTeacher {
+    top: 0;
+    right: 0;
+    width: 45%;
+  }
+
+  #selectInstrument {
+    bottom: 0;
+    left: 0;
+    width: 45%;
+  }
+
+  #studentName {
+    top: 0;
+    left: 0;
+    width: 50%;
+  }
+
+  #submit-new-student {
+    bottom: 0;
+    right: 0;
+    width: 45%;
+  }
+
+}
+
+// Footer
+.footer {
+  height: 30px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #eee;
+  display: block;
 }

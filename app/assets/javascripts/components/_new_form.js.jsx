@@ -18,7 +18,8 @@ var NewForm = React.createClass({
       type: 'POST',
       data: { form: { student_name: name, instrument_id: instrumentId, teacher_id: teacherId } },
       success: (form) => { 
-        console.log("Successful");
+        console.log(form);
+        this.props.handleSubmit(form);
       }
     });
   },
@@ -30,7 +31,6 @@ var NewForm = React.createClass({
   handleInstrumentSelect(event) {
     var instrumentId = event.target.value;
     this.setState({ instrumentId: instrumentId, teacherEnabled: true });
-    // handle updating teachers
   },  
   handleTeacherSelect(event) {
     var teacherId = event.target.value;
@@ -44,9 +44,12 @@ var NewForm = React.createClass({
     });
 
     var teachers = this.props.teachers.map((teacher) => {
-      return (
-        <option value={teacher.id} key={teacher.id} className="instrument">{teacher.first_name} {teacher.last_name}</option>
-      )
+      if(teacher.id == this.state.instrumentId) { 
+        return (
+          <option value={teacher.id} key={teacher.id} className="instrument">{teacher.first_name} {teacher.last_name}</option>
+        )
+      }
+
     });
 
     var instrumentEnabled = this.state.instrumentEnabled ? false : true 

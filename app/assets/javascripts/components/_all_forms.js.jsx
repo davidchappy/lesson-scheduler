@@ -17,7 +17,8 @@ var AllForms = React.createClass({
                     showAddStudent={this.props.showAddStudent} 
                     handleTypeName={this.props.handleTypeName}
                     handleInstrumentSelect={this.props.handleInstrumentSelect}
-                    handleTeacherSelect={this.props.handleTeacherSelect}  /> :
+                    handleTeacherSelect={this.props.handleTeacherSelect}  
+                    handleSubmit={this.props.handleSubmit} /> :
           null
         }  
       </div>

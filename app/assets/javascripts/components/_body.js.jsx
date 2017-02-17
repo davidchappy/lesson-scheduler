@@ -41,6 +41,10 @@ var Body = React.createClass({
   passLessonCount(count, form) {
     this.props.passLessonCount(count, form);
   },
+  handleSubmit(form) {
+    this.setState({ showAddStudent: false })
+    this.props.handleSubmit(form);  
+  },
   render() {
     if ( !this.props.forms ) {
       return (
@@ -62,7 +66,8 @@ var Body = React.createClass({
           instruments={this.state.instruments} teachers={this.state.teachers} 
           showAddStudent={this.state.showAddStudent} handleTypeName={this.handleTypeName}
           handleInstrumentSelect={this.handleInstrumentSelect}
-          handleTeacherSelect={this.handleTeacherSelect} />
+          handleTeacherSelect={this.handleTeacherSelect} 
+          handleSubmit={this.handleSubmit}/>
         </div>
       </div>
 

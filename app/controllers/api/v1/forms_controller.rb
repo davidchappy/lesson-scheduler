@@ -16,15 +16,11 @@ class Api::V1::FormsController < Api::V1::BaseController
     respond_with [@instrument, @teacher]
   end
 
-  def new
-    respond_with Form.new
-  end
-
   def create
     form = Form.create(forms_params)
     form.family_id = current_user.id
     form.save
-    respond_with "Success"
+    respond_with :api, :v1, form
   end
 
   def edit

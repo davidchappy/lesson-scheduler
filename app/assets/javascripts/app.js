@@ -18,9 +18,13 @@ jQuery( document ).ready(function( $ ) {
   });
 
   $("body").on('click', '#add-student', function(e) {
-    console.log("Clicked");
     $('html, body').animate({
         scrollTop: $("#siteFooter").offset().top
     }, 1000);
   })
+
+  $("body").on('click', '#submit-new-student', function(e) {
+    $('html, body').animate({
+        scrollTop: $("#siteFooter").offset().top
+    }, 1000);  })
 });

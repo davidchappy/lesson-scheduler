@@ -13,6 +13,12 @@ var App = React.createClass({
       }
     });
   },
+  handleNewForm(form) {
+    console.log(form);
+    var forms = this.state.forms;
+    forms.push(form);
+    this.setState({ forms: forms });
+  },
   adjustLessonCount(newCount, form) {
     // update the form and forms array
     form.lesson_count = newCount;
@@ -45,7 +51,7 @@ var App = React.createClass({
     return (
       <div>
         <Header family={this.state.family} lessonCount={this.state.totalLessonCount} forms={this.state.forms}/>
-        <Body passLessonCount={this.adjustLessonCount} forms={this.state.forms}/>
+        <Body passLessonCount={this.adjustLessonCount} forms={this.state.forms} handleSubmit={this.handleNewForm}/>
       </div>
     )
   }

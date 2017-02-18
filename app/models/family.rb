@@ -1,5 +1,4 @@
 class Family < User
-  before_create :set_amount_owed
 	has_many :forms
 
   def update_counts
@@ -12,9 +11,4 @@ class Family < User
     self.save
   end
 
-  private
-
-    def set_amount_owed
-      self.amount_owed = 0
-    end
 end

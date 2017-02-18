@@ -1,5 +1,5 @@
 class Family < User
-  after_create :set_amount_owed
+
 	has_many :forms
 
   def update_counts
@@ -11,17 +11,5 @@ class Family < User
     self.week_count = week_count
     self.save
   end
-
-  def update_amount_owed
-    if self.forms.length > 0 
-      owed = 0
-      self.forms.each do |form|
-        
-      end
-    end  
-
-  end
-
-  private
 
 end

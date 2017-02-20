@@ -32,6 +32,17 @@ var Body = React.createClass({
       }
     });
   },
+  handleEdit(name, instrumentId, teacherId, form) {
+    var id = form.id;
+    $.ajax({
+      url: `/api/v1/forms/${id}.json`, 
+      type: 'PUT',
+      data: { form: { student_name: name, instrument_id: instrumentId, teacher_id: teacherId } },
+      success: (form) => { 
+        console.log(form);
+      }
+    });
+  },
   handleTypeName() {
     if($("#studentName").val().length > 1 && !this.state.instrumentEnabled) {
       console.log("From student name");
@@ -67,7 +78,13 @@ var Body = React.createClass({
 
     var forms = this.props.forms.map((form) => {
       return (
-        <Form key={form.id} form={form} updateLessonCount={this.passLessonCount} handleDelete={this.handleDelete}/>
+        <Form key={form.id} 
+              form={form} 
+              updateLessonCount={this.passLessonCount} 
+              handleDelete={this.handleDelete}
+              handleEdit={this.handleEdit}
+              instruments={this.state.instruments} 
+              teachers={this.state.teachers} />
       )
     })
 

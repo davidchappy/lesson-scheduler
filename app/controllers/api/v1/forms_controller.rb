@@ -29,7 +29,7 @@ class Api::V1::FormsController < Api::V1::BaseController
 
   def update
     form = Form.find(params["id"])
-    form.update_attributes(item_params)
+    form.update_attributes(forms_params)
     respond_with form
   end
 

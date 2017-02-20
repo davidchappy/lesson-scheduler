@@ -18,6 +18,12 @@ var App = React.createClass({
     forms.push(form);
     this.setState({ forms: forms });
   },
+  handleEdit(form) {
+    var forms = this.state.forms;
+    var index = forms.indexOf(form);
+    forms[index] = form;
+    this.setState({ forms: forms });
+  },
   adjustLessonCount(form) {
     // update the form and forms array
     var forms = this.state.forms;

@@ -1,6 +1,6 @@
 var Form = React.createClass({
   getInitialState() {
-    return { instrument: undefined, teacher: undefined, lesson_count: undefined, deleting: false }
+    return { instrument: undefined, teacher: undefined, lesson_count: undefined, deleting: false, editing: false }
   },
   componentDidMount() {
     var id = this.props.form.id;
@@ -26,8 +26,11 @@ var Form = React.createClass({
     this.setState({ lesson_count: newCount })
     this.props.updateLessonCount(newCount, this.props.form);
   },
-  handleEdit() {
-
+  showEdit() {
+    this.setState({ editing: true })
+  },
+  handleEdit(name, instrumentId, teacherId) {
+    this.props.handleEdit(name, instrumentId, teacherId, this.props.form);
   },
   confirmDelete() {
     this.props.handleDelete(this.props.form);
@@ -47,27 +50,38 @@ var Form = React.createClass({
       )
     }
 
-    var header = this.state.deleting ? 
-          <div className="form-delete-confirm-wrapper">
-            <div className="form-delete-confirm">
-              <h3>You sure?</h3>
-              <div>
-                <button className="btn btn-danger" onClick={this.confirmDelete}>Yes</button>
-                <button className="btn btn-default" onClick={this.cancelDelete}>Oops!</button>
-              </div>
-            </div>
-          </div> 
-          :
-          <div>
-            <h3>{this.props.form.student_name}</h3>
-            <p className="instrument">{this.state.instrument.name}</p>
-            <p className="teacher">{this.state.teacher.first_name} {this.state.teacher.last_name}</p>
-            <p className="lesson-count"><strong>{this.state.lesson_count}</strong> Lessons</p>
-            <div className="form-hover-menu">
-              <span className="edit-form glyphicon glyphicon-pencil" title="Edit" onClick={this.handleEdit}></span> 
-              <span className="delete-form glyphicon glyphicon-remove" title="Delete" onClick={this.handleDelete}></span> 
+    var header 
+    if(this.state.deleting) {
+      header = 
+        <div className="form-delete-confirm-wrapper">
+          <div className="form-delete-confirm">
+            <h3>You sure?</h3>
+            <div>
+              <button className="btn btn-danger" onClick={this.confirmDelete}>Yes</button>
+              <button className="btn btn-default" onClick={this.cancelDelete}>Oops!</button>
             </div>
           </div>
+        </div>
+    } else if (this.state.editing) {
+      var buttonText = "Save Student"
+      header = 
+        <FormFields handleSubmit={this.handleEdit}
+              instruments={this.props.instruments}
+              teachers={this.props.teachers}
+              buttonText={buttonText} />
+    } else {
+      header = 
+        <div>
+          <h3>{this.props.form.student_name}</h3>
+          <p className="instrument">{this.state.instrument.name}</p>
+          <p className="teacher">{this.state.teacher.first_name} {this.state.teacher.last_name}</p>
+          <p className="lesson-count"><strong>{this.state.lesson_count}</strong> Lessons</p>
+          <div className="form-hover-menu">
+            <span className="edit-form glyphicon glyphicon-pencil" title="Edit" onClick={this.showEdit}></span> 
+            <span className="delete-form glyphicon glyphicon-remove" title="Delete" onClick={this.handleDelete}></span> 
+          </div>
+        </div>
+    }
 
     return (
       <div className="form col-sm-6 col-md-4">

@@ -3,14 +3,11 @@ var Header = React.createClass({
     return { totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
   },
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    console.log(nextProps.lessonCount);
     this.calculateTotalCost(nextProps); 
   },
   calculateTotalCost(props) {
     // get values from props
     var lessonCount = Number(props.lessonCount);
-    console.log("calculateTotalCost lessonCount: " + lessonCount);
     var forms = props.forms;
     var formCount = forms.length;
 
@@ -97,7 +94,6 @@ var Header = React.createClass({
     var totalDiscount = this.monetize(this.state.totalDiscount);
     var possibleDiscount = this.monetize(this.state.possibleDiscount);
     var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
-    console.log(total);
 
     return (
       <div className="navbar navbar-inverse navbar-fixed-top header">

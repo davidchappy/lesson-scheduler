@@ -22,6 +22,16 @@ var Body = React.createClass({
       }
     });
   },
+  handleDelete(form) {
+    var id = form.id;
+    $.ajax({
+      url: `/api/v1/forms/${id}.json`, 
+      type: 'DELETE',
+      success: (response) => { 
+        this.props.handleDeletedForm(form);
+      }
+    });
+  },
   handleTypeName() {
     if($("#studentName").val().length > 1 && !this.state.instrumentEnabled) {
       console.log("From student name");
@@ -39,7 +49,8 @@ var Body = React.createClass({
     this.setState({ showAddStudent: true })
   },
   passLessonCount(count, form) {
-    this.props.passLessonCount(count, form);
+    form.lesson_count = count;
+    this.props.passLessonCount(form);
   },
   handleSubmit(form) {
     this.setState({ showAddStudent: false })
@@ -56,7 +67,7 @@ var Body = React.createClass({
 
     var forms = this.props.forms.map((form) => {
       return (
-        <Form key={form.id} form={form} updateLessonCount={this.passLessonCount} />
+        <Form key={form.id} form={form} updateLessonCount={this.passLessonCount} handleDelete={this.handleDelete}/>
       )
     })
 

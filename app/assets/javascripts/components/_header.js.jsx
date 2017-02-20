@@ -2,14 +2,18 @@ var Header = React.createClass({
   getInitialState() {
     return { totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
   },
-  componentWillReceiveProps() {
-    this.calculateTotalCost(); 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    console.log(nextProps.lessonCount);
+    this.calculateTotalCost(nextProps); 
   },
-  calculateTotalCost() {
+  calculateTotalCost(props) {
     // get values from props
-    var lessonCount = Number(this.props.lessonCount);
-    var formCount = Number(this.props.family.form_count);
-    var forms = this.props.forms;
+    var lessonCount = Number(props.lessonCount);
+    console.log("calculateTotalCost lessonCount: " + lessonCount);
+    var forms = props.forms;
+    var formCount = forms.length;
+
 
     // initialize vars
     var discount = 0;
@@ -93,6 +97,7 @@ var Header = React.createClass({
     var totalDiscount = this.monetize(this.state.totalDiscount);
     var possibleDiscount = this.monetize(this.state.possibleDiscount);
     var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
+    console.log(total);
 
     return (
       <div className="navbar navbar-inverse navbar-fixed-top header">

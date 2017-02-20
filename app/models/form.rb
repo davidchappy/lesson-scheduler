@@ -26,13 +26,10 @@ class Form < ApplicationRecord
     self.end_date ||= finish
   end
 
-  def update_lesson_count
-    count = 0
-    self.weeks.each do |week|
-      count += 1 if week.lesson
-    end
-    self.update_attribute(:lesson_count, count)
-  end
+  # def update_lesson_count(change)
+  #   self.lesson_count += change
+  #   self.save
+  # end
 
   private
 

@@ -1,6 +1,6 @@
 var Form = React.createClass({
   getInitialState() {
-    return { instrument: undefined, teacher: undefined, lesson_count: undefined }
+    return { instrument: undefined, teacher: undefined, lesson_count: undefined, deleting: false }
   },
   componentDidMount() {
     var id = this.props.form.id;
@@ -26,6 +26,18 @@ var Form = React.createClass({
     this.setState({ lesson_count: newCount })
     this.props.updateLessonCount(newCount, this.props.form);
   },
+  handleEdit() {
+
+  },
+  confirmDelete() {
+    this.props.handleDelete(this.props.form);
+  },
+  cancelDelete() {
+    this.setState({ deleting: false });
+  },
+  handleDelete() {
+    this.setState({ deleting: true });
+  },
   render() {
     if ( !this.state.instrument ) {
       return (
@@ -34,13 +46,33 @@ var Form = React.createClass({
         </div>
       )
     }
+
+    var header = this.state.deleting ? 
+          <div className="form-delete-confirm-wrapper">
+            <div className="form-delete-confirm">
+              <h3>You sure?</h3>
+              <div>
+                <button className="btn btn-danger" onClick={this.confirmDelete}>Yes</button>
+                <button className="btn btn-default" onClick={this.cancelDelete}>Oops!</button>
+              </div>
+            </div>
+          </div> 
+          :
+          <div>
+            <h3>{this.props.form.student_name}</h3>
+            <p className="instrument">{this.state.instrument.name}</p>
+            <p className="teacher">{this.state.teacher.first_name} {this.state.teacher.last_name}</p>
+            <p className="lesson-count"><strong>{this.state.lesson_count}</strong> Lessons</p>
+            <div className="form-hover-menu">
+              <span className="edit-form glyphicon glyphicon-pencil" title="Edit" onClick={this.handleEdit}></span> 
+              <span className="delete-form glyphicon glyphicon-remove" title="Delete" onClick={this.handleDelete}></span> 
+            </div>
+          </div>
+
     return (
       <div className="form col-sm-6 col-md-4">
         <div className="form-header">
-          <h3>{this.props.form.student_name}</h3>
-          <p className="instrument">{this.state.instrument.name}</p>
-          <p className="teacher">{this.state.teacher.first_name} {this.state.teacher.last_name}</p>
-          <p className="lesson-count"><strong>{this.state.lesson_count}</strong> Lessons</p>
+          {header}
         </div>
         <Weeks form_id={this.props.form.id} getLessonCount={this.getLessonCount} changeLessonCount={this.changeLessonCount}/>
       </div>

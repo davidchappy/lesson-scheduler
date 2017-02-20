@@ -34,8 +34,7 @@ class Api::V1::FormsController < Api::V1::BaseController
   end
 
   def destroy
-    form = Form.find(params["id"])
-    form.destroy
+    respond_with Form.destroy(params["id"])
   end
 
   private

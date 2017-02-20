@@ -16,7 +16,7 @@
 
 $green: #00FF48; 
 $blue: #3498db;
-$red: #E82C0C;
+$red: #d9534f;
 $orange: #FF530D;
 
 $small: 768px;
@@ -174,10 +174,97 @@ body {
     right:1rem;
     font-size: 1em;
   }
+
+  &:hover {
+    .form-hover-menu {
+      display: flex;
+    }
+  }
 }
 
 .form {
   margin-bottom: 3rem;
+
+}
+
+.form-hover-menu {
+  display: none;
+  flex-direction: row;
+  justify-content: space-between;
+  background: transparentize(#eee, 0.1);
+  text-align: right;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  span {
+    display: inline-block;
+    cursor: pointer;  
+    padding: 1rem;
+    font-size: 2.4em;
+    height: 100%;
+  }
+
+  .edit-form {
+    color: $blue;
+  }
+
+  .delete-form {
+    color: $orange;
+  }
+
+}
+
+.form-delete-confirm-wrapper {
+  height: 60px;
+  line-height: 60px;
+  background: $orange;
+  position: relative;
+  
+  .form-delete-confirm {
+    width: 100%;
+    text-align: right;
+    padding: 0 1rem;
+    
+    h3 {
+      top: 0;
+      right: 170px;
+      color: #fff;
+      line-height: 60px;
+    }
+    
+    div {
+      position: relative;
+      display: inline-block;
+      
+      .btn {
+        width: 60px; 
+        margin-right: 12px;
+      }
+
+      .btn-danger {
+        background: transparent;
+        border-color: #fff;
+        
+        &:hover {
+          color: darken(#fff, 10%);
+          border-color: darken(#fff, 10%);
+        }
+      }
+
+      .btn-default {
+        color: #888;
+      }
+    }
+  }
+
+  
+
+
 }
 
 

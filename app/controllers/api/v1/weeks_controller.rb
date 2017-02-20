@@ -8,11 +8,17 @@ class Api::V1::WeeksController < Api::V1::BaseController
   end
 
   def update
+    # update week
     @week = Week.find(params[:id])
     @week.update_attributes(week_params)
-    form = Form.find(@week.form_id)
-    form.update_lesson_count
-    respond_with @weeks
+
+    # update form
+    # form = Form.find(@week.form_id)
+    # count_change = params[:week][:lesson] ? 1 : -1 
+    # form.update_lesson_count(count_change)
+
+    # respond
+    respond_with @week
   end
 
   private

@@ -54,6 +54,12 @@ var Body = React.createClass({
       )
     }
 
+    var forms = this.props.forms.map((form) => {
+      return (
+        <Form key={form.id} form={form} updateLessonCount={this.passLessonCount} />
+      )
+    })
+
     return (
       <div className="wrapper">
         <div className="new-student-button">
@@ -62,16 +68,21 @@ var Body = React.createClass({
         </div>
 
         <div className="body container">       
-          <AllForms forms={this.props.forms} passLessonCount={this.passLessonCount} 
-          instruments={this.state.instruments} teachers={this.state.teachers} 
-          showAddStudent={this.state.showAddStudent} handleTypeName={this.handleTypeName}
-          handleInstrumentSelect={this.handleInstrumentSelect}
-          handleTeacherSelect={this.handleTeacherSelect} 
-          handleSubmit={this.handleSubmit}/>
+          <div className="forms row">
+            {forms}
+            {this.state.showAddStudent ? 
+              <NewForm  instruments={this.state.instruments} 
+                        teachers={this.state.teachers} 
+                        showAddStudent={this.state.showAddStudent} 
+                        handleTypeName={this.handleTypeName}
+                        handleInstrumentSelect={this.handleInstrumentSelect}
+                        handleTeacherSelect={this.handleTeacherSelect}  
+                        handleSubmit={this.handleSubmit} /> :
+              null
+            }  
+          </div>
         </div>
       </div>
-
-     
     )
   }
 });

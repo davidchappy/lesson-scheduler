@@ -10,13 +10,10 @@ var Weeks = React.createClass({
       success: (response) => { 
         this.setState({ weeks: response });
         this.props.getLessonCount(this.state.weeks);
-        // response.map((week) => {
-        //   this.markChecked(week);
-        // });
       }
     });
   },
-  handleCheck(week) {
+  updateWeek(week) {
     week.lesson = week.lesson ? false : true;
 
     $.ajax({
@@ -45,11 +42,13 @@ var Weeks = React.createClass({
         </div>
       )
     }
+    
     var weeks = this.state.weeks.map((week, index) => {
       return (
-        <Week key={week.id} week={week} index={index} handleClick={this.handleCheck} />
+        <Week key={week.id} week={week} index={index} handleClick={this.updateWeek} />
       )
     });
+
     return (
       <div className="weeks">{weeks}</div>
     )

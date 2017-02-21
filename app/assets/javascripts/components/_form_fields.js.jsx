@@ -1,11 +1,18 @@
 var FormFields = React.createClass({
   getInitialState() {
-    return {  studentName: undefined, 
-              instrumentId: undefined, 
-              teacherId: undefined,
-              instrumentEnabled: false,
-              teacherEnabled: false,
-              submitEnabled: false  
+    var studentName = this.props.studentName ? this.props.studentName : undefined;
+    var instrumentId = this.props.instrumentId ? this.props.instrumentId : undefined;
+    var teacherId = this.props.teacherId ? this.props.teacherId : undefined;
+    var instrumentEnabled = studentName ? true : false;
+    var teacherEnabled = instrumentEnabled ? true : false;
+    var submitEnabled = teacherEnabled ? true : false;
+
+    return {  studentName: studentName, 
+              instrumentId: instrumentId, 
+              teacherId: teacherId,
+              instrumentEnabled: instrumentEnabled,
+              teacherEnabled: teacherEnabled,
+              submitEnabled: submitEnabled  
             }
   },
   handleTypeName(event) {
@@ -47,21 +54,21 @@ var FormFields = React.createClass({
 
     return (
       <form className="new-student-form form-inline">
-        <input ref="studentName" type="text" className="form-control" id="studentName" 
-          placeholder="Student's name" onKeyUp={this.handleTypeName} required/>
-        <select ref="selectTeacher" className="form-control" id="selectTeacher"
+        <input ref="studentName" type="text" className="form-control studentName" id="studentName" 
+          placeholder="Student's name" onKeyUp={this.handleTypeName} defaultValue={this.state.studentName} required/>
+        <select ref="selectTeacher" className="form-control selectTeacher" id="selectTeacher"
           onChange={this.handleTeacherSelect}   
           disabled={ teacherEnabled } required value={this.state.teacherId}>
-            <option disabled selected value>Teacher</option>
+            <option value='' className="placeholder">Teacher</option>
             {teachers}
         </select>
-        <select ref="selectInstrument" className="form-control" id="selectInstrument" 
+        <select ref="selectInstrument" className="form-control selectInstrument" id="selectInstrument" 
           onChange={this.handleInstrumentSelect}  
           disabled={ instrumentEnabled } required value={this.state.instrumentId}>
-          <option disabled selected value>Instrument</option>
-          {instruments}
+            <option value='' className="placeholder">Instrument</option>
+            {instruments}
         </select>
-        <button className="btn btn-success" id="submit-new-student"
+        <button className="btn btn-success submit-new-student" id="submit-new-student"
         disabled={ submitEnabled } onClick={this.passValues}>{this.props.buttonText}</button>
       </form>
     )

@@ -1,6 +1,8 @@
 var Form = React.createClass({
   getInitialState() {
-    return { instrument: undefined, teacher: undefined, lesson_count: undefined, deleting: false, editing: false }
+    return {  studentName: undefined, lesson_count: undefined, 
+              instrument: undefined, teacher: undefined,  
+              deleting: false, editing: false }
   },
   componentDidMount() {
     var id = this.props.form.id;
@@ -9,7 +11,8 @@ var Form = React.createClass({
       url: `/api/v1/forms/${id}.json`, 
       type: 'GET',
       success: (response) => { 
-        this.setState({ instrument: response[0], teacher: response[1] });
+        this.setState({ instrument: response[0], teacher: response[1], 
+                        studentName: response[2].student_name });
       }
     });
   },
@@ -68,7 +71,10 @@ var Form = React.createClass({
         <FormFields handleSubmit={this.handleEdit}
               instruments={this.props.instruments}
               teachers={this.props.teachers}
-              buttonText={buttonText} />
+              buttonText={buttonText} 
+              studentName={this.state.studentName}
+              instrumentId={this.state.instrument.id}
+              teacherId={this.state.teacher.id} />
     } else {
       header = 
         <div>

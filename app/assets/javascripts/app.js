@@ -17,14 +17,20 @@ jQuery( document ).ready(function( $ ) {
     $(target).toggleClass('selected');
   });
 
-  $("body").on('click', '#add-student', function(e) {
+  $("body").on('click', '.add-student', function(e) {
     $('html, body').animate({
         scrollTop: $("#siteFooter").offset().top
     }, 1000);
   })
 
-  $("body").on('click', '#submit-new-student', function(e) {
+  $("body").on('click', '.submit-new-student', function(e) {
     $('html, body').animate({
         scrollTop: $("#siteFooter").offset().top
     }, 1000);  })
+
+  $("body").on('click', '.edit-form', function(event) {
+    $(this).parents(".form-header").addClass('editing');
+  });
+
+  // $("body").on('click', '.')
 });

@@ -13,7 +13,7 @@ class Api::V1::FormsController < Api::V1::BaseController
     @form = Form.find(params[:id])
     @instrument = @form.instrument
     @teacher = @form.teacher
-    respond_with [@instrument, @teacher]
+    respond_with [@instrument, @teacher, @form]
   end
 
   def create

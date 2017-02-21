@@ -180,6 +180,10 @@ body {
       display: flex;
     }
   }
+
+  &.editing {
+    border-color: $blue; 
+  }
 }
 
 .form {
@@ -347,42 +351,86 @@ body {
 
 .new-student-form {
 
-  min-height: 60px;
-  position: relative;
-
   * {
     position: absolute;
     box-sizing: border-box;
+    cursor: pointer;
   }
   
   #selectTeacher {
-    top: 0;
-    right: 0;
-    width: 45%;
-    height: 25px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    top: 3px;
+    right: 1rem;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    text-align: right;
+    direction: rtl;
+
+    &:hover {
+      color: lighten(rgb(85,85,85), 40%);
+    }
+
+    option {
+      padding-left: 1rem;
+    }
   }
 
   #selectInstrument {
+    font-size: 0.8em;
     bottom: 0;
-    left: 0;
-    width: 45%;
-    height: 25px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    left: 1rem;
+    padding: 0 !important;
+    line-height: 1;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    
+    &:hover {
+      color: lighten(rgb(85,85,85), 40%);
+    }
   }
 
   #studentName {
-    top: 0;
-    left: 0;
-    width: 50%;
+    max-width: 50%;
+    font-size: 1.4em;
+    line-height: 1;
+    font-weight: bold;
+    top: 0.4rem;
+    left: 1rem;
+    border: none;
+    color: rgb(51,51,51);
+    box-shadow: none;
+    padding: 0;
+    
+    &:focus {
+      background: #eee;
+    }
+
+    &:hover {
+      color: lighten(rgb(51,51,51), 40%);
+    }
+    
+    * {
+      margin-left: 1rem;
+    }
   }
 
   #submit-new-student {
-    bottom: 0;
+    background: none;
+    border: none;
+    font-weight: bold;
+    color: darken($blue, 10%);
+    bottom: 3px;
     right: 0;
-    width: 45%;
+    
+    &:hover {
+      color: lighten($blue, 10%);
+    }
+  }
+
+  .placeholder {
+    color: #eee;
   }
 
 }

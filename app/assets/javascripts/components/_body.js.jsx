@@ -86,22 +86,22 @@ var Body = React.createClass({
 
     return (
       <div className="wrapper">
-        <div className="new-student-button">
-          <button id="add-student" className={"btn btn-primary add-student"} 
-          onClick={this.props.toggleNewStudentForm}><span className="glyphicon glyphicon-plus" aria-hidden="true"></span> Student</button>
-        </div>
-
         <div className="body container">       
           <div className="forms row">
             {forms}
             {this.props.showAddStudent ? 
+
               <NewForm  instruments={this.state.instruments} 
                         teachers={this.state.teachers} 
                         handleTypeName={this.handleTypeName}
                         handleInstrumentSelect={this.handleInstrumentSelect}
                         handleTeacherSelect={this.handleTeacherSelect}  
                         handleSubmit={this.handleSubmit} /> :
-              null
+
+              <div className="new-student-button col-sm-6 col-md-4">
+                <button id="add-student" className={"btn btn-default add-student"} 
+                  onClick={this.props.toggleNewStudentForm}><span className="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Student</button>
+              </div>
             }  
           </div>
         </div>

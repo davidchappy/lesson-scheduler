@@ -21,13 +21,13 @@ jQuery( document ).ready(function( $ ) {
   $("body").on('click', '.add-student', function(e) {
     $('html, body').animate({
         scrollTop: $("#siteFooter").offset().top
-    }, 1000);
+    }, 500);
   })
 
   $("body").on('click', '.submit-new-student', function(e) {
     $('html, body').animate({
         scrollTop: $("#siteFooter").offset().top
-    }, 1000);  })
+    }, 500);  })
 
   $("body").on('click', '.edit-form', function(event) {
     $(this).parents(".form-header").addClass('editing');

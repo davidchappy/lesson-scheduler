@@ -18,6 +18,7 @@ $green: #00FF48;
 $blue: #3498db;
 $red: #d9534f;
 $orange: #FF530D;
+$gray-light: #eee;
 
 $small: 768px;
 
@@ -50,15 +51,13 @@ body {
       border-radius: 50%;
       height: 40px;
       width: 40px;
-      background: $blue;
+      background: darken($gray-light, 7%);
+      color: $blue;
       transition: 0.3s;
       
-      .glyphicon {
-        color: #fff;
-      }
-      
       &:hover {
-        background: lighten($blue, 10%);
+        background: $blue;
+        color: #fff;
         transform: scale(1.1);
       }
     }
@@ -170,6 +169,10 @@ body {
 // Forms
 .forms {
   padding: 3rem 0;
+  
+  .form {
+    margin-bottom: 5rem;
+  }
 }
 
 .form-header {
@@ -352,31 +355,25 @@ body {
 
 // New Student section
 .new-student-button {
+  background: #fff;
   display: block;
-  position: fixed;
-  top: 50px;
   text-align: center;
-  margin: 0 auto;
-  width: 100vw;
-  z-index: 102;
+  margin: 0 auto 3rem;
+  width: 100%;
 
   button {
     width: 100%;
-    border-radius: 0;
     height: 40px;
-  }
-
-  @media screen and (min-width: $small) {
-    position: fixed;
-    right: 0;
-    top: 67px;
-    z-index: 2001;
-    width: 90px;
-    height: 30px;
+    height: 60px;
+    border-radius: 5px;
+    border: none;
+    background: $gray-light;
+    color: $blue;
+    transition: 0.3s;
     
-    button {
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
+    &:hover {
+      background: $blue;
+      color: #fff;
     }
   }
 }

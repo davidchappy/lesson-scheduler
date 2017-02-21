@@ -33,5 +33,7 @@ jQuery( document ).ready(function( $ ) {
     $(this).parents(".form-header").addClass('editing');
   });
 
-  // $("body").on('click', '.')
+  $("body").on('hover', '.unavailable', function {
+    // add tooltip explaining teacher has requested no lessons be scheduled this week
+  });
 });

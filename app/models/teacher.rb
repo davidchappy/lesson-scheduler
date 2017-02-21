@@ -3,4 +3,5 @@ class Teacher < ApplicationRecord
   
   has_many :forms
 	belongs_to :instrument
+  serialize :unavailable_dates, Array
 end

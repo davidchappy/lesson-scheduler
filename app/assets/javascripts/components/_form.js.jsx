@@ -2,7 +2,8 @@ var Form = React.createClass({
   getInitialState() {
     return {  studentName: undefined, lesson_count: undefined, 
               instrument: undefined, teacher: undefined,  
-              deleting: false, editing: false }
+              deleting: false, editing: false,
+              unavailableDates: [] }
   },
   componentDidMount() {
     var id = this.props.form.id;
@@ -11,8 +12,14 @@ var Form = React.createClass({
       url: `/api/v1/forms/${id}.json`, 
       type: 'GET',
       success: (response) => { 
+        var dates = response[3];
+        var unavailableDates = [];
+        dates.forEach((date, index) => {
+          unavailableDates.push(new Date(date));
+        });
         this.setState({ instrument: response[0], teacher: response[1], 
-                        studentName: response[2].student_name });
+                          studentName: response[2].student_name,
+                          unavailableDates: unavailableDates });
       }
     });
   },
@@ -94,7 +101,10 @@ var Form = React.createClass({
         <div className="form-header">
           {header}
         </div>
-        <Weeks form_id={this.props.form.id} getLessonCount={this.getLessonCount} changeLessonCount={this.changeLessonCount}/>
+        <Weeks  form_id={this.props.form.id} 
+                getLessonCount={this.getLessonCount} 
+                changeLessonCount={this.changeLessonCount}
+                unavailableDates={this.state.unavailableDates} />
       </div>
     )
   }

@@ -7,8 +7,15 @@ var Weeks = React.createClass({
     $.ajax({
       url: `/api/v1/weeks.json?form_id=${id}`, 
       type: 'GET',
-      success: (response) => { 
-        this.setState({ weeks: response });
+      success: (response) => {
+        var weeks = response;
+        weeks.forEach((week, index) => {
+          var start_date = new Date(week.start_date);
+          var end_date = new Date(week.end_date);
+          weeks[index].start_date = start_date;
+          weeks[index].end_date = end_date;
+        }); 
+        this.setState({ weeks: weeks });
         this.props.getLessonCount(this.state.weeks);
       }
     });
@@ -34,6 +41,16 @@ var Weeks = React.createClass({
     var change = week.lesson ? 1 : -1
     this.props.changeLessonCount(change);
   },
+  isUnavailable(week) {
+    var dates = this.props.unavailableDates;
+    for(i=0; i<dates.length; i++) {
+      if(week.start_date <= dates[i] && week.end_date >= dates[i]) {
+        console.log("isUnavailable");
+        return true;
+      }
+    };
+    return false;
+  },
   render() {
     if ( !this.state.weeks ) {
       return (
@@ -44,8 +61,12 @@ var Weeks = React.createClass({
     }
     
     var weeks = this.state.weeks.map((week, index) => {
+      // check if this week includes one of this teacher's unavailable dates
+      var unavailable = this.isUnavailable(week) ? true : false;
+
       return (
-        <Week key={week.id} week={week} index={index} handleClick={this.updateWeek} />
+        <Week key={week.id} week={week} index={index} 
+        handleClick={this.updateWeek} unavailable={unavailable}/>
       )
     });
 

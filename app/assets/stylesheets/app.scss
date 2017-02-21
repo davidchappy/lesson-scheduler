@@ -350,6 +350,15 @@ body {
         border: none;
       }
     }
+
+    &.unavailable {
+      // text-decoration: line-through;
+      color: #ccc;
+      
+      .select-week.selected {
+        background: lighten(#ccc, 15%);
+      }
+    }
   }
 }
 

@@ -1,7 +1,6 @@
 var Body = React.createClass({
   getInitialState() {
     return { 
-      showAddStudent: false, 
       instruments: [], 
       teachers: [],
     }
@@ -56,9 +55,6 @@ var Body = React.createClass({
   handleTeacherSelect() {
     this.setState({ submitEnabled: true })
   },
-  onButtonClick() {
-    this.setState({ showAddStudent: true })
-  },
   passLessonCount(count, form) {
     form.lesson_count = count;
     this.props.passLessonCount(form);
@@ -91,17 +87,16 @@ var Body = React.createClass({
     return (
       <div className="wrapper">
         <div className="new-student-button">
-          <button id="add-student" className={"btn btn-primary"} 
-          onClick={this.onButtonClick}><span className="glyphicon glyphicon-plus" aria-hidden="true"></span> Student</button>
+          <button id="add-student" className={"btn btn-primary add-student"} 
+          onClick={this.props.toggleNewStudentForm}><span className="glyphicon glyphicon-plus" aria-hidden="true"></span> Student</button>
         </div>
 
         <div className="body container">       
           <div className="forms row">
             {forms}
-            {this.state.showAddStudent ? 
+            {this.props.showAddStudent ? 
               <NewForm  instruments={this.state.instruments} 
                         teachers={this.state.teachers} 
-                        showAddStudent={this.state.showAddStudent} 
                         handleTypeName={this.handleTypeName}
                         handleInstrumentSelect={this.handleInstrumentSelect}
                         handleTeacherSelect={this.handleTeacherSelect}  

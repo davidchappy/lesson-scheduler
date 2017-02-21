@@ -43,6 +43,40 @@ body {
 // Header
 .header {
 
+  .navbar-header {
+    line-height: 50px;
+    
+    .add-student {
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      background: $blue;
+      transition: 0.3s;
+      
+      .glyphicon {
+        color: #fff;
+      }
+      
+      &:hover {
+        background: lighten($blue, 10%);
+        transform: scale(1.1);
+      }
+    }
+
+    @media screen and (min-width: $small) {
+      height: 63px;
+      line-height: 63px;
+     
+     .navbar-brand {
+        height: 100%;
+        line-height: 63px;
+        padding: 0;
+        margin-right: 1rem;
+      }
+    }
+
+  }
+
   .navbar-nav {
 
     .header-small {
@@ -134,8 +168,6 @@ body {
 
 
 // Forms
-
-
 .forms {
   padding: 3rem 0;
 }

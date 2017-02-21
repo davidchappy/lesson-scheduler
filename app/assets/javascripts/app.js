@@ -17,6 +17,7 @@ jQuery( document ).ready(function( $ ) {
     $(target).toggleClass('selected');
   });
 
+  // Scroll body when adding new student
   $("body").on('click', '.add-student', function(e) {
     $('html, body').animate({
         scrollTop: $("#siteFooter").offset().top

@@ -106,6 +106,7 @@ var Header = React.createClass({
               <span className="icon-bar"></span>
             </button>
             <a className="navbar-brand" href="#">The {family.last_name} Family</a>
+            <button className="btn add-student" onClick={this.props.toggleNewStudentForm}><span className="glyphicon glyphicon-plus"></span></button>
           </div>
           <div id="navbar" className="navbar-collapse collapse">
             <ul className="nav navbar-nav navbar-right">

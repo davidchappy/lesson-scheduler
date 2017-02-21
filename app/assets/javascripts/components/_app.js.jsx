@@ -1,6 +1,7 @@
 var App = React.createClass({
   getInitialState() {
-    return { family: undefined, totalLessonCount: 0, forms: [] }
+    return { family: undefined, totalLessonCount: 0, forms: [], showAddStudent: false, 
+ }
   },
   componentDidMount() {
     $.ajax({
@@ -12,6 +13,10 @@ var App = React.createClass({
                         forms: response[1] });
       }
     });
+  },
+  toggleNewStudentForm() {
+    var showStudent = this.state.showAddStudent ? false : true;
+    this.setState({ showAddStudent: showStudent });
   },
   handleNewForm(form) {
     var forms = this.state.forms;
@@ -59,11 +64,16 @@ var App = React.createClass({
 
     return (
       <div>
-        <Header family={this.state.family} lessonCount={this.state.totalLessonCount} forms={this.state.forms}/>
-        <Body passLessonCount={this.adjustLessonCount} 
-              forms={this.state.forms} 
-              handleSubmit={this.handleNewForm}
-              handleDeletedForm={this.handleDeletedForm} />
+        <Header family={this.state.family} 
+                lessonCount={this.state.totalLessonCount} 
+                forms={this.state.forms}
+                toggleNewStudentForm={this.toggleNewStudentForm} />
+        <Body   passLessonCount={this.adjustLessonCount} 
+                forms={this.state.forms} 
+                handleSubmit={this.handleNewForm}
+                handleDeletedForm={this.handleDeletedForm} 
+                toggleNewStudentForm={this.toggleNewStudentForm} 
+                showAddStudent={this.state.showAddStudent} />
       </div>
     )
   }

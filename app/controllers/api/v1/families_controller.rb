@@ -4,9 +4,9 @@ class Api::V1::FamiliesController < Api::V1::BaseController
   def index
     if current_user.type == 'Family'
       @family = Family.find(current_user.id)
-      forms = Form.where(family_id: @family.id)
-      @forms = forms.sort_by { |form| form.created_at }
-      respond_with [@family, @forms]
+      students = Student.where(family_id: @family.id)
+      @students = students.sort_by { |student| student.created_at }
+      respond_with [@family, @students]
     else
       respond_with Family.all
     end

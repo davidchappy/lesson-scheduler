@@ -2,7 +2,7 @@ class Api::V1::WeeksController < Api::V1::BaseController
   include ApplicationHelper
 
   def index
-    weeks = Week.where(form_id: params[:form_id])
+    weeks = Week.where(student_id: params[:student_id])
     @weeks = weeks.sort_by { |week| week.start_date }
     respond_with @weeks
   end
@@ -11,11 +11,6 @@ class Api::V1::WeeksController < Api::V1::BaseController
     # update week
     @week = Week.find(params[:id])
     @week.update_attributes(week_params)
-
-    # update form
-    # form = Form.find(@week.form_id)
-    # count_change = params[:week][:lesson] ? 1 : -1 
-    # form.update_lesson_count(count_change)
 
     # respond
     respond_with @week

@@ -163,19 +163,16 @@ body {
 }
 
 
-
-
-
 // Forms
-.forms {
+.students {
   padding: 3rem 0;
   
-  .form {
+  .student {
     margin-bottom: 5rem;
   }
 }
 
-.form-header {
+.student-header {
   padding: 0;
   position: relative;
   min-height: 6rem;
@@ -211,7 +208,7 @@ body {
   }
 
   &:hover {
-    .form-hover-menu {
+    .student-hover-menu {
       display: flex;
     }
   }
@@ -221,12 +218,12 @@ body {
   }
 }
 
-.form {
+.student {
   margin-bottom: 3rem;
 
 }
 
-.form-hover-menu {
+.student-hover-menu {
   display: none;
   flex-direction: row;
   justify-content: space-between;
@@ -248,23 +245,23 @@ body {
     height: 100%;
   }
 
-  .edit-form {
+  .edit-student {
     color: #555;
   }
 
-  .delete-form {
+  .delete-student {
     color: $orange;
   }
 
 }
 
-.form-delete-confirm-wrapper {
+.student-delete-confirm-wrapper {
   height: 60px;
   line-height: 60px;
   background: $orange;
   position: relative;
   
-  .form-delete-confirm {
+  .student-delete-confirm {
     width: 100%;
     text-align: right;
     padding: 0 1rem;

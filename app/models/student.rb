@@ -1,8 +1,10 @@
-class Form < ApplicationRecord
+class Student < ApplicationRecord
   include ApplicationHelper
 
   after_initialize :set_defaults
   after_create :generate_weeks
+
+  validates :student_name, uniqueness: true
 
 	belongs_to :family
   belongs_to :instrument

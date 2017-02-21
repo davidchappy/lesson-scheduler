@@ -1,4 +1,4 @@
-var Form = React.createClass({
+var Student = React.createClass({
   getInitialState() {
     return {  studentName: undefined, lesson_count: undefined, 
               instrument: undefined, teacher: undefined,  
@@ -6,10 +6,10 @@ var Form = React.createClass({
               unavailableDates: [] }
   },
   componentDidMount() {
-    var id = this.props.form.id;
+    var id = this.props.student.id;
 
     $.ajax({
-      url: `/api/v1/forms/${id}.json`, 
+      url: `/api/v1/students/${id}.json`, 
       type: 'GET',
       success: (response) => { 
         var dates = response[3];
@@ -29,21 +29,21 @@ var Form = React.createClass({
       week.lesson ? count += 1 : count += 0;
     });
     this.setState({lesson_count: count});
-    this.props.updateLessonCount(count, this.props.form);
+    this.props.updateLessonCount(count, this.props.student);
   },
   changeLessonCount(change) {
     var newCount = this.state.lesson_count + change;
     this.setState({ lesson_count: newCount })
-    this.props.updateLessonCount(newCount, this.props.form);
+    this.props.updateLessonCount(newCount, this.props.student);
   },
   showEdit() {
     this.setState({ editing: true })
   },
   handleEdit(name, instrumentId, teacherId) {
-    this.props.handleEdit(name, instrumentId, teacherId, this.props.form);
+    this.props.handleEdit(name, instrumentId, teacherId, this.props.student);
   },
   confirmDelete() {
-    this.props.handleDelete(this.props.form);
+    this.props.handleDelete(this.props.student);
   },
   cancelDelete() {
     this.setState({ deleting: false });
@@ -63,8 +63,8 @@ var Form = React.createClass({
     var header 
     if(this.state.deleting) {
       header = 
-        <div className="form-delete-confirm-wrapper">
-          <div className="form-delete-confirm">
+        <div className="student-delete-confirm-wrapper">
+          <div className="student-delete-confirm">
             <h3>You sure?</h3>
             <div>
               <button className="btn btn-danger" onClick={this.confirmDelete}>Yes</button>
@@ -85,23 +85,23 @@ var Form = React.createClass({
     } else {
       header = 
         <div>
-          <h3>{this.props.form.student_name}</h3>
+          <h3>{this.props.student.student_name}</h3>
           <p className="instrument">{this.state.instrument.name}</p>
           <p className="teacher">{this.state.teacher.first_name} {this.state.teacher.last_name}</p>
           <p className="lesson-count"><strong>{this.state.lesson_count}</strong> Lessons</p>
-          <div className="form-hover-menu">
-            <span className="edit-form glyphicon glyphicon-pencil" title="Edit" onClick={this.showEdit}></span> 
-            <span className="delete-form glyphicon glyphicon-remove" title="Delete" onClick={this.handleDelete}></span> 
+          <div className="student-hover-menu">
+            <span className="edit-student glyphicon glyphicon-pencil" title="Edit" onClick={this.showEdit}></span> 
+            <span className="delete-student glyphicon glyphicon-remove" title="Delete" onClick={this.handleDelete}></span> 
           </div>
         </div>
     }
 
     return (
-      <div className="form col-sm-6 col-md-4">
-        <div className="form-header">
+      <div className="student col-sm-6 col-md-4">
+        <div className="student-header">
           {header}
         </div>
-        <Weeks  form_id={this.props.form.id} 
+        <Weeks  student_id={this.props.student.id} 
                 getLessonCount={this.getLessonCount} 
                 changeLessonCount={this.changeLessonCount}
                 unavailableDates={this.state.unavailableDates} />

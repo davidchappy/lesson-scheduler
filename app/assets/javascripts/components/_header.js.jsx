@@ -8,8 +8,8 @@ var Header = React.createClass({
   calculateTotalCost(props) {
     // get values from props
     var lessonCount = Number(props.lessonCount);
-    var forms = props.forms;
-    var formCount = forms.length;
+    var students = props.students;
+    var studentCount = students.length;
 
 
     // initialize vars
@@ -17,13 +17,13 @@ var Header = React.createClass({
     var totalOwed = 0;
     var rawTotal = lessonCount * 2000;
 
-    // iterate through forms and calculate cost and discounts
-    forms.map((form) => {
-      totalOwed += this.calculateFormCost(form, formCount, forms);
+    // iterate through students and calculate cost and discounts
+    students.map((student) => {
+      totalOwed += this.calculateStudentCost(student, studentCount, students);
     })
     discount = rawTotal - totalOwed;
 
-    var possibleDiscount = this.calculatePossibleDiscount(formCount);
+    var possibleDiscount = this.calculatePossibleDiscount(studentCount);
 
     this.setState({
       totalDiscount: discount,
@@ -31,48 +31,48 @@ var Header = React.createClass({
       possibleDiscount: possibleDiscount
     })
   },
-  calculateFormCost(form, formCount, forms) {
-    var lessonCount = form.lesson_count;
-    var formDiscount = 0;
+  calculateStudentCost(student, studentCount, students) {
+    var lessonCount = student.lesson_count;
+    var studentDiscount = 0;
     var lessonRate = 2000;
     var cost = 0;
 
-    // Apply discount for more than 1 form
-    if(formCount >= 2) {
-      if(forms.indexOf(form) == 0) {
+    // Apply discount for more than 1 student
+    if(studentCount >= 2) {
+      if(students.indexOf(student) == 0) {
         lessonRate = 2000;
-      } else if(forms.indexOf(form) == 1) {
+      } else if(students.indexOf(student) == 1) {
         lessonRate = 1800;
       } else {
         lessonRate = 1600;
       }
     }
 
-    // Apply discount for more than 8 lessons per form
+    // Apply discount for more than 8 lessons per student
     if(lessonCount >= 9 && lessonCount <= 10) {
-      formDiscount += 2000;
+      studentDiscount += 2000;
     } else if (lessonCount >= 11) {
-      formDiscount += 3000;
+      studentDiscount += 3000;
     }
 
-    // Apply discount for more than 9 lessons and more than 1 form
-    if(lessonCount > 9 && formCount > 1) {
-      if(forms.indexOf(form) >= 1) {
-        formDiscount += 500;
+    // Apply discount for more than 9 lessons and more than 1 student
+    if(lessonCount > 9 && studentCount > 1) {
+      if(students.indexOf(student) >= 1) {
+        studentDiscount += 500;
       }
     }
 
-    cost = (lessonCount * lessonRate) - formDiscount;
+    cost = (lessonCount * lessonRate) - studentDiscount;
     return cost;
   },
-  calculatePossibleDiscount(formCount) {
+  calculatePossibleDiscount(studentCount) {
     var possibleDiscount = 0;
-    possibleDiscount = (3000 * formCount) + (500 * (formCount-1));
-    if(formCount >= 2) { 
+    possibleDiscount = (3000 * studentCount) + (500 * (studentCount-1));
+    if(studentCount >= 2) { 
       possibleDiscount += (200 * 13); 
     } 
-    if(formCount > 2) { 
-      possibleDiscount += ((400*13) * (formCount-2)); 
+    if(studentCount > 2) { 
+      possibleDiscount += ((400*13) * (studentCount-2)); 
     } 
     return possibleDiscount;
   },
@@ -106,7 +106,7 @@ var Header = React.createClass({
               <span className="icon-bar"></span>
             </button>
             <a className="navbar-brand" href="#">The {family.last_name} Family</a>
-            <button className="btn add-student" onClick={this.props.toggleNewStudentForm}><span className="glyphicon glyphicon-plus"></span></button>
+            <button className="btn add-student" onClick={this.props.toggleNewStudentStudent}><span className="glyphicon glyphicon-plus"></span></button>
           </div>
           <div id="navbar" className="navbar-collapse collapse">
             <ul className="nav navbar-nav navbar-right">

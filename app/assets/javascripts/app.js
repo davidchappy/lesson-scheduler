@@ -29,11 +29,11 @@ jQuery( document ).ready(function( $ ) {
         scrollTop: $("#siteFooter").offset().top
     }, 500);  })
 
-  $("body").on('click', '.edit-form', function(event) {
-    $(this).parents(".form-header").addClass('editing');
+  $("body").on('click', '.edit-student', function(event) {
+    $(this).parents(".student-header").addClass('editing');
   });
 
-  $("body").on('hover', '.unavailable', function {
+  $("body").on('hover', '.unavailable', function() {
     // add tooltip explaining teacher has requested no lessons be scheduled this week
   });
 });

@@ -21,24 +21,24 @@ var Body = React.createClass({
       }
     });
   },
-  handleDelete(form) {
-    var id = form.id;
+  handleDelete(student) {
+    var id = student.id;
     $.ajax({
-      url: `/api/v1/forms/${id}.json`, 
+      url: `/api/v1/students/${id}.json`, 
       type: 'DELETE',
       success: (response) => { 
-        this.props.handleDeletedForm(form);
+        this.props.handleDeletedStudent(student);
       }
     });
   },
-  handleEdit(name, instrumentId, teacherId, form) {
-    var id = form.id;
+  handleEdit(name, instrumentId, teacherId, student) {
+    var id = student.id;
     $.ajax({
-      url: `/api/v1/forms/${id}.json`, 
+      url: `/api/v1/students/${id}.json`, 
       type: 'PUT',
-      data: { form: { student_name: name, instrument_id: instrumentId, teacher_id: teacherId } },
-      success: (form) => { 
-        console.log(form);
+      data: { student: { student_name: name, instrument_id: instrumentId, teacher_id: teacherId } },
+      success: (student) => { 
+        console.log(student);
       }
     });
   },
@@ -55,27 +55,27 @@ var Body = React.createClass({
   handleTeacherSelect() {
     this.setState({ submitEnabled: true })
   },
-  passLessonCount(count, form) {
-    form.lesson_count = count;
-    this.props.passLessonCount(form);
+  passLessonCount(count, student) {
+    student.lesson_count = count;
+    this.props.passLessonCount(student);
   },
-  handleSubmit(form) {
+  handleSubmit(student) {
     this.setState({ showAddStudent: false })
-    this.props.handleSubmit(form);  
+    this.props.handleSubmit(student);  
   },
   render() {
-    if ( !this.props.forms ) {
+    if ( !this.props.students ) {
       return (
         <div>
-          <p>Loading Forms..</p>
+          <p>Loading Students..</p>
         </div>
       )
     }
 
-    var forms = this.props.forms.map((form) => {
+    var students = this.props.students.map((student) => {
       return (
-        <Form key={form.id} 
-              form={form} 
+        <Student key={student.id} 
+              student={student} 
               updateLessonCount={this.passLessonCount} 
               handleDelete={this.handleDelete}
               handleEdit={this.handleEdit}
@@ -87,11 +87,11 @@ var Body = React.createClass({
     return (
       <div className="wrapper">
         <div className="body container">       
-          <div className="forms row">
-            {forms}
+          <div className="students row">
+            {students}
             {this.props.showAddStudent ? 
 
-              <NewForm  instruments={this.state.instruments} 
+              <NewStudent  instruments={this.state.instruments} 
                         teachers={this.state.teachers} 
                         handleTypeName={this.handleTypeName}
                         handleInstrumentSelect={this.handleInstrumentSelect}
@@ -100,7 +100,7 @@ var Body = React.createClass({
 
               <div className="new-student-button col-sm-6 col-md-4">
                 <button id="add-student" className={"btn btn-default add-student"} 
-                  onClick={this.props.toggleNewStudentForm}><span className="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Student</button>
+                  onClick={this.props.toggleNewStudentStudent}><span className="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Student</button>
               </div>
             }  
           </div>

@@ -1,3 +1,3 @@
 class Week < ApplicationRecord
-	belongs_to :form, dependent: :destroy
+	belongs_to :student, dependent: :destroy
 end

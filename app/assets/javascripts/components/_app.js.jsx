@@ -1,16 +1,21 @@
 var App = React.createClass({
   getInitialState() {
-    return { family: undefined, totalLessonCount: 0, students: [], showAddStudent: false, 
- }
+    return {  family: undefined, totalLessonCount: 0, 
+              students: [], showAddStudent: false, 
+              form: undefined, alreadySubmitted: false }
   },
   componentDidMount() {
     $.ajax({
       url: '/api/v1/families.json', 
       type: 'GET',
-      success: (response) => { 
+      success: (response) => {
+        if(response[2].submitted === true) {
+          this.setState({ alreadySubmitted: true })
+        }
         this.setState({ family: response[0], 
-                        totalLessonCount: response[0].week_count, 
-                        students: response[1] });
+                          totalLessonCount: response[0].week_count, 
+                          students: response[1],
+                          form: response[2] });
       }
     });
   },
@@ -53,6 +58,16 @@ var App = React.createClass({
 
     this.adjustLessonCount(student);
   },
+  submitForm() {
+    var id = this.state.form.id;
+    $.ajax({
+      url: `/api/v1/forms/${id}.json`, 
+      type: 'PUT',
+      success: (form) => { 
+        console.log(form);
+      }
+    });
+  },
   render() {
     if ( !this.state.family ) {
       return (
@@ -67,13 +82,18 @@ var App = React.createClass({
         <Header family={this.state.family} 
                 lessonCount={this.state.totalLessonCount} 
                 students={this.state.students}
-                toggleNewStudentStudent={this.toggleNewStudentStudent} />
-        <Body   passLessonCount={this.adjustLessonCount} 
-                students={this.state.students} 
-                handleSubmit={this.handleNewStudent}
-                handleDeletedStudent={this.handleDeletedStudent} 
-                toggleNewStudentStudent={this.toggleNewStudentStudent} 
-                showAddStudent={this.state.showAddStudent} />
+                toggleNewStudentStudent={this.toggleNewStudentStudent}
+                alreadySubmitted={this.state.alreadySubmitted} />
+        {this.state.alreadySubmitted ? 
+          <AlreadySubmitted submitted_at={this.state.form.submitted_at} /> :
+          <Body   passLessonCount={this.adjustLessonCount} 
+                  students={this.state.students} 
+                  handleSubmit={this.handleNewStudent}
+                  handleDeletedStudent={this.handleDeletedStudent} 
+                  toggleNewStudentStudent={this.toggleNewStudentStudent} 
+                  showAddStudent={this.state.showAddStudent} 
+                  submitForm={this.submitForm} />
+        }
       </div>
     )
   }

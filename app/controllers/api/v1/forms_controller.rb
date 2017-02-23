@@ -10,11 +10,12 @@ class Api::V1::FormsController < Api::V1::BaseController
 
   # for marking submitted
   def update
-    if current.user.type == 'Family'
-      @form = Form.where(family_id: current_user.id, year: Time.now.year)
+    if current_user.type == 'Family'
+      @form = Form.find(params[:id])
       @form.submitted = true
-      @form.submitted = DateTime.now
+      @form.submitted_at = DateTime.now
       @form.save
+      respond_with @form, json: @form
     else
       # admin
     end

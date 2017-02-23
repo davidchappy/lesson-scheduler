@@ -106,32 +106,39 @@ var Header = React.createClass({
               <span className="icon-bar"></span>
             </button>
             <a className="navbar-brand" href="#">The {family.last_name} Family</a>
-            <button className="btn add-student" onClick={this.props.toggleNewStudentStudent}><span className="glyphicon glyphicon-plus"></span></button>
+            {this.props.alreadySubmitted ? null :
+              <button className="btn add-student" onClick={this.props.toggleNewStudentStudent}>
+                <span className="glyphicon glyphicon-plus"></span>
+              </button>
+            }
           </div>
-          <div id="navbar" className="navbar-collapse collapse">
-            <ul className="nav navbar-nav navbar-right">
-              <li role="separator" className="divider"></li>
-              <li className="total-lessons"><a>
-                <span className="header-small">Lessons:</span> 
-                <span className="header-large">{lessonCount}</span>
-              </a></li>
-              <li role="separator" className="divider"></li>
-              <li id="possibleDiscount" className={"possible-discount"}><a>
-                <span className="header-small">Possible Discount:</span> 
-                <span className={"header-large " + maxDiscountClass}>{possibleDiscount}</span>
-              </a></li>                
-              <li role="separator" className="divider"></li>
-              <li id="currentDiscount" className="current-discount"><a>
-                <span className="header-small">Current Discount:</span> 
-                <span className="header-large">{totalDiscount}</span>
-              </a></li>              
-              <li role="separator" className="divider"></li>
-              <li id="totalOwed" className="total-owed"><a>
-                <span className="header-small">Total:</span>
-                <span className="header-large">{total}</span>
-              </a></li>
-            </ul>
-          </div>
+          {this.props.alreadySubmitted ? 
+            <div id="navbar" className="navbar-collapse collapse"></div> :
+            <div id="navbar" className="navbar-collapse collapse">
+              <ul className="nav navbar-nav navbar-right">
+                <li role="separator" className="divider"></li>
+                <li className="total-lessons"><a>
+                  <span className="header-small">Lessons:</span> 
+                  <span className="header-large">{lessonCount}</span>
+                </a></li>
+                <li role="separator" className="divider"></li>
+                <li id="possibleDiscount" className={"possible-discount"}><a>
+                  <span className="header-small">Possible Discount:</span> 
+                  <span className={"header-large " + maxDiscountClass}>{possibleDiscount}</span>
+                </a></li>                
+                <li role="separator" className="divider"></li>
+                <li id="currentDiscount" className="current-discount"><a>
+                  <span className="header-small">Current Discount:</span> 
+                  <span className="header-large">{totalDiscount}</span>
+                </a></li>              
+                <li role="separator" className="divider"></li>
+                <li id="totalOwed" className="total-owed"><a>
+                  <span className="header-small">Total:</span>
+                  <span className="header-large">{total}</span>
+                </a></li>
+              </ul>
+            </div>
+          }
         </div>
       </div>
     )

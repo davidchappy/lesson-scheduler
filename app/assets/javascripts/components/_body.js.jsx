@@ -68,9 +68,6 @@ var Body = React.createClass({
     var confirmation = this.state.confirmationPage ? false : true;
     this.setState({ confirmationPage: confirmation });
   },
-  submitForm() {
-    // 
-  },
   render() {
     if ( !this.props.students ) {
       return (
@@ -102,7 +99,7 @@ var Body = React.createClass({
               <div></div>
               <div>
                 <button className="btn btn-success" 
-                        onClick={this.submitForm}>Submit Form!</button>
+                        onClick={this.props.submitForm}>Submit Form!</button>
               </div>
             </div> :
             <div>

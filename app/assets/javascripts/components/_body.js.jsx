@@ -100,9 +100,17 @@ var Body = React.createClass({
 
               <div className="new-student-button col-sm-6 col-md-4">
                 <button id="add-student" className={"btn btn-default add-student"} 
-                  onClick={this.props.toggleNewStudentStudent}><span className="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Student</button>
+                  onClick={this.props.toggleNewStudentStudent}>
+                  <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+                  <span className="button-text">Add a Student</span>
+                </button>
               </div>
             }  
+          </div>
+          <div className="submit-form row">
+            <div className="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+              <button className="btn btn-primary submit-form-button">Submit Form</button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,3 @@
-
-
 // Temporary
 .logout, .login {
   z-index: 101;
@@ -34,11 +32,16 @@ html {
 }
 
 body {
-  margin-bottom: 30px;
+  margin-bottom: 30px !important;
 }
 
 .body.container {
-  padding-top: 8rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  
+  @media screen and (min-width: $small) {
+    padding-top: 8rem;
+  }
 }
 
 // Header
@@ -163,7 +166,7 @@ body {
 }
 
 
-// Forms
+// Students
 .students {
   padding: 3rem 0;
   
@@ -368,18 +371,35 @@ body {
   width: 100%;
 
   button {
-    width: 100%;
-    height: 40px;
-    height: 60px;
+    padding: 0;
+    width: 70%;
+    height: 50px;
+    line-height:50px;
     border-radius: 5px;
     border: none;
     background: $gray-light;
     color: $blue;
     transition: 0.3s;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     
     &:hover {
       background: $blue;
       color: #fff;
+    }
+
+    .glyphicon {
+      display: inline-block;
+      margin-right: 1rem;
+      margin-top: -0.3em;
+      font-size: 1.6em;
+    }
+
+    .button-text {
+      display: inline-block;
     }
   }
 }
@@ -467,7 +487,19 @@ body {
   .placeholder {
     color: #eee;
   }
+}
 
+
+// Forms
+.submit-form-button.btn-primary{
+  width: 100%;
+  height: 40px;
+  background-color: $blue;
+  border-color: darken($blue, 3%);
+
+  &:hover {
+    background-color: darken($blue, 10%);  
+  }
 }
 
 // Footer

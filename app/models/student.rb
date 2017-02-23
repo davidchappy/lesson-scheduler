@@ -7,7 +7,6 @@ class Student < ApplicationRecord
   validates :student_name, uniqueness: true
 
   belongs_to :form
-  belongs_to :family
   belongs_to :instrument
   belongs_to :teacher
 	has_many :weeks
@@ -28,11 +27,6 @@ class Student < ApplicationRecord
     end
     self.end_date ||= finish
   end
-
-  # def update_lesson_count(change)
-  #   self.lesson_count += change
-  #   self.save
-  # end
 
   private
 

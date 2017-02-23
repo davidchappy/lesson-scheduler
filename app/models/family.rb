@@ -1,7 +1,6 @@
 class Family < User
 
 	has_many :forms
-  has_many :students
 
   def update_counts
     current_form = Form.where(year: Date.today.year).first

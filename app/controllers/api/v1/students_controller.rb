@@ -31,7 +31,7 @@ class Api::V1::StudentsController < Api::V1::BaseController
   def update
     student = Student.find(params["id"])
     student.update_attributes(students_params)
-    respond_with student
+    respond_with student, json: student
   end
 
   def destroy

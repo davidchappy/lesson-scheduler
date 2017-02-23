@@ -88,6 +88,7 @@ var App = React.createClass({
           <AlreadySubmitted submitted_at={this.state.form.submitted_at} /> :
           <Body   passLessonCount={this.adjustLessonCount} 
                   students={this.state.students} 
+                  form={this.state.form}
                   handleSubmit={this.handleNewStudent}
                   handleDeletedStudent={this.handleDeletedStudent} 
                   toggleNewStudentStudent={this.toggleNewStudentStudent} 

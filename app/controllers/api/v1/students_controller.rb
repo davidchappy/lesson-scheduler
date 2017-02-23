@@ -41,7 +41,7 @@ class Api::V1::StudentsController < Api::V1::BaseController
   private
 
     def students_params
-      params.require(:student).permit(:student_name, :teacher_id, :instrument_id)
+      params.require(:student).permit(:student_name, :teacher_id, :instrument_id, :form_id)
     end
 
 end

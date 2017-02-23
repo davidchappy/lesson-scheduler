@@ -105,7 +105,8 @@ var Body = React.createClass({
                                 handleTypeName={this.handleTypeName}
                                 handleInstrumentSelect={this.handleInstrumentSelect}
                                 handleTeacherSelect={this.handleTeacherSelect}  
-                                handleSubmit={this.handleSubmit} /> :
+                                handleSubmit={this.handleSubmit} 
+                                form={this.props.form} /> :
 
                   <div className="new-student-button col-sm-6 col-md-4">
                     <button id="add-student" className={"btn btn-default add-student"} 

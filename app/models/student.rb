@@ -15,8 +15,6 @@ class Student < ApplicationRecord
                             start=nil, 
                             finish=nil)
 
-    self.year ||= year
-
     start = start || Date.new(year, 6, 1)
     start += 1.days until start.wday == 1
     self.start_date ||= start

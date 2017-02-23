@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :students, only: [:index, :show, :new, :create, :destroy, :update]
       resources :families, only: [:index, :submit]
       resources :weeks, only: [:index, :update]
+      resources :forms, only: [:index, :show, :update]
       resources :instruments, only: [:index, :create, :destroy]
       resources :teachers, only: [:index, :create, :destroy, :update]
     end

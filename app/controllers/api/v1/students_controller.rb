@@ -19,7 +19,6 @@ class Api::V1::StudentsController < Api::V1::BaseController
 
   def create
     student = Student.create(students_params)
-    student.family_id = current_user.id
     student.save
     respond_with :api, :v1, student
   end

@@ -1,9 +1,10 @@
 var NewStudent = React.createClass({
   handleSubmit(name, instrumentId, teacherId) {
+    var formId = this.props.form.id;
     $.ajax({
       url: '/api/v1/students.json', 
       type: 'POST',
-      data: { student: { student_name: name, instrument_id: instrumentId, teacher_id: teacherId } },
+      data: { student: { student_name: name, instrument_id: instrumentId, teacher_id: teacherId, form_id: formId  } },
       success: (student) => { 
         console.log(student);
         this.props.handleSubmit(student);

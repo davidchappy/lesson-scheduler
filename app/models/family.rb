@@ -1,11 +1,13 @@
 class Family < User
 
-	has_many :students
+	has_many :forms
+  has_many :students
 
   def update_counts
-    self.student_count = self.students.length
+    current_form = Form.where(year: Date.today.year).first
+    self.student_count = current_form.students.length
     week_count = 0
-    self.students.each do |student| 
+    current_form.students.each do |student| 
       student.weeks.map { |week| week_count += 1 if week.lesson == true }
     end
     self.week_count = week_count

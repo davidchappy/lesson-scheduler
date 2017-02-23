@@ -6,7 +6,8 @@ class Student < ApplicationRecord
 
   validates :student_name, uniqueness: true
 
-	belongs_to :family
+  belongs_to :form
+  belongs_to :family
   belongs_to :instrument
   belongs_to :teacher
 	has_many :weeks

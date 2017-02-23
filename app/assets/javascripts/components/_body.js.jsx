@@ -92,16 +92,9 @@ var Body = React.createClass({
     return (
       <div className="wrapper">
         <div className="body container">      
-          {this.state.confirmationPage ? 
-            <div className="confirmation-page"> 
-              <button className="btn btn-default" 
-                      onClick={this.toggleConfirmationPage}>Back</button>
-              <div></div>
-              <div>
-                <button className="btn btn-success" 
-                        onClick={this.props.submitForm}>Submit Form!</button>
-              </div>
-            </div> :
+          {this.state.confirmationPage ?
+            <Confirmation toggleConfirmationPage={this.toggleConfirmationPage}
+                          submitForm={this.props.submitForm} /> :
             <div>
               <div className="students row">
                 {students}

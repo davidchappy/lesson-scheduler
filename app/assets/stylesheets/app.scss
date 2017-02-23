@@ -503,6 +503,21 @@ body {
   }
 }
 
+// Confirmation Page
+.confirmation-page {
+  text-align: center;
+  
+  .confirmation-text {
+    margin: 3rem auto;
+  }
+  
+  .confirmation-button {
+    text-transform: uppercase;
+  }
+}
+
+
+
 // Footer
 .footer {
   height: 30px;

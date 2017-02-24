@@ -1,9 +1,8 @@
 class Family < User
-
 	has_many :forms
 
   def update_counts
-    current_form = Form.where(year: Date.today.year).first
+    current_form = Form.where(year: Date.today.year, family_id: self.id).first
     self.student_count = current_form.students.length
     week_count = 0
     current_form.students.each do |student| 

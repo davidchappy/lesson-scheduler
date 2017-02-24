@@ -12,6 +12,19 @@ gem 'react-rails'
 gem 'bootstrap-sass', '~> 3.3.6'
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
+  gem 'rails-controller-testing'
+  gem 'factory_girl_rails'
+  gem 'vcr'
+  gem 'capybara'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'spring-commands-rspec'
+end
+
+group :test do
+  gem 'webmock'
+  gem 'database_cleaner'
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

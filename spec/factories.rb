@@ -21,4 +21,5 @@ FactoryGirl.define do
     last_name "Mertz"
     instrument
   end
+
 end

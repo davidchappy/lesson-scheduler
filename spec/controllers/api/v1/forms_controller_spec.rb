@@ -1,4 +1,5 @@
 require 'rails_helper'
+include ControllerHelpers
 
 RSpec.describe Api::V1::FormsController, :type => :controller do
 
@@ -46,8 +47,8 @@ RSpec.describe Api::V1::FormsController, :type => :controller do
         expect(form.submitted_at).to be_nil
         params = { id: form.id }
         get :update, format: :json, params: params
-        expect( JSON.parse(response.body)["submitted"] ).to eq(true)
-        expect( JSON.parse(response.body)["submitted_at"] ).to_not be_nil
+        expect( response_body["submitted"] ).to eq(true)
+        expect( response_body["submitted_at"] ).to_not be_nil
       end
 
     end

@@ -1,4 +1,5 @@
 require 'rails_helper'
+include ControllerHelpers
 
 RSpec.describe Api::V1::FamiliesController, :type => :controller do
   context "anonymous user" do
@@ -49,7 +50,7 @@ RSpec.describe Api::V1::FamiliesController, :type => :controller do
           students: [student],
           form: family.forms.first        
         }.to_json
-        expect( JSON.parse(response.body) ).to eq( JSON.parse(expected) )      
+        expect( response_body ).to eq( JSON.parse(expected) )      
       end
 
       it "finds a form for the current year or create a new one" do
@@ -71,7 +72,7 @@ RSpec.describe Api::V1::FamiliesController, :type => :controller do
         # ensure students in json response is properly sorted 
         family.forms.first.students = new_student_array
         get :index, format: :json
-        expect( JSON.parse(response.body)["students"] ).to eq( JSON.parse(new_student_array.to_json) )
+        expect( response_body["students"] ).to eq( JSON.parse(new_student_array.to_json) )
       end
 
     end

@@ -13,7 +13,7 @@ class Api::V1::WeeksController < Api::V1::BaseController
     @week.update_attributes(week_params)
 
     # respond
-    respond_with @week
+    respond_with @week, json: @week
   end
 
   private

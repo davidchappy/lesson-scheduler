@@ -1,4 +1,5 @@
 require 'rails_helper'
+include ControllerHelpers
 
 RSpec.describe Api::V1::TeachersController, :type => :controller do
   
@@ -40,12 +41,12 @@ RSpec.describe Api::V1::TeachersController, :type => :controller do
     end
 
     describe "index" do
-      it "returns a list of all Instruments" do
+      it "returns a list of all Teachers" do
         get :index, format: :json
-        expect( JSON.parse(response.body) ).to include( JSON.parse(teacher.to_json) )
+        expect(response_body).to include( JSON.parse(teacher.to_json) )
 
         teachers = Teacher.all
-        expect( JSON.parse(response.body).length ).to eq(teachers.length)
+        expect(response_body.length).to eq(teachers.length)
       end
     end
 

@@ -1,4 +1,5 @@
 require 'rails_helper'
+include ControllerHelpers
 
 RSpec.describe Api::V1::InstrumentsController, :type => :controller do
   
@@ -42,14 +43,12 @@ RSpec.describe Api::V1::InstrumentsController, :type => :controller do
     describe "index" do
       it "returns a list of all Instruments" do
         get :index, format: :json
-        expect( JSON.parse(response.body) ).to include( JSON.parse(instrument.to_json) )
+        expect(response_body).to include( JSON.parse(instrument.to_json) )
 
         instruments = Instrument.all
-        expect( JSON.parse(response.body).length ).to eq(instruments.length)
+        expect(response_body.length).to eq(instruments.length)
       end
     end
-
- 
 
   end
 

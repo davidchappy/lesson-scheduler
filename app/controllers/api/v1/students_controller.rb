@@ -23,10 +23,6 @@ class Api::V1::StudentsController < Api::V1::BaseController
     respond_with :api, :v1, student
   end
 
-  def edit
-    student = Student.find(params["id"])
-  end
-
   def update
     student = Student.find(params["id"])
     student.update_attributes(students_params)

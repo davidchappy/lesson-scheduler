@@ -1,12 +1,6 @@
 require 'rails_helper'
-require "rspec/expectations"
-require "rspec/json_expectations"
 
 RSpec.describe Api::V1::FamiliesController, :type => :controller do
-  # before(:all) do
-  #   DatabaseCleaner.start
-  # end
-
   context "anonymous user" do
     it "should be redirected to signin" do
       get :index
@@ -14,19 +8,20 @@ RSpec.describe Api::V1::FamiliesController, :type => :controller do
     end
   end
 
-  context "for a family user" do
+  context "family user" do
     let!(:family)     { create(:family) }
     let!(:instrument) { create(:instrument) }
     let!(:teacher)    { create(:teacher) }
-    let(:student) do
-      form = family.forms.first
-      form.students.create( student_name:   "Susan", 
-                            instrument_id:  instrument.id,
-                            teacher_id:     teacher.id,
-                            start_date:     Date.yesterday,
-                            end_date:       Date.today)
+    let!(:form)       { family.find_or_create_current_form }
+    let!(:student) do
+      student = form.students.create( student_name:   "Susan", 
+                                      instrument_id:  instrument.id,
+                                      teacher_id:     teacher.id,
+                                      start_date:     Date.yesterday,
+                                      end_date:       Date.today)
       student.form = form
-      student.save                                 
+      student.save
+      return student       
     end
 
     before :each do
@@ -34,25 +29,51 @@ RSpec.describe Api::V1::FamiliesController, :type => :controller do
       sign_in family
     end
 
-    it "should be signed_in after registering" do
-      expect(subject.current_user).to_not be_nil
-      expect(subject.current_user).to eq(family)
-    end
+    describe "index" do
 
-    it "should find or create a form for the current year" do
-      puts family.inspect
-      get :index, format: :json
-      expected = {
-        family: family,
-        students: [],
-        form: family.forms.first        
-      }.to_json
-      expect(response.body).to eq(expected)      
-    end
+      it "requires a signed in family" do
+        expect(subject.current_user).to_not be_nil
+        expect(subject.current_user).to eq(family)
 
-    it "it is updated before rendering" do
-      # get :index
-      # expect(response.length).to eq(3)
+        sign_out family
+        get :index, format: :json
+        expect(response.body).to include("You need to sign in or sign up before continuing.")
+      end
+
+      it "returns the current family, form and students in JSON" do 
+        family.update_student_count(form)
+
+        get :index, format: :json
+        expected = {
+          family: family,
+          students: [student],
+          form: family.forms.first        
+        }.to_json
+        expect( JSON.parse(response.body) ).to eq( JSON.parse(expected) )      
+      end
+
+      it "finds a form for the current year or create a new one" do
+        get :index, format: :json
+        expect(family.forms.first.year).to eq(Date.today.year)
+      end
+
+      it "returns a sorted array of its current form's students" do
+        # ensure new student always goes to end of array
+        initial_student_array = family.forms.first.students
+        new_student_array = initial_student_array
+        new_student_array.create( student_name: "Jim",
+                                      instrument_id:  instrument.id,
+                                      teacher_id:     teacher.id,
+                                      start_date:     Date.yesterday,
+                                      end_date:       Date.today )
+        expect(initial_student_array.first).to eq(new_student_array.first)
+
+        # ensure students in json response is properly sorted 
+        family.forms.first.students = new_student_array
+        get :index, format: :json
+        expect( JSON.parse(response.body)["students"] ).to eq( JSON.parse(new_student_array.to_json) )
+      end
+
     end
 
   end

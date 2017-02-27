@@ -12,6 +12,7 @@ gem 'react-rails'
 gem 'bootstrap-sass', '~> 3.3.6'
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
+  gem 'rspec-json_expectations'
   gem 'rails-controller-testing'
   gem 'factory_girl_rails'
   gem 'vcr'

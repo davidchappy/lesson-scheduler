@@ -9,13 +9,13 @@ var App = React.createClass({
       url: '/api/v1/families.json', 
       type: 'GET',
       success: (response) => {
-        if(response[2].submitted === true) {
+        if(response.form.submitted === true) {
           this.setState({ alreadySubmitted: true })
         }
-        this.setState({ family: response[0], 
-                          totalLessonCount: response[0].week_count, 
-                          students: response[1],
-                          form: response[2] });
+        this.setState({ family: response.family,  
+                        students: response.students,
+                        form: response.form,
+                        totalLessonCount: response.form.week_count});
       }
     });
   },

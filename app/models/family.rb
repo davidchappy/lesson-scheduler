@@ -1,15 +1,17 @@
 class Family < User
 	has_many :forms
 
-  def update_counts
-    current_form = Form.where(year: Date.today.year, family_id: self.id).first
-    self.student_count = current_form.students.length
-    week_count = 0
-    current_form.students.each do |student| 
-      student.weeks.map { |week| week_count += 1 if week.lesson == true }
+  def find_or_create_current_form
+    form = Form.where(year: Date.today.year, family_id: self.id).first
+    form = self.forms.create(year: Date.today.year, family_id: self.id) if form.nil?  
+    return form
+  end
+
+  def update_student_count(form)
+    if form.students
+      self.student_count = form.students.length
+      self.save
     end
-    self.week_count = week_count
-    self.save
   end
 
 end

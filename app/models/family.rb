@@ -3,7 +3,7 @@ class Family < User
 
   def find_or_create_current_form
     form = Form.where(year: Date.today.year, family_id: self.id).first
-    form = self.forms.create(year: Date.today.year, family_id: self.id) if form.nil?  
+    form = self.forms.create(year: Date.today.year, family_id: self.id, lesson_count: 0) if form.nil?  
     return form
   end
 

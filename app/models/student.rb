@@ -1,17 +1,18 @@
 class Student < ApplicationRecord
   include ApplicationHelper
 
-  after_initialize :set_defaults
+  after_initialize :set_summer_dates
   after_create :generate_weeks
 
   validates :student_name, uniqueness: true
 
+  # belongs_to :family
   belongs_to :form
   belongs_to :instrument
   belongs_to :teacher
 	has_many :weeks
 
-  def set_defaults( year=Date.today.year, 
+  def set_summer_dates( year=Date.today.year, 
                             start=nil, 
                             finish=nil)
 

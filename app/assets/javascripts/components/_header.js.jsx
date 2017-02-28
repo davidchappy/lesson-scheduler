@@ -24,6 +24,7 @@ var Header = React.createClass({
     discount = rawTotal - totalOwed;
 
     var possibleDiscount = this.calculatePossibleDiscount(studentCount);
+    this.props.passTotalOwed(totalOwed)
 
     this.setState({
       totalDiscount: discount,

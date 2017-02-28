@@ -2,7 +2,8 @@ var App = React.createClass({
   getInitialState() {
     return {  family: undefined, totalLessonCount: 0, 
               students: [], showAddStudent: false, 
-              form: undefined, alreadySubmitted: false }
+              form: undefined, alreadySubmitted: false,
+              totalOwed: 0 }
   },
   componentDidMount() {
     $.ajax({
@@ -58,14 +59,20 @@ var App = React.createClass({
 
     this.adjustLessonCount(student);
   },
+  setTotalOwed(total) {
+    this.setState({ totalOwed: total });
+  },
   submitForm() {
     var id = this.state.form.id;
+    var totalOwed = this.state.totalOwed;
+    console.log(this.state.totalOwed);
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'PUT',
-      success: (form) => { 
-        console.log(form);
-      }
+      data: { form: { total_cost: totalOwed } },
+      // success: (form) => { 
+      //   console.log(form);
+      // }
     });
   },
   render() {
@@ -83,7 +90,8 @@ var App = React.createClass({
                 lessonCount={this.state.totalLessonCount} 
                 students={this.state.students}
                 toggleNewStudentStudent={this.toggleNewStudentStudent}
-                alreadySubmitted={this.state.alreadySubmitted} />
+                alreadySubmitted={this.state.alreadySubmitted} 
+                passTotalOwed={this.setTotalOwed} />
         {this.state.alreadySubmitted ? 
           <AlreadySubmitted submitted_at={this.state.form.submitted_at} /> :
           <Body   passLessonCount={this.adjustLessonCount} 

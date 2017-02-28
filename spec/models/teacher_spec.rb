@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Instrument, :type => :model do
+RSpec.describe Teacher, :type => :model do
 
   let(:family)     { create(:family) }
   let(:instrument) { create(:instrument) }
@@ -16,29 +16,27 @@ RSpec.describe Instrument, :type => :model do
   end
 
   it "has lesson periods" do
-    expect(instrument).to respond_to(:lesson_periods) 
-    expect(instrument.lesson_periods.length).to be > 0
+    expect(teacher).to respond_to(:lesson_periods) 
+    expect(teacher.lesson_periods.length).to be > 0
   end
 
-  it "has teachers (through lesson periods)" do
-    expect(instrument).to respond_to(:teachers) 
-    expect(instrument.teachers.length).to be > 0
+  it "has instruments (through lesson periods)" do
+    expect(teacher).to respond_to(:instruments) 
+    expect(teacher.instruments.length).to be > 0
   end
 
   it "has students (through lesson periods)" do
-    expect(instrument).to respond_to(:students) 
-    expect(instrument.students.length).to be > 0
+    expect(teacher).to respond_to(:students) 
+    expect(teacher.students.length).to be > 0
   end
 
   it "has forms (through lesson periods)" do
-    expect(instrument).to respond_to(:forms) 
-    expect(instrument.forms.length).to be > 0
+    expect(teacher).to respond_to(:forms) 
+    expect(teacher.forms.length).to be > 0
   end
 
-  it "has a unique name" do
-    new_instrument = Instrument.create(name: instrument.name)
-    expect(new_instrument).to_not be_valid
-    expect(new_instrument.errors.messages[:name]).to include("has already been taken")
+  it "serializes its unavailable dates" do
+    expect(teacher.unavailable_dates).to be_a(Array)
   end
 
 end

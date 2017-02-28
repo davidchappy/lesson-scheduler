@@ -17,16 +17,19 @@ family = Family.create(first_name: 'John', last_name: 'Smith',
 piano = Instrument.create(name: 'Piano')
 guitar = Instrument.create(name: 'Guitar')
 
-teacher = Teacher.create(first_name: 'Nathan', last_name: 'Arnold', 
-  instrument_id: piano.id)
-teacher2 = Teacher.create(first_name: 'David', last_name: 'Chapman', 
-  instrument_id: guitar.id)
+teacher = Teacher.create(first_name: 'Nathan', last_name: 'Arnold')
+teacher2 = Teacher.create(first_name: 'David', last_name: 'Chapman')
 
-form = Form.create(year: Date.today.year, family_id: family.id)
+form = Form.create( year: Date.today.year, family_id: family.id,
+                    start_date: Date.new(2017,6,5), end_date: Date.new(2017,9,1))
 
-student = Student.create(teacher_id: teacher.id, instrument_id: piano.id, 
-  student_name: 'Jim', form_id: form.id, family_id: family.id)
-student2 = Student.create(teacher_id: teacher2.id, instrument_id: guitar.id, 
-  student_name: 'Billy', form_id: form.id, family_id: family.id)
-student3 = Student.create(teacher_id: teacher.id, instrument_id: piano.id, 
-  student_name: 'Sarah', form_id: form.id, family_id: family.id)
+jim = family.students.create(name: 'Jim')
+sarah = family.students.create(name: 'Sarah')
+
+lesson_period = form.lesson_periods.create( teacher_id: teacher.id, 
+                                            instrument_id: piano.id, 
+                                            student_id: jim.id)
+
+lesson_period = form.lesson_periods.create( teacher_id: teacher2.id, 
+                                            instrument_id: guitar.id, 
+                                            student_id: sarah.id)

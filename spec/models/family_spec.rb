@@ -5,19 +5,26 @@ RSpec.describe Family, :type => :model do
   let(:family)     { create(:family) }
   let(:instrument) { create(:instrument) }
   let(:teacher)    { create(:teacher) }
+  let(:student)    { create(:student) }
   let(:form)       { family.find_or_create_current_form }
-  let!(:student) do
-    student = form.students.create( student_name:   "Susan", 
-                                    instrument_id:  instrument.id,
-                                    teacher_id:     teacher.id,
-                                    start_date:     Date.yesterday,
-                                    end_date:       Date.today)
-    student.save
-    return student       
+  let!(:lesson_period) do
+    lesson_period = form.lesson_periods.create( student_id:student.id,
+                                                instrument_id: instrument.id,
+                                                teacher_id: teacher.id )
+    lesson_period.save
+    return lesson_period       
   end
 
-  it "has many forms" do
+  it "has forms" do
     expect(family).to respond_to(:forms)
+  end
+
+  it "has students" do
+    expect(family).to respond_to(:students)
+  end
+
+  it "has lesson periods (through forms)" do
+    expect(family).to respond_to(:lesson_periods)
   end
 
   it "is a type of User" do
@@ -29,12 +36,6 @@ RSpec.describe Family, :type => :model do
     expect(family).to respond_to(:find_or_create_current_form)
     expect(form.year).to eq(Date.today.year)
     expect(form).to be_a(Form) 
-  end
-
-  it "can update its student count from its form" do
-    expect(family.student_count).to eq(0)
-    family.update_student_count(form)
-    expect(family.student_count).to_not eq(0)
   end
 
 end

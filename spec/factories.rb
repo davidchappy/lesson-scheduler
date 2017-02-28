@@ -1,8 +1,7 @@
 FactoryGirl.define do
   factory :family do
-    student_count 0
-    first_name "John"
-    last_name "Smith"
+    first_name "Jane"
+    last_name "Johnson"
     sequence :email do |n|
       "family#{n}@example.com"
     end
@@ -10,6 +9,11 @@ FactoryGirl.define do
     password_confirmation "password"
   end
 
+  factory :student do
+    name "Billy"
+    family
+  end
+ 
   factory :instrument do
     sequence :name do |n|
       "instrument-#{n}"
@@ -19,7 +23,6 @@ FactoryGirl.define do
   factory :teacher do
     first_name "Fred"
     last_name "Mertz"
-    instrument
   end
 
 end

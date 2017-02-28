@@ -5,22 +5,37 @@ RSpec.describe Form, :type => :model do
   let(:family)     { create(:family) }
   let(:instrument) { create(:instrument) }
   let(:teacher)    { create(:teacher) }
+  let(:student)    { create(:student) }
   let(:form)       { family.find_or_create_current_form }
-  let!(:student) do
-    student = form.students.create( student_name:   "Susan", 
-                                    instrument_id:  instrument.id,
-                                    teacher_id:     teacher.id,
-                                    start_date:     Date.new(2017, 6, 5),
-                                    end_date:       Date.new(2017, 9, 1))
-    student.save
-    return student       
+  let!(:lesson_period) do
+    lesson_period = form.lesson_periods.create( student_id:student.id,
+                                                instrument_id: instrument.id,
+                                                teacher_id: teacher.id )
+    lesson_period.save
+    return lesson_period       
   end
+
 
   it "belongs to a family" do
     expect(form).to respond_to(:family) 
   end
 
-  it "has many students" do 
+  it "has lesson periods" do 
+    expect(form).to respond_to(:lesson_periods)
+    expect(form.lesson_periods.length).to eq(1)
+  end
+
+  it "has teachers (through lesson periods)" do 
+    expect(form).to respond_to(:teachers)
+    expect(form.teachers.length).to eq(1)
+  end
+
+  it "has instruments (through lesson periods)" do 
+    expect(form).to respond_to(:instruments)
+    expect(form.instruments.length).to eq(1)
+  end
+
+  it "has students (through lesson periods)" do 
     expect(form).to respond_to(:students)
     expect(form.students.length).to eq(1)
   end
@@ -37,26 +52,32 @@ RSpec.describe Form, :type => :model do
     expect(form.lesson_count).to eq(0)
     # after inital update with all lessons selected (default)
     form.update_lesson_count
-    expect(form.lesson_count).to eq(student.weeks.length)
+    expect(form.lesson_count).to eq(lesson_period.weeks.length)
 
     # update lesson count after unchecking a lesson
-    old_count = student.weeks.length
-    student.weeks.last.update_attribute(:lesson, false)
+    old_count = lesson_period.weeks.length
+    lesson_period.weeks.last.update_attribute(:lesson, false)
     form.update_lesson_count
     expect(form.lesson_count).to_not eq(old_count)
   end
 
   it "sorts its students" do
-    initial_index = form.students.index(student)
-    new_student = form.students.create(  student_name:   "Jimmy", 
-                            instrument_id:  instrument.id,
-                            teacher_id:     teacher.id,
-                            start_date:     Date.new(2017, 6, 5),
-                            end_date:       Date.new(2017, 9, 1))
-    new_student_index = form.students.index(new_student)
+    initial_index = form.lesson_periods.index(lesson_period)
+    new_student =   family.students.create(name: "Julie")
+    new_lesson_period = form.lesson_periods.create( student_id: new_student.id,
+                                                    instrument_id: instrument.id,
+                                                    teacher_id: teacher.id )
+    new_lesson_period_index = form.lesson_periods.index(new_lesson_period)
 
-    expect(new_student_index).to_not eq(initial_index)
-    expect(new_student_index).to be > initial_index
+    expect(new_lesson_period_index).to_not eq(initial_index)
+    expect(new_lesson_period_index).to be > initial_index
+  end
+
+
+  it "can update its student count" do
+    expect(form.student_count).to be_nil
+    form.update_lesson_period_count
+    expect(form.student_count).to_not be_nil
   end
 
 end

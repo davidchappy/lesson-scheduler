@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170224143349) do
+ActiveRecord::Schema.define(version: 20170228173700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,11 +18,16 @@ ActiveRecord::Schema.define(version: 20170224143349) do
   create_table "forms", force: :cascade do |t|
     t.integer  "year"
     t.datetime "submitted_at"
-    t.integer  "family_id"
     t.boolean  "submitted"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "lesson_count"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "student_count"
+    t.integer  "total_cost"
+    t.integer  "family_id"
+    t.index ["family_id"], name: "index_forms_on_family_id", using: :btree
   end
 
   create_table "instruments", force: :cascade do |t|
@@ -31,25 +36,32 @@ ActiveRecord::Schema.define(version: 20170224143349) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "students", force: :cascade do |t|
+  create_table "lesson_periods", force: :cascade do |t|
+    t.integer  "student_id"
     t.integer  "teacher_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.integer  "year"
-    t.date     "start_date"
-    t.date     "end_date"
-    t.string   "student_name"
     t.integer  "instrument_id"
-    t.integer  "lesson_count"
-    t.boolean  "submitted"
     t.integer  "form_id"
+    t.integer  "lesson_count"
+    t.integer  "default_lesson_length"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["form_id"], name: "index_lesson_periods_on_form_id", using: :btree
+    t.index ["instrument_id"], name: "index_lesson_periods_on_instrument_id", using: :btree
+    t.index ["student_id"], name: "index_lesson_periods_on_student_id", using: :btree
+    t.index ["teacher_id"], name: "index_lesson_periods_on_teacher_id", using: :btree
+  end
+
+  create_table "students", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
     t.integer  "family_id"
+    t.index ["family_id"], name: "index_students_on_family_id", using: :btree
   end
 
   create_table "teachers", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.integer  "instrument_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.text     "unavailable_dates"
@@ -71,7 +83,6 @@ ActiveRecord::Schema.define(version: 20170224143349) do
     t.datetime "updated_at",                          null: false
     t.string   "first_name"
     t.string   "last_name"
-    t.integer  "student_count",          default: 0
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
@@ -79,11 +90,16 @@ ActiveRecord::Schema.define(version: 20170224143349) do
   create_table "weeks", force: :cascade do |t|
     t.date     "start_date"
     t.date     "end_date"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "student_id"
-    t.boolean  "lesson",      default: true
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "lesson",           default: true
     t.string   "week_string"
+    t.integer  "lesson_length"
+    t.integer  "lesson_period_id"
   end
 
+  add_foreign_key "lesson_periods", "forms"
+  add_foreign_key "lesson_periods", "instruments"
+  add_foreign_key "lesson_periods", "students"
+  add_foreign_key "lesson_periods", "teachers"
 end

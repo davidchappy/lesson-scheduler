@@ -10,19 +10,17 @@ RSpec.describe Api::V1::FamiliesController, :type => :controller do
   end
 
   context "family user" do
-    let!(:family)     { create(:family) }
-    let!(:instrument) { create(:instrument) }
-    let!(:teacher)    { create(:teacher) }
-    let!(:form)       { family.find_or_create_current_form }
-    let!(:student) do
-      student = form.students.create( student_name:   "Susan", 
-                                      instrument_id:  instrument.id,
-                                      teacher_id:     teacher.id,
-                                      start_date:     Date.yesterday,
-                                      end_date:       Date.today)
-      student.form = form
-      student.save
-      return student       
+    let(:family)     { create(:family) }
+    let(:instrument) { create(:instrument) }
+    let(:teacher)    { create(:teacher) }
+    let(:student)    { create(:student) }
+    let(:form)       { family.find_or_create_current_form }
+    let!(:lesson_period) do
+      lesson_period = form.lesson_periods.create( student_id:student.id,
+                                                  instrument_id: instrument.id,
+                                                  teacher_id: teacher.id )
+      lesson_period.save
+      return lesson_period       
     end
 
     before :each do
@@ -42,7 +40,8 @@ RSpec.describe Api::V1::FamiliesController, :type => :controller do
       end
 
       it "returns the current family, form and students in JSON" do 
-        family.update_student_count(form)
+        form = family.forms.first
+        form.update_lesson_period_count
 
         get :index, format: :json
         expected = {
@@ -53,9 +52,14 @@ RSpec.describe Api::V1::FamiliesController, :type => :controller do
         expect( response_body ).to eq( JSON.parse(expected) )      
       end
 
-      it "finds a form for the current year or create a new one" do
+      it "finds a form for the current year or creates a new one" do
         get :index, format: :json
         expect(family.forms.first.year).to eq(Date.today.year)
+
+        family.forms.first.destroy
+        get :index, format: :json
+        expect(family.forms.first).to_not be_nil
+        expect(family.forms.first.year).to eq(Date.today.year)[]
       end
 
       it "returns a sorted array of its current form's students" do

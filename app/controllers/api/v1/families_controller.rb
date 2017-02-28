@@ -5,7 +5,7 @@ class Api::V1::FamiliesController < Api::V1::BaseController
       @family = Family.find(current_user.id)
       @form = @family.find_or_create_current_form 
       @form.update_lesson_count
-      @family.update_student_count(@form)   
+      @form.update_lesson_period_count
       @students = @form.sorted_students
       respond_with family: @family, students: @students, form: @form
     else

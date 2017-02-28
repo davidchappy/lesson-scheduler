@@ -6,8 +6,8 @@ class Api::V1::FamiliesController < Api::V1::BaseController
       @form = @family.find_or_create_current_form 
       @form.update_lesson_count
       @form.update_lesson_period_count
-      @students = @form.sorted_students
-      respond_with family: @family, students: @students, form: @form
+      @lesson_periods = @form.sorted_students
+      respond_with family: @family, lesson_periods: @lesson_periods, form: @form
     else
       respond_with Family.all
     end

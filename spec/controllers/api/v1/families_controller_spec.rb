@@ -46,10 +46,10 @@ RSpec.describe Api::V1::FamiliesController, :type => :controller do
         get :index, format: :json
         expected = {
           family: family,
-          students: [student],
+          lesson_periods: [lesson_period],
           form: family.forms.first        
         }.to_json
-        expect( response_body ).to eq( JSON.parse(expected) )      
+        expect(response_body).to eq( JSON.parse(expected) )      
       end
 
       it "finds a form for the current year or creates a new one" do
@@ -59,24 +59,23 @@ RSpec.describe Api::V1::FamiliesController, :type => :controller do
         family.forms.first.destroy
         get :index, format: :json
         expect(family.forms.first).to_not be_nil
-        expect(family.forms.first.year).to eq(Date.today.year)[]
+        expect(family.forms.first.year).to eq(Date.today.year)
       end
 
       it "returns a sorted array of its current form's students" do
         # ensure new student always goes to end of array
-        initial_student_array = family.forms.first.students
-        new_student_array = initial_student_array
-        new_student_array.create( student_name: "Jim",
-                                      instrument_id:  instrument.id,
-                                      teacher_id:     teacher.id,
-                                      start_date:     Date.yesterday,
-                                      end_date:       Date.today )
-        expect(initial_student_array.first).to eq(new_student_array.first)
+        initial_lesson_periods_array = family.forms.first.lesson_periods
+        new_lesson_periods_array = initial_lesson_periods_array
+        new_student = family.students.create(name: "Jim")
+        new_lesson_periods_array.create( student_id: new_student.id,
+                                  instrument_id:  instrument.id,
+                                  teacher_id:     teacher.id )
+        expect(initial_lesson_periods_array.first).to eq(new_lesson_periods_array.first)
 
         # ensure students in json response is properly sorted 
-        family.forms.first.students = new_student_array
+        family.forms.first.lesson_periods = new_lesson_periods_array
         get :index, format: :json
-        expect( response_body["students"] ).to eq( JSON.parse(new_student_array.to_json) )
+        expect( response_body["lesson_periods"] ).to eq( JSON.parse(new_lesson_periods_array.to_json) )
       end
 
     end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 include ControllerHelpers
 
-RSpec.describe Api::V1::StudentsController, :type => :controller do
+RSpec.describe Api::V1::LessonPeriodsController, :type => :controller do
   
   context "anonymous user" do
     it "should be redirected to signin" do
@@ -26,16 +26,14 @@ RSpec.describe Api::V1::StudentsController, :type => :controller do
     let(:family)     { create(:family) }
     let(:instrument) { create(:instrument) }
     let(:teacher)    { create(:teacher) }
+    let(:student)    { create(:student) }
     let(:form)       { family.find_or_create_current_form }
-    let(:student) do
-      student = form.students.create( student_name:   "Susan", 
-                                      instrument_id:  instrument.id,
-                                      teacher_id:     teacher.id,
-                                      start_date:     Date.yesterday,
-                                      end_date:       Date.today)
-      student.form = form
-      student.save
-      return student       
+    let!(:lesson_period) do
+      lesson_period = form.lesson_periods.create( student_id:student.id,
+                                                  instrument_id: instrument.id,
+                                                  teacher_id: teacher.id )
+      lesson_period.save
+      return lesson_period       
     end
 
     before :each do
@@ -55,56 +53,57 @@ RSpec.describe Api::V1::StudentsController, :type => :controller do
     describe "show" do
       it "returns an array with a student, instrument, teacher, and teacher's unavailable dates" do
         unavailable_dates = teacher.unavailable_dates        
-        params = { id: student.id }
+        params = { id: lesson_period.id }
         get :show, format: :json, params: params
 
         expect(response_body).to include( JSON.parse(teacher.to_json) )
         expect(response_body).to include( JSON.parse(instrument.to_json) )
-        expect(response_body).to include( JSON.parse(student.to_json) )
+        expect(response_body).to include( JSON.parse(lesson_period.to_json) )
         expect(response_body).to include( JSON.parse(unavailable_dates.to_json) )
       end
     end
 
     describe "create" do
-      it "creates a new student for the current form" do
-        students_initial = Student.all
-        expect(students_initial.length).to eq(0)
+      it "creates a new lesson period for the current form" do
+        lesson_periods_initial = LessonPeriod.all
+        expect(lesson_periods_initial.length).to eq(1)
         params = {  
-          student: { student_name: "Bobby", teacher_id: teacher.id, 
-                    instrument_id: instrument.id, form_id: form.id } 
+          lesson_period: {  student_id: student.id,       teacher_id: teacher.id, 
+                            instrument_id: instrument.id, form_id: form.id } 
         }
         post :create, format: :json, params: params
         expect(response_body["form_id"]).to eq(form.id)
-        expect(students_initial.length).to_not eq(Student.all.length)
-        expect(Student.all.length).to eq(1)
+        expect(lesson_periods_initial.length).to_not eq(LessonPeriod.all.length)
+        expect(LessonPeriod.all.length).to eq(2)
       end
     end
 
     describe "update" do
       it "updates a student with attributes in params" do
-        student_original = student
+        lesson_period_original = lesson_period
+        new_student = family.students.create(name: "New Name")
         params = { 
-          student: {  student_name: "New Name", teacher_id: teacher.id, 
-                      instrument_id: instrument.id, form_id: form.id },
-          id: student.id
+          lesson_period: {  student_id: new_student.id,   teacher_id: teacher.id, 
+                            instrument_id: instrument.id, form_id: form.id },
+          id: lesson_period.id
         }
         put :update, format: :json, params: params
         id = response_body["id"]
-        student_updated = Student.find(id)
-        expect(student_updated.student_name).to eq("New Name")
-        expect(student_original.student_name).to_not eq(student_updated.student_name)
+        lesson_period_updated = LessonPeriod.find(id)
+        expect(lesson_period_updated.student.name).to eq("New Name")
+        expect(lesson_period_original.student.name).to_not eq(lesson_period_updated.student.name)
       end
     end
 
     describe "destroy" do
       it "deletes a student and removes it from its form" do
-        student_original = student
-        original_length = Student.all.length
-        params = { id: student.id }
+        lesson_period_original = lesson_period
+        original_length = LessonPeriod.all.length
+        params = { id: lesson_period.id }
         delete :destroy, format: :json, params: params
 
-        expect(Student.all).to_not include(student_original)
-        expect(Student.all.length).to_not eq(original_length)
+        expect(LessonPeriod.all).to_not include(lesson_period_original)
+        expect(LessonPeriod.all.length).to_not eq(original_length)
       end
     end
 

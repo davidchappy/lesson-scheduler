@@ -47,6 +47,18 @@ RSpec.describe Form, :type => :model do
     expect(new_form.errors.messages[:year]).to include("must be unique")
   end
 
+  it "sets year, start and end dates before being created" do
+    new_form = family.forms.build()
+    expect(new_form.start_date).to be_nil
+    expect(new_form.end_date).to be_nil
+    expect(new_form.year).to be_nil
+
+    new_form.save!
+    expect(new_form.start_date).to_not be_nil
+    expect(new_form.end_date).to_not be_nil
+    expect(new_form.year).to eq(Date.today.year)
+  end
+
   it "can update its lesson count from its weeks" do
     # before initial update
     expect(form.lesson_count).to eq(0)
@@ -61,6 +73,12 @@ RSpec.describe Form, :type => :model do
     expect(form.lesson_count).to_not eq(old_count)
   end
 
+  it "can update its student count" do
+    expect(form.student_count).to be_nil
+    form.update_lesson_period_count
+    expect(form.student_count).to_not be_nil
+  end
+
   it "sorts its students" do
     initial_index = form.lesson_periods.index(lesson_period)
     new_student =   family.students.create(name: "Julie")
@@ -71,13 +89,6 @@ RSpec.describe Form, :type => :model do
 
     expect(new_lesson_period_index).to_not eq(initial_index)
     expect(new_lesson_period_index).to be > initial_index
-  end
-
-
-  it "can update its student count" do
-    expect(form.student_count).to be_nil
-    form.update_lesson_period_count
-    expect(form.student_count).to_not be_nil
   end
 
 end

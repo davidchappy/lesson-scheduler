@@ -7,11 +7,12 @@ class Form < ApplicationRecord
   has_many    :teachers, through: :lesson_periods
   has_many    :students, through: :lesson_periods
 
-  after_initialize :set_summer_dates
+  before_create :set_summer_dates
 
   def set_summer_dates( year=Date.today.year, 
                             start=nil, 
                             finish=nil)
+    self.year = year
 
     start = start || Date.new(year, 6, 1)
     start += 1.days until start.wday == 1

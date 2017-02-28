@@ -11,19 +11,17 @@ RSpec.describe Api::V1::TeachersController, :type => :controller do
   end
 
   context "family user" do
-    let!(:family)     { create(:family) }
-    let!(:instrument) { create(:instrument) }
-    let!(:teacher)    { create(:teacher) }
-    let!(:form)       { family.find_or_create_current_form }
-    let!(:student) do
-      student = form.students.create( student_name:   "Susan", 
-                                      instrument_id:  instrument.id,
-                                      teacher_id:     teacher.id,
-                                      start_date:     Date.yesterday,
-                                      end_date:       Date.today)
-      student.form = form
-      student.save
-      return student       
+    let(:family)     { create(:family) }
+    let(:instrument) { create(:instrument) }
+    let(:teacher)    { create(:teacher) }
+    let(:student)    { create(:student) }
+    let(:form)       { family.find_or_create_current_form }
+    let!(:lesson_period) do
+      lesson_period = form.lesson_periods.create( student_id:student.id,
+                                                  instrument_id: instrument.id,
+                                                  teacher_id: teacher.id )
+      lesson_period.save
+      return lesson_period       
     end
 
     before :each do

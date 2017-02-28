@@ -17,16 +17,14 @@ RSpec.describe Api::V1::WeeksController, :type => :controller do
     let(:family)     { create(:family) }
     let(:instrument) { create(:instrument) }
     let(:teacher)    { create(:teacher) }
+    let(:student)    { create(:student) }
     let(:form)       { family.find_or_create_current_form }
-    let(:student) do
-      student = form.students.create( student_name:   "Susan", 
-                                      instrument_id:  instrument.id,
-                                      teacher_id:     teacher.id,
-                                      start_date:     Date.new(2017, 6, 5),
-                                      end_date:       Date.new(2017, 9, 1))
-      student.form = form
-      student.save
-      return student       
+    let!(:lesson_period) do
+      lesson_period = form.lesson_periods.create( student_id:student.id,
+                                                  instrument_id: instrument.id,
+                                                  teacher_id: teacher.id )
+      lesson_period.save
+      return lesson_period       
     end
 
     before :each do
@@ -45,9 +43,9 @@ RSpec.describe Api::V1::WeeksController, :type => :controller do
 
     describe "index" do
       it "returns a sorted array of weeks for the given student" do
-        get :index, format: :json, params: { student_id: student.id }
+        get :index, format: :json, params: { lesson_period_id: lesson_period.id }
 
-        original_weeks = student.weeks.sort_by { |week| week.start_date }
+        original_weeks = lesson_period.weeks.sort_by { |week| week.start_date }
         response_weeks = response_body
 
         expect(response_body).to eq( JSON.parse(response_weeks.to_json) )
@@ -56,7 +54,7 @@ RSpec.describe Api::V1::WeeksController, :type => :controller do
 
     describe "update" do
       it "marks a week as lesson: true or lesson: false" do
-        week = student.weeks.first
+        week = lesson_period.weeks.first
         expect(week.lesson).to eq(true)
         params = { 
           week: { lesson: false },

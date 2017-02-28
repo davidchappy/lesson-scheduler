@@ -43,17 +43,17 @@ RSpec.describe Api::V1::FormsController, :type => :controller do
       it "marks a form as submitted" do
         expect(form.submitted).to be_nil
         expect(form.submitted_at).to be_nil
-        params = { id: form.id }
-        get :update, format: :json, params: params
+        params = { id: form.id, form: { total_cost: 20000 } }
+        put :update, format: :json, params: params
         expect( response_body["submitted"] ).to eq(true)
         expect( response_body["submitted_at"] ).to_not be_nil
       end
 
       it "updates its total cost attribute when submitted" do
         expect(form.total_cost).to be_nil
-        params = { id: form.id }
-        get :update, format: :json, params: params
-        expect(form.total_cost).to_not be_nil
+        params = { id: form.id, form: { total_cost: 20000 } }
+        put :update, format: :json, params: params
+        expect(form.reload.total_cost).to_not be_nil
       end
 
     end

@@ -50,7 +50,7 @@ body {
   .navbar-header {
     line-height: 50px;
     
-    .add-student {
+    .add-lesson-period {
       border-radius: 50%;
       height: 40px;
       width: 40px;
@@ -166,16 +166,16 @@ body {
 }
 
 
-// Students
-.students {
+// Lesson Periods
+.lesson-periods {
   padding: 3rem 0;
   
-  .student {
+  .lesson-period {
     margin-bottom: 5rem;
   }
 }
 
-.student-header {
+.lesson-period-header {
   padding: 0;
   position: relative;
   min-height: 6rem;
@@ -211,7 +211,7 @@ body {
   }
 
   &:hover {
-    .student-hover-menu {
+    .lesson-period-hover-menu {
       display: flex;
     }
   }
@@ -221,12 +221,12 @@ body {
   }
 }
 
-.student {
+.lesson-period {
   margin-bottom: 3rem;
 
 }
 
-.student-hover-menu {
+.lesson-period-hover-menu {
   display: none;
   flex-direction: row;
   justify-content: space-between;
@@ -248,23 +248,23 @@ body {
     height: 100%;
   }
 
-  .edit-student {
+  .edit-lesson-period {
     color: #555;
   }
 
-  .delete-student {
+  .delete-lesson-period {
     color: $orange;
   }
 
 }
 
-.student-delete-confirm-wrapper {
+.lesson-period-delete-confirm-wrapper {
   height: 60px;
   line-height: 60px;
   background: $orange;
   position: relative;
   
-  .student-delete-confirm {
+  .lesson-period-delete-confirm {
     width: 100%;
     text-align: right;
     padding: 0 1rem;
@@ -362,8 +362,8 @@ body {
   }
 }
 
-// New Student section
-.new-student-button {
+// New Lesson Period section
+.new-lesson-period-button {
   background: #fff;
   display: block;
   text-align: center;
@@ -404,7 +404,7 @@ body {
   }
 }
 
-.new-student-form {
+.new-lesson-period-form {
 
   * {
     position: absolute;
@@ -471,7 +471,7 @@ body {
     }
   }
 
-  #submit-new-student {
+  #submit-new-lesson-period {
     background: none;
     border: none;
     font-weight: bold;

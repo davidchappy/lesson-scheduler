@@ -22,30 +22,30 @@ var Body = React.createClass({
       }
     });
   },
-  handleDelete(student) {
-    var id = student.id;
+  handleDelete(lessonPeriod) {
+    var id = lessonPeriod.id;
     $.ajax({
-      url: `/api/v1/students/${id}.json`, 
+      url: `/api/v1/lesson_periods/${id}.json`, 
       type: 'DELETE',
       success: (response) => { 
-        this.props.handleDeletedStudent(student);
+        this.props.handleDeletedLessonPeriod(lessonPeriod);
       }
     });
   },
-  handleEdit(name, instrumentId, teacherId, student) {
-    var id = student.id;
+  handleEdit(name, instrumentId, teacherId, lessonPeriod) {
+    var id = lessonPeriod.id;
     $.ajax({
-      url: `/api/v1/students/${id}.json`, 
+      url: `/api/v1/lesson_periods/${id}.json`, 
       type: 'PUT',
-      data: { student: { student_name: name, instrument_id: instrumentId, teacher_id: teacherId } },
-      success: (student) => { 
-        console.log(student);
+      data: { lesson_period: { instrument_id: instrumentId, teacher_id: teacherId },
+              name: name },
+      success: (lessonPeriod) => { 
+        console.log(lessonPeriod);
       }
     });
   },
   handleTypeName() {
     if($("#studentName").val().length > 1 && !this.state.instrumentEnabled) {
-      console.log("From student name");
       this.setState({ instrumentEnabled: true })
     }
   },
@@ -56,36 +56,36 @@ var Body = React.createClass({
   handleTeacherSelect() {
     this.setState({ submitEnabled: true })
   },
-  passLessonCount(count, student) {
-    student.lesson_count = count;
-    this.props.passLessonCount(student);
+  passLessonCount(count, lessonPeriod) {
+    lessonPeriod.lesson_count = count;
+    this.props.passLessonCount(lessonPeriod);
   },
-  handleSubmit(student) {
-    this.setState({ showAddStudent: false })
-    this.props.handleSubmit(student);  
+  handleSubmit(lessonPeriod) {
+    this.setState({ showAddLessonPeriod: false })
+    this.props.handleSubmit(lessonPeriod);  
   },
   toggleConfirmationPage() {
     var confirmation = this.state.confirmationPage ? false : true;
     this.setState({ confirmationPage: confirmation });
   },
   render() {
-    if ( !this.props.students ) {
+    if ( !this.props.lessonPeriods ) {
       return (
         <div>
-          <p>Loading Students..</p>
+          <p>Loading Lesson Periods..</p>
         </div>
       )
     }
 
-    var students = this.props.students.map((student) => {
+    var lessonPeriods = this.props.lessonPeriods.map((lessonPeriod) => {
       return (
-        <Student key={student.id} 
-              student={student} 
-              updateLessonCount={this.passLessonCount} 
-              handleDelete={this.handleDelete}
-              handleEdit={this.handleEdit}
-              instruments={this.state.instruments} 
-              teachers={this.state.teachers} />
+        <LessonPeriod key={lessonPeriod.id} 
+                      lessonPeriod={lessonPeriod} 
+                      updateLessonCount={this.passLessonCount} 
+                      handleDelete={this.handleDelete}
+                      handleEdit={this.handleEdit}
+                      instruments={this.state.instruments} 
+                      teachers={this.state.teachers} />
       )
     })
 
@@ -96,23 +96,23 @@ var Body = React.createClass({
             <Confirmation toggleConfirmationPage={this.toggleConfirmationPage}
                           submitForm={this.props.submitForm} /> :
             <div>
-              <div className="students row">
-                {students}
-                {this.props.showAddStudent ? 
+              <div className="lesson-periods row">
+                {lessonPeriods}
+                {this.props.showAddLessonPeriod ? 
 
-                  <NewStudent   instruments={this.state.instruments} 
-                                teachers={this.state.teachers} 
-                                handleTypeName={this.handleTypeName}
-                                handleInstrumentSelect={this.handleInstrumentSelect}
-                                handleTeacherSelect={this.handleTeacherSelect}  
-                                handleSubmit={this.handleSubmit} 
-                                form={this.props.form} /> :
+                  <NewLessonPeriod    instruments={this.state.instruments} 
+                                      teachers={this.state.teachers} 
+                                      handleTypeName={this.handleTypeName}
+                                      handleInstrumentSelect={this.handleInstrumentSelect}
+                                      handleTeacherSelect={this.handleTeacherSelect}  
+                                      handleSubmit={this.handleSubmit} 
+                                      form={this.props.form} /> :
 
-                  <div className="new-student-button col-sm-6 col-md-4">
-                    <button id="add-student" className={"btn btn-default add-student"} 
-                      onClick={this.props.toggleNewStudentStudent}>
+                  <div className="new-lesson-period-button col-sm-6 col-md-4">
+                    <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 
+                      onClick={this.props.toggleNewLessonPeriod}>
                       <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-                      <span className="button-text">Add a Student</span>
+                      <span className="button-text">Add a Lesson Period</span>
                     </button>
                   </div>
                 }  

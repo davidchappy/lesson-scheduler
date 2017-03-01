@@ -3,9 +3,9 @@ var Weeks = React.createClass({
     return { weeks: undefined }
   },
   componentDidMount() {
-    var id = this.props.student_id;
+    var id = this.props.lessonPeriodId;
     $.ajax({
-      url: `/api/v1/weeks.json?student_id=${id}`, 
+      url: `/api/v1/weeks.json?lesson_period_id=${id}`, 
       type: 'GET',
       success: (response) => {
         var weeks = response;

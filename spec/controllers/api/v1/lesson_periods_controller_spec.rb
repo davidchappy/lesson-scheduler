@@ -51,15 +51,14 @@ RSpec.describe Api::V1::LessonPeriodsController, :type => :controller do
     end
 
     describe "show" do
-      it "returns an array with a student, instrument, teacher, and teacher's unavailable dates" do
-        unavailable_dates = teacher.unavailable_dates        
+      it "returns an array with a lesson period, student, teacher, and instrument" do
         params = { id: lesson_period.id }
         get :show, format: :json, params: params
 
-        expect(response_body).to include( JSON.parse(teacher.to_json) )
-        expect(response_body).to include( JSON.parse(instrument.to_json) )
-        expect(response_body).to include( JSON.parse(lesson_period.to_json) )
-        expect(response_body).to include( JSON.parse(unavailable_dates.to_json) )
+        expect(response_body["teacher"]).to include( JSON.parse(teacher.to_json) )
+        expect(response_body["instrument"]).to include( JSON.parse(instrument.to_json) )
+        expect(response_body["lesson_period"]).to include( JSON.parse(lesson_period.to_json) )
+        expect(response_body["student"]).to include( JSON.parse(student.to_json) )
       end
     end
 
@@ -67,7 +66,8 @@ RSpec.describe Api::V1::LessonPeriodsController, :type => :controller do
       it "creates a new lesson period for the current form" do
         lesson_periods_initial = LessonPeriod.all
         expect(lesson_periods_initial.length).to eq(1)
-        params = {  
+        params = { 
+          family_id: family.id, 
           lesson_period: {  student_id: student.id,       teacher_id: teacher.id, 
                             instrument_id: instrument.id, form_id: form.id } 
         }
@@ -83,7 +83,9 @@ RSpec.describe Api::V1::LessonPeriodsController, :type => :controller do
         lesson_period_original = lesson_period
         new_student = family.students.create(name: "New Name")
         params = { 
-          lesson_period: {  student_id: new_student.id,   teacher_id: teacher.id, 
+          name: new_student.name,
+          family_id: family.id,
+          lesson_period: {  teacher_id: teacher.id, 
                             instrument_id: instrument.id, form_id: form.id },
           id: lesson_period.id
         }

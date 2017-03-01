@@ -1,7 +1,7 @@
 var App = React.createClass({
   getInitialState() {
     return {  family: undefined, totalLessonCount: 0, 
-              students: [], showAddStudent: false, 
+              lessonPeriods: [], showAddLessonPeriod: false, 
               form: undefined, alreadySubmitted: false,
               totalOwed: 0 }
   },
@@ -14,50 +14,54 @@ var App = React.createClass({
           this.setState({ alreadySubmitted: true })
         }
         this.setState({ family: response.family,  
-                        students: response.students,
+                        lessonPeriods: response.lesson_periods,
                         form: response.form,
-                        totalLessonCount: response.form.week_count});
+                        totalLessonCount: response.form.lesson_count});
       }
     });
   },
-  toggleNewStudentStudent() {
-    var showStudent = this.state.showAddStudent ? false : true;
-    this.setState({ showAddStudent: showStudent });
+  toggleNewLessonPeriod() {
+    // shows or hides add lesson period button
+    var showLessonPeriod = this.state.showAddLessonPeriod ? false : true;
+    this.setState({ showAddLessonPeriod: showLessonPeriod });
   },
-  handleNewStudent(student) {
-    var students = this.state.students;
-    students.push(student);
-    this.setState({ students: students });
+  handleNewLessonPeriod(lessonPeriod) {
+    // keeps component state updated with a new lesson period
+    var lessonPeriods = this.state.lessonPeriods;
+    lessonPeriods.push(lessonPeriod);
+    this.setState({ lessonPeriods: lessonPeriods });
   },
-  handleEdit(student) {
-    var students = this.state.students;
-    var index = students.indexOf(student);
-    students[index] = student;
-    this.setState({ students: students });
+  handleEdit(lessonPeriod) {
+    // keeps component state updated with an edited lesson period
+    var lessonPeriods = this.state.lessonPeriods;
+    var index = lessonPeriods.indexOf(lessonPeriod);
+    lessonPeriods[index] = lessonPeriod;
+    this.setState({ lessonPeriods: lessonPeriods });
   },
-  adjustLessonCount(student) {
-    // update the student and students array
-    var students = this.state.students;
-    var studentIndex = students.indexOf(student);
-    students[studentIndex] = student;
+  handleDeletedLessonPeriod(lessonPeriod) {
+    // keeps component state updated with a deleted lesson period
+    var lessonPeriods = this.state.lessonPeriods;
+    var lessonPeriodIndex = lessonPeriods.indexOf(lessonPeriod);
+    lessonPeriods.splice(lessonPeriodIndex, 1);
+
+    this.adjustLessonCount(lessonPeriod);
+  },
+  adjustLessonCount(lessonPeriod) {
+    // update the lessonPeriod and lessonPeriods array
+    var lessonPeriods = this.state.lessonPeriods;
+    var lessonPeriodIndex = lessonPeriods.indexOf(lessonPeriod);
+    lessonPeriods[lessonPeriodIndex] = lessonPeriod;
 
     // update the lesson count
     var newTotal = 0;
-    students.map((student) => {
-      newTotal += student.lesson_count;
+    lessonPeriods.map((lessonPeriod) => {
+      newTotal += lessonPeriod.lesson_count;
     });
 
-    this.setState({ totalLessonCount: newTotal, students: students });
+    this.setState({ totalLessonCount: newTotal, lessonPeriods: lessonPeriods });
   },
   getLessonCount() {
     return this.state.totalLessonCount;
-  },
-  handleDeletedStudent(student) {
-    var students = this.state.students;
-    var studentIndex = students.indexOf(student);
-    students.splice(studentIndex, 1);
-
-    this.adjustLessonCount(student);
   },
   setTotalOwed(total) {
     this.setState({ totalOwed: total });
@@ -65,14 +69,13 @@ var App = React.createClass({
   submitForm() {
     var id = this.state.form.id;
     var totalOwed = this.state.totalOwed;
-    console.log(this.state.totalOwed);
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'PUT',
       data: { form: { total_cost: totalOwed } },
-      // success: (form) => { 
-      //   console.log(form);
-      // }
+      success: (form) => { 
+        console.log(form);
+      }
     });
   },
   render() {
@@ -88,19 +91,19 @@ var App = React.createClass({
       <div>
         <Header family={this.state.family} 
                 lessonCount={this.state.totalLessonCount} 
-                students={this.state.students}
-                toggleNewStudentStudent={this.toggleNewStudentStudent}
+                lessonPeriods={this.state.lessonPeriods}
+                toggleNewLessonPeriod={this.toggleNewLessonPeriod}
                 alreadySubmitted={this.state.alreadySubmitted} 
                 passTotalOwed={this.setTotalOwed} />
         {this.state.alreadySubmitted ? 
           <AlreadySubmitted submitted_at={this.state.form.submitted_at} /> :
           <Body   passLessonCount={this.adjustLessonCount} 
-                  students={this.state.students} 
+                  lessonPeriods={this.state.lessonPeriods} 
                   form={this.state.form}
-                  handleSubmit={this.handleNewStudent}
-                  handleDeletedStudent={this.handleDeletedStudent} 
-                  toggleNewStudentStudent={this.toggleNewStudentStudent} 
-                  showAddStudent={this.state.showAddStudent} 
+                  handleSubmit={this.handleNewLessonPeriod}
+                  handleDeletedLessonPeriod={this.handleDeletedLessonPeriod} 
+                  toggleNewLessonPeriod={this.toggleNewLessonPeriod} 
+                  showAddLessonPeriod={this.state.showAddLessonPeriod} 
                   submitForm={this.submitForm} />
         }
       </div>

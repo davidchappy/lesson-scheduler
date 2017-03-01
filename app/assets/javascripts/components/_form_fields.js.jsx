@@ -53,7 +53,7 @@ var FormFields = React.createClass({
     var submitEnabled = this.state.submitEnabled ? false : true 
 
     return (
-      <form className="new-student-form form-inline">
+      <form className="new-lesson-period-form form-inline">
         <input ref="studentName" type="text" className="form-control studentName" id="studentName" 
           placeholder="Student's name" onKeyUp={this.handleTypeName} defaultValue={this.state.studentName} required/>
         <select ref="selectTeacher" className="form-control selectTeacher" id="selectTeacher"
@@ -68,7 +68,7 @@ var FormFields = React.createClass({
             <option value='' className="placeholder">Instrument</option>
             {instruments}
         </select>
-        <button className="btn btn-success submit-new-student" id="submit-new-student"
+        <button className="btn btn-success submit-new-lesson-period" id="submit-new-lesson-period"
         disabled={ submitEnabled } onClick={this.passValues}>{this.props.buttonText}</button>
       </form>
     )

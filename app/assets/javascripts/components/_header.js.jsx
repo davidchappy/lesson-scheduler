@@ -8,8 +8,8 @@ var Header = React.createClass({
   calculateTotalCost(props) {
     // get values from props
     var lessonCount = Number(props.lessonCount);
-    var students = props.students;
-    var studentCount = students.length;
+    var lessonPeriods = props.lessonPeriods;
+    var lessonPeriodCount = lessonPeriods.length;
 
 
     // initialize vars
@@ -17,13 +17,13 @@ var Header = React.createClass({
     var totalOwed = 0;
     var rawTotal = lessonCount * 2000;
 
-    // iterate through students and calculate cost and discounts
-    students.map((student) => {
-      totalOwed += this.calculateStudentCost(student, studentCount, students);
+    // iterate through lessonPeriods and calculate cost and discounts
+    lessonPeriods.map((lessonPeriod) => {
+      totalOwed += this.calculateLessonPeriodCost(lessonPeriod, lessonPeriodCount, lessonPeriods);
     })
     discount = rawTotal - totalOwed;
 
-    var possibleDiscount = this.calculatePossibleDiscount(studentCount);
+    var possibleDiscount = this.calculatePossibleDiscount(lessonPeriodCount);
     this.props.passTotalOwed(totalOwed)
 
     this.setState({
@@ -32,48 +32,48 @@ var Header = React.createClass({
       possibleDiscount: possibleDiscount
     })
   },
-  calculateStudentCost(student, studentCount, students) {
-    var lessonCount = student.lesson_count;
-    var studentDiscount = 0;
+  calculateLessonPeriodCost(lessonPeriod, lessonPeriodCount, lessonPeriods) {
+    var lessonCount = lessonPeriod.lesson_count;
+    var lessonPeriodDiscount = 0;
     var lessonRate = 2000;
     var cost = 0;
 
-    // Apply discount for more than 1 student
-    if(studentCount >= 2) {
-      if(students.indexOf(student) == 0) {
+    // Apply discount for more than 1 lessonPeriod
+    if(lessonPeriodCount >= 2) {
+      if(lessonPeriods.indexOf(lessonPeriod) == 0) {
         lessonRate = 2000;
-      } else if(students.indexOf(student) == 1) {
+      } else if(lessonPeriods.indexOf(lessonPeriod) == 1) {
         lessonRate = 1800;
       } else {
         lessonRate = 1600;
       }
     }
 
-    // Apply discount for more than 8 lessons per student
+    // Apply discount for more than 8 lessons per lessonPeriod
     if(lessonCount >= 9 && lessonCount <= 10) {
-      studentDiscount += 2000;
+      lessonPeriodDiscount += 2000;
     } else if (lessonCount >= 11) {
-      studentDiscount += 3000;
+      lessonPeriodDiscount += 3000;
     }
 
-    // Apply discount for more than 9 lessons and more than 1 student
-    if(lessonCount > 9 && studentCount > 1) {
-      if(students.indexOf(student) >= 1) {
-        studentDiscount += 500;
+    // Apply discount for more than 9 lessons and more than 1 lessonPeriod
+    if(lessonCount > 9 && lessonPeriodCount > 1) {
+      if(lessonPeriods.indexOf(lessonPeriod) >= 1) {
+        lessonPeriodDiscount += 500;
       }
     }
 
-    cost = (lessonCount * lessonRate) - studentDiscount;
+    cost = (lessonCount * lessonRate) - lessonPeriodDiscount;
     return cost;
   },
-  calculatePossibleDiscount(studentCount) {
+  calculatePossibleDiscount(lessonPeriodCount) {
     var possibleDiscount = 0;
-    possibleDiscount = (3000 * studentCount) + (500 * (studentCount-1));
-    if(studentCount >= 2) { 
+    possibleDiscount = (3000 * lessonPeriodCount) + (500 * (lessonPeriodCount-1));
+    if(lessonPeriodCount >= 2) { 
       possibleDiscount += (200 * 13); 
     } 
-    if(studentCount > 2) { 
-      possibleDiscount += ((400*13) * (studentCount-2)); 
+    if(lessonPeriodCount > 2) { 
+      possibleDiscount += ((400*13) * (lessonPeriodCount-2)); 
     } 
     return possibleDiscount;
   },
@@ -108,7 +108,7 @@ var Header = React.createClass({
             </button>
             <a className="navbar-brand" href="#">The {family.last_name} Family</a>
             {this.props.alreadySubmitted ? null :
-              <button className="btn add-student" onClick={this.props.toggleNewStudentStudent}>
+              <button className="btn add-lesson-period" onClick={this.props.toggleNewLessonPeriod}>
                 <span className="glyphicon glyphicon-plus"></span>
               </button>
             }

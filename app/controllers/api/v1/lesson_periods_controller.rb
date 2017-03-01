@@ -11,19 +11,32 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
 
   def show
     @lesson_period = LessonPeriod.find(params[:id])
+    @student = @lesson_period.student
     @instrument = @lesson_period.instrument
     @teacher = @lesson_period.teacher
-    @unavailable_dates = @teacher.unavailable_dates
-    respond_with [@instrument, @teacher, @lesson_period, @unavailable_dates]
+
+    respond_with  lesson_period: @lesson_period, student: @student, 
+                  instrument: @instrument, teacher: @teacher
   end
 
   def create
-    lesson_period = LessonPeriod.create(lesson_periods_params)
+    family =  Family.find(params[:family_id]) ||
+              Family.find(current_user.id)
+    student = Student.where(name: params[:name]).take || 
+              family.students.create(name: params[:name])
+
+    lesson_period = student.lesson_periods.create(lesson_periods_params)
     respond_with :api, :v1, lesson_period
   end
 
   def update
     lesson_period = LessonPeriod.find(params["id"])
+
+    # first, update this period's student name
+    student = Student.find(lesson_period.student_id)
+    student.update_attribute(:name, params[:name])
+
+    # then update the lesson period
     lesson_period.update_attributes(lesson_periods_params)
     respond_with lesson_period, json: lesson_period
   end
@@ -35,7 +48,7 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
   private
 
     def lesson_periods_params
-      params.require(:lesson_period).permit(:student_id, :teacher_id, :instrument_id, :form_id)
+      params.require(:lesson_period).permit(:form_id, :instrument_id, :teacher_id)
     end
 
 end

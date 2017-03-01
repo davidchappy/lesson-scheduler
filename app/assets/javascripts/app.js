@@ -17,20 +17,20 @@ jQuery( document ).ready(function( $ ) {
     $(target).toggleClass('selected');
   });
 
-  // Scroll body when adding new student
-  $("body").on('click', '.add-student', function(e) {
+  // Scroll body when adding new lesson period
+  $("body").on('click', '.add-lesson-period', function(e) {
     $('html, body').animate({
         scrollTop: $("#siteFooter").offset().top
     }, 500);
   })
 
-  $("body").on('click', '.submit-new-student', function(e) {
+  $("body").on('click', '.submit-new-lesson-period', function(e) {
     $('html, body').animate({
         scrollTop: $("#siteFooter").offset().top
     }, 500);  })
 
-  $("body").on('click', '.edit-student', function(event) {
-    $(this).parents(".student-header").addClass('editing');
+  $("body").on('click', '.edit-lesson-period', function(event) {
+    $(this).parents(".lesson-period-header").addClass('editing');
   });
 
   $("body").on('hover', '.unavailable', function() {

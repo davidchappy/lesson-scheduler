@@ -19,7 +19,7 @@ class Api::V1::WeeksController < Api::V1::BaseController
   private
 
     def week_params
-      params.require(:week).permit(:lesson)
+      params.require(:week).permit(:lesson, :lesson_length)
     end
 
 end

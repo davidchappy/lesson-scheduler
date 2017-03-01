@@ -9,18 +9,47 @@ var Week = React.createClass({
   handleClick() {
     this.props.handleClick(this.props.week);
   },
+  handleLessonLengthChange(event) {
+    console.log(event.target.value);
+  },
+  formatDuration(timeInMinutes) {      
+    var hours = Math.floor(Math.abs(timeInMinutes) / 60);  
+    var minutes = Math.abs(timeInMinutes) % 60; 
+
+    var string = "";
+    string += hours > 0 ? hours + 'h ' : ''
+    string += minutes + 'm' 
+      
+    return string;  
+  },
+  lessonLengthOptions() {
+    return [30, 45, 60, 75, 90, 105, 120];
+  },
   render() {
     var week = this.props.week; 
     var weekNumber = "week" + week.id;
+    var selected = week.lesson ? "selected" : "";
+    var unavailable = this.props.unavailable ? "unavailable" : "";
+
+    var lessonLengths = this.lessonLengthOptions().map((length, index) => {
+      var lessonLengthString = this.formatDuration(length);
+      return (
+        <option value={length} key={index}>{lessonLengthString}</option>
+      )
+    })
+
+    // console.log(lessonLengths);
+
     var lessonLength = () => {
       if(week.lesson) {
-        return <span className="lesson-length">{week.lesson_length}</span>;
+        return  <select ref="selectLessonLength" className="lesson-length"
+                  onChange={this.handleLessonLengthChange} required value={week.lesson_length}>
+                  {lessonLengths}
+                </select>;
       } else {
         return null;
       }
     }
-    var selected = week.lesson ? "selected" : "";
-    var unavailable = this.props.unavailable ? "unavailable" : "";
     
     return (
       <div className={"week " + unavailable}>

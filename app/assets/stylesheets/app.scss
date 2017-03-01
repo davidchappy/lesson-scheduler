@@ -304,8 +304,8 @@ body {
 
 
 .weeks {
-  width: 85%;
-  padding: 0 5%;
+  width: 90%;
+  padding: 0 4%;
   margin: 2rem auto 0;
   
   .week {
@@ -361,6 +361,7 @@ body {
       appearance:         none;
       border: none;
       background: #fff;
+      cursor: pointer;
     }
 
     &.unavailable {
@@ -498,6 +499,7 @@ body {
 
   .placeholder {
     color: #eee;
+    font-weight: bold;
   }
 }
 

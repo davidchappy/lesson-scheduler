@@ -20,26 +20,30 @@ var Weeks = React.createClass({
       }
     });
   },
-  updateWeek(week) {
-    week.lesson = week.lesson ? false : true;
+  updateWeek(week, triggerSelect=false) {
+    if(triggerSelect) {
+      week.lesson = week.lesson ? false : true;
+    }
 
     $.ajax({
       url: `/api/v1/weeks/${week.id}.json`,
       type: 'PUT',
-      data: { week: { lesson: week.lesson } },
+      data: { week: { lesson: week.lesson, lesson_length: week.lesson_length } },
       success: () => {
-        this.markChecked(week);
+        this.updateWeekState(week, triggerSelect);
       }
     })
   },
-  markChecked(week) {
+  updateWeekState(week, triggerSelect) {
     var weeks = this.state.weeks;
     var index = weeks.indexOf(week);
     weeks[index] = week;
     this.setState({ weeks: weeks });
 
-    var change = week.lesson ? 1 : -1
-    this.props.changeLessonCount(change);
+    if(triggerSelect) {
+      var change = week.lesson ? 1 : -1
+      this.props.changeLessonCount(change);
+    }
   },
   isUnavailable(week) {
     var dates = this.props.unavailableDates;

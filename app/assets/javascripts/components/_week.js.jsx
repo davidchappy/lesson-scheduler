@@ -11,6 +11,9 @@ var Week = React.createClass({
   },
   handleLessonLengthChange(event) {
     console.log(event.target.value);
+    week = this.props.week;
+    week.lesson_length = event.target.value;
+    this.props.handleClick(week);
   },
   formatDuration(timeInMinutes) {      
     var hours = Math.floor(Math.abs(timeInMinutes) / 60);  

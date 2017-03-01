@@ -300,10 +300,6 @@ body {
       }
     }
   }
-
-  
-
-
 }
 
 
@@ -325,7 +321,7 @@ body {
       overflow: hidden;
       position: absolute;
       top: 50%;
-      right: 0;
+      right: 15px;
       margin-top: -15px;
       margin-bottom: 0;
       height: 30px;
@@ -349,6 +345,12 @@ body {
         background: #ccc;
         border: none;
       }
+    }
+
+    .lesson-length {
+      position: absolute;
+      right: -5px;
+      top: -10px;
     }
 
     &.unavailable {

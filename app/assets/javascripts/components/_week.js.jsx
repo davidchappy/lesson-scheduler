@@ -12,6 +12,13 @@ var Week = React.createClass({
   render() {
     var week = this.props.week; 
     var weekNumber = "week" + week.id;
+    var lessonLength = () => {
+      if(week.lesson) {
+        return <span className="lesson-length">{week.lesson_length}</span>;
+      } else {
+        return null;
+      }
+    }
     var selected = week.lesson ? "selected" : "";
     var unavailable = this.props.unavailable ? "unavailable" : "";
     
@@ -22,7 +29,9 @@ var Week = React.createClass({
           <input  ref='week' id={weekNumber} type="checkbox" 
                   className={"form-control select-week " + selected} 
                   onClick={this.handleClick}></input>
+          {lessonLength()}
         </div>
+        
       </div>
     )
   }

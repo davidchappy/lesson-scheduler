@@ -37,8 +37,11 @@ var Body = React.createClass({
     $.ajax({
       url: `/api/v1/lesson_periods/${id}.json`, 
       type: 'PUT',
-      data: { lesson_period: { instrument_id: instrumentId, teacher_id: teacherId },
-              name: name },
+      data: { 
+              lesson_period: {  instrument_id: instrumentId, 
+                                teacher_id: teacherId, form_id: this.props.form.id },
+              name: name 
+            },
       success: (lessonPeriod) => { 
         console.log(lessonPeriod);
       }
@@ -58,7 +61,16 @@ var Body = React.createClass({
   },
   passLessonCount(count, lessonPeriod) {
     lessonPeriod.lesson_count = count;
-    this.props.passLessonCount(lessonPeriod);
+
+    // update the lessonPeriods array
+    var lessonPeriods = this.props.lessonPeriods;
+    var index; 
+    lessonPeriods.map( (l, i) => {
+      index = l.id === lessonPeriod.id ? i : index;
+    });
+    lessonPeriods[index] = lessonPeriod;
+
+    this.props.passLessonCount(lessonPeriods);
   },
   handleSubmit(lessonPeriod) {
     this.setState({ showAddLessonPeriod: false })
@@ -94,7 +106,9 @@ var Body = React.createClass({
         <div className="body container">      
           {this.state.confirmationPage ?
             <Confirmation toggleConfirmationPage={this.toggleConfirmationPage}
-                          submitForm={this.props.submitForm} /> :
+                          submitForm={this.props.submitForm} 
+                          totalOwed={this.props.totalOwed} 
+                          monetize={this.props.monetize} /> :
             <div>
               <div className="lesson-periods row">
                 {lessonPeriods}

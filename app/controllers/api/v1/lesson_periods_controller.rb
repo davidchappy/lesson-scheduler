@@ -3,7 +3,7 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
 
   def index
     if current_user.type == 'Admin'
-      respond_with Student.all
+      respond_with LessonPeriod.all
     else
       redirect_to root_url
     end

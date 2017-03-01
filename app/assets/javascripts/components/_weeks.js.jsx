@@ -15,8 +15,8 @@ var Weeks = React.createClass({
           weeks[index].start_date = start_date;
           weeks[index].end_date = end_date;
         }); 
-        this.setState({ weeks: weeks });
-        this.props.getLessonCount(this.state.weeks);
+        this.setState({ weeks: weeks })
+        this.props.getLessonCount(weeks);
       }
     });
   },
@@ -43,12 +43,14 @@ var Weeks = React.createClass({
   },
   isUnavailable(week) {
     var dates = this.props.unavailableDates;
-    for(i=0; i<dates.length; i++) {
-      if(week.start_date <= dates[i] && week.end_date >= dates[i]) {
-        console.log("isUnavailable");
-        return true;
-      }
-    };
+    if(dates.length > 0) {
+      for(i=0; i < dates.length; i++) {
+        if(week.start_date <= dates[i] && week.end_date >= dates[i]) {
+          console.log("isUnavailable");
+          return true;
+        }
+      };
+    }
     return false;
   },
   render() {
@@ -58,7 +60,7 @@ var Weeks = React.createClass({
           <p>Loading Weeks...</p>
         </div>
       )
-    }
+    };
     
     var weeks = this.state.weeks.map((week, index) => {
       // check if this week includes one of this teacher's unavailable dates
@@ -66,9 +68,11 @@ var Weeks = React.createClass({
 
       return (
         <Week key={week.id} week={week} index={index} 
-        handleClick={this.updateWeek} unavailable={unavailable}/>
+              handleClick={this.updateWeek} unavailable={unavailable}/>
       )
     });
+
+    // console.log(weeks)
 
     return (
       <div className="weeks">{weeks}</div>

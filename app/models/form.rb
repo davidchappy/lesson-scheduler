@@ -42,7 +42,7 @@ class Form < ApplicationRecord
     end
   end
 
-  def sorted_students
+  def sorted_lesson_periods
     return self.lesson_periods.sort_by { |lesson_period| lesson_period.created_at } || []
   end
 

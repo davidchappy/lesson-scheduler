@@ -1,85 +1,11 @@
 var Header = React.createClass({
-  getInitialState() {
-    return { totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
-  },
-  componentWillReceiveProps(nextProps) {
-    this.calculateTotalCost(nextProps); 
-  },
-  calculateTotalCost(props) {
-    // get values from props
-    var lessonCount = Number(props.lessonCount);
-    var lessonPeriods = props.lessonPeriods;
-    var lessonPeriodCount = lessonPeriods.length;
-
-
-    // initialize vars
-    var discount = 0;
-    var totalOwed = 0;
-    var rawTotal = lessonCount * 2000;
-
-    // iterate through lessonPeriods and calculate cost and discounts
-    lessonPeriods.map((lessonPeriod) => {
-      totalOwed += this.calculateLessonPeriodCost(lessonPeriod, lessonPeriodCount, lessonPeriods);
-    })
-    discount = rawTotal - totalOwed;
-
-    var possibleDiscount = this.calculatePossibleDiscount(lessonPeriodCount);
-    this.props.passTotalOwed(totalOwed)
-
-    this.setState({
-      totalDiscount: discount,
-      totalOwed: totalOwed,
-      possibleDiscount: possibleDiscount
-    })
-  },
-  calculateLessonPeriodCost(lessonPeriod, lessonPeriodCount, lessonPeriods) {
-    var lessonCount = lessonPeriod.lesson_count;
-    var lessonPeriodDiscount = 0;
-    var lessonRate = 2000;
-    var cost = 0;
-
-    // Apply discount for more than 1 lessonPeriod
-    if(lessonPeriodCount >= 2) {
-      if(lessonPeriods.indexOf(lessonPeriod) == 0) {
-        lessonRate = 2000;
-      } else if(lessonPeriods.indexOf(lessonPeriod) == 1) {
-        lessonRate = 1800;
-      } else {
-        lessonRate = 1600;
-      }
-    }
-
-    // Apply discount for more than 8 lessons per lessonPeriod
-    if(lessonCount >= 9 && lessonCount <= 10) {
-      lessonPeriodDiscount += 2000;
-    } else if (lessonCount >= 11) {
-      lessonPeriodDiscount += 3000;
-    }
-
-    // Apply discount for more than 9 lessons and more than 1 lessonPeriod
-    if(lessonCount > 9 && lessonPeriodCount > 1) {
-      if(lessonPeriods.indexOf(lessonPeriod) >= 1) {
-        lessonPeriodDiscount += 500;
-      }
-    }
-
-    cost = (lessonCount * lessonRate) - lessonPeriodDiscount;
-    return cost;
-  },
-  calculatePossibleDiscount(lessonPeriodCount) {
-    var possibleDiscount = 0;
-    possibleDiscount = (3000 * lessonPeriodCount) + (500 * (lessonPeriodCount-1));
-    if(lessonPeriodCount >= 2) { 
-      possibleDiscount += (200 * 13); 
-    } 
-    if(lessonPeriodCount > 2) { 
-      possibleDiscount += ((400*13) * (lessonPeriodCount-2)); 
-    } 
-    return possibleDiscount;
-  },
-  monetize(amount) {
-    return ("$" + (amount/100));
-  },
+  // getInitialState() {
+  //   return { totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
+  // },
+  // componentWillReceiveProps(nextProps) {
+  //   console.log("Header mounted");
+  //   this.calculateTotalCost(this.props); 
+  // },
   render() {
     if ( !this.props.family ) {
       return (
@@ -91,9 +17,9 @@ var Header = React.createClass({
 
     var family = this.props.family;
     var lessonCount = this.props.lessonCount;
-    var total = this.monetize(this.state.totalOwed);
-    var totalDiscount = this.monetize(this.state.totalDiscount);
-    var possibleDiscount = this.monetize(this.state.possibleDiscount);
+    var total = this.props.monetize(this.props.totalOwed);
+    var totalDiscount = this.props.monetize(this.props.totalDiscount);
+    var possibleDiscount = this.props.monetize(this.props.possibleDiscount);
     var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
 
     return (

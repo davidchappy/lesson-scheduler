@@ -14,8 +14,8 @@ class Api::V1::FormsController < Api::V1::BaseController
       @form = Form.find(params[:id])
       @form.submitted = true
       @form.submitted_at = DateTime.now
-      @form.update_attributes(form_params)
       @form.save
+      @form.update_attributes(form_params)
       respond_with @form, json: @form
     else
       # admin

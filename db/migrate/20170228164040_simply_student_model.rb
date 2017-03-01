@@ -7,7 +7,7 @@ class SimplyStudentModel < ActiveRecord::Migration[5.0]
     remove_column :students, :start_date, :date
     remove_column :students, :end_date, :date
     remove_column :students, :lesson_count, :integer
-    remove_column :students, :submitted, :boolean
+    # remove_column :students, :submitted, :boolean
     remove_column :students, :family_id, :integer
 
     add_reference :students, :family, index: true

@@ -13,6 +13,7 @@
 }
 
 $green: #00FF48; 
+$bootstrap-green: #5cb85c;
 $blue: #3498db;
 $red: #d9534f;
 $orange: #FF530D;
@@ -219,11 +220,11 @@ body {
   &.editing {
     border-color: $blue; 
   }
+
 }
 
 .lesson-period {
   margin-bottom: 3rem;
-
 }
 
 .lesson-period-hover-menu {
@@ -305,7 +306,7 @@ body {
 
 .weeks {
   width: 90%;
-  padding: 0 4%;
+  padding: 0.8rem 4% 0;
   margin: 2rem auto 0;
   
   .week {
@@ -355,13 +356,6 @@ body {
       top: -10px;
       font-size: 0.8em;
       text-align: left;
-      text-decoration: underline;
-      -webkit-appearance: none;
-      -moz-appearance:    none;
-      appearance:         none;
-      border: none;
-      background: #fff;
-      cursor: pointer;
     }
 
     &.unavailable {
@@ -372,6 +366,20 @@ body {
         background: lighten(#ccc, 15%);
       }
     }
+  }
+}
+
+.lesson-length {
+  text-decoration: underline;
+  -webkit-appearance: none;
+  -moz-appearance:    none;
+  appearance:         none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  
+  &:hover {
+    color: lighten(rgb(51,51,51), 40%);
   }
 }
 
@@ -484,16 +492,45 @@ body {
     }
   }
 
-  #submit-new-lesson-period {
-    background: none;
+  .default-lesson-length {
+    display: inline-block;
+    bottom: 10px;
+    right: 10px;
+    background: transparent;
     border: none;
+    text-align: right;
+    font-size: 0.8em;
+    cursor: normal;
+    
+    &:hover .lesson-length {
+      color: lighten(rgb(51,51,51), 40%);
+    }
+    
+    .lesson-length {
+      text-align: right;
+      direction: rtl;
+      display: inline;
+      position: static;
+    }
+  }
+
+  .submit-new-lesson-period {
+    box-sizing: content-box;
+    bottom: -23px;
+    left: -1px;
+    padding: 0;
+    height: 20px;
+    line-height: 20px;
+    width: 100%;
+    background: $blue;
+    border: 1px solid darken($blue, 3%);
+    transition: 0.2s;
+    border-radius: 0;
     font-weight: bold;
-    color: darken($blue, 10%);
-    bottom: 3px;
-    right: 0;
     
     &:hover {
-      color: lighten($blue, 10%);
+      background: lighten($blue, 8%);
+      border-color: lighten($blue, 8%);
     }
   }
 

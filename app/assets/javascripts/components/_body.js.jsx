@@ -38,8 +38,9 @@ var Body = React.createClass({
       url: `/api/v1/lesson_periods/${id}.json`, 
       type: 'PUT',
       data: { 
-              lesson_period: {  instrument_id: instrumentId, 
-                                teacher_id: teacherId, form_id: this.props.form.id },
+              lesson_period: {  instrument_id: instrumentId, teacher_id: teacherId,
+                                default_lesson_length: lessonPeriod.defaultLessonLength, 
+                                form_id: this.props.form.id,  },
               name: name 
             },
       success: (lessonPeriod) => { 

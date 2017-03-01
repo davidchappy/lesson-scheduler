@@ -3,13 +3,16 @@ var FormFields = React.createClass({
     var studentName = this.props.studentName ? this.props.studentName : undefined;
     var instrumentId = this.props.instrumentId ? this.props.instrumentId : undefined;
     var teacherId = this.props.teacherId ? this.props.teacherId : undefined;
+    var defaultLessonLength = this.props.lessonPeriod.default_lesson_length;
     var instrumentEnabled = studentName ? true : false;
     var teacherEnabled = instrumentEnabled ? true : false;
     var submitEnabled = teacherEnabled ? true : false;
 
-    return {  studentName: studentName, 
+    return  {  
+              studentName: studentName, 
               instrumentId: instrumentId, 
               teacherId: teacherId,
+              defaultLessonLength: defaultLessonLength,
               instrumentEnabled: instrumentEnabled,
               teacherEnabled: teacherEnabled,
               submitEnabled: submitEnabled  
@@ -27,11 +30,29 @@ var FormFields = React.createClass({
     var teacherId = event.target.value;
     this.setState({ teacherId: teacherId, submitEnabled: true });
   },
+  handleDefaultLessonLength(event) {
+    var defaultLessonLength = event.target.value;
+    this.setState({ defaultLessonLength: event.target.value });
+  },
+  lessonLengthOptions() {
+    return [30, 45, 60, 75, 90, 105, 120];
+  },
   passValues() {
     var name = this.state.studentName;
     var instrumentId = this.state.instrumentId;
     var teacherId = this.state.teacherId;
-    this.props.handleSubmit(name, instrumentId, teacherId);
+    var defaultLessonLength = this.state.defaultLessonLength;
+    this.props.handleSubmit(name, instrumentId, teacherId, defaultLessonLength);
+  },
+  formatDuration(timeInMinutes) {      
+    var hours = Math.floor(Math.abs(timeInMinutes) / 60);  
+    var minutes = Math.abs(timeInMinutes) % 60; 
+
+    var string = "";
+    string += hours > 0 ? hours + 'h ' : ''
+    string += minutes + 'm' 
+      
+    return string;  
   },
   render() {
     var instruments = this.props.instruments.map((instrument) => {
@@ -48,9 +69,24 @@ var FormFields = React.createClass({
       }
     });
 
-    var instrumentEnabled = this.state.instrumentEnabled ? false : true 
-    var teacherEnabled = this.state.teacherEnabled ? false : true 
-    var submitEnabled = this.state.submitEnabled ? false : true 
+    var lessonLengths = this.lessonLengthOptions().map((length, index) => {
+      var lessonLengthString = this.formatDuration(length);
+      return (
+        <option value={length} key={index}>{lessonLengthString}</option>
+      )
+    })
+
+    var defaultLessonLength = () => {
+        return  <select ref="selectDefaultLessonLength" className="lesson-length"
+                  onChange={this.handleDefaultLessonLength} required 
+                  defaultValue={this.props.lessonPeriod.default_lesson_length}>
+                  {lessonLengths}
+                </select>;
+    }
+
+    var instrumentEnabled = this.state.instrumentEnabled ? false : true;
+    var teacherEnabled = this.state.teacherEnabled ? false : true;
+    var submitEnabled = this.state.submitEnabled ? false : true;
 
     return (
       <form className="new-lesson-period-form form-inline">
@@ -68,7 +104,8 @@ var FormFields = React.createClass({
             <option value='' className="placeholder">Instrument</option>
             {instruments}
         </select>
-        <button className="btn btn-success submit-new-lesson-period" id="submit-new-lesson-period"
+        <div className="default-lesson-length">{defaultLessonLength()}&nbsp;Lessons</div>
+        <button className="btn btn-primary submit-new-lesson-period" id="submit-new-lesson-period"
         disabled={ submitEnabled } onClick={this.passValues}>{this.props.buttonText}</button>
       </form>
     )

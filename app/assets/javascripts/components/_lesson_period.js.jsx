@@ -1,6 +1,6 @@
 var LessonPeriod = React.createClass({
   getInitialState() {
-    return {  lessonPeriod: undefined, lessonCount: 0,
+    return {  lessonPeriod: undefined, lessonCount: 0, defaultLessonLength: 30,
               student: undefined, instrument: undefined, teacher: undefined,  
               deleting: false, editing: false, unavailableDates: [] }
   },
@@ -13,6 +13,7 @@ var LessonPeriod = React.createClass({
       success: (response) => { 
         this.setState({ lessonPeriod: response["lesson_period"], 
                         lessonCount: response["lesson_period"].lesson_count,
+                        defaultLessonLength: response["lesson_period"].default_lesson_length,
                         student: response["student"],       
                         instrument: response["instrument"], 
                         teacher: response["teacher"],       
@@ -36,8 +37,10 @@ var LessonPeriod = React.createClass({
   showEdit() {
     this.setState({ editing: true })
   },
-  handleEdit(name, instrumentId, teacherId) {
-    this.props.handleEdit(name, instrumentId, teacherId, this.props.lessonPeriod);
+  handleEdit(name, instrumentId, teacherId, defaultLessonLength) {
+    var lessonPeriod = this.props.lessonPeriod
+    lessonPeriod.defaultLessonLength = defaultLessonLength;
+    this.props.handleEdit(name, instrumentId, teacherId, lessonPeriod);
   },
   confirmDelete() {
     this.props.handleDelete(this.props.lessonPeriod);
@@ -75,10 +78,12 @@ var LessonPeriod = React.createClass({
         <FormFields handleSubmit={this.handleEdit}
                     instruments={this.props.instruments}
                     teachers={this.props.teachers}
+                    lessonPeriod={this.state.lessonPeriod}
                     buttonText={buttonText} 
                     studentName={this.state.student.name}
                     instrumentId={this.state.instrument.id}
-                    teacherId={this.state.teacher.id} />
+                    teacherId={this.state.teacher.id} 
+                    defaultLessonLength={this.state.defaultLessonLength} />
     } else {
       header = 
         <div>

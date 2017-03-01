@@ -36,8 +36,11 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
     student = Student.find(lesson_period.student_id)
     student.update_attribute(:name, params[:name])
 
-    # then update the lesson period
+    # then update the lesson_period with the params
+    default_lesson_length = lesson_period.default_lesson_length
     lesson_period.update_attributes(lesson_periods_params)
+    lesson_period.update_weeks if default_lesson_length != lesson_period.default_lesson_length
+
     respond_with lesson_period, json: lesson_period
   end
 
@@ -48,7 +51,8 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
   private
 
     def lesson_periods_params
-      params.require(:lesson_period).permit(:form_id, :instrument_id, :teacher_id)
+      params.require(:lesson_period).permit(  :form_id, :instrument_id, 
+                                              :teacher_id, :default_lesson_length )
     end
 
 end

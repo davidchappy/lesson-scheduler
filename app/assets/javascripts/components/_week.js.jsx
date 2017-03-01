@@ -41,8 +41,6 @@ var Week = React.createClass({
       )
     })
 
-    // console.log(lessonLengths);
-
     var lessonLength = () => {
       if(week.lesson) {
         return  <select ref="selectLessonLength" className="lesson-length"

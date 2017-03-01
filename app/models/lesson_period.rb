@@ -9,6 +9,13 @@ class LessonPeriod < ApplicationRecord
 
   after_create :generate_weeks
 
+  def update_weeks
+    self.weeks.each do |week|
+      week.lesson_length = self.default_lesson_length
+      week.save
+    end
+  end
+
   private
 
     def generate_weeks

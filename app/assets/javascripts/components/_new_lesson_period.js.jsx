@@ -13,6 +13,10 @@ var NewLessonPeriod = React.createClass({
       success: (lessonPeriod) => { 
         console.log(lessonPeriod);
         this.props.handleSubmit(lessonPeriod);
+      },
+      error: (jqXHR, errorString, exception) => {
+        console.log(jqXHR);  
+        console.log(errorString);  
       }
     });
   },

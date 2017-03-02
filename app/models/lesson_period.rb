@@ -27,6 +27,7 @@ class LessonPeriod < ApplicationRecord
         new_week.start_date = week
         new_week.end_date = week + 4.days
         new_week.week_string = stringify_week(new_week)
+        puts new_week.inspect
         new_week.save
       end
       self.lesson_count = self.weeks.length

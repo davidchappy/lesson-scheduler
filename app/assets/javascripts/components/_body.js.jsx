@@ -73,6 +73,8 @@ var Body = React.createClass({
     this.props.passLessonCount(lessonPeriods);
   },
   handleSubmit(lessonPeriod) {
+    console.log("From Body handleSubit: ");
+    console.log(lessonPeriod);
     this.props.toggleNewLessonPeriod();
     this.props.handleSubmit(lessonPeriod);  
   },

@@ -31,10 +31,12 @@ puts form.inspect
 
 lesson_period = form.lesson_periods.create( teacher_id: teacher.id, 
                                             instrument_id: piano.id, 
-                                            student_id: jim.id)
+                                            student_id: jim.id,
+                                            default_lesson_length: 30)
 
 
 
 lesson_period = form.lesson_periods.create( teacher_id: teacher2.id, 
                                             instrument_id: guitar.id, 
-                                            student_id: sarah.id)
+                                            student_id: sarah.id,
+                                            default_lesson_length: 30)

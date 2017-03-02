@@ -20,8 +20,8 @@ var Weeks = React.createClass({
       }
     });
   },
-  updateWeek(week, triggerSelect=false) {
-    if(triggerSelect) {
+  updateWeek(week, toggleSelect=false) {
+    if(toggleSelect) {
       week.lesson = week.lesson ? false : true;
     }
 
@@ -30,7 +30,7 @@ var Weeks = React.createClass({
       type: 'PUT',
       data: { week: { lesson: week.lesson, lesson_length: week.lesson_length } },
       success: () => {
-        this.updateWeekState(week, triggerSelect);
+        this.updateWeekState(week, toggleSelect);
       }
     })
   },

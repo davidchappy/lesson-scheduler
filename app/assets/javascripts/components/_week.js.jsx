@@ -7,7 +7,7 @@ var Week = React.createClass({
   //   var day = date_array[2];
   // },
   handleClick() {
-    this.props.handleClick(this.props.week);
+    this.props.handleClick(this.props.week, true);
   },
   handleLessonLengthChange(event) {
     console.log(event.target.value);

@@ -3,7 +3,8 @@ var FormFields = React.createClass({
     var studentName = this.props.studentName ? this.props.studentName : undefined;
     var instrumentId = this.props.instrumentId ? this.props.instrumentId : undefined;
     var teacherId = this.props.teacherId ? this.props.teacherId : undefined;
-    var defaultLessonLength = this.props.lessonPeriod.default_lesson_length;
+    var defaultLessonLength = this.props.lessonPeriod ? 
+                              this.props.lessonPeriod.default_lesson_length : undefined;
     var instrumentEnabled = studentName ? true : false;
     var teacherEnabled = instrumentEnabled ? true : false;
     var submitEnabled = teacherEnabled ? true : false;
@@ -79,7 +80,7 @@ var FormFields = React.createClass({
     var defaultLessonLength = () => {
         return  <select ref="selectDefaultLessonLength" className="lesson-length"
                   onChange={this.handleDefaultLessonLength} required 
-                  defaultValue={this.props.lessonPeriod.default_lesson_length}>
+                  defaultValue={this.state.defaultLessonLength}>
                   {lessonLengths}
                 </select>;
     }

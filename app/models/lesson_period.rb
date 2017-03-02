@@ -1,11 +1,11 @@
 class LessonPeriod < ApplicationRecord
   include ApplicationHelper
 
-  belongs_to  :student, dependent: :destroy
-  belongs_to  :form, dependent: :destroy
+  belongs_to  :student
+  belongs_to  :form
   belongs_to  :teacher
   belongs_to  :instrument
-  has_many    :weeks
+  has_many    :weeks, dependent: :destroy
 
   after_create :generate_weeks
 

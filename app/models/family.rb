@@ -1,6 +1,6 @@
 class Family < User
-	has_many :forms
-  has_many :students
+	has_many :forms, dependent: :destroy
+  has_many :students, dependent: :destroy
   has_many :lesson_periods, through: :forms
 
   def student_count

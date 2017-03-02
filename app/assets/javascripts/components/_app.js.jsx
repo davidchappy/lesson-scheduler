@@ -39,7 +39,7 @@ var App = React.createClass({
     var lessonPeriodIndex = lessonPeriods.indexOf(lessonPeriod);
     lessonPeriods.splice(lessonPeriodIndex, 1);
 
-    this.adjustLessonCount(lessonPeriod);
+    this.adjustLessonCount(lessonPeriods);
   },
   adjustLessonCount(lessonPeriods) {
     // update the lesson count

@@ -73,15 +73,15 @@ var LessonPeriod = React.createClass({
         </div>
     } else if (this.state.editing) {
       var buttonText = "Save Student"
-      header = <FormFields  handleSubmit={this.handleEdit}
-                            instruments={this.props.instruments}
-                            teachers={this.props.teachers}
-                            lessonPeriod={this.props.lessonPeriod}
-                            buttonText={buttonText} 
-                            studentName={this.state.student.name}
-                            instrumentId={this.state.instrument.id}
-                            teacherId={this.state.teacher.id} 
-                            defaultLessonLength={this.state.defaultLessonLength} />
+      header = <FormFields        handleSubmit={this.handleEdit}
+                                  instruments={this.props.instruments}
+                                  teachers={this.props.teachers}
+                                  lessonPeriod={this.props.lessonPeriod}
+                                  buttonText={buttonText} 
+                                  studentName={this.state.student.name}
+                                  instrumentId={this.state.instrument.id}
+                                  teacherId={this.state.teacher.id} 
+                                  defaultLessonLength={this.state.defaultLessonLength} />
     } else {
       header = 
         <div>

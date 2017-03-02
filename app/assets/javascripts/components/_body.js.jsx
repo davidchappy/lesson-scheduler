@@ -40,7 +40,7 @@ var Body = React.createClass({
       data: { 
               lesson_period: {  instrument_id: instrumentId, teacher_id: teacherId,
                                 default_lesson_length: lessonPeriod.defaultLessonLength, 
-                                form_id: this.props.form.id,  },
+                                form_id: this.props.form.id },
               name: name 
             },
       success: (lessonPeriod) => { 

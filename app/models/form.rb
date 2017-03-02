@@ -2,7 +2,7 @@ class Form < ApplicationRecord
   validate :unique_year, on: :create
 
   belongs_to  :family
-  has_many    :lesson_periods
+  has_many    :lesson_periods, dependent: :destroy
   has_many    :instruments, through: :lesson_periods
   has_many    :teachers, through: :lesson_periods
   has_many    :students, through: :lesson_periods

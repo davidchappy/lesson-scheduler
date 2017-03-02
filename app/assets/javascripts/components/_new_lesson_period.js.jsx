@@ -1,5 +1,5 @@
 var NewLessonPeriod = React.createClass({
-  handleSubmit(name, instrumentId, teacherId) {
+  handleSubmit(name, instrumentId, teacherId, defaultLessonLength) {
     var formId = this.props.form.id;
     $.ajax({
       url: '/api/v1/lesson_periods.json', 
@@ -8,7 +8,7 @@ var NewLessonPeriod = React.createClass({
               family_id: this.props.form.family_id,
               name: name,
               lesson_period: {  form_id: formId, instrument_id: instrumentId, 
-                                teacher_id: teacherId } 
+                                teacher_id: teacherId, default_lesson_length: defaultLessonLength } 
             },
       success: (lessonPeriod) => { 
         console.log(lessonPeriod);

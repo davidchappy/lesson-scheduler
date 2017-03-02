@@ -18,16 +18,16 @@ jQuery( document ).ready(function( $ ) {
   });
 
   // Scroll body when adding new lesson period
-  $("body").on('click', '.add-lesson-period', function(e) {
-    $('html, body').animate({
-        scrollTop: $("#siteFooter").offset().top
-    }, 500);
-  })
+  // $("body").on('click', '.add-lesson-period', function(e) {
+  //   $('html, body').animate({
+  //       scrollTop: $("#siteFooter").offset().top
+  //   }, 500);
+  // })
 
-  $("body").on('click', '.submit-new-lesson-period', function(e) {
-    $('html, body').animate({
-        scrollTop: $("#siteFooter").offset().top
-    }, 500);  })
+  // $("body").on('click', '.submit-new-lesson-period', function(e) {
+  //   $('html, body').animate({
+  //       scrollTop: $("#siteFooter").offset().top
+  //   }, 500);  })
 
   $("body").on('click', '.edit-lesson-period', function(event) {
     $(this).parents(".lesson-period-header").addClass('editing');

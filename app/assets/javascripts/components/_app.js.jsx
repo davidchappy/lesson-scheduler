@@ -2,7 +2,7 @@ var App = React.createClass({
   getInitialState() {
     return {  family: undefined, form: undefined,  
               lessonPeriods: undefined, totalLessonCount: 0,
-              showAddLessonPeriod: false, alreadySubmitted: false,
+              addingLessonPeriod: false, alreadySubmitted: false,
               totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
   },
   componentDidMount() {
@@ -24,8 +24,8 @@ var App = React.createClass({
   },
   toggleNewLessonPeriod() {
     // shows or hides add lesson period button
-    var showLessonPeriod = this.state.showAddLessonPeriod ? false : true;
-    this.setState({ showAddLessonPeriod: showLessonPeriod });
+    var showLessonPeriod = this.state.addingLessonPeriod ? false : true;
+    this.setState({ addingLessonPeriod: showLessonPeriod });
   },
   handleNewLessonPeriod(lessonPeriod) {
     // keeps component state updated with a new lesson period
@@ -166,7 +166,7 @@ var App = React.createClass({
                   handleSubmit={this.handleNewLessonPeriod}
                   handleDeletedLessonPeriod={this.handleDeletedLessonPeriod} 
                   toggleNewLessonPeriod={this.toggleNewLessonPeriod} 
-                  showAddLessonPeriod={this.state.showAddLessonPeriod} 
+                  addingLessonPeriod={this.state.addingLessonPeriod} 
                   submitForm={this.submitForm} 
                   totalOwed={this.state.totalOwed} 
                   monetize={this.monetize} />

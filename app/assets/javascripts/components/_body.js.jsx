@@ -55,7 +55,6 @@ var Body = React.createClass({
   },
   handleInstrumentSelect() {
     this.setState({ teacherEnabled: true })
-    // handle updating teacher list
   },
   handleTeacherSelect() {
     this.setState({ submitEnabled: true })
@@ -74,7 +73,7 @@ var Body = React.createClass({
     this.props.passLessonCount(lessonPeriods);
   },
   handleSubmit(lessonPeriod) {
-    this.setState({ showAddLessonPeriod: false })
+    this.props.toggleNewLessonPeriod();
     this.props.handleSubmit(lessonPeriod);  
   },
   toggleConfirmationPage() {
@@ -113,7 +112,7 @@ var Body = React.createClass({
             <div>
               <div className="lesson-periods row">
                 {lessonPeriods}
-                {this.props.showAddLessonPeriod ? 
+                {this.props.addingLessonPeriod ? 
 
                   <NewLessonPeriod    instruments={this.state.instruments} 
                                       teachers={this.state.teachers} 

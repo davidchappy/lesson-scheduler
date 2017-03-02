@@ -1,6 +1,6 @@
 var LessonPeriod = React.createClass({
   getInitialState() {
-    return {  lessonPeriod: undefined, lessonCount: 0, defaultLessonLength: 30,
+    return {  lessonCount: 0, defaultLessonLength: 30,
               student: undefined, instrument: undefined, teacher: undefined,  
               deleting: false, editing: false, unavailableDates: [] }
   },
@@ -11,8 +11,7 @@ var LessonPeriod = React.createClass({
       url: `/api/v1/lesson_periods/${id}.json`, 
       type: 'GET',
       success: (response) => { 
-        this.setState({ lessonPeriod: response["lesson_period"], 
-                        lessonCount: response["lesson_period"].lesson_count,
+        this.setState({ lessonCount: response["lesson_period"].lesson_count,
                         defaultLessonLength: response["lesson_period"].default_lesson_length,
                         student: response["student"],       
                         instrument: response["instrument"], 
@@ -27,12 +26,12 @@ var LessonPeriod = React.createClass({
       week.lesson ? count += 1 : count += 0;
     });
     this.setState({lessonCount: count});
-    this.props.updateLessonCount(count, this.state.lessonPeriod);
+    this.props.updateLessonCount(count, this.props.lessonPeriod);
   },
   changeLessonCount(change) {
     var newCount = this.state.lessonCount + change;
     this.setState({ lessonCount: newCount })
-    this.props.updateLessonCount(newCount, this.state.lessonPeriod);
+    this.props.updateLessonCount(newCount, this.props.lessonPeriod);
   },
   showEdit() {
     this.setState({ editing: true })
@@ -74,16 +73,15 @@ var LessonPeriod = React.createClass({
         </div>
     } else if (this.state.editing) {
       var buttonText = "Save Student"
-      header = 
-        <FormFields handleSubmit={this.handleEdit}
-                    instruments={this.props.instruments}
-                    teachers={this.props.teachers}
-                    lessonPeriod={this.state.lessonPeriod}
-                    buttonText={buttonText} 
-                    studentName={this.state.student.name}
-                    instrumentId={this.state.instrument.id}
-                    teacherId={this.state.teacher.id} 
-                    defaultLessonLength={this.state.defaultLessonLength} />
+      header = <FormFields  handleSubmit={this.handleEdit}
+                            instruments={this.props.instruments}
+                            teachers={this.props.teachers}
+                            lessonPeriod={this.props.lessonPeriod}
+                            buttonText={buttonText} 
+                            studentName={this.state.student.name}
+                            instrumentId={this.state.instrument.id}
+                            teacherId={this.state.teacher.id} 
+                            defaultLessonLength={this.state.defaultLessonLength} />
     } else {
       header = 
         <div>
@@ -103,7 +101,7 @@ var LessonPeriod = React.createClass({
         <div className="lesson-period-header">
           {header}
         </div>
-        <Weeks  lessonPeriodId={this.state.lessonPeriod.id} 
+        <Weeks  lessonPeriodId={this.props.lessonPeriod.id} 
                 getLessonCount={this.getLessonCount} 
                 changeLessonCount={this.changeLessonCount}
                 unavailableDates={this.state.unavailableDates} />

@@ -33,10 +33,12 @@ var LessonPeriod = React.createClass({
     this.setState({ lessonCount: newCount })
     this.props.updateLessonCount(newCount, this.props.lessonPeriod);
   },
-  showEdit() {
-    this.setState({ editing: true })
+  toggleEdit() {
+    var editing = this.state.editing ? false : true;
+    this.setState({ editing: editing });
   },
   handleEdit(name, instrumentId, teacherId, defaultLessonLength) {
+    this.toggleEdit();
     var lessonPeriod = this.props.lessonPeriod
     lessonPeriod.defaultLessonLength = defaultLessonLength;
     this.props.handleEdit(name, instrumentId, teacherId, lessonPeriod);
@@ -59,7 +61,7 @@ var LessonPeriod = React.createClass({
       )
     }
 
-    var header 
+    var header; 
     if(this.state.deleting) {
       header = 
         <div className="lesson-period-delete-confirm-wrapper">
@@ -73,15 +75,15 @@ var LessonPeriod = React.createClass({
         </div>
     } else if (this.state.editing) {
       var buttonText = "Save Student"
-      header = <FormFields        handleSubmit={this.handleEdit}
-                                  instruments={this.props.instruments}
-                                  teachers={this.props.teachers}
-                                  lessonPeriod={this.props.lessonPeriod}
-                                  buttonText={buttonText} 
-                                  studentName={this.state.student.name}
-                                  instrumentId={this.state.instrument.id}
-                                  teacherId={this.state.teacher.id} 
-                                  defaultLessonLength={this.state.defaultLessonLength} />
+      header = <FormFields  handleSubmit={this.handleEdit}
+                            instruments={this.props.instruments}
+                            teachers={this.props.teachers}
+                            lessonPeriod={this.props.lessonPeriod}
+                            buttonText={buttonText} 
+                            studentName={this.state.student.name}
+                            instrumentId={this.state.instrument.id}
+                            teacherId={this.state.teacher.id} 
+                            defaultLessonLength={this.state.defaultLessonLength} />
     } else {
       header = 
         <div>
@@ -90,15 +92,17 @@ var LessonPeriod = React.createClass({
           <p className="teacher">{this.state.teacher.first_name} {this.state.teacher.last_name}</p>
           <p className="lesson-count"><strong>{this.state.lessonCount}</strong> Lessons</p>
           <div className="lesson-period-hover-menu">
-            <span className="edit-lesson-period glyphicon glyphicon-pencil" title="Edit" onClick={this.showEdit}></span> 
+            <span className="edit-lesson-period glyphicon glyphicon-pencil" title="Edit" onClick={this.toggleEdit}></span> 
             <span className="delete-lesson-period glyphicon glyphicon-remove" title="Delete" onClick={this.handleDelete}></span> 
           </div>
         </div>
     }
 
+    var editing = this.state.editing ? "editing" : ""
+    var headerClasses = "lesson-period-header " + editing;
     return (
       <div className="lesson-period col-sm-6 col-md-4">
-        <div className="lesson-period-header">
+        <div className={headerClasses}>
           {header}
         </div>
         <Weeks  lessonPeriodId={this.props.lessonPeriod.id} 

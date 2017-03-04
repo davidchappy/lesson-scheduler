@@ -30,7 +30,7 @@ jQuery( document ).ready(function( $ ) {
   //   }, 500);  })
 
   $("body").on('click', '.edit-lesson-period', function(event) {
-    $(this).parents(".lesson-period-header").addClass('editing');
+    $(this).parents(".lesson-period-header").toggleClass('editing');
   });
 
   $("body").on('hover', '.unavailable', function() {

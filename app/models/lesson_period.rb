@@ -23,14 +23,10 @@ class LessonPeriod < ApplicationRecord
       finish = self.form.end_date
       start.step(finish, 7) do |week|
         new_week = self.weeks.build
-        puts new_week.errors.messages
-        puts new_week.inspect
-        puts new_week.methods
         new_week.lesson_length = self.default_lesson_length
         new_week.start_date = week
         new_week.end_date = week + 4.days
         new_week.week_string = stringify_week(new_week)
-        puts new_week.inspect
         new_week.save
       end
       self.lesson_count = self.weeks.length

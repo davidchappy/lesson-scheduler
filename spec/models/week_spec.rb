@@ -23,7 +23,7 @@ RSpec.describe Week, :type => :model do
   it "is destroyed when its student is destroyed" do
     week = lesson_period.weeks.last
     lesson_period.destroy
-    expect(week.reload).to_not be_valid
+    expect(Week.where(id: week.id).length).to eq(0)
   end
 
 end

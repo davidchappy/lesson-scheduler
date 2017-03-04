@@ -25,10 +25,13 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
     student = Student.where(name: params[:name]).take || 
               family.students.create(name: params[:name])
 
-    # lesson_period = student.lesson_periods.create(lesson_periods_params)
-    # puts lesson_period.inspect
-    # puts lesson_period.weeks.inspect
-    respond_with :api, :v1, student.lesson_periods.create(lesson_periods_params)
+    new_lesson_period = student.lesson_periods.build(lesson_periods_params)
+
+    if new_lesson_period.save
+      respond_with :api, :v1, new_lesson_period
+    else
+      puts "couldn't create lesson period"
+    end
   end
 
   def update

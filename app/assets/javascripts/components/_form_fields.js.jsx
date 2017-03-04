@@ -38,7 +38,8 @@ var FormFields = React.createClass({
   lessonLengthOptions() {
     return [30, 45, 60, 75, 90, 105, 120];
   },
-  passValues() {
+  passValues(event) {
+    event.preventDefault();
     var name = this.state.studentName;
     var instrumentId = this.state.instrumentId;
     var teacherId = this.state.teacherId;

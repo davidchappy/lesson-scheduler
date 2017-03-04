@@ -10,9 +10,10 @@ var NewLessonPeriod = React.createClass({
               lesson_period: {  form_id: formId, instrument_id: instrumentId, 
                                 teacher_id: teacherId, default_lesson_length: defaultLessonLength } 
             },
-      success: (lessonPeriod, string, jqXHR) => { 
-        console.log("New Lesson Period created")
-        this.props.handleSubmit(lessonPeriod);
+      success: (response) => { 
+        var lessonPeriod = response["lesson_period"];
+        var student = response["student"];
+        this.props.handleSubmit(lessonPeriod, student);
       },
       error: (jqXHR, errorString, exception) => {
         console.log(jqXHR);  

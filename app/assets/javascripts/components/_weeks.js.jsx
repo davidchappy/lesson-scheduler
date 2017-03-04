@@ -76,8 +76,6 @@ var Weeks = React.createClass({
       )
     });
 
-    // console.log(weeks)
-
     return (
       <div className="weeks">{weeks}</div>
     )

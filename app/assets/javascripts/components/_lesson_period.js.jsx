@@ -4,9 +4,23 @@ var LessonPeriod = React.createClass({
               student: undefined, instrument: undefined, teacher: undefined,  
               deleting: false, editing: false, unavailableDates: [] }
   },
+  componentWillReceiveProps(nextProps) {
+    var lessonPeriod = nextProps.lessonPeriod
+    var instrument = nextProps.instruments.find((instrument) => {
+      return instrument.id === lessonPeriod.instrument_id;
+    });
+    var teacher = nextProps.teachers.find((teacher) => {
+      return teacher.id === lessonPeriod.teacher_id;
+    });
+
+    this.setState({ lessonCount: lessonPeriod.lesson_count,
+                    defaultLessonLength: lessonPeriod.default_lesson_length,
+                    student: nextProps.student,       
+                    instrument: instrument, 
+                    teacher: teacher });
+  },
   componentDidMount() {
     var id = this.props.lessonPeriod.id;
-
     $.ajax({
       url: `/api/v1/lesson_periods/${id}.json`, 
       type: 'GET',
@@ -53,10 +67,10 @@ var LessonPeriod = React.createClass({
     this.setState({ deleting: true });
   },
   render() {
-    if ( !this.state.instrument ) {
+    if ( !this.state.instrument || !this.state.teacher || !this.state.student) {
       return (
-        <div>
-          <p>Loading</p>
+        <div className="lesson-period col-sm-6 col-md-4">
+          <p>Loading..</p>
         </div>
       )
     }
@@ -80,7 +94,7 @@ var LessonPeriod = React.createClass({
                             teachers={this.props.teachers}
                             lessonPeriod={this.props.lessonPeriod}
                             buttonText={buttonText} 
-                            studentName={this.state.student.name}
+                            studentName={this.props.student.name}
                             instrumentId={this.state.instrument.id}
                             teacherId={this.state.teacher.id} 
                             defaultLessonLength={this.state.defaultLessonLength} />

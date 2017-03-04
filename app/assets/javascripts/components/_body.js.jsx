@@ -43,8 +43,10 @@ var Body = React.createClass({
                                 form_id: this.props.form.id },
               name: name 
             },
-      success: (lessonPeriod) => { 
-        console.log(lessonPeriod);
+      success: (response) => {
+        var lessonPeriod = response["lesson_period"];
+        var student = response["student"];
+        this.props.handleEdit(lessonPeriod, student);
       }
     });
   },
@@ -72,11 +74,9 @@ var Body = React.createClass({
 
     this.props.passLessonCount(lessonPeriods);
   },
-  handleSubmit(lessonPeriod) {
-    console.log("From Body handleSubit: ");
-    console.log(lessonPeriod);
+  passNewLessonPeriod(lessonPeriod, student) {
     this.props.toggleNewLessonPeriod();
-    this.props.handleSubmit(lessonPeriod);  
+    this.props.handleSubmit(lessonPeriod, student);  
   },
   toggleConfirmationPage() {
     var confirmation = this.state.confirmationPage ? false : true;
@@ -92,12 +92,20 @@ var Body = React.createClass({
     }
 
     var lessonPeriods = this.props.lessonPeriods.map((lessonPeriod) => {
+      var student;
+      this.props.students.map((s, index) => {
+        if (s.id === lessonPeriod.student_id) {
+          student = s;
+        }
+      })
+
       return (
         <LessonPeriod key={lessonPeriod.id} 
                       lessonPeriod={lessonPeriod} 
                       updateLessonCount={this.passLessonCount} 
                       handleDelete={this.handleDelete}
                       handleEdit={this.handleEdit}
+                      student={student}
                       instruments={this.state.instruments} 
                       teachers={this.state.teachers} />
       )
@@ -121,7 +129,7 @@ var Body = React.createClass({
                                       handleTypeName={this.handleTypeName}
                                       handleInstrumentSelect={this.handleInstrumentSelect}
                                       handleTeacherSelect={this.handleTeacherSelect}  
-                                      handleSubmit={this.handleSubmit} 
+                                      handleSubmit={this.passNewLessonPeriod} 
                                       form={this.props.form} /> :
 
                   <div className="new-lesson-period-button col-sm-6 col-md-4">

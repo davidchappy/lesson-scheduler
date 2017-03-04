@@ -1,6 +1,6 @@
 var App = React.createClass({
   getInitialState() {
-    return {  family: undefined, form: undefined,  
+    return {  family: undefined, form: undefined, students: undefined, 
               lessonPeriods: undefined, totalLessonCount: 0,
               addingLessonPeriod: false, alreadySubmitted: false,
               totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
@@ -16,6 +16,7 @@ var App = React.createClass({
         this.setState({ family: response.family,  
                         form: response.form,
                         lessonPeriods: response.lesson_periods,
+                        students: response.students
                       });
         this.adjustLessonCount(response.lesson_periods);
         this.calculateTotalCost();
@@ -27,11 +28,44 @@ var App = React.createClass({
     var showLessonPeriod = this.state.addingLessonPeriod ? false : true;
     this.setState({ addingLessonPeriod: showLessonPeriod });
   },
-  handleNewLessonPeriod(lessonPeriod) {
-    // keeps component state updated with a new lesson period
+  handleNewLessonPeriod(lessonPeriod, student) {
+    // update lesson periods
     var lessonPeriods = this.state.lessonPeriods;
     lessonPeriods.push(lessonPeriod);
     this.setState({ lessonPeriods: lessonPeriods });
+
+    var students = this.state.students;
+    var studentExists = this.state.students.find((s) => {
+      return s.id === lessonPeriod.student_id;
+    });
+    if(studentExists) {
+      var index;
+      students.map((s, i) => {
+        index = s.id === student.id ? i : index;
+      });
+      students[index] = student;
+    } else {
+      students.push(student);
+    }
+
+    this.setState({ students: students });
+  },
+  handleEditedLessonPeriod(lessonPeriod, student) {
+    var lessonPeriods = this.state.lessonPeriods;
+    var index; 
+    lessonPeriods.map( (l, i) => {
+      index = l.id === lessonPeriod.id ? i : index;
+    });
+    lessonPeriods[index] = lessonPeriod;
+
+    var students = this.state.students;
+    var index; 
+    students.map( (s, i) => {
+      index = s.id === student.id ? i : index;
+    });
+    students[index] = student;
+
+    this.setState({ lessonPeriods: lessonPeriods, students: students });
   },
   handleDeletedLessonPeriod(lessonPeriod) {
     // keeps component state updated with a deleted lesson period
@@ -160,16 +194,18 @@ var App = React.createClass({
                 possibleDiscount={this.state.possibleDiscount} />
         {this.state.alreadySubmitted ? 
           <AlreadySubmitted submitted_at={this.state.form.submitted_at} /> :
-          <Body   passLessonCount={this.adjustLessonCount} 
-                  lessonPeriods={this.state.lessonPeriods} 
-                  form={this.state.form}
-                  handleSubmit={this.handleNewLessonPeriod}
-                  handleDeletedLessonPeriod={this.handleDeletedLessonPeriod} 
-                  toggleNewLessonPeriod={this.toggleNewLessonPeriod} 
-                  addingLessonPeriod={this.state.addingLessonPeriod} 
-                  submitForm={this.submitForm} 
-                  totalOwed={this.state.totalOwed} 
-                  monetize={this.monetize} />
+          <Body form={this.state.form}
+                students={this.state.students}
+                lessonPeriods={this.state.lessonPeriods} 
+                passLessonCount={this.adjustLessonCount} 
+                handleSubmit={this.handleNewLessonPeriod}
+                handleEdit={this.handleEditedLessonPeriod}
+                handleDeletedLessonPeriod={this.handleDeletedLessonPeriod} 
+                toggleNewLessonPeriod={this.toggleNewLessonPeriod} 
+                addingLessonPeriod={this.state.addingLessonPeriod} 
+                submitForm={this.submitForm} 
+                totalOwed={this.state.totalOwed} 
+                monetize={this.monetize} />
         }
       </div>
     )

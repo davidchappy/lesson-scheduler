@@ -24,11 +24,11 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
               Family.find(current_user.id)
     student = Student.where(name: params[:name]).take || 
               family.students.create(name: params[:name])
-
     new_lesson_period = student.lesson_periods.build(lesson_periods_params)
 
     if new_lesson_period.save
-      respond_with :api, :v1, new_lesson_period
+      response = { lesson_period: new_lesson_period, student: student }
+      respond_with response, json: response
     else
       puts "couldn't create lesson period"
     end
@@ -46,7 +46,8 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
     lesson_period.update_attributes(lesson_periods_params)
     lesson_period.update_weeks if default_lesson_length != lesson_period.default_lesson_length
 
-    respond_with lesson_period, json: lesson_period
+    response = { lesson_period: lesson_period, student: student }
+    respond_with response, json: response
   end
 
   def destroy

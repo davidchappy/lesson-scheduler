@@ -9,7 +9,6 @@ var AlreadySubmitted = React.createClass({
     var yyyy = submitted_at.getFullYear();
     var submitted_string = month_name + " " + dd + ", " + yyyy;
 
-    console.log(submitted_at);
     return (
       <div className="body container already-submitted">
         <p>Thank you for submitting your form on {submitted_string}. 

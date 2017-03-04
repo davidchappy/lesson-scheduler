@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301135336) do
+ActiveRecord::Schema.define(version: 20170304132922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,8 +94,8 @@ ActiveRecord::Schema.define(version: 20170301135336) do
     t.datetime "updated_at",                      null: false
     t.boolean  "lesson",           default: true
     t.string   "week_string"
-    t.integer  "lesson_length"
     t.integer  "lesson_period_id"
+    t.integer  "lesson_length"
   end
 
   add_foreign_key "lesson_periods", "forms", on_delete: :cascade

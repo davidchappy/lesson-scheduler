@@ -26,9 +26,6 @@ form = Form.create( year: Date.today.year, family_id: family.id,
 jim = family.students.create(name: 'Jim')
 sarah = family.students.create(name: 'Sarah')
 
-puts family.inspect
-puts form.inspect
-
 lesson_period = form.lesson_periods.create( teacher_id: teacher.id, 
                                             instrument_id: piano.id, 
                                             student_id: jim.id,

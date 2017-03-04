@@ -72,7 +72,7 @@ RSpec.describe Api::V1::LessonPeriodsController, :type => :controller do
                             instrument_id: instrument.id, form_id: form.id } 
         }
         post :create, format: :json, params: params
-        expect(response_body["form_id"]).to eq(form.id)
+        expect(response_body["lesson_period"]["form_id"]).to eq(form.id)
         expect(lesson_periods_initial.length).to_not eq(LessonPeriod.all.length)
         expect(LessonPeriod.all.length).to eq(2)
       end
@@ -85,12 +85,12 @@ RSpec.describe Api::V1::LessonPeriodsController, :type => :controller do
         params = { 
           name: new_student.name,
           family_id: family.id,
-          lesson_period: {  teacher_id: teacher.id, 
-                            instrument_id: instrument.id, form_id: form.id },
+          lesson_period: {  teacher_id: teacher.id, instrument_id: instrument.id, 
+                            form_id: form.id, default_lesson_length: 30 },
           id: lesson_period.id
         }
         put :update, format: :json, params: params
-        id = response_body["id"]
+        id = response_body["lesson_period"]["id"]
         lesson_period_updated = LessonPeriod.find(id)
         expect(lesson_period_updated.student.name).to eq("New Name")
         expect(lesson_period_original.student.name).to_not eq(lesson_period_updated.student.name)

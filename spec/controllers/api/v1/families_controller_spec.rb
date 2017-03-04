@@ -42,12 +42,14 @@ RSpec.describe Api::V1::FamiliesController, :type => :controller do
       it "returns the current family, form and students in JSON" do 
         form = family.forms.first
         form.update_lesson_period_count
+        students = family.students
 
         get :index, format: :json
         expected = {
           family: family,
           lesson_periods: [lesson_period],
-          form: family.forms.first        
+          form: family.forms.first,
+          students: students        
         }.to_json
         expect(response_body).to eq( JSON.parse(expected) )      
       end

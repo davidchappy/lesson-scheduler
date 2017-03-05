@@ -15,7 +15,9 @@ var Weeks = React.createClass({
           weeks[index].start_date = start_date;
           weeks[index].end_date = end_date;
         }); 
-        this.setState({ weeks: weeks })
+        if (this.isMounted()) {
+          this.setState({ weeks: weeks });
+        }
         this.props.getLessonCount(weeks);
       }
     });

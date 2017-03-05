@@ -13,8 +13,7 @@ var LessonPeriod = React.createClass({
       return teacher.id === lessonPeriod.teacher_id;
     });
 
-    this.setState({ lessonCount: lessonPeriod.lesson_count,
-                    defaultLessonLength: lessonPeriod.default_lesson_length,
+    this.setState({ defaultLessonLength: lessonPeriod.default_lesson_length,
                     student: nextProps.student,       
                     instrument: instrument, 
                     teacher: teacher });
@@ -43,6 +42,7 @@ var LessonPeriod = React.createClass({
     this.props.updateLessonCount(count, this.props.lessonPeriod);
   },
   changeLessonCount(change) {
+    console.log(change);
     var newCount = this.state.lessonCount + change;
     this.setState({ lessonCount: newCount })
     this.props.updateLessonCount(newCount, this.props.lessonPeriod);

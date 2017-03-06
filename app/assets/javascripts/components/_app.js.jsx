@@ -3,7 +3,7 @@ var App = React.createClass({
     return {  instruments: undefined, teachers: undefined,
               family: undefined, form: undefined, students: undefined, 
               lessonPeriods: undefined, weeks: undefined, totalLessonCount: 0,
-              addingLessonPeriod: false, alreadySubmitted: false }
+              isCreating: false, hasSubmitted: false }
   },
   componentDidMount() {
     this.fetchAppData();
@@ -15,7 +15,7 @@ var App = React.createClass({
       success: (response) => {
         console.log(response);
         if(response.form.submitted === true) {
-          this.setState({ alreadySubmitted: true })
+          this.setState({ hasSubmitted: true })
         }
         this.setState({ 
                         instruments: response.instruments,
@@ -32,8 +32,8 @@ var App = React.createClass({
   },
   toggleNewLessonPeriod() {
     // shows or hides add lesson period button
-    var showLessonPeriod = this.state.addingLessonPeriod ? false : true;
-    this.setState({ addingLessonPeriod: showLessonPeriod });
+    var showLessonPeriod = this.state.isCreating ? false : true;
+    this.setState({ isCreating: showLessonPeriod });
   },
   handleNewLessonPeriod(lessonPeriod, student) {
     // update app state lesson periods after creating new lesson period
@@ -120,11 +120,11 @@ var App = React.createClass({
                 lessonPeriods={this.state.lessonPeriods}
 
                 toggleNewLessonPeriod={this.toggleNewLessonPeriod}
-                alreadySubmitted={this.state.alreadySubmitted} />
+                hasSubmitted={this.state.hasSubmitted} />
 
-        {this.state.alreadySubmitted ? 
+        {this.state.hasSubmitted ? 
 
-          <AlreadySubmitted submitted_at={this.state.form.submitted_at} /> :
+          <hasSubmitted submitted_at={this.state.form.submitted_at} /> :
 
           <Body {...this.state}
 

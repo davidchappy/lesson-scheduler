@@ -93,7 +93,7 @@ var Body = React.createClass({
             <div>
               <div className="lesson-periods row">
                 {lessonPeriods}
-                {this.props.addingLessonPeriod ? 
+                {this.props.isCreating ? 
 
                   <NewLessonPeriod  {...this.props} 
                                     handleSubmit={this.passNewLessonPeriod} /> :

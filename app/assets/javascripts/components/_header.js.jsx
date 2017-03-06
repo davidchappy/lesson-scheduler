@@ -40,13 +40,13 @@ var Header = React.createClass({
               <span className="icon-bar"></span>
             </button>
             <a className="navbar-brand" href="#">The {family.last_name} Family</a>
-            {this.props.alreadySubmitted ? null :
+            {this.props.hasSubmitted ? null :
               <button className="btn add-lesson-period" onClick={this.props.toggleNewLessonPeriod}>
                 <span className="glyphicon glyphicon-plus"></span>
               </button>
             }
           </div>
-          {this.props.alreadySubmitted ? 
+          {this.props.hasSubmitted ? 
             <div id="navbar" className="navbar-collapse collapse"></div> :
             <div id="navbar" className="navbar-collapse collapse">
               <ul className="nav navbar-nav navbar-right">

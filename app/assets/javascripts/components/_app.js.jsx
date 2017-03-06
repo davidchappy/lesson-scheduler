@@ -9,6 +9,7 @@ var App = React.createClass({
       url: '/api/v1/families.json', 
       type: 'GET',
       success: (response) => {
+        console.log(response);
         if(response.form.submitted === true) {
           this.setState({ alreadySubmitted: true })
         }
@@ -19,7 +20,6 @@ var App = React.createClass({
                         students: response.students
                       });
         this.adjustLessonCount(response.lesson_periods);
-        this.updatePricing();
       }
     });
   },
@@ -118,7 +118,7 @@ var App = React.createClass({
         {this.state.alreadySubmitted ? 
 
           <AlreadySubmitted submitted_at={this.state.form.submitted_at} /> :
-          
+
           <Body form={this.state.form}
                 students={this.state.students}
                 lessonPeriods={this.state.lessonPeriods} 

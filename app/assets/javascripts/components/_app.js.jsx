@@ -1,10 +1,13 @@
 var App = React.createClass({
   getInitialState() {
     return {  family: undefined, form: undefined, students: undefined, 
-              lessonPeriods: undefined, totalLessonCount: 0,
+              weeks: undefined, lessonPeriods: undefined, totalLessonCount: 0,
               addingLessonPeriod: false, alreadySubmitted: false }
   },
   componentDidMount() {
+    this.fetchAppData();
+  },
+  fetchAppData() {
     $.ajax({
       url: '/api/v1/app.json', 
       type: 'GET',
@@ -17,7 +20,8 @@ var App = React.createClass({
                         family: response.family,  
                         form: response.form,
                         lessonPeriods: response.lesson_periods,
-                        students: response.students
+                        students: response.students,
+                        weeks: response.weeks
                       });
         this.adjustLessonCount(response.lesson_periods);
       }

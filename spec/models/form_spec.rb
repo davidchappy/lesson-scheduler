@@ -59,26 +59,6 @@ RSpec.describe Form, :type => :model do
     expect(new_form.year).to eq(Date.today.year)
   end
 
-  it "can update its lesson count from its weeks" do
-    # before initial update
-    expect(form.lesson_count).to eq(0)
-    # after inital update with all lessons selected (default)
-    form.update_lesson_count
-    expect(form.lesson_count).to eq(lesson_period.weeks.length)
-
-    # update lesson count after unchecking a lesson
-    old_count = lesson_period.weeks.length
-    lesson_period.weeks.last.update_attribute(:lesson, false)
-    form.update_lesson_count
-    expect(form.lesson_count).to_not eq(old_count)
-  end
-
-  it "can update its student count" do
-    expect(form.student_count).to be_nil
-    form.update_lesson_period_count
-    expect(form.student_count).to_not be_nil
-  end
-
   it "sorts its students" do
     initial_index = form.lesson_periods.index(lesson_period)
     new_student =   family.students.create(name: "Julie")

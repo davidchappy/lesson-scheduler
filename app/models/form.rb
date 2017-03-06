@@ -25,23 +25,6 @@ class Form < ApplicationRecord
     self.end_date ||= finish
   end
 
-  def update_lesson_count
-    # get current lesson count from each week of this form's students
-    lesson_count = 0
-    self.lesson_periods.each do |lesson_period| 
-      lesson_period.weeks.map { |week| lesson_count += 1 if week.lesson == true }
-    end
-    self.lesson_count = lesson_count
-    self.save
-  end
-
-  def update_lesson_period_count
-    if self.lesson_periods
-      self.student_count = self.lesson_periods.length
-      self.save
-    end
-  end
-
   def sorted_lesson_periods
     return self.lesson_periods.sort_by { |lesson_period| lesson_period.created_at } || []
   end

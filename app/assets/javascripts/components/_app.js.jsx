@@ -29,7 +29,7 @@ var App = React.createClass({
     this.setState({ addingLessonPeriod: showLessonPeriod });
   },
   handleNewLessonPeriod(lessonPeriod, student) {
-    // update lesson periods
+    // update app state lesson periods after creating new lesson period
     var lessonPeriods = this.state.lessonPeriods;
     lessonPeriods.push(lessonPeriod);
     this.setState({ lessonPeriods: lessonPeriods });
@@ -51,6 +51,7 @@ var App = React.createClass({
     this.setState({ students: students });
   },
   handleEditedLessonPeriod(lessonPeriod, student) {
+    // update app state lesson periods after editing a lesson period
     var lessonPeriods = this.state.lessonPeriods;
     var index; 
     lessonPeriods.map( (l, i) => {
@@ -68,7 +69,7 @@ var App = React.createClass({
     this.setState({ lessonPeriods: lessonPeriods, students: students });
   },
   handleDeletedLessonPeriod(lessonPeriod) {
-    // keeps component state updated with a deleted lesson period
+    // update app state lesson periods after deleting a lesson period
     var lessonPeriods = this.state.lessonPeriods;
     var lessonPeriodIndex = lessonPeriods.indexOf(lessonPeriod);
     lessonPeriods.splice(lessonPeriodIndex, 1);
@@ -76,7 +77,7 @@ var App = React.createClass({
     this.adjustLessonCount(lessonPeriods);
   },
   adjustLessonCount(lessonPeriods) {
-    // update the lesson count
+    // update app state lesson count, total cost, and lesson periods after a change
     var newTotal = 0;
     lessonPeriods.map((lessonPeriod) => {
       newTotal += lessonPeriod.lesson_count;
@@ -86,6 +87,8 @@ var App = React.createClass({
     this.calculateTotalCost();
   },
   calculateTotalCost() {
+    // calculate form cost and discounts from lesson and lesson period counts
+
     // get values from props
     var lessonCount = Number(this.state.totalLessonCount);
     var lessonPeriods = this.state.lessonPeriods;
@@ -107,6 +110,7 @@ var App = React.createClass({
     this.updatePricing(discount, totalOwed, possibleDiscount);
   },
   calculateLessonPeriodCost(lessonPeriod, lessonPeriodCount, lessonPeriods) {
+    // utility to calculate the cost of an individual lesson period
     var lessonCount = lessonPeriod.lesson_count;
     var lessonPeriodDiscount = 0;
     var lessonRate = 2000;
@@ -141,6 +145,8 @@ var App = React.createClass({
     return cost;
   },
   calculatePossibleDiscount(lessonPeriodCount) {
+    // utility to calculate possible discount from the number of lesson periods
+
     var possibleDiscount = 0;
     possibleDiscount = (3000 * lessonPeriodCount) + (500 * (lessonPeriodCount-1));
     if(lessonPeriodCount >= 2) { 
@@ -152,6 +158,8 @@ var App = React.createClass({
     return possibleDiscount;
   },
   updatePricing(discount, totalOwed, possibleDiscount) {
+    // update app state with all pricing data
+
     this.setState({
       totalDiscount: discount,
       totalOwed: totalOwed,
@@ -159,6 +167,7 @@ var App = React.createClass({
     })  
   },
   monetize(amount) {
+    // utility for currency formatting 
     return ("$" + (amount/100));
   },
   submitForm() {

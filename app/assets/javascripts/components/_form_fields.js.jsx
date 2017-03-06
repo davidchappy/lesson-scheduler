@@ -1,22 +1,13 @@
 var FormFields = React.createClass({
   getInitialState() {
-    var studentName = this.props.studentName ? this.props.studentName : undefined;
-    var instrumentId = this.props.instrumentId ? this.props.instrumentId : undefined;
-    var teacherId = this.props.teacherId ? this.props.teacherId : undefined;
-    var defaultLessonLength = this.props.lessonPeriod ? 
-                              this.props.lessonPeriod.default_lesson_length : undefined;
-    var instrumentEnabled = studentName ? true : false;
-    var teacherEnabled = instrumentEnabled ? true : false;
-    var submitEnabled = teacherEnabled ? true : false;
-
     return  {  
-              studentName: studentName, 
-              instrumentId: instrumentId, 
-              teacherId: teacherId,
-              defaultLessonLength: defaultLessonLength,
-              instrumentEnabled: instrumentEnabled,
-              teacherEnabled: teacherEnabled,
-              submitEnabled: submitEnabled  
+              studentName: undefined, 
+              instrumentId: undefined, 
+              teacherId: undefined,
+              defaultLessonLength: undefined,
+              instrumentEnabled: false,
+              teacherEnabled: false,
+              submitEnabled: false  
             }
   },
   handleTypeName(event) {
@@ -34,9 +25,6 @@ var FormFields = React.createClass({
   handleDefaultLessonLength(event) {
     var defaultLessonLength = event.target.value;
     this.setState({ defaultLessonLength: event.target.value });
-  },
-  lessonLengthOptions() {
-    return [30, 45, 60, 75, 90, 105, 120];
   },
   passValues(event) {
     event.preventDefault();
@@ -71,7 +59,7 @@ var FormFields = React.createClass({
       }
     });
 
-    var lessonLengths = this.lessonLengthOptions().map((length, index) => {
+    var lessonLengths = appSettings.lessonLengthOptions.map((length, index) => {
       var lessonLengthString = this.formatDuration(length);
       return (
         <option value={length} key={index}>{lessonLengthString}</option>

@@ -17,6 +17,7 @@
 //= require react
 //= require react_ujs
 //= require 'utils'
+//= require 'defaultSettings'
 //= require components
 //= require 'app'
 //= require_tree .

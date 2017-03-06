@@ -126,11 +126,7 @@ var App = React.createClass({
 
           <AlreadySubmitted submitted_at={this.state.form.submitted_at} /> :
 
-          <Body form={this.state.form}
-                students={this.state.students}
-                lessonPeriods={this.state.lessonPeriods} 
-                lessonCount={this.state.totalLessonCount} 
-                addingLessonPeriod={this.state.addingLessonPeriod} 
+          <Body {...this.state}
 
                 passLessonCount={this.adjustLessonCount} 
                 handleSubmit={this.handleNewLessonPeriod}

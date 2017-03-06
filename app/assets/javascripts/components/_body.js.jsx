@@ -1,26 +1,8 @@
 var Body = React.createClass({
   getInitialState() {
     return { 
-      instruments: [], 
-      teachers: [],
       confirmationPage: false
     }
-  },
-  componentDidMount() {
-    $.ajax({
-      url: `/api/v1/instruments.json`, 
-      type: 'GET',
-      success: (response) => { 
-        this.setState({ instruments: response });
-      }
-    });
-    $.ajax({
-      url: `/api/v1/teachers.json`, 
-      type: 'GET',
-      success: (response) => { 
-        this.setState({ teachers: response });
-      }
-    });
   },
   handleDelete(lessonPeriod) {
     var id = lessonPeriod.id;
@@ -49,17 +31,6 @@ var Body = React.createClass({
         this.props.handleEdit(lessonPeriod, student);
       }
     });
-  },
-  handleTypeName() {
-    if($("#studentName").val().length > 1 && !this.state.instrumentEnabled) {
-      this.setState({ instrumentEnabled: true })
-    }
-  },
-  handleInstrumentSelect() {
-    this.setState({ teacherEnabled: true })
-  },
-  handleTeacherSelect() {
-    this.setState({ submitEnabled: true })
   },
   passLessonCount(count, lessonPeriod) {
     lessonPeriod.lesson_count = count;
@@ -102,12 +73,12 @@ var Body = React.createClass({
       return (
         <LessonPeriod key={lessonPeriod.id} 
                       lessonPeriod={lessonPeriod} 
+                      student={student}
+                      instruments={this.props.instruments} 
+                      teachers={this.props.teachers}
                       updateLessonCount={this.passLessonCount} 
                       handleDelete={this.handleDelete}
-                      handleEdit={this.handleEdit}
-                      student={student}
-                      instruments={this.state.instruments} 
-                      teachers={this.state.teachers} />
+                      handleEdit={this.handleEdit} />
       )
     })
 
@@ -124,13 +95,8 @@ var Body = React.createClass({
                 {lessonPeriods}
                 {this.props.addingLessonPeriod ? 
 
-                  <NewLessonPeriod    instruments={this.state.instruments} 
-                                      teachers={this.state.teachers} 
-                                      handleTypeName={this.handleTypeName}
-                                      handleInstrumentSelect={this.handleInstrumentSelect}
-                                      handleTeacherSelect={this.handleTeacherSelect}  
-                                      handleSubmit={this.passNewLessonPeriod} 
-                                      form={this.props.form} /> :
+                  <NewLessonPeriod  {...this.props} 
+                                    handleSubmit={this.passNewLessonPeriod} /> :
 
                   <div className="new-lesson-period-button col-sm-6 col-md-4">
                     <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 

@@ -124,16 +124,14 @@ var App = React.createClass({
         <Header family={this.state.family} 
                 lessonCount={this.state.totalLessonCount} 
                 lessonPeriods={this.state.lessonPeriods}
-
-                handleClickAddStudent={this.toggleCreating}
-                hasSubmitted={this.state.hasSubmitted} />
+                hasSubmitted={this.state.hasSubmitted}
+                handleClickAddStudent={this.toggleCreating} />
 
         {this.state.hasSubmitted ? 
 
           <AlreadySubmitted submitted_at={this.state.form.submitted_at} /> :
 
           <Body {...this.state}
-
                 handleToggleConfirming={this.toggleConfirming}
                 handleClickAddStudent={this.toggleCreating}
                 submitForm={this.submitForm}

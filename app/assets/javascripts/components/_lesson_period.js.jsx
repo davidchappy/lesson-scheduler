@@ -5,33 +5,28 @@ var LessonPeriod = React.createClass({
               deleting: false, editing: false, unavailableDates: [] }
   },
   componentWillReceiveProps(nextProps) {
-    var lessonPeriod = nextProps.lessonPeriod
-    var instrument = nextProps.instruments.find((instrument) => {
-      return instrument.id === lessonPeriod.instrument_id;
-    });
-    var teacher = nextProps.teachers.find((teacher) => {
-      return teacher.id === lessonPeriod.teacher_id;
-    });
-
-    this.setState({ defaultLessonLength: lessonPeriod.default_lesson_length,
-                    student: nextProps.student,       
-                    instrument: instrument, 
-                    teacher: teacher });
+    this.updateStateFromProps(nextProps);
   },
   componentDidMount() {
-    var id = this.props.lessonPeriod.id;
-    $.ajax({
-      url: `/api/v1/lesson_periods/${id}.json`, 
-      type: 'GET',
-      success: (response) => { 
-        this.setState({ lessonCount: response["lesson_period"].lesson_count,
-                        defaultLessonLength: response["lesson_period"].default_lesson_length,
-                        student: response["student"],       
-                        instrument: response["instrument"], 
-                        teacher: response["teacher"],       
-                        unavailableDates: response["teacher"].unavailable_dates});
-      }
+    this.updateStateFromProps(this.props);  
+  },
+  updateStateFromProps(props) {
+    var lessonPeriod = props.lessonPeriod;
+    var instrument = props.instruments.find((instrument) => {
+      return instrument.id === lessonPeriod.instrument_id;
     });
+    var teacher = props.teachers.find((teacher) => {
+      return teacher.id === lessonPeriod.teacher_id;
+    });
+    var student = props.students.find((student) => {
+      return student.id === lessonPeriod.student_id;
+    });
+    this.setState({ lessonCount: lessonPeriod.lesson_count,
+                    defaultLessonLength: lessonPeriod.default_lesson_length,
+                    student: student,       
+                    instrument: instrument, 
+                    teacher: teacher,       
+                    unavailableDates: teacher.unavailable_dates });
   },
   getLessonCount(weeks) {
     var count = 0;
@@ -46,12 +41,12 @@ var LessonPeriod = React.createClass({
     this.setState({ lessonCount: newCount })
     this.props.updateLessonCount(newCount, this.props.lessonPeriod);
   },
-  toggleEdit() {
+  handleToggleEditing() {
     var editing = this.state.editing ? false : true;
     this.setState({ editing: editing });
   },
   passEditLessonPeriod(name, instrumentId, teacherId, defaultLessonLength) {
-    this.toggleEdit();
+    this.handleToggleEditing();
     var lessonPeriod = this.props.lessonPeriod
     lessonPeriod.defaultLessonLength = defaultLessonLength;
     this.props.passEditLessonPeriod(name, instrumentId, teacherId, lessonPeriod);
@@ -93,7 +88,7 @@ var LessonPeriod = React.createClass({
                             teachers={this.props.teachers}
                             lessonPeriod={this.props.lessonPeriod}
                             buttonText={buttonText} 
-                            studentName={this.props.student.name}
+                            studentName={this.state.student.name}
                             instrumentId={this.state.instrument.id}
                             teacherId={this.state.teacher.id} 
                             defaultLessonLength={this.state.defaultLessonLength} />
@@ -105,7 +100,7 @@ var LessonPeriod = React.createClass({
           <p className="teacher">{this.state.teacher.first_name} {this.state.teacher.last_name}</p>
           <p className="lesson-count"><strong>{this.state.lessonCount}</strong> Lessons</p>
           <div className="lesson-period-hover-menu">
-            <span className="edit-lesson-period glyphicon glyphicon-pencil" title="Edit" onClick={this.toggleEdit}></span> 
+            <span className="edit-lesson-period glyphicon glyphicon-pencil" title="Edit" onClick={this.handleToggleEditing}></span> 
             <span className="delete-lesson-period glyphicon glyphicon-remove" title="Delete" onClick={this.handleDelete}></span> 
           </div>
         </div>

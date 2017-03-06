@@ -1,10 +1,5 @@
 var Body = React.createClass({
-  // getInitialState() {
-  //   return { 
-  //     confirmationPage: false
-  //   }
-  // },
-  handleDelete(lessonPeriod) {
+  delDeleteLessonPeriod(lessonPeriod) {
     var id = lessonPeriod.id;
     $.ajax({
       url: `/api/v1/lesson_periods/${id}.json`, 
@@ -55,21 +50,13 @@ var Body = React.createClass({
     }
 
     var lessonPeriods = this.props.lessonPeriods.map((lessonPeriod) => {
-      var student;
-      this.props.students.map((s, index) => {
-        if (s.id === lessonPeriod.student_id) {
-          student = s;
-        }
-      })
-
       return (
         <LessonPeriod key={lessonPeriod.id} 
                       lessonPeriod={lessonPeriod} 
-                      student={student}
-                      instruments={this.props.instruments} 
-                      teachers={this.props.teachers}
+                      {...this.props}
+
                       updateLessonCount={this.passLessonCount} 
-                      handleDelete={this.handleDelete}
+                      handleDelete={this.delDeleteLessonPeriod}
                       passEditLessonPeriod={this.putEditLessonPeriod} />
       )
     })

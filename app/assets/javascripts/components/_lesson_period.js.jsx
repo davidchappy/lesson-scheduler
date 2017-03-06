@@ -42,7 +42,6 @@ var LessonPeriod = React.createClass({
     this.props.updateLessonCount(count, this.props.lessonPeriod);
   },
   changeLessonCount(change) {
-    console.log(change);
     var newCount = this.state.lessonCount + change;
     this.setState({ lessonCount: newCount })
     this.props.updateLessonCount(newCount, this.props.lessonPeriod);

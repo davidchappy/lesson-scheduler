@@ -4,7 +4,6 @@ var Header = React.createClass({
   // },
   // componentWillReceiveProps(nextProps) {
   //   console.log("Header mounted");
-  //   this.calculateTotalCost(this.props); 
   // },
   render() {
     if ( !this.props.family ) {

@@ -19,7 +19,7 @@ var App = React.createClass({
                         students: response.students
                       });
         this.adjustLessonCount(response.lesson_periods);
-        this.calculateTotalCost();
+        this.updatePricing();
       }
     });
   },
@@ -84,37 +84,17 @@ var App = React.createClass({
     });
 
     this.setState({ totalLessonCount: newTotal, lessonPeriods: lessonPeriods });
-    this.calculateTotalCost();
+    var pricing = calculatePricing(newTotal, lessonPeriods);
+    this.updatePricing(pricing.discount, pricing.totalOwed, pricing.possibleDiscount)
   },
-  calculateTotalCost() {
-    // calculate form cost and discounts from lesson and lesson period counts
+  updatePricing() {
+    var pricing = calculatePricing(this.state.totalLessonCount, this.state.lessonPeriods);
 
-    // get values from props
-    var lessonCount = Number(this.state.totalLessonCount);
-    var lessonPeriods = this.state.lessonPeriods;
-    var lessonPeriodCount = lessonPeriods.length;
-
-    // initialize vars
-    var discount = 0;
-    var totalOwed = 0;
-    var rawTotal = lessonCount * 2000;
-
-    // iterate through lessonPeriods and calculate cost and discounts
-    lessonPeriods.map((lessonPeriod) => {
-      totalOwed += calculateLessonPeriodCost(lessonPeriod, lessonPeriodCount, lessonPeriods);
-    })
-    discount = rawTotal - totalOwed;
-
-    var possibleDiscount = calculatePossibleDiscount(lessonPeriodCount);
-
-    this.updatePricing(discount, totalOwed, possibleDiscount);
-  },
-  updatePricing(discount, totalOwed, possibleDiscount) {
     // update app state with all pricing data
     this.setState({
-      totalDiscount: discount,
-      totalOwed: totalOwed,
-      possibleDiscount: possibleDiscount
+      totalDiscount: pricing.discount,
+      totalOwed: pricing.totalOwed,
+      possibleDiscount: pricing.possibleDiscount
     })  
   },
   submitForm() {

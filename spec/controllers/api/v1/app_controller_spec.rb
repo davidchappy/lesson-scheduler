@@ -1,7 +1,7 @@
 require 'rails_helper'
 include ControllerHelpers
 
-RSpec.describe Api::V1::FamiliesController, :type => :controller do
+RSpec.describe Api::V1::AppController, :type => :controller do
   context "anonymous user" do
     it "should be redirected to signin" do
       get :index
@@ -42,13 +42,16 @@ RSpec.describe Api::V1::FamiliesController, :type => :controller do
       it "returns the current family, form and students in JSON" do 
         form = family.forms.first
         students = family.students
+        lesson_periods = form.lesson_periods.order(:created_at)
+        weeks = LessonPeriod.get_weeks_as_hash(lesson_periods)
 
         get :index, format: :json
         expected = {
           family: family,
           lesson_periods: [lesson_period],
           form: family.forms.first,
-          students: students        
+          students: students,
+          weeks: weeks       
         }.to_json
         expect(response_body).to eq( JSON.parse(expected) )      
       end

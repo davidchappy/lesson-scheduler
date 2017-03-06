@@ -1,5 +1,4 @@
 class Api::V1::AppController < Api::V1::BaseController
-
   def index
     @family = Family.find(current_user.id)
     @students = @family.students

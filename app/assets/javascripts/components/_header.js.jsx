@@ -17,9 +17,9 @@ var Header = React.createClass({
 
     var family = this.props.family;
     var lessonCount = this.props.lessonCount;
-    var total = this.props.monetize(this.props.totalOwed);
-    var totalDiscount = this.props.monetize(this.props.totalDiscount);
-    var possibleDiscount = this.props.monetize(this.props.possibleDiscount);
+    var total = monetize(this.props.totalOwed);
+    var totalDiscount = monetize(this.props.totalDiscount);
+    var possibleDiscount = monetize(this.props.possibleDiscount);
     var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
 
     return (

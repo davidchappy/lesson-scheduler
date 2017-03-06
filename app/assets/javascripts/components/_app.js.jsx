@@ -101,74 +101,21 @@ var App = React.createClass({
 
     // iterate through lessonPeriods and calculate cost and discounts
     lessonPeriods.map((lessonPeriod) => {
-      totalOwed += this.calculateLessonPeriodCost(lessonPeriod, lessonPeriodCount, lessonPeriods);
+      totalOwed += calculateLessonPeriodCost(lessonPeriod, lessonPeriodCount, lessonPeriods);
     })
     discount = rawTotal - totalOwed;
 
-    var possibleDiscount = this.calculatePossibleDiscount(lessonPeriodCount);
+    var possibleDiscount = calculatePossibleDiscount(lessonPeriodCount);
 
     this.updatePricing(discount, totalOwed, possibleDiscount);
   },
-  calculateLessonPeriodCost(lessonPeriod, lessonPeriodCount, lessonPeriods) {
-    // utility to calculate the cost of an individual lesson period
-    var lessonCount = lessonPeriod.lesson_count;
-    var lessonPeriodDiscount = 0;
-    var lessonRate = 2000;
-    var cost = 0;
-
-    // Apply discount for more than 1 lessonPeriod
-    if(lessonPeriodCount >= 2) {
-      if(lessonPeriods.indexOf(lessonPeriod) == 0) {
-        lessonRate = 2000;
-      } else if(lessonPeriods.indexOf(lessonPeriod) == 1) {
-        lessonRate = 1800;
-      } else {
-        lessonRate = 1600;
-      }
-    }
-
-    // Apply discount for more than 8 lessons per lessonPeriod
-    if(lessonCount >= 9 && lessonCount <= 10) {
-      lessonPeriodDiscount += 2000;
-    } else if (lessonCount >= 11) {
-      lessonPeriodDiscount += 3000;
-    }
-
-    // Apply discount for more than 9 lessons and more than 1 lessonPeriod
-    if(lessonCount > 9 && lessonPeriodCount > 1) {
-      if(lessonPeriods.indexOf(lessonPeriod) >= 1) {
-        lessonPeriodDiscount += 500;
-      }
-    }
-
-    cost = (lessonCount * lessonRate) - lessonPeriodDiscount;
-    return cost;
-  },
-  calculatePossibleDiscount(lessonPeriodCount) {
-    // utility to calculate possible discount from the number of lesson periods
-
-    var possibleDiscount = 0;
-    possibleDiscount = (3000 * lessonPeriodCount) + (500 * (lessonPeriodCount-1));
-    if(lessonPeriodCount >= 2) { 
-      possibleDiscount += (200 * 13); 
-    } 
-    if(lessonPeriodCount > 2) { 
-      possibleDiscount += ((400*13) * (lessonPeriodCount-2)); 
-    } 
-    return possibleDiscount;
-  },
   updatePricing(discount, totalOwed, possibleDiscount) {
     // update app state with all pricing data
-
     this.setState({
       totalDiscount: discount,
       totalOwed: totalOwed,
       possibleDiscount: possibleDiscount
     })  
-  },
-  monetize(amount) {
-    // utility for currency formatting 
-    return ("$" + (amount/100));
   },
   submitForm() {
     var id = this.state.form.id;
@@ -196,8 +143,7 @@ var App = React.createClass({
         <Header family={this.state.family} 
                 lessonCount={this.state.totalLessonCount} 
                 toggleNewLessonPeriod={this.toggleNewLessonPeriod}
-                alreadySubmitted={this.state.alreadySubmitted} 
-                monetize={this.monetize} 
+                alreadySubmitted={this.state.alreadySubmitted}
                 totalOwed={this.state.totalOwed}
                 totalDiscount={this.state.totalDiscount}
                 possibleDiscount={this.state.possibleDiscount} />
@@ -213,8 +159,7 @@ var App = React.createClass({
                 toggleNewLessonPeriod={this.toggleNewLessonPeriod} 
                 addingLessonPeriod={this.state.addingLessonPeriod} 
                 submitForm={this.submitForm} 
-                totalOwed={this.state.totalOwed} 
-                monetize={this.monetize} />
+                totalOwed={this.state.totalOwed} />
         }
       </div>
     )

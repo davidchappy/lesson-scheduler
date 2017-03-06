@@ -102,7 +102,7 @@ var App = React.createClass({
   submitForm() {
     // Ensure the form record has the current total cost
     var id = this.state.form.id;
-    var pricing = calculatePricing(this.state.totalLessonCount, this.state.lessonPeriods);
+    var pricing = calculatePricing(this.state.lessonPeriods);
     console.log(totalOwed);
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
@@ -122,7 +122,6 @@ var App = React.createClass({
     return (
       <div>
         <Header family={this.state.family} 
-                lessonCount={this.state.totalLessonCount} 
                 lessonPeriods={this.state.lessonPeriods}
                 hasSubmitted={this.state.hasSubmitted}
                 handleClickAddStudent={this.toggleCreating} />
@@ -134,11 +133,11 @@ var App = React.createClass({
           <Body {...this.state}
                 handleToggleConfirming={this.toggleConfirming}
                 handleClickAddStudent={this.toggleCreating}
-                submitForm={this.submitForm}
                 passLessonCount={this.adjustLessonCount} 
                 updateFromNewLessonPeriod={this.updateFromNewLessonPeriod}
                 updateFromEditLessonPeriod={this.updateFromEditLessonPeriod}
-                updateFromDeleteLessonPeriod={this.updateFromDeleteLessonPeriod} />
+                updateFromDeleteLessonPeriod={this.updateFromDeleteLessonPeriod} 
+                submitForm={this.submitForm} />
         }
       </div>
     )

@@ -1,10 +1,21 @@
+var getLessonCount= function(lessonPeriods) {
+  var lessonCount = 0;
+  lessonPeriods.forEach((lessonPeriod) => {
+    lessonCount += lessonPeriod.lesson_count;
+  });
+  return lessonCount;
+}
+
 var monetize = function(amount) {
 // currency formatting 
   return ("$" + (amount/100));
 }
 
-var calculatePricing = function(lessonCount, lessonPeriods) {
+var calculatePricing = function(lessonPeriods) {
 // calculate form cost and discounts from lesson and lesson period counts
+
+  // get total lesson count from lesson periods
+  var lessonCount = getLessonCount(lessonPeriods);
 
   // get possible discount based on number of lesson periods
   var lessonPeriodCount = lessonPeriods.length;
@@ -72,10 +83,19 @@ var calculateLessonPeriodCost = function(lessonPeriod, lessonPeriodCount, lesson
   return cost;
 }
 
-var calculateLessonCount = function(lessonPeriods) {
+var formatDuration = function(timeInMinutes) {      
+  var hours = Math.floor(Math.abs(timeInMinutes) / 60);  
+  var minutes = Math.abs(timeInMinutes) % 60; 
 
+  var string = "";
+  string += hours > 0 ? hours + 'h ' : ''
+  string += minutes + 'm' 
+    
+  return string;  
 }
 
+
+// Potentially useful function for later
 // var getArgs = function(args) {
 //   // First match everything inside the function argument parens.
 //   var args = args.toString().match(/function\s.*?\(([^)]*)\)/)[1];

@@ -3,10 +3,10 @@ var Header = React.createClass({
     return { totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
   },
   componentWillReceiveProps(nextProps) {
-    this.updatePricing(nextProps.lessonCount, nextProps.lessonPeriods);
+    this.updatePricing(nextProps.lessonPeriods);
   },
-  updatePricing(count, lessonPeriods) {
-    var pricing = calculatePricing(count, lessonPeriods);
+  updatePricing(lessonPeriods) {
+    var pricing = calculatePricing(lessonPeriods);
     this.setState({
       totalDiscount: pricing.discount,
       totalOwed: pricing.totalOwed,
@@ -23,7 +23,7 @@ var Header = React.createClass({
     }
 
     var family = this.props.family;
-    var lessonCount = this.props.lessonCount;
+    var lessonCount = getLessonCount(this.props.lessonPeriods);
     var total = monetize(this.state.totalOwed);
     var totalDiscount = monetize(this.state.totalDiscount);
     var possibleDiscount = monetize(this.state.possibleDiscount);

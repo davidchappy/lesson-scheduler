@@ -16,6 +16,15 @@ class LessonPeriod < ApplicationRecord
     end
   end
 
+  def update_lesson_count
+    count = 0
+    self.weeks.each do |week|
+      count += 1 if week.lesson
+    end
+    self.lesson_count = count
+    self.save
+  end
+
   def LessonPeriod.get_weeks_as_hash(lesson_periods)
     weeks = {}
     lesson_periods.each do |lesson_period|

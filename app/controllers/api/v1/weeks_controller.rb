@@ -11,6 +11,7 @@ class Api::V1::WeeksController < Api::V1::BaseController
     # update week
     @week = Week.find(params[:id])
     @week.update_attributes(week_params)
+    @week.lesson_period.update_lesson_count
 
     # respond
     respond_with @week, json: @week

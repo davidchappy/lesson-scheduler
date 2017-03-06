@@ -25,10 +25,6 @@ class Form < ApplicationRecord
     self.end_date ||= finish
   end
 
-  def sorted_lesson_periods
-    return self.lesson_periods.sort_by { |lesson_period| lesson_period.created_at } || []
-  end
-
   def unique_year
     if Form.all.any? { |form| form.year == self.year } 
       errors.add(:year, "must be unique")

@@ -71,3 +71,7 @@ var calculateLessonPeriodCost = function(lessonPeriod, lessonPeriodCount, lesson
   cost = (lessonCount * lessonRate) - lessonPeriodDiscount;
   return cost;
 }
+
+var calculateLessonCount = function(lessonPeriods) {
+
+}

@@ -13,7 +13,8 @@ var App = React.createClass({
         if(response.form.submitted === true) {
           this.setState({ alreadySubmitted: true })
         }
-        this.setState({ family: response.family,  
+        this.setState({ 
+                        family: response.family,  
                         form: response.form,
                         lessonPeriods: response.lesson_periods,
                         students: response.students
@@ -122,11 +123,9 @@ var App = React.createClass({
       <div>
         <Header family={this.state.family} 
                 lessonCount={this.state.totalLessonCount} 
+                lessonPeriods={this.state.lessonPeriods}
                 toggleNewLessonPeriod={this.toggleNewLessonPeriod}
-                alreadySubmitted={this.state.alreadySubmitted}
-                totalOwed={this.state.totalOwed}
-                totalDiscount={this.state.totalDiscount}
-                possibleDiscount={this.state.possibleDiscount} />
+                alreadySubmitted={this.state.alreadySubmitted} />
         {this.state.alreadySubmitted ? 
           <AlreadySubmitted submitted_at={this.state.form.submitted_at} /> :
           <Body form={this.state.form}

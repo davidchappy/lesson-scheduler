@@ -1,10 +1,22 @@
 var Header = React.createClass({
-  // getInitialState() {
-  //   return { totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
-  // },
-  // componentWillReceiveProps(nextProps) {
-  //   console.log("Header mounted");
-  // },
+  getInitialState() {
+    return { totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
+  },
+  componentWillReceiveProps(nextProps) {
+    this.updatePricing(nextProps.lessonCount, nextProps.lessonPeriods);
+  },
+  updatePricing(count, lessonPeriods) {
+    var count = count || this.props.lessonCount;
+    var lessonPeriods = lessonPeriods || this.props.lessonPeriods
+    var pricing = calculatePricing(count, lessonPeriods);
+
+    // update app state with all pricing data
+    this.setState({
+      totalDiscount: pricing.discount,
+      totalOwed: pricing.totalOwed,
+      possibleDiscount: pricing.possibleDiscount
+    })  
+  },
   render() {
     if ( !this.props.family ) {
       return (
@@ -16,9 +28,9 @@ var Header = React.createClass({
 
     var family = this.props.family;
     var lessonCount = this.props.lessonCount;
-    var total = monetize(this.props.totalOwed);
-    var totalDiscount = monetize(this.props.totalDiscount);
-    var possibleDiscount = monetize(this.props.possibleDiscount);
+    var total = monetize(this.state.totalOwed);
+    var totalDiscount = monetize(this.state.totalDiscount);
+    var possibleDiscount = monetize(this.state.possibleDiscount);
     var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
 
     return (

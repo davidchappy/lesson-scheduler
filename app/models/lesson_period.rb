@@ -28,7 +28,7 @@ class LessonPeriod < ApplicationRecord
   def LessonPeriod.get_weeks_as_hash(lesson_periods)
     weeks = {}
     lesson_periods.each do |lesson_period|
-      weeks[lesson_period.id] = lesson_period.weeks
+      weeks[lesson_period.id] = lesson_period.weeks.sort_by { |week| week.start_date }
     end
     weeks
   end

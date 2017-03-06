@@ -16,6 +16,14 @@ class LessonPeriod < ApplicationRecord
     end
   end
 
+  def LessonPeriod.get_weeks_as_hash(lesson_periods)
+    weeks = {}
+    lesson_periods.each do |lesson_period|
+      weeks[lesson_period.id] = lesson_period.weeks
+    end
+    weeks
+  end
+
   private
 
     def generate_weeks

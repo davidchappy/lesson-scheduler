@@ -6,7 +6,7 @@ var App = React.createClass({
   },
   componentDidMount() {
     $.ajax({
-      url: '/api/v1/families.json', 
+      url: '/api/v1/app.json', 
       type: 'GET',
       success: (response) => {
         console.log(response);

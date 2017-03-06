@@ -1,7 +1,8 @@
 var App = React.createClass({
   getInitialState() {
-    return {  family: undefined, form: undefined, students: undefined, 
-              weeks: undefined, lessonPeriods: undefined, totalLessonCount: 0,
+    return {  instruments: undefined, teachers: undefined,
+              family: undefined, form: undefined, students: undefined, 
+              lessonPeriods: undefined, weeks: undefined, totalLessonCount: 0,
               addingLessonPeriod: false, alreadySubmitted: false }
   },
   componentDidMount() {
@@ -17,10 +18,12 @@ var App = React.createClass({
           this.setState({ alreadySubmitted: true })
         }
         this.setState({ 
+                        instruments: response.instruments,
+                        teachers: response.teachers,
                         family: response.family,  
                         form: response.form,
-                        lessonPeriods: response.lesson_periods,
                         students: response.students,
+                        lessonPeriods: response.lesson_periods,
                         weeks: response.weeks
                       });
         this.adjustLessonCount(response.lesson_periods);

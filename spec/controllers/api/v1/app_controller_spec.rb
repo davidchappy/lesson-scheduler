@@ -40,6 +40,8 @@ RSpec.describe Api::V1::AppController, :type => :controller do
       end
 
       it "returns the current family, form and students in JSON" do 
+        instruments = Instrument.all
+        teachers = Teacher.all
         form = family.forms.first
         students = family.students
         lesson_periods = form.lesson_periods.order(:created_at)
@@ -47,6 +49,8 @@ RSpec.describe Api::V1::AppController, :type => :controller do
 
         get :index, format: :json
         expected = {
+          instruments: instruments,
+          teachers: teachers,
           family: family,
           lesson_periods: [lesson_period],
           form: family.forms.first,

@@ -1,11 +1,25 @@
 var Confirmation = React.createClass({
+  getInitialState() {
+    return { totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
+  },
+  componentDidMount() {
+    this.updatePricing(this.props.lessonCount, this.props.lessonPeriods);
+  },
+  updatePricing(count, lessonPeriods) {
+    var pricing = calculatePricing(count, lessonPeriods);
+    this.setState({
+      totalDiscount: pricing.discount,
+      totalOwed: pricing.totalOwed,
+      possibleDiscount: pricing.possibleDiscount
+    })  
+  },
   render() {
     return ( 
       <div className={"confirmation-page"}> 
         <button className="btn btn-default" onClick={this.props.toggleConfirmationPage}>Back</button>
         <div className="confirmation-text">
           <p>Here's a quick breakdown of your payments for this summer.</p>
-          <p>Total Cost: {monetize(this.props.totalOwed)}</p> 
+          <p>Total Cost: {monetize(this.state.totalOwed)}</p> 
           <p>If everything looks good, just click the green button!</p>
         </div>
         <div>

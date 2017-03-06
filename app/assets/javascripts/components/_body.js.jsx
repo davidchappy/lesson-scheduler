@@ -117,8 +117,8 @@ var Body = React.createClass({
           {this.state.confirmationPage ?
             <Confirmation toggleConfirmationPage={this.toggleConfirmationPage}
                           submitForm={this.props.submitForm} 
-                          totalOwed={this.props.totalOwed} 
-                          monetize={this.props.monetize} /> :
+                          lessonPeriods={this.props.lessonPeriods} 
+                          lessonCount={this.props.lessonCount} /> :
             <div>
               <div className="lesson-periods row">
                 {lessonPeriods}

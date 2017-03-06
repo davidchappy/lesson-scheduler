@@ -2,8 +2,7 @@ var App = React.createClass({
   getInitialState() {
     return {  family: undefined, form: undefined, students: undefined, 
               lessonPeriods: undefined, totalLessonCount: 0,
-              addingLessonPeriod: false, alreadySubmitted: false,
-              totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
+              addingLessonPeriod: false, alreadySubmitted: false }
   },
   componentDidMount() {
     $.ajax({
@@ -85,18 +84,6 @@ var App = React.createClass({
     });
 
     this.setState({ totalLessonCount: newTotal, lessonPeriods: lessonPeriods });
-    var pricing = calculatePricing(newTotal, lessonPeriods);
-    this.updatePricing(pricing.discount, pricing.totalOwed, pricing.possibleDiscount)
-  },
-  updatePricing() {
-    var pricing = calculatePricing(this.state.totalLessonCount, this.state.lessonPeriods);
-
-    // update app state with all pricing data
-    this.setState({
-      totalDiscount: pricing.discount,
-      totalOwed: pricing.totalOwed,
-      possibleDiscount: pricing.possibleDiscount
-    })  
   },
   submitForm() {
     var id = this.state.form.id;
@@ -131,14 +118,14 @@ var App = React.createClass({
           <Body form={this.state.form}
                 students={this.state.students}
                 lessonPeriods={this.state.lessonPeriods} 
+                lessonCount={this.state.totalLessonCount} 
                 passLessonCount={this.adjustLessonCount} 
                 handleSubmit={this.handleNewLessonPeriod}
                 handleEdit={this.handleEditedLessonPeriod}
                 handleDeletedLessonPeriod={this.handleDeletedLessonPeriod} 
                 toggleNewLessonPeriod={this.toggleNewLessonPeriod} 
                 addingLessonPeriod={this.state.addingLessonPeriod} 
-                submitForm={this.submitForm} 
-                totalOwed={this.state.totalOwed} />
+                submitForm={this.submitForm} />
         }
       </div>
     )

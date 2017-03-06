@@ -6,11 +6,7 @@ var Header = React.createClass({
     this.updatePricing(nextProps.lessonCount, nextProps.lessonPeriods);
   },
   updatePricing(count, lessonPeriods) {
-    var count = count || this.props.lessonCount;
-    var lessonPeriods = lessonPeriods || this.props.lessonPeriods
     var pricing = calculatePricing(count, lessonPeriods);
-
-    // update app state with all pricing data
     this.setState({
       totalDiscount: pricing.discount,
       totalOwed: pricing.totalOwed,

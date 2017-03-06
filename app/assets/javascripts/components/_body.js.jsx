@@ -1,16 +1,16 @@
 var Body = React.createClass({
-  getInitialState() {
-    return { 
-      confirmationPage: false
-    }
-  },
+  // getInitialState() {
+  //   return { 
+  //     confirmationPage: false
+  //   }
+  // },
   handleDelete(lessonPeriod) {
     var id = lessonPeriod.id;
     $.ajax({
       url: `/api/v1/lesson_periods/${id}.json`, 
       type: 'DELETE',
       success: (response) => { 
-        this.props.handleDeletedLessonPeriod(lessonPeriod);
+        this.props.updateFromDeleteLessonPeriod(lessonPeriod);
       }
     });
   },
@@ -46,12 +46,8 @@ var Body = React.createClass({
     this.props.passLessonCount(lessonPeriods);
   },
   passNewLessonPeriod(lessonPeriod, student) {
-    this.props.toggleNewLessonPeriod();
+    this.props.toggleCreating();
     this.props.handleSubmit(lessonPeriod, student);  
-  },
-  toggleConfirmationPage() {
-    var confirmation = this.state.confirmationPage ? false : true;
-    this.setState({ confirmationPage: confirmation });
   },
   render() {
     if ( !this.props.lessonPeriods ) {
@@ -85,9 +81,9 @@ var Body = React.createClass({
     return (
       <div className="wrapper">
         <div className="body container">      
-          {this.state.confirmationPage ?
-            <Confirmation toggleConfirmationPage={this.toggleConfirmationPage}
-                          submitForm={this.props.submitForm} 
+          {this.props.isConfirming ?
+            <Confirmation toggleConfirming={this.props.toggleConfirming}
+                          handleSubmitForm={this.props.submitForm} 
                           lessonPeriods={this.props.lessonPeriods} 
                           lessonCount={this.props.lessonCount} /> :
             <div>
@@ -100,7 +96,7 @@ var Body = React.createClass({
 
                   <div className="new-lesson-period-button col-sm-6 col-md-4">
                     <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 
-                      onClick={this.props.toggleNewLessonPeriod}>
+                      onClick={this.props.toggleCreating}>
                       <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> 
                       <span className="button-text">Add a Lesson Period</span>
                     </button>
@@ -110,7 +106,7 @@ var Body = React.createClass({
               <div className="submit-form row">
                 <div className="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                   <button className="btn btn-primary submit-form-button" 
-                          onClick={this.toggleConfirmationPage}>Submit Form</button>
+                          onClick={this.props.toggleConfirming}>Submit Form</button>
                 </div>
               </div>
             </div>

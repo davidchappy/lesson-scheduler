@@ -16,7 +16,8 @@ class Api::V1::FormsController < Api::V1::BaseController
       @form.submitted_at = DateTime.now
       @form.save
       @form.update_attributes(form_params)
-      respond_with @form, json: @form
+      # respond_with @form, json: @form
+      redirect_to root_url
     else
       # admin
     end

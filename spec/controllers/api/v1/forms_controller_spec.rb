@@ -45,8 +45,7 @@ RSpec.describe Api::V1::FormsController, :type => :controller do
         expect(form.submitted_at).to be_nil
         params = { id: form.id, form: { total_cost: 20000 } }
         put :update, format: :json, params: params
-        expect( response_body["submitted"] ).to eq(true)
-        expect( response_body["submitted_at"] ).to_not be_nil
+        expect(subject).to redirect_to(root_url)
       end
 
       it "updates its total cost attribute when submitted" do

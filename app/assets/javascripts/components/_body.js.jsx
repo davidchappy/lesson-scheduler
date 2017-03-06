@@ -14,7 +14,7 @@ var Body = React.createClass({
       }
     });
   },
-  handleEdit(name, instrumentId, teacherId, lessonPeriod) {
+  putEditLessonPeriod(name, instrumentId, teacherId, lessonPeriod) {
     var id = lessonPeriod.id;
     $.ajax({
       url: `/api/v1/lesson_periods/${id}.json`, 
@@ -28,7 +28,7 @@ var Body = React.createClass({
       success: (response) => {
         var lessonPeriod = response["lesson_period"];
         var student = response["student"];
-        this.props.handleEdit(lessonPeriod, student);
+        this.props.updateFromEditLessonPeriod(lessonPeriod, student);
       }
     });
   },
@@ -44,10 +44,6 @@ var Body = React.createClass({
     lessonPeriods[index] = lessonPeriod;
 
     this.props.passLessonCount(lessonPeriods);
-  },
-  passNewLessonPeriod(lessonPeriod, student) {
-    this.props.toggleCreating();
-    this.props.handleSubmit(lessonPeriod, student);  
   },
   render() {
     if ( !this.props.lessonPeriods ) {
@@ -74,7 +70,7 @@ var Body = React.createClass({
                       teachers={this.props.teachers}
                       updateLessonCount={this.passLessonCount} 
                       handleDelete={this.handleDelete}
-                      handleEdit={this.handleEdit} />
+                      passEditLessonPeriod={this.putEditLessonPeriod} />
       )
     })
 
@@ -82,7 +78,7 @@ var Body = React.createClass({
       <div className="wrapper">
         <div className="body container">      
           {this.props.isConfirming ?
-            <Confirmation toggleConfirming={this.props.toggleConfirming}
+            <Confirmation handleToggleConfirming={this.props.handleToggleConfirming}
                           handleSubmitForm={this.props.submitForm} 
                           lessonPeriods={this.props.lessonPeriods} 
                           lessonCount={this.props.lessonCount} /> :
@@ -92,11 +88,11 @@ var Body = React.createClass({
                 {this.props.isCreating ? 
 
                   <NewLessonPeriod  {...this.props} 
-                                    handleSubmit={this.passNewLessonPeriod} /> :
+                                    handleSubmit={this.props.updateFromNewLessonPeriod} /> :
 
                   <div className="new-lesson-period-button col-sm-6 col-md-4">
                     <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 
-                      onClick={this.props.toggleCreating}>
+                      onClick={this.props.handleClickAddStudent}>
                       <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> 
                       <span className="button-text">Add a Lesson Period</span>
                     </button>
@@ -106,7 +102,7 @@ var Body = React.createClass({
               <div className="submit-form row">
                 <div className="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                   <button className="btn btn-primary submit-form-button" 
-                          onClick={this.props.toggleConfirming}>Submit Form</button>
+                          onClick={this.props.handleToggleConfirming}>Submit Form</button>
                 </div>
               </div>
             </div>

@@ -50,11 +50,11 @@ var LessonPeriod = React.createClass({
     var editing = this.state.editing ? false : true;
     this.setState({ editing: editing });
   },
-  handleEdit(name, instrumentId, teacherId, defaultLessonLength) {
+  passEditLessonPeriod(name, instrumentId, teacherId, defaultLessonLength) {
     this.toggleEdit();
     var lessonPeriod = this.props.lessonPeriod
     lessonPeriod.defaultLessonLength = defaultLessonLength;
-    this.props.handleEdit(name, instrumentId, teacherId, lessonPeriod);
+    this.props.passEditLessonPeriod(name, instrumentId, teacherId, lessonPeriod);
   },
   confirmDelete() {
     this.props.handleDelete(this.props.lessonPeriod);
@@ -88,7 +88,7 @@ var LessonPeriod = React.createClass({
         </div>
     } else if (this.state.editing) {
       var buttonText = "Save Student"
-      header = <FormFields  handleSubmit={this.handleEdit}
+      header = <FormFields  handleSubmit={this.passEditLessonPeriod}
                             instruments={this.props.instruments}
                             teachers={this.props.teachers}
                             lessonPeriod={this.props.lessonPeriod}

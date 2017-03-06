@@ -41,7 +41,7 @@ var Header = React.createClass({
             </button>
             <a className="navbar-brand" href="#">The {family.last_name} Family</a>
             {this.props.hasSubmitted ? null :
-              <button className="btn add-lesson-period" onClick={this.props.toggleCreating}>
+              <button className="btn add-lesson-period" onClick={this.props.handleClickAddStudent}>
                 <span className="glyphicon glyphicon-plus"></span>
               </button>
             }

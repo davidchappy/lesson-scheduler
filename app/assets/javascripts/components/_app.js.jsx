@@ -40,11 +40,14 @@ var App = React.createClass({
     this.setState({ isConfirming: isConfirming });
   },
   updateFromNewLessonPeriod(lessonPeriod, student) {
+    this.toggleCreating();
+
     // update app state lesson periods after creating new lesson period
     var lessonPeriods = this.state.lessonPeriods;
     lessonPeriods.push(lessonPeriod);
     this.setState({ lessonPeriods: lessonPeriods });
 
+    // update app state students after creating new lesson period
     var students = this.state.students;
     var studentExists = this.state.students.find((s) => {
       return s.id === lessonPeriod.student_id;
@@ -122,7 +125,7 @@ var App = React.createClass({
                 lessonCount={this.state.totalLessonCount} 
                 lessonPeriods={this.state.lessonPeriods}
 
-                toggleCreating={this.toggleCreating}
+                handleClickAddStudent={this.toggleCreating}
                 hasSubmitted={this.state.hasSubmitted} />
 
         {this.state.hasSubmitted ? 
@@ -131,13 +134,13 @@ var App = React.createClass({
 
           <Body {...this.state}
 
+                handleToggleConfirming={this.toggleConfirming}
+                handleClickAddStudent={this.toggleCreating}
                 submitForm={this.submitForm}
                 passLessonCount={this.adjustLessonCount} 
-                handleSubmit={this.updateFromNewLessonPeriod}
-                handleEdit={this.updateFromEditLessonPeriod}
-                updateFromDeleteLessonPeriod={this.updateFromDeleteLessonPeriod} 
-                toggleConfirming={this.toggleConfirming}
-                toggleCreating={this.toggleCreating} />
+                updateFromNewLessonPeriod={this.updateFromNewLessonPeriod}
+                updateFromEditLessonPeriod={this.updateFromEditLessonPeriod}
+                updateFromDeleteLessonPeriod={this.updateFromDeleteLessonPeriod} />
         }
       </div>
     )

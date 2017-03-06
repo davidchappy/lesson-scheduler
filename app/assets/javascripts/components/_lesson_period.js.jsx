@@ -114,6 +114,7 @@ var LessonPeriod = React.createClass({
           {header}
         </div>
         <Weeks  lessonPeriodId={this.props.lessonPeriod.id} 
+                weeks={this.props.weeks}
                 getLessonCount={this.getLessonCount} 
                 changeLessonCount={this.changeLessonCount}
                 unavailableDates={this.state.unavailableDates} />

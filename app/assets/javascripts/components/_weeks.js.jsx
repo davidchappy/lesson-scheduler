@@ -3,40 +3,36 @@ var Weeks = React.createClass({
     return { weeks: undefined }
   },
   componentDidMount() {
-    var id = this.props.lessonPeriodId;
-    $.ajax({
-      url: `/api/v1/weeks.json?lesson_period_id=${id}`, 
-      type: 'GET',
-      success: (response) => {
-        var weeks = response;
-        weeks.forEach((week, index) => {
-          var start_date = new Date(week.start_date);
-          var end_date = new Date(week.end_date);
-          weeks[index].start_date = start_date;
-          weeks[index].end_date = end_date;
-        }); 
-        if (this.isMounted()) {
-          this.setState({ weeks: weeks });
-        }
-        this.props.getLessonCount(weeks);
-      }
-    });
+    this.updateStateFromProps(this.props);  
   },
-  updateWeek(week, toggleSelect=false) {
+  updateStateFromProps(props) {
+    var id = props.lessonPeriodId;
+    var weeks = props.weeks[id];
+    weeks.forEach((week, index) => {
+      var start_date = new Date(week.start_date);
+      var end_date = new Date(week.end_date);
+      weeks[index].start_date = start_date;
+      weeks[index].end_date = end_date;
+    }); 
+    if (this.isMounted()) {
+      this.setState({ weeks: weeks });
+    }
+    this.props.getLessonCount(weeks);
+  },
+  putUpdateWeek(week, toggleSelect=false) {
     if(toggleSelect) {
       week.lesson = week.lesson ? false : true;
     }
-
     $.ajax({
       url: `/api/v1/weeks/${week.id}.json`,
       type: 'PUT',
       data: { week: { lesson: week.lesson, lesson_length: week.lesson_length } },
       success: () => {
-        this.updateWeekState(week, toggleSelect);
+        this.updateWeeks(week, toggleSelect);
       }
     })
   },
-  updateWeekState(week, triggerSelect) {
+  updateWeeks(week, triggerSelect) {
     var weeks = this.state.weeks;
     var index = weeks.indexOf(week);
     weeks[index] = week;
@@ -74,7 +70,7 @@ var Weeks = React.createClass({
 
       return (
         <Week key={week.id} week={week} index={index} 
-              handleClick={this.updateWeek} unavailable={unavailable}/>
+              handleClick={this.putUpdateWeek} unavailable={unavailable}/>
       )
     });
 

@@ -11,12 +11,15 @@ var FormFields = React.createClass({
             }
   },
   componentWillMount() {
-    var studentName = this.props.student ? this.props.student.name : ""
+    var studentName = this.props.student ? this.props.student.name : "";
+    var lessonLength =  this.props.lessonPeriod ? 
+                        this.props.lessonPeriod.default_lesson_length :
+                        30;
     this.setState({ 
                     studentName: studentName,
                     instrument: this.props.instrument,
                     teacher: this.props.teacher,
-                    defaultLessonLength: this.props.lessonPeriod.default_lesson_length,
+                    defaultLessonLength: lessonLength,
                     instrumentEnabled: this.props.instrumentEnabled,
                     teacherEnabled: this.props.teacherEnabled,
                     submitEnabled: this.props.submitEnabled 

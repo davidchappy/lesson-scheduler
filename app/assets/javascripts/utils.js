@@ -35,7 +35,10 @@ var calculatePricing = function(lessonPeriods) {
 
   // get possible discount based on number of lesson periods
   var lessonPeriodCount = lessonPeriods.length;
-  var possibleDiscount = calculatePossibleDiscount(lessonPeriodCount);
+  var possibleDiscount = 0;
+  if(lessonPeriodCount > 0) {
+    possibleDiscount = calculatePossibleDiscount(lessonPeriodCount);
+  }
 
   // get actual discounts and total owed from lesson and lesson period counts
   var discount = 0;
@@ -51,7 +54,6 @@ var calculatePricing = function(lessonPeriods) {
 
 var calculatePossibleDiscount = function(lessonPeriodCount) {
 // utility to calculate possible discount from the number of lesson periods
-
   var possibleDiscount = 0;
   possibleDiscount = (3000 * lessonPeriodCount) + (500 * (lessonPeriodCount-1));
   if(lessonPeriodCount >= 2) { 

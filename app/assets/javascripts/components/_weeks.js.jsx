@@ -1,6 +1,6 @@
 var Weeks = React.createClass({
   getInitialState() {
-    return { weeks: undefined }
+    return { weeks: undefined };
   },
   componentWillReceiveProps(nextProps) {
     this.updateStateFromProps(nextProps);
@@ -40,7 +40,6 @@ var Weeks = React.createClass({
     if(dates.length > 0) {
       for(i=0; i < dates.length; i++) {
         if(week.start_date <= dates[i] && week.end_date >= dates[i]) {
-          console.log("isUnavailable");
           return true;
         }
       };

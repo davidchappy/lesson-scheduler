@@ -8,7 +8,6 @@ var LessonPeriod = React.createClass({
   },
   componentWillReceiveProps(nextProps) {
     this.updateStateFromProps(nextProps);
-    console.log(nextProps);
   },
   componentDidMount() {
     this.updateStateFromProps(this.props);  

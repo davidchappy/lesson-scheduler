@@ -26,7 +26,7 @@ class Form < ApplicationRecord
   end
 
   def unique_year
-    if Form.all.any? { |form| form.year == self.year } 
+    if Form.all.any? { |form| form.family == self.family && form.year == self.year } 
       errors.add(:year, "must be unique")
     end
   end

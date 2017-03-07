@@ -3,16 +3,17 @@ var App = React.createClass({
     return {  instruments: undefined, teachers: undefined,
               family: undefined, form: undefined, students: undefined, 
               lessonPeriods: undefined, allWeeks: undefined, isCreating: false, 
-              isConfirming: false, hasSubmitted: false }
+              isConfirming: false, hasSubmitted: false, isSubmittable: false }
   },
   componentDidMount() {
-    this.fetchAppData();
+    this.fetchAppData();    
   },
   fetchAppData() {
     $.ajax({
       url: '/api/v1/app.json', 
       type: 'GET',
       success: (response) => {
+        var isSubmittable = response.lesson_periods.length ? true : false;
         this.setState({ 
                         instruments: response.instruments,
                         teachers: response.teachers,
@@ -21,7 +22,8 @@ var App = React.createClass({
                         students: response.students,
                         lessonPeriods: response.lesson_periods,
                         allWeeks: response.weeks,
-                        hasSubmitted: response.form.submitted
+                        hasSubmitted: response.form.submitted,
+                        isSubmittable: isSubmittable
                       });
       }
     });
@@ -65,7 +67,8 @@ var App = React.createClass({
     this.setState({ 
                     students: students, 
                     lessonPeriods: lessonPeriods, 
-                    allWeeks: allWeeks 
+                    allWeeks: allWeeks,
+                    isSubmittable: true 
                   });
   },
   updateFromEditLessonPeriod(lessonPeriod, student) {
@@ -105,7 +108,9 @@ var App = React.createClass({
     var lessonPeriodIndex = lessonPeriods.indexOf(lessonPeriod);
     lessonPeriods.splice(lessonPeriodIndex, 1);
 
-    this.setState({ lessonPeriods: lessonPeriods });
+    var isSubmittable = lessonPeriods.length ? true : false;
+
+    this.setState({ lessonPeriods: lessonPeriods, isSubmittable: isSubmittable });
   },
   updateFromWeekChange(week) {
     // get the weeks array for this week
@@ -165,7 +170,8 @@ var App = React.createClass({
                 updateFromNewLessonPeriod={this.updateFromNewLessonPeriod}
                 updateFromEditLessonPeriod={this.updateFromEditLessonPeriod}
                 updateFromDeleteLessonPeriod={this.updateFromDeleteLessonPeriod} 
-                submitForm={this.submitForm} />
+                submitForm={this.submitForm} 
+                isSubmittable={this.state.isSubmittable} />
         }
       </div>
     )

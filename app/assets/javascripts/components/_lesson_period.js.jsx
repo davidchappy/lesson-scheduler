@@ -59,7 +59,7 @@ var LessonPeriod = React.createClass({
     if ( !this.state.instrument || !this.state.teacher || !this.state.student) {
       return (
         <div className="lesson-period col-sm-6 col-md-4">
-          <p>Loading..</p>
+          <p>Loading Lesson Period..</p>
         </div>
       )
     }

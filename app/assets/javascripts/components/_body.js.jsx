@@ -62,6 +62,8 @@ var Body = React.createClass({
       )
     })
 
+    var disabled = this.props.isSubmittable ? false : true;
+
     return (
       <div className="wrapper">
         <div className="body container">      
@@ -89,7 +91,7 @@ var Body = React.createClass({
               </div>
               <div className="submit-form row">
                 <div className="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                  <button className="btn btn-primary submit-form-button" 
+                  <button className="btn btn-primary submit-form-button" disabled = {disabled}
                           onClick={this.props.handleToggleConfirming}>Submit Form</button>
                 </div>
               </div>

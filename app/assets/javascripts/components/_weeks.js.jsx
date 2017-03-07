@@ -26,13 +26,14 @@ var Weeks = React.createClass({
     }
   },
   putUpdateWeek(week) {
+    this.props.updateFromWeekChange(week);
     $.ajax({
       url: `/api/v1/weeks/${week.id}.json`,
       type: 'PUT',
       data: { week: { lesson: week.lesson, lesson_length: week.lesson_length } },
-      success: () => {
-        this.props.updateFromWeekChange(week);
-      }
+      // success: () => {
+      //   this.props.updateFromWeekChange(week);
+      // }
     })
   },
   isUnavailable(week) {

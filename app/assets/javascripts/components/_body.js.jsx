@@ -71,7 +71,8 @@ var Body = React.createClass({
             <Confirmation handleToggleConfirming={this.props.handleToggleConfirming}
                           handleSubmitForm={this.props.submitForm} 
                           lessonPeriods={this.props.lessonPeriods} 
-                          lessonCount={this.props.lessonCount} /> :
+                          lessonCount={this.props.lessonCount} 
+                          allWeeks={this.props.allWeeks} /> :
             <div>
               <div className="lesson-periods row">
                 {lessonPeriods}

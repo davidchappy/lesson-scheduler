@@ -443,9 +443,18 @@ body {
     background: transparent;
     text-align: right;
     direction: rtl;
+    color: $blue;
+    
+    &:disabled {
+      color: $gray-light;
+      
+      &:hover {
+        color: lighten($gray-light, 40%);
+      }
+    }
 
     &:hover {
-      color: lighten(rgb(85,85,85), 40%);
+      color: lighten($blue, 40%);
     }
 
     option {
@@ -462,16 +471,25 @@ body {
     border: none;
     box-shadow: none;
     background: transparent;
+    color: $blue;
+    
+    &:disabled {
+      color: $gray-light;
+      
+      &:hover {
+        color: lighten($gray-light, 40%);
+      }
+    }
     
     &:hover {
-      color: lighten(rgb(85,85,85), 40%);
+      color: lighten($blue, 40%);
     }
   }
 
   #studentName {
     max-width: 50%;
-    font-size: 1.4em;
-    line-height: 1;
+    font-size: 1.1em;
+    line-height: 0.9;
     font-weight: bold;
     top: 0.4rem;
     left: 1rem;
@@ -501,10 +519,18 @@ body {
     border: none;
     text-align: right;
     font-size: 0.8em;
-    cursor: normal;
+    cursor: auto;
     
     &:hover .lesson-length {
       color: lighten(rgb(51,51,51), 40%);
+    }
+
+    &.disabled {
+      color: $gray-light;
+        
+      &:hover {
+        color: lighten($gray-light, 40%);
+      }
     }
     
     .lesson-length {
@@ -512,6 +538,19 @@ body {
       direction: rtl;
       display: inline;
       position: static;
+      color: $blue;
+      
+      &:hover {
+        color: lighten($blue, 40%);
+      }
+
+      &:disabled {
+        color: $gray-light;
+        
+        &:hover {
+          color: lighten($gray-light, 40%);
+        }
+      }
     }
   }
 

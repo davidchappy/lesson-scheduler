@@ -83,6 +83,7 @@ var LessonPeriod = React.createClass({
                             teachers={this.props.teachers}
                             lessonPeriod={this.props.lessonPeriod}
                             buttonText={buttonText} 
+                            lessonLengthsEnabled={true}
                             instrumentEnabled={true}
                             teacherEnabled={true}
                             submitEnabled={true}

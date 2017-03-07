@@ -135,7 +135,7 @@ var App = React.createClass({
   submitForm() {
     // Ensure the form record has the current total cost
     var id = this.state.form.id;
-    var pricing = calculatePricing(this.state.lessonPeriods);
+    var pricing = calculatePricing(this.state.lessonPeriods, this.state.allWeeks);
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'PUT',
@@ -156,7 +156,8 @@ var App = React.createClass({
         <Header family={this.state.family} 
                 lessonPeriods={this.state.lessonPeriods}
                 hasSubmitted={this.state.hasSubmitted}
-                handleClickAddStudent={this.toggleCreating} />
+                handleClickAddStudent={this.toggleCreating}
+                allWeeks={this.state.allWeeks} />
 
         {this.state.hasSubmitted ? 
 

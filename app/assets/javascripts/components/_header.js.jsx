@@ -9,7 +9,7 @@ var Header = React.createClass({
     this.updatePricing(this.props.lessonPeriods);
   },
   updatePricing(lessonPeriods) {
-    var pricing = calculatePricing(lessonPeriods);
+    var pricing = calculatePricing(lessonPeriods, this.props.allWeeks);
     this.setState({
       totalDiscount: pricing.discount,
       totalOwed: pricing.totalOwed,

@@ -2,46 +2,38 @@ var Weeks = React.createClass({
   getInitialState() {
     return { weeks: undefined }
   },
+  componentWillReceiveProps(nextProps) {
+    this.updateStateFromProps(nextProps);
+  },
   componentDidMount() {
     this.updateStateFromProps(this.props);  
   },
   updateStateFromProps(props) {
+    // Choose this set of weeks from the weeks hash
     var id = props.lessonPeriodId;
-    var weeks = props.weeks[id];
+    var weeks = props.allWeeks[id];
+
+    // Convert each date into a JS date
     weeks.forEach((week, index) => {
       var start_date = new Date(week.start_date);
       var end_date = new Date(week.end_date);
       weeks[index].start_date = start_date;
       weeks[index].end_date = end_date;
     }); 
+
     if (this.isMounted()) {
       this.setState({ weeks: weeks });
     }
-    this.props.getLessonCount(weeks);
   },
-  putUpdateWeek(week, toggleSelect=false) {
-    if(toggleSelect) {
-      week.lesson = week.lesson ? false : true;
-    }
+  putUpdateWeek(week) {
     $.ajax({
       url: `/api/v1/weeks/${week.id}.json`,
       type: 'PUT',
       data: { week: { lesson: week.lesson, lesson_length: week.lesson_length } },
       success: () => {
-        this.updateWeeks(week, toggleSelect);
+        this.props.updateFromWeekChange(week);
       }
     })
-  },
-  updateWeeks(week, triggerSelect) {
-    var weeks = this.state.weeks;
-    var index = weeks.indexOf(week);
-    weeks[index] = week;
-    this.setState({ weeks: weeks });
-
-    if(triggerSelect) {
-      var change = week.lesson ? 1 : -1
-      this.props.changeLessonCount(change);
-    }
   },
   isUnavailable(week) {
     var dates = this.props.unavailableDates;
@@ -66,11 +58,13 @@ var Weeks = React.createClass({
     
     var weeks = this.state.weeks.map((week, index) => {
       // check if this week includes one of this teacher's unavailable dates
-      var unavailable = this.isUnavailable(week) ? true : false;
+      var unavailable = this.isUnavailable(week);
 
       return (
-        <Week key={week.id} week={week} index={index} 
-              handleClick={this.putUpdateWeek} unavailable={unavailable}/>
+        <Week key={week.id} 
+              week={week}
+              updateFromWeekChange={this.putUpdateWeek} 
+              unavailable={unavailable} />
       )
     });
 

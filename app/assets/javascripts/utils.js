@@ -1,9 +1,25 @@
-var getLessonCount= function(lessonPeriods) {
+var getTotalLessonCount = function(lessonPeriods) {
   var lessonCount = 0;
   lessonPeriods.forEach((lessonPeriod) => {
     lessonCount += lessonPeriod.lesson_count;
   });
   return lessonCount;
+}
+
+var getLessonCountFromWeeks = function(weeks) {
+  var lessonCount = 0;
+  weeks.forEach((week) => {
+    lessonCount += week.lesson ? 1 : 0;
+  });
+  return lessonCount; 
+}
+
+var updateLessonLengthInWeeks = function(weeks, newLength) {
+  var result;
+  for(var i=0; i<weeks.length; i++) {
+    weeks[i].lesson_length = newLength;
+  }
+  return weeks;
 }
 
 var monetize = function(amount) {
@@ -15,7 +31,7 @@ var calculatePricing = function(lessonPeriods) {
 // calculate form cost and discounts from lesson and lesson period counts
 
   // get total lesson count from lesson periods
-  var lessonCount = getLessonCount(lessonPeriods);
+  var lessonCount = getTotalLessonCount(lessonPeriods);
 
   // get possible discount based on number of lesson periods
   var lessonPeriodCount = lessonPeriods.length;
@@ -83,7 +99,7 @@ var calculateLessonPeriodCost = function(lessonPeriod, lessonPeriodCount, lesson
   return cost;
 }
 
-var formatDuration = function(timeInMinutes) {      
+var convertMinutesToHours = function(timeInMinutes) {      
   var hours = Math.floor(Math.abs(timeInMinutes) / 60);  
   var minutes = Math.abs(timeInMinutes) % 60; 
 
@@ -94,6 +110,14 @@ var formatDuration = function(timeInMinutes) {
   return string;  
 }
 
+var findElementInArrayById = function(id, targetArray) {
+  for (var i=0; i < targetArray.length; i++) {
+    var elem = targetArray[i];
+    if (elem.id === Number(id)) {
+      return elem;
+    }
+  }
+}
 
 // Potentially useful function for later
 // var getArgs = function(args) {

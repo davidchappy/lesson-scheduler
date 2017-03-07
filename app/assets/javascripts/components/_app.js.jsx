@@ -2,8 +2,8 @@ var App = React.createClass({
   getInitialState() {
     return {  instruments: undefined, teachers: undefined,
               family: undefined, form: undefined, students: undefined, 
-              lessonPeriods: undefined, weeks: undefined, totalLessonCount: 0,
-              isCreating: false, isConfirming: false, hasSubmitted: false }
+              lessonPeriods: undefined, allWeeks: undefined, isCreating: false, 
+              isConfirming: false, hasSubmitted: false }
   },
   componentDidMount() {
     this.fetchAppData();
@@ -13,10 +13,6 @@ var App = React.createClass({
       url: '/api/v1/app.json', 
       type: 'GET',
       success: (response) => {
-        console.log(response);
-        if(response.form.submitted === true) {
-          this.setState({ hasSubmitted: true })
-        }
         this.setState({ 
                         instruments: response.instruments,
                         teachers: response.teachers,
@@ -24,9 +20,9 @@ var App = React.createClass({
                         form: response.form,
                         students: response.students,
                         lessonPeriods: response.lesson_periods,
-                        weeks: response.weeks
+                        allWeeks: response.weeks,
+                        hasSubmitted: response.form.submitted
                       });
-        this.adjustLessonCount(response.lesson_periods);
       }
     });
   },
@@ -39,13 +35,17 @@ var App = React.createClass({
     var isConfirming = this.state.isConfirming ? false : true;
     this.setState({ isConfirming: isConfirming });
   },
-  updateFromNewLessonPeriod(lessonPeriod, student) {
+  updateFromNewLessonPeriod(lessonPeriod, student, weeks) {
     this.toggleCreating();
 
     // update app state lesson periods after creating new lesson period
     var lessonPeriods = this.state.lessonPeriods;
     lessonPeriods.push(lessonPeriod);
-    this.setState({ lessonPeriods: lessonPeriods });
+
+    // update weeks object
+    var allWeeks = this.state.allWeeks;
+    var id = weeks[0].lesson_period_id;
+    allWeeks[id] = weeks;
 
     // update app state students after creating new lesson period
     var students = this.state.students;
@@ -62,15 +62,32 @@ var App = React.createClass({
       students.push(student);
     }
 
-    this.setState({ students: students });
+    this.setState({ 
+                    students: students, 
+                    lessonPeriods: lessonPeriods, 
+                    allWeeks: allWeeks 
+                  });
   },
   updateFromEditLessonPeriod(lessonPeriod, student) {
-    // update app state lesson periods after editing a lesson period
+    // find this lesson period in lessonPeriods
     var lessonPeriods = this.state.lessonPeriods;
     var index; 
     lessonPeriods.map( (l, i) => {
       index = l.id === lessonPeriod.id ? i : index;
     });
+
+    // if default lesson length has changed, update weeks' lesson length
+    oldLessonLength = lessonPeriods[index].default_lesson_length;
+    newLessonLength = lessonPeriod.default_lesson_length;
+    var allWeeks = this.state.allWeeks;
+    weeks = allWeeks[lessonPeriod.id];
+    var isDefaultLengthChanged = oldLessonLength === newLessonLength ? false : true;
+    if(isDefaultLengthChanged) {
+      var weeks = updateLessonLengthInWeeks(weeks, newLessonLength);
+    }
+    allWeeks[lessonPeriod.id] = weeks;
+
+    // replace lessonPeriod in state
     lessonPeriods[index] = lessonPeriod;
 
     var students = this.state.students;
@@ -80,7 +97,7 @@ var App = React.createClass({
     });
     students[index] = student;
 
-    this.setState({ lessonPeriods: lessonPeriods, students: students });
+    this.setState({ lessonPeriods: lessonPeriods, students: students, allWeeks: allWeeks });
   },
   updateFromDeleteLessonPeriod(lessonPeriod) {
     // update app state lesson periods after deleting a lesson period
@@ -88,22 +105,32 @@ var App = React.createClass({
     var lessonPeriodIndex = lessonPeriods.indexOf(lessonPeriod);
     lessonPeriods.splice(lessonPeriodIndex, 1);
 
-    this.adjustLessonCount(lessonPeriods);
+    this.setState({ lessonPeriods: lessonPeriods });
   },
-  adjustLessonCount(lessonPeriods) {
-    // update app state lesson count, total cost, and lesson periods after a change
-    var newTotal = 0;
-    lessonPeriods.map((lessonPeriod) => {
-      newTotal += lessonPeriod.lesson_count;
-    });
+  updateFromWeekChange(week) {
+    // get the weeks array for this week
+    var lessonPeriodId = week.lesson_period_id;
+    var allWeeks = this.state.allWeeks;
+    var targetWeeks = allWeeks[lessonPeriodId];
 
-    this.setState({ totalLessonCount: newTotal, lessonPeriods: lessonPeriods });
+    // update weeks array and set it back in weeks object 
+    var index = targetWeeks.indexOf(week);
+    targetWeeks[index] = week;
+    allWeeks[lessonPeriodId] = targetWeeks;
+
+    // update count for this lesson period
+    var lessonPeriods = this.state.lessonPeriods;
+    var lessonPeriod = findElementInArrayById(lessonPeriodId, lessonPeriods);
+    var index = lessonPeriods.indexOf(lessonPeriod);
+    lessonPeriod.lesson_count = getLessonCountFromWeeks(targetWeeks);
+    lessonPeriods[index] = lessonPeriod;
+
+    this.setState({ lessonPeriods: lessonPeriods, allWeeks: allWeeks })
   },
   submitForm() {
     // Ensure the form record has the current total cost
     var id = this.state.form.id;
     var pricing = calculatePricing(this.state.lessonPeriods);
-    console.log(totalOwed);
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'PUT',
@@ -134,6 +161,7 @@ var App = React.createClass({
                 handleToggleConfirming={this.toggleConfirming}
                 handleClickAddStudent={this.toggleCreating}
                 passLessonCount={this.adjustLessonCount} 
+                updateFromWeekChange={this.updateFromWeekChange}
                 updateFromNewLessonPeriod={this.updateFromNewLessonPeriod}
                 updateFromEditLessonPeriod={this.updateFromEditLessonPeriod}
                 updateFromDeleteLessonPeriod={this.updateFromDeleteLessonPeriod} 

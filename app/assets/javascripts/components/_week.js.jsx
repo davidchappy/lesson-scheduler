@@ -1,41 +1,33 @@
 var Week = React.createClass({
-  // formatDate(date) {
-  //   var string = "";
-  //   var date_array = date.split('-');
-  //   var year = date_array[0];
-  //   var month = date_array[1];
-  //   var day = date_array[2];
-  // },
-  handleClick() {
-    this.props.handleClick(this.props.week, true);
+  getInitialState() {
+    return { selected: true, lesson_length: undefined }
   },
-  handleLessonLengthChange(event) {
-    console.log(event.target.value);
+  componentWillReceiveProps(nextProps) {
+    this.setState({ selected: nextProps.week.lesson, 
+                    lesson_length: nextProps.week.lesson_length });
+  },
+  componentDidMount() {
+    this.setState({ selected: this.props.week.lesson,
+                    lesson_length: this.props.week.lesson_length });
+  },
+  handleCheckWeek(event) {
+    week = this.props.week;
+    week.lesson = week.lesson ? false : true;
+    this.props.updateFromWeekChange(week);
+  },
+  handleSelectLessonLength(event) {
     week = this.props.week;
     week.lesson_length = event.target.value;
-    this.props.handleClick(week);
-  },
-  formatDuration(timeInMinutes) {      
-    var hours = Math.floor(Math.abs(timeInMinutes) / 60);  
-    var minutes = Math.abs(timeInMinutes) % 60; 
-
-    var string = "";
-    string += hours > 0 ? hours + 'h ' : ''
-    string += minutes + 'm' 
-      
-    return string;  
-  },
-  lessonLengthOptions() {
-    return [30, 45, 60, 75, 90, 105, 120];
+    this.props.updateFromWeekChange(week);
   },
   render() {
     var week = this.props.week; 
     var weekNumber = "week" + week.id;
-    var selected = week.lesson ? "selected" : "";
+    var selected = this.state.selected ? "selected" : "";
     var unavailable = this.props.unavailable ? "unavailable" : "";
 
-    var lessonLengths = this.lessonLengthOptions().map((length, index) => {
-      var lessonLengthString = this.formatDuration(length);
+    var lessonLengths = defaultSettings.lessonLengthOptions.map((length, index) => {
+      var lessonLengthString = convertMinutesToHours(length);
       return (
         <option value={length} key={index}>{lessonLengthString}</option>
       )
@@ -44,11 +36,9 @@ var Week = React.createClass({
     var lessonLength = () => {
       if(week.lesson) {
         return  <select ref="selectLessonLength" className="lesson-length"
-                  onChange={this.handleLessonLengthChange} required value={week.lesson_length}>
+                  onChange={this.handleSelectLessonLength} required value={week.lesson_length}>
                   {lessonLengths}
                 </select>;
-      } else {
-        return null;
       }
     }
     
@@ -58,7 +48,7 @@ var Week = React.createClass({
         <div className={"checkbox"}>
           <input  ref='week' id={weekNumber} type="checkbox" 
                   className={"form-control select-week " + selected} 
-                  onClick={this.handleClick}></input>
+                  onClick={this.handleCheckWeek}></input>
           {lessonLength()}
         </div>
         

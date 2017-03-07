@@ -1,5 +1,5 @@
 var NewLessonPeriod = React.createClass({
-  handleSubmit(name, instrumentId, teacherId, defaultLessonLength) {
+  postLessonPeriodForm(name, instrumentId, teacherId, defaultLessonLength) {
     var formId = this.props.form.id;
     $.ajax({
       url: '/api/v1/lesson_periods.json', 
@@ -11,9 +11,10 @@ var NewLessonPeriod = React.createClass({
                                 teacher_id: teacherId, default_lesson_length: defaultLessonLength } 
             },
       success: (response) => { 
-        var lessonPeriod = response["lesson_period"];
-        var student = response["student"];
-        this.props.handleSubmit(lessonPeriod, student);
+        var lessonPeriod = response.lesson_period;
+        var student = response.student;
+        var weeks = response.weeks;
+        this.props.updateFromNewLessonPeriod(lessonPeriod, student, weeks);
       },
       error: (jqXHR, errorString, exception) => {
         console.log(jqXHR);  
@@ -26,10 +27,10 @@ var NewLessonPeriod = React.createClass({
     return (
       <div className="lesson-period col-sm-6 col-md-4">
         <div className="lesson-period-header">
-          <FormFields handleSubmit={this.handleSubmit}
-                      instruments={this.props.instruments}
+          <FormFields instruments={this.props.instruments}
                       teachers={this.props.teachers} 
-                      buttonText={buttonText}/>
+                      buttonText={buttonText}
+                      submitLessonPeriodForm={this.postLessonPeriodForm} />
         </div>
       </div>
     )

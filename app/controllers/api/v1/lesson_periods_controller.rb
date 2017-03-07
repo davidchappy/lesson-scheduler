@@ -27,7 +27,8 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
     new_lesson_period = student.lesson_periods.build(lesson_periods_params)
 
     if new_lesson_period.save
-      response = { lesson_period: new_lesson_period, student: student }
+      response = {  lesson_period: new_lesson_period, 
+                    student: student, weeks: new_lesson_period.weeks }
       respond_with response, json: response
     else
       puts "couldn't create lesson period"

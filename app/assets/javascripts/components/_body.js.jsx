@@ -21,8 +21,8 @@ var Body = React.createClass({
               name: name 
             },
       success: (response) => {
-        var lessonPeriod = response["lesson_period"];
-        var student = response["student"];
+        var lessonPeriod = response.lesson_period;
+        var student = response.student;
         this.props.updateFromEditLessonPeriod(lessonPeriod, student);
       }
     });
@@ -55,6 +55,7 @@ var Body = React.createClass({
                       lessonPeriod={lessonPeriod} 
                       {...this.props}
 
+                      updateFromWeekChange={this.props.updateFromWeekChange}
                       updateLessonCount={this.passLessonCount} 
                       handleDelete={this.delDeleteLessonPeriod}
                       passEditLessonPeriod={this.putEditLessonPeriod} />
@@ -75,7 +76,7 @@ var Body = React.createClass({
                 {this.props.isCreating ? 
 
                   <NewLessonPeriod  {...this.props} 
-                                    handleSubmit={this.props.updateFromNewLessonPeriod} /> :
+                                    updateFromNewLessonPeriod={this.props.updateFromNewLessonPeriod} /> :
 
                   <div className="new-lesson-period-button col-sm-6 col-md-4">
                     <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 

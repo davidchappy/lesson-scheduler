@@ -2,13 +2,25 @@ var FormFields = React.createClass({
   getInitialState() {
     return  {  
               studentName: undefined, 
-              instrumentId: undefined, 
-              teacherId: undefined,
+              instrument: undefined, 
+              teacher: undefined,
               defaultLessonLength: undefined,
               instrumentEnabled: false,
               teacherEnabled: false,
               submitEnabled: false  
             }
+  },
+  componentWillMount() {
+    var studentName = this.props.student ? this.props.student.name : ""
+    this.setState({ 
+                    studentName: studentName,
+                    instrument: this.props.instrument,
+                    teacher: this.props.teacher,
+                    defaultLessonLength: this.props.lessonPeriod.default_lesson_length,
+                    instrumentEnabled: this.props.instrumentEnabled,
+                    teacherEnabled: this.props.teacherEnabled,
+                    submitEnabled: this.props.submitEnabled 
+                  })
   },
   handleTypeName(event) {
     var name = event.target.value;
@@ -16,23 +28,26 @@ var FormFields = React.createClass({
   },
   handleInstrumentSelect(event) {
     var instrumentId = event.target.value;
-    this.setState({ instrumentId: instrumentId, teacherEnabled: true });
+    var instrument = findElementInArrayById(instrumentId, this.props.instruments);
+    this.setState({ instrument: instrument, teacherEnabled: true });
   },  
   handleTeacherSelect(event) {
     var teacherId = event.target.value;
-    this.setState({ teacherId: teacherId, submitEnabled: true });
+    var teacher = findElementInArrayById(teacherId, this.props.teachers);
+    this.setState({ teacher: teacher, submitEnabled: true });
   },
   handleDefaultLessonLength(event) {
     var defaultLessonLength = event.target.value;
     this.setState({ defaultLessonLength: event.target.value });
   },
-  passValues(event) {
+  handleSubmitLessonPeriodForm(event) {
     event.preventDefault();
     var name = this.state.studentName;
-    var instrumentId = this.state.instrumentId;
-    var teacherId = this.state.teacherId;
+    var instrumentId = this.state.instrument.id;
+    var teacherId = this.state.teacher.id;
     var defaultLessonLength = this.state.defaultLessonLength;
-    this.props.handleSubmit(name, instrumentId, teacherId, defaultLessonLength);
+    this.props.submitLessonPeriodForm(name, instrumentId, 
+                                            teacherId, defaultLessonLength);
   },
   render() {
     var instruments = this.props.instruments.map((instrument) => {
@@ -42,7 +57,7 @@ var FormFields = React.createClass({
     });
 
     var teachers = this.props.teachers.map((teacher) => {
-      if(teacher.id == this.state.instrumentId) { 
+      if(this.state.instrument && teacher.id === this.state.instrument.id) { 
         return (
           <option value={teacher.id} key={teacher.id} className="instrument">{teacher.first_name} {teacher.last_name}</option>
         )
@@ -50,7 +65,7 @@ var FormFields = React.createClass({
     });
 
     var lessonLengths = appSettings.lessonLengthOptions.map((length, index) => {
-      var lessonLengthString = formatDuration(length);
+      var lessonLengthString = convertMinutesToHours(length);
       return (
         <option value={length} key={index}>{lessonLengthString}</option>
       )
@@ -67,6 +82,8 @@ var FormFields = React.createClass({
     var instrumentEnabled = this.state.instrumentEnabled ? false : true;
     var teacherEnabled = this.state.teacherEnabled ? false : true;
     var submitEnabled = this.state.submitEnabled ? false : true;
+    var instrumentId = this.state.instrument ? this.state.instrument.id : "";
+    var teacherId = this.state.teacher ? this.state.teacher.id : "";
 
     return (
       <form className="new-lesson-period-form form-inline">
@@ -74,19 +91,19 @@ var FormFields = React.createClass({
           placeholder="Student's name" onKeyUp={this.handleTypeName} defaultValue={this.state.studentName} required/>
         <select ref="selectTeacher" className="form-control selectTeacher" id="selectTeacher"
           onChange={this.handleTeacherSelect}   
-          disabled={ teacherEnabled } required value={this.state.teacherId}>
+          disabled={ teacherEnabled } required defaultValue={teacherId}>
             <option value='' className="placeholder">Teacher</option>
             {teachers}
         </select>
         <select ref="selectInstrument" className="form-control selectInstrument" id="selectInstrument" 
           onChange={this.handleInstrumentSelect}  
-          disabled={ instrumentEnabled } required value={this.state.instrumentId}>
+          disabled={ instrumentEnabled } required defaultValue={instrumentId}>
             <option value='' className="placeholder">Instrument</option>
             {instruments}
         </select>
         <div className="default-lesson-length">{defaultLessonLength()}&nbsp;Lessons</div>
         <button className="btn btn-primary submit-new-lesson-period" id="submit-new-lesson-period"
-        disabled={ submitEnabled } onClick={this.passValues}>{this.props.buttonText}</button>
+        disabled={ submitEnabled } onClick={this.handleSubmitLessonPeriodForm}>{this.props.buttonText}</button>
       </form>
     )
   }

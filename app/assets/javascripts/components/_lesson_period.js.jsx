@@ -1,11 +1,14 @@
 var LessonPeriod = React.createClass({
   getInitialState() {
-    return {  lessonCount: 0, defaultLessonLength: 30,
-              student: undefined, instrument: undefined, teacher: undefined,  
-              deleting: false, editing: false, unavailableDates: [] }
+    return  {  
+              lessonCount: 0, student: undefined, 
+              instrument: undefined, teacher: undefined,  
+              deleting: false, editing: false, unavailableDates: [] 
+            }
   },
   componentWillReceiveProps(nextProps) {
     this.updateStateFromProps(nextProps);
+    console.log(nextProps);
   },
   componentDidMount() {
     this.updateStateFromProps(this.props);  
@@ -22,30 +25,23 @@ var LessonPeriod = React.createClass({
       return student.id === lessonPeriod.student_id;
     });
     this.setState({ lessonCount: lessonPeriod.lesson_count,
-                    defaultLessonLength: lessonPeriod.default_lesson_length,
                     student: student,       
                     instrument: instrument, 
                     teacher: teacher,       
                     unavailableDates: teacher.unavailable_dates });
   },
-  getLessonCount(weeks) {
-    var count = 0;
-    weeks.map((week) => {
-      week.lesson ? count += 1 : count += 0;
-    });
-    this.setState({lessonCount: count});
-    this.props.updateLessonCount(count, this.props.lessonPeriod);
+  updateFromWeekChange(week) {
+    this.props.updateFromWeekChange(week);
   },
   changeLessonCount(change) {
     var newCount = this.state.lessonCount + change;
-    this.setState({ lessonCount: newCount })
     this.props.updateLessonCount(newCount, this.props.lessonPeriod);
   },
   handleToggleEditing() {
     var editing = this.state.editing ? false : true;
     this.setState({ editing: editing });
   },
-  passEditLessonPeriod(name, instrumentId, teacherId, defaultLessonLength) {
+  updateFromEditLessonPeriod(name, instrumentId, teacherId, defaultLessonLength) {
     this.handleToggleEditing();
     var lessonPeriod = this.props.lessonPeriod
     lessonPeriod.defaultLessonLength = defaultLessonLength;
@@ -83,15 +79,15 @@ var LessonPeriod = React.createClass({
         </div>
     } else if (this.state.editing) {
       var buttonText = "Save Student"
-      header = <FormFields  handleSubmit={this.passEditLessonPeriod}
+      header = <FormFields  {...this.state}
                             instruments={this.props.instruments}
                             teachers={this.props.teachers}
                             lessonPeriod={this.props.lessonPeriod}
                             buttonText={buttonText} 
-                            studentName={this.state.student.name}
-                            instrumentId={this.state.instrument.id}
-                            teacherId={this.state.teacher.id} 
-                            defaultLessonLength={this.state.defaultLessonLength} />
+                            instrumentEnabled={true}
+                            teacherEnabled={true}
+                            submitEnabled={true}
+                            submitLessonPeriodForm={this.updateFromEditLessonPeriod} />
     } else {
       header = 
         <div>
@@ -114,9 +110,8 @@ var LessonPeriod = React.createClass({
           {header}
         </div>
         <Weeks  lessonPeriodId={this.props.lessonPeriod.id} 
-                weeks={this.props.weeks}
-                getLessonCount={this.getLessonCount} 
-                changeLessonCount={this.changeLessonCount}
+                allWeeks={this.props.allWeeks}
+                updateFromWeekChange={this.updateFromWeekChange}
                 unavailableDates={this.state.unavailableDates} />
       </div>
     )

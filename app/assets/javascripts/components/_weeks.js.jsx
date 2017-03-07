@@ -31,9 +31,6 @@ var Weeks = React.createClass({
       url: `/api/v1/weeks/${week.id}.json`,
       type: 'PUT',
       data: { week: { lesson: week.lesson, lesson_length: week.lesson_length } },
-      // success: () => {
-      //   this.props.updateFromWeekChange(week);
-      // }
     })
   },
   isUnavailable(week) {

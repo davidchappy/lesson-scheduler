@@ -16,4 +16,8 @@
 # Ignore Byebug command history file.
 .byebug_history
 
+# Mac system files
 .DS_Store
+
+# Persisted rspec test file data
+spec/examples.txt

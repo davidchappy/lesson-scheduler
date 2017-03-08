@@ -16,15 +16,17 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'factory_girl_rails'
   gem 'vcr'
-  gem 'capybara'
   gem 'guard'
   gem 'guard-rspec'
+  gem 'database_cleaner'
   gem 'spring-commands-rspec'
+  gem "capybara-webkit"
 end
 
 group :test do
   gem 'webmock'
-  gem 'database_cleaner'
+  gem 'capybara'
+  # gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 3.1'
 end
 

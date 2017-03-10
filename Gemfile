@@ -26,6 +26,7 @@ end
 group :test do
   gem 'webmock'
   gem 'capybara'
+  gem 'poltergeist'
   # gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 3.1'
 end

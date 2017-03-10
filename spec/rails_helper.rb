@@ -9,18 +9,37 @@ require 'rspec/rails'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'capybara/rspec'
+require 'capybara/poltergeist'
 require 'devise'
 require 'database_cleaner'
+
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
 
-Capybara.register_driver :selenium_chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, :inspector => './chrome.sh', :js_errors => true)
 end
 
-Capybara.javascript_driver = :webkit
+Capybara.javascript_driver = :poltergeist
+
+# Capybara.register_driver :selenium_chrome do |app|
+#   Capybara::Selenium::Driver.new(app, browser: :chrome)
+# end
+# Capybara.javascript_driver = :webkit
+
+
+# Capybara::Webkit.configure do |config|
+#   # Enable debug mode. Prints a log of everything the driver is doing.
+#   # config.debug = true
+
+#   # Allow pages to make requests to any URL without issuing a warning.
+#   config.allow_unknown_urls
+
+#   # Timeout if requests take longer than 5 seconds
+#   config.timeout = 20
+# end
 
 
 RSpec.configure do |config|

@@ -26,12 +26,17 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
               family.students.create(name: params[:name])
     new_lesson_period = student.lesson_periods.build(lesson_periods_params)
 
-    if new_lesson_period.save
+    if new_lesson_period.valid?
+      new_lesson_period.save
       response = {  lesson_period: new_lesson_period, 
                     student: student, weeks: new_lesson_period.weeks }
       respond_with response, json: response
     else
+      message = new_lesson_period.errors.full_messages.first
+      flash[:error] = message
+      redirect_to root_url
       puts "couldn't create lesson period"
+      puts messages.inspect
     end
   end
 

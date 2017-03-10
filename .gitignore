@@ -20,4 +20,4 @@
 .DS_Store
 
 # Persisted rspec test file data
-spec/examples.txt
+/spec/examples.txt

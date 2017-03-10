@@ -9,6 +9,11 @@ FactoryGirl.define do
     password_confirmation "password"
   end
 
+  factory :form do
+    family
+    year Date.today.year
+  end
+
   factory :student do
     name "Billy"
     family
@@ -23,6 +28,13 @@ FactoryGirl.define do
   factory :teacher do
     first_name "Fred"
     last_name "Mertz"
+  end
+
+  factory :lesson_period do
+    instrument
+    teacher
+    student
+    form
   end
 
 end

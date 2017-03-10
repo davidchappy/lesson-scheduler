@@ -79,8 +79,6 @@ var calculatePricing = function(lessonPeriods, allWeeks) {
   // get total lesson count and minutes from lesson periods
   // var lessonCount = getTotalLessonCount(lessonPeriods);
   var lessonCount = getTotalLessonMinutes(allWeeks) / appSettings.baseLessonLength;
-  console.log("Total 30-min Lesson Count: ");
-  console.log(lessonCount);
 
   // get possible discount based on number of lesson periods
   var lessonPeriodCount = lessonPeriods.length;
@@ -93,8 +91,6 @@ var calculatePricing = function(lessonPeriods, allWeeks) {
   var discount = 0;
   var totalOwed = 0;
   var rawTotal = lessonCount * appSettings.thirtyMinRate;
-  console.log("Raw Total: ");
-  console.log(rawTotal);
   lessonPeriods.map(function(lessonPeriod) {
     var weeks = allWeeks[lessonPeriod.id];
     totalOwed += calculateLessonPeriodCost(lessonPeriod, lessonPeriods, weeks);
@@ -155,7 +151,6 @@ var calculateLessonPeriodCost = function(lessonPeriod, lessonPeriods, weeks) {
   }
 
   cost = (adjustedLessonCount * lessonRate) - lessonPeriodDiscount;
-  console.log(cost);
   return cost;
 }
 

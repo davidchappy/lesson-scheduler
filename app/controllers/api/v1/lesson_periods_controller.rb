@@ -25,7 +25,7 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
     student = Student.where(name: params[:name]).take || 
               family.students.create(name: params[:name])
     new_lesson_period = student.lesson_periods.build(lesson_periods_params)
-
+    
     if new_lesson_period.valid?
       new_lesson_period.save
       response = {  lesson_period: new_lesson_period, 

@@ -51,10 +51,7 @@ var App = React.createClass({
 
     // update app state students after creating new lesson period
     var students = this.state.students;
-    var studentExists = this.state.students.find((s) => {
-      return s.id === lessonPeriod.student_id;
-    });
-    if(studentExists) {
+    if(contains.call(students, student)) {
       var index;
       students.map((s, i) => {
         index = s.id === student.id ? i : index;

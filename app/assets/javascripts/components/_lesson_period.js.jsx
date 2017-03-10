@@ -60,6 +60,9 @@ var LessonPeriod = React.createClass({
       return (
         <div className="lesson-period col-sm-6 col-md-4">
           <p>Loading Lesson Period..</p>
+          <p>Teacher: {this.state.teacher}</p>
+          <p>Instrument: {this.state.instrument}</p>
+          <p>Student: {this.state.student}</p>
         </div>
       )
     }

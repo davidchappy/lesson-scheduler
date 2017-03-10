@@ -1,11 +1,14 @@
 require 'rails_helper'
-Capybara.default_max_wait_time = 8
 
 RSpec.describe "adding lesson periods", type: :feature do
 
   let!(:family) { create(:family) }
   let!(:instrument) { create(:instrument) }
-  let!(:teacher)    { create(:teacher) }
+  let!(:teacher)    do 
+    teacher = create(:teacher)
+    teacher.instruments << instrument
+    teacher
+  end
   let!(:student)    { create(:student) }
   let(:form)       { family.find_or_create_current_form }
 
@@ -65,52 +68,27 @@ RSpec.describe "adding lesson periods", type: :feature do
   end
 
   it 'successfully submits a new lesson period', js: true do
-    sign_out family
-    Family.destroy_all
-    Form.destroy_all
-    Teacher.destroy_all
-    Instrument.destroy_all
-    Student.destroy_all
+    expect(LessonPeriod.count).to eq(0)
 
-    new_family = Family.create( first_name: "Example", last_name: "Family", 
-                                password: "password", password_confirmation: "password",
-                                email: "fam@examples.com" )
-    new_form = new_family.find_or_create_current_form
-    new_instrument = Instrument.create(name: "oboe")
-    new_teacher = Teacher.create(first_name: "Joe", last_name: "Blow")
-    new_teacher.association(:instruments).add_to_target(new_instrument)
-    puts new_teacher.instruments.inspect
+    add_lesson_period
+    wait_for_server
 
-    sign_in new_family
-    visit '/'
-    page.save_screenshot('../before-create.png')
-    click_button 'Add a Lesson Period'
-
-    within('#new-lesson-period-form') do    
-      fill_in "Student's name", with: 'Susan' 
-      select new_instrument.name, from: 'selectInstrument'
-      select new_teacher.first_name + " " + new_teacher.last_name, from: 'selectTeacher' 
-      select '1h 0m', from: 'default-lesson-length' 
-      click_button 'Add Lesson Period'
-    end
-
-    # page.driver.debug
-
-    # page.save_screenshot('../after-create.png')
-
-    page.find('.weeks')
-
-    # can't get ajax requests to show up here
-    # page.has_selector?('.lesson-period')
-    # expect(page).to have_content instrument.name
-    # expect(page).to have_content(teacher.first_name + " " + teacher.last_name)
-    # expect(page).to have_content '13 Lessons'
-    # expect(page).to have_content '1h 0m', count: 13
+    expect(LessonPeriod.count).to eq(1)
+    lesson_period = LessonPeriod.first
+    expect(lesson_period.teacher).to eq(teacher)
+    expect(lesson_period.instrument).to eq(instrument)
+    expect(lesson_period.form).to eq(form)
+    expect(lesson_period.student).to eq(family.students.first)
   end
 
   it 'generates and displays its weeks', js: true do
+    add_lesson_period
+    wait_for_server
 
+    expect(LessonPeriod.count).to eq(1)
+    lesson_period = LessonPeriod.first
+    expect(lesson_period.weeks.length).to be > 0
+    expect(lesson_period.weeks.length).to eq(13)
   end
-
 
 end

@@ -1,5 +1,6 @@
 require_relative 'support/controller_helpers'
 require "rspec/json_expectations"
+require 'devise'
 
 RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller

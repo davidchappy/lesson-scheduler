@@ -85,7 +85,7 @@ var FormFields = React.createClass({
     })
 
     var defaultLessonLength = () => {
-      return  <select ref="selectDefaultLessonLength" className="lesson-length"
+      return  <select ref="selectDefaultLessonLength" id="default-lesson-length" className="lesson-length"
                 onChange={this.handleDefaultLessonLength} required disabled={lessonLengthsEnabled}
                 defaultValue={this.state.defaultLessonLength}>
                 {lessonLengths}
@@ -93,7 +93,7 @@ var FormFields = React.createClass({
     }
 
     return (
-      <form className="new-lesson-period-form form-inline">
+      <form className="new-lesson-period-form form-inline" id="new-lesson-period-form">
         <input ref="studentName" type="text" className="form-control studentName" id="studentName" 
           placeholder="Student's name" onKeyUp={this.handleTypeName} defaultValue={this.state.studentName} required/>
         <select ref="selectTeacher" className="form-control selectTeacher" id="selectTeacher"

@@ -4,7 +4,11 @@ RSpec.describe Instrument, :type => :model do
 
   let(:family)     { create(:family) }
   let(:instrument) { create(:instrument) }
-  let(:teacher)    { create(:teacher) }
+  let(:teacher)    do 
+    teacher = create(:teacher)
+    teacher.instruments << instrument
+    teacher
+  end
   let(:student)    { create(:student) }
   let(:form)       { family.find_or_create_current_form }
   let!(:lesson_period) do
@@ -20,7 +24,7 @@ RSpec.describe Instrument, :type => :model do
     expect(instrument.lesson_periods.length).to be > 0
   end
 
-  it "has teachers (through lesson periods)" do
+  it "has teachers" do
     expect(instrument).to respond_to(:teachers) 
     expect(instrument.teachers.length).to be > 0
   end

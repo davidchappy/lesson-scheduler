@@ -10,7 +10,9 @@ piano = Instrument.create(name: 'Piano')
 guitar = Instrument.create(name: 'Guitar')
 
 teacher = Teacher.create(first_name: 'Nathan', last_name: 'Arnold')
+teacher.instruments << piano
 teacher2 = Teacher.create(first_name: 'David', last_name: 'Chapman')
+teacher2.instruments << guitar
 
 form = Form.create( year: Date.today.year, family_id: family.id,
                     start_date: Date.new(2017,6,5), end_date: Date.new(2017,9,1))

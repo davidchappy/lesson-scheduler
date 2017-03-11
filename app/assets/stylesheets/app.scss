@@ -160,6 +160,16 @@ body {
         color: #fff;
         letter-spacing: 1px;
       }
+
+      .full-payment-info {
+        ul {
+          padding-left: 2rem;
+        }
+
+        h4 {
+          font-weight: normal;
+        }
+      }
       
     }
   }
@@ -600,6 +610,16 @@ body {
   
   .confirmation-text {
     margin: 3rem auto;
+    
+    .full-payment-info {
+
+      ul, li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: center;
+      }
+    }
   }
   
   .confirmation-button {

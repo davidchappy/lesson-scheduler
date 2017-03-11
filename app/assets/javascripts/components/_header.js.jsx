@@ -54,7 +54,7 @@ var Header = React.createClass({
             <div id="navbar" className="navbar-collapse collapse"></div> :
             <Dashboard  {...this.state} 
                         lessonCount={lessonCount}
-                        total={total}
+                        total={this.state.totalOwed}
                         payment={payment}
                         totalDiscount={totalDiscount}
                         possibleDiscount={possibleDiscount}

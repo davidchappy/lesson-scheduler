@@ -27,16 +27,11 @@ var Dashboard = React.createClass({
               <span className="header-large">{this.props.payment}</span>
             </a>
             <ReactTooltip id='ttPaymentInfo' type='dark' effect='solid' place='bottom'>
-              <p>All payment info goes here</p>
-              <p>All payment info goes here</p>
-              <p>All payment info goes here</p>
-              <p>All payment info goes here</p>
-              <p>All payment info goes here</p>
-              <p>All payment info goes here</p>
+              <PaymentPlan total={this.props.total} />
             </ReactTooltip>
           </li>
         </ul>
       </div>
-    );
+    )
   }
 });

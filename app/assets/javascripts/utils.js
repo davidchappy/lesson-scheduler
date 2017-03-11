@@ -44,6 +44,9 @@ var utils = {
   // currency formatting 
     return ("$" + (roundedAmount/100));
   },
+  deMonetize: function(amountString) {
+    return Number(amountString.replace('$', '')) * 100;
+  },
   round: function(value, decimals) {
     return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
   },
@@ -171,9 +174,6 @@ var utils = {
       return indexOf.call(this, needle) > -1;
   }
 } 
-
-
-
 
 // Potentially useful function for later
 // var getArgs = function(args) {

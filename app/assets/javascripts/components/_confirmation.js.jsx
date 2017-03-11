@@ -6,7 +6,7 @@ var Confirmation = React.createClass({
     this.updatePricing(this.props.lessonCount, this.props.lessonPeriods);
   },
   updatePricing(count, lessonPeriods) {
-    var pricing = utils.calculatePricing(lessonPeriods, this.props.allWeeks);
+    var pricing = helpers.calculatePricing(lessonPeriods, this.props.allWeeks);
     this.setState({
       totalDiscount: pricing.discount,
       totalOwed: pricing.totalOwed,

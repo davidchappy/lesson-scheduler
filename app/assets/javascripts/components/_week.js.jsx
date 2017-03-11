@@ -27,7 +27,7 @@ var Week = React.createClass({
     var unavailable = this.props.unavailable ? "unavailable" : "";
 
     var lessonLengths = defaultSettings.lessonLengthOptions.map((length, index) => {
-      var lessonLengthString = utils.convertMinutesToHours(length);
+      var lessonLengthString = helpers.convertMinutesToHours(length);
       return (
         <option value={length} key={index}>{lessonLengthString}</option>
       )

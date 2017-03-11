@@ -83,5 +83,16 @@ var Helper = {
           };
       }
       return indexOf.call(this, needle) > -1;
+  },
+  sumObject: function(obj) {
+  // http://stackoverflow.com/questions/16449295/how-to-sum-the-values-of-a-javascript-object
+    var sum = 0;
+    for( var el in obj ) {
+      if( obj.hasOwnProperty( el ) ) {
+        sum += parseFloat( obj[el] );
+      }
+    }
+    return sum;
   }
+
 } 

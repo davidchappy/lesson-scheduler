@@ -2,98 +2,91 @@ var Pricer = {
   calculatePricing: function(lessonPeriods, allWeeks) {
   // calculate form cost and discounts from lesson and lesson period counts
 
-    // get total lesson count and minutes from lesson periods
-    // var lessonCount = getTotalLessonCount(lessonPeriods);
-    var lessonCount = Helper.getTotalLessonMinutes(allWeeks) / appSettings.baseLessonLength;
+    // get lesson count adjusted for lessons longer than base lesson length (30 mins)
+    var adjustedLessonCount = Helper.getTotalLessonMinutes(allWeeks) / appSettings.baseLessonLength;
 
-    // get possible discount based on number of lesson periods
+    // total cost without discounts                        
+    var rawTotalOwed = adjustedLessonCount * appSettings.thirtyMinRate;
+
+    // get possible discount
     var lessonPeriodCount = lessonPeriods.length;
-    var possibleDiscount = 0;
-    if(lessonPeriodCount > 0) {
-      possibleDiscount = this.calculatePossibleDiscount(lessonPeriodCount);
-    }
-
-    // get actual discounts and total owed from lesson and lesson period counts
-    var discount = 0;
-    var totalOwed = 0;
-    var rawTotal = lessonCount * appSettings.thirtyMinRate;
-    lessonPeriods.map(function(lessonPeriod) {
-      var weeks = allWeeks[lessonPeriod.id];
-      totalOwed += Pricer.calculateLessonPeriodCost(lessonPeriod, lessonPeriods, weeks);
-    })
-    discount = rawTotal - totalOwed;
+    var possibleDiscount =  lessonPeriodCount > 0 ? 
+                            this.calculatePossibleDiscount(lessonPeriods, allWeeks) : 0;
+    
+    // get discount
+    var discountObject = this.calculateCurrentDiscounts(lessonPeriods, allWeeks);
+    var discount = Helper.sumObject(discountObject);
     if(discount > possibleDiscount) {
       discount = possibleDiscount;
     }
 
+    // total cost is raw total minus discounts
+    var totalOwed = rawTotalOwed - discount;
+  
     return { discount: discount, totalOwed: totalOwed, possibleDiscount: possibleDiscount}
   },
-  calculatePossibleDiscount: function(lessonPeriodCount) {
+  calculatePossibleDiscount: function(lessonPeriods, allWeeks) {
   // utility to calculate possible discount from the number of lesson periods
-    var possibleDiscount = 0;
-    possibleDiscount = (3000 * lessonPeriodCount) + (500 * (lessonPeriodCount-1));
-    if(lessonPeriodCount >= 2) { 
-      possibleDiscount += (200 * 13); 
-    } 
-    if(lessonPeriodCount > 2) { 
-      possibleDiscount += ((400*13) * (lessonPeriodCount-2)); 
-    } 
-    return possibleDiscount;
-  },
-  calculateLessonPeriodCost: function(lessonPeriod, lessonPeriods, weeks) {
-    // utility to calculate the cost of an individual lesson period
-    var lessonCount = lessonPeriod.lesson_count;
-    var adjustedLessonCount = Helper.getLessonMinutesFromWeeks(weeks) / appSettings.baseLessonLength;
     var lessonPeriodCount = lessonPeriods.length;
-    var lessonPeriodDiscount = 0;
-    var lessonRate = appSettings.thirtyMinRate;
-    var cost = 0;
-
-    // Apply rate discount for more than 1 lessonPeriod
-    if(lessonPeriodCount >= 2) {
-      if(lessonPeriods.indexOf(lessonPeriod) == 0) {
-        lessonRate = lessonRate;
-      } else if(lessonPeriods.indexOf(lessonPeriod) == 1) {
-        lessonRate = 1800;
-      } else {
-        lessonRate = 1600;
-      }
+    var possibleDiscount = (3000 * lessonPeriodCount)
+    if(lessonPeriodCount > 0) {
+      possibleDiscount += 500 * (lessonPeriodCount-1);
     }
 
-    // Apply per/student discount for more than 8 lessons per lessonPeriod
-    if(adjustedLessonCount >= 9 && adjustedLessonCount <= 10) {
-      lessonPeriodDiscount += 2000;
-    } else if (adjustedLessonCount >= 11) {
-      lessonPeriodDiscount += 3000;
-    }
-
-    // Apply per/student discount for more than 9 lessons and more than 1 lessonPeriod
-    if(adjustedLessonCount > 9 && lessonPeriodCount > 1) {
-      if(lessonPeriods.indexOf(lessonPeriod) >= 1) {
-        lessonPeriodDiscount += 500;
-      }
-    }
-
-    cost = (adjustedLessonCount * lessonRate) - lessonPeriodDiscount;
-    return cost;
-  },
-  calculateLessonRateDiscount: function(lessonPeriods) {
-    var discount = 0;
     for(var i=0; i<lessonPeriods.length; i++) {
       var lessonPeriod = lessonPeriods[i];
-      if(i === 1) {
-        discount = 200 * lessonPeriod.lesson_count;
-      } else if (i >= 2) {
-        discount = 400 * lessonPeriod.lesson_count;
-      }
+      var weeks = allWeeks[lessonPeriod.id];
+      var possibleLessons = (13 * lessonPeriod.default_lesson_length) / appSettings.baseLessonLength;
+      if(lessonPeriodCount >= 2 && i === 1) { 
+        possibleDiscount += (200 * possibleLessons); 
+      } 
+      if(lessonPeriodCount > 2 && i >= 2) { 
+        possibleDiscount += ((400 * possibleLessons) * (lessonPeriodCount-2)); 
+      } 
     }
-    return discount;
+    return possibleDiscount;
   },
-  calculateQuantityDiscount: function() {
+  calculateCurrentDiscounts: function(lessonPeriods, allWeeks) {
+    var discounts = {
+      rate: 0,
+      quantity: 0,
+      lessons: 0
+    };
+    for(var i=0; i<lessonPeriods.length; i++) {
+      var lessonPeriod = lessonPeriods[i];
+      var weeks = allWeeks[lessonPeriod.id];
+      var adjustedLessonCount = Helper.getLessonMinutesFromWeeks(weeks) / appSettings.baseLessonLength;
 
+      discounts.lessons += Pricer._lessonsDiscount(adjustedLessonCount);
+      discounts.rate += Pricer._rateDiscount(adjustedLessonCount, i);
+      discounts.quantity += Pricer._quantityDiscount(adjustedLessonCount, i);
+    }
+    return discounts;
   },
-  calculatePerStudentDiscount: function() {
-
+  _lessonsDiscount: function(lessonCount) {
+    if(lessonCount >= 9 && lessonCount <= 10) {
+      return 2000;
+    } else if(lessonCount >= 11) {
+      return 3000;
+    } else {
+      return 0;
+    }
+  },
+  _rateDiscount: function(lessonCount, i) {
+    if(i === 1) {
+      return 200 * lessonCount;
+    } else if (i >= 2) {
+     return 400 * lessonCount;
+    } else {
+      return 0;
+    }
+  },
+  _quantityDiscount: function(lessonCount, i) {
+    if(i > 0 && lessonCount > 9) {
+      return 500;
+    } else {
+      return 0;
+    }
   },
   monetize: function(amount) {
     var roundedAmount = this.round(amount, 0);

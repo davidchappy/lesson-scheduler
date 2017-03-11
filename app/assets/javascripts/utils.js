@@ -1,5 +1,5 @@
 //= require ./utils/pricer
-//= require ./utils/helpers
+//= require ./utils/helper
 
 
 

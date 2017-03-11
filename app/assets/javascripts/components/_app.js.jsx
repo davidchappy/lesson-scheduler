@@ -51,7 +51,7 @@ var App = React.createClass({
 
     // update app state students after creating new lesson period
     var students = this.state.students;
-    if(helpers.contains.call(students, student)) {
+    if(Helper.contains.call(students, student)) {
       var index;
       students.map((s, i) => {
         index = s.id === student.id ? i : index;
@@ -83,7 +83,7 @@ var App = React.createClass({
     weeks = allWeeks[lessonPeriod.id];
     var isDefaultLengthChanged = oldLessonLength === newLessonLength ? false : true;
     if(isDefaultLengthChanged) {
-      var weeks = helpers.updateLessonLengthInWeeks(weeks, newLessonLength);
+      var weeks = Helper.updateLessonLengthInWeeks(weeks, newLessonLength);
     }
     allWeeks[lessonPeriod.id] = weeks;
 
@@ -122,9 +122,9 @@ var App = React.createClass({
 
     // update count for this lesson period
     var lessonPeriods = this.state.lessonPeriods;
-    var lessonPeriod = helpers.findElementInArrayById(lessonPeriodId, lessonPeriods);
+    var lessonPeriod = Helper.findElementInArrayById(lessonPeriodId, lessonPeriods);
     var index = lessonPeriods.indexOf(lessonPeriod);
-    lessonPeriod.lesson_count = helpers.getLessonCountFromWeeks(targetWeeks);
+    lessonPeriod.lesson_count = Helper.getLessonCountFromWeeks(targetWeeks);
     lessonPeriods[index] = lessonPeriod;
 
     this.setState({ lessonPeriods: lessonPeriods, allWeeks: allWeeks })
@@ -132,7 +132,7 @@ var App = React.createClass({
   submitForm() {
     // Ensure the form record has the current total cost
     var id = this.state.form.id;
-    var pricing = helpers.calculatePricing(this.state.lessonPeriods, this.state.allWeeks);
+    var pricing = Helper.calculatePricing(this.state.lessonPeriods, this.state.allWeeks);
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'PUT',

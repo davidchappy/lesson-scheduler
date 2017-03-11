@@ -1,4 +1,4 @@
-var helpers = {
+var Helper = {
   getTotalLessonCount: function(lessonPeriods) {
     var lessonCount = 0;
     lessonPeriods.forEach(function(lessonPeriod) {
@@ -70,7 +70,7 @@ var helpers = {
     var rawTotal = lessonCount * appSettings.thirtyMinRate;
     lessonPeriods.map(function(lessonPeriod) {
       var weeks = allWeeks[lessonPeriod.id];
-      totalOwed += helpers.calculateLessonPeriodCost(lessonPeriod, lessonPeriods, weeks);
+      totalOwed += Helper.calculateLessonPeriodCost(lessonPeriod, lessonPeriods, weeks);
     })
     discount = rawTotal - totalOwed;
     if(discount > possibleDiscount) {

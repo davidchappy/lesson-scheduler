@@ -33,12 +33,12 @@ var FormFields = React.createClass({
   },
   handleInstrumentSelect(event) {
     var instrumentId = event.target.value;
-    var instrument = helpers.findElementInArrayById(instrumentId, this.props.instruments);
+    var instrument = Helper.findElementInArrayById(instrumentId, this.props.instruments);
     this.setState({ instrument: instrument, teacherEnabled: true });
   },  
   handleTeacherSelect(event) {
     var teacherId = event.target.value;
-    var teacher = helpers.findElementInArrayById(teacherId, this.props.teachers);
+    var teacher = Helper.findElementInArrayById(teacherId, this.props.teachers);
     this.setState({ teacher: teacher, lessonLengthsEnabled: true, submitEnabled: true });
   },
   handleDefaultLessonLength(event) {
@@ -78,7 +78,7 @@ var FormFields = React.createClass({
     });
 
     var lessonLengths = appSettings.lessonLengthOptions.map((length, index) => {
-      var lessonLengthString = helpers.convertMinutesToHours(length);
+      var lessonLengthString = Helper.convertMinutesToHours(length);
       return (
         <option value={length} key={index}>{lessonLengthString}</option>
       )

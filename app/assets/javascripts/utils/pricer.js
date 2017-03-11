@@ -77,8 +77,17 @@ var Pricer = {
     cost = (adjustedLessonCount * lessonRate) - lessonPeriodDiscount;
     return cost;
   },
-  calculateLessonRateDiscount: function() {
-
+  calculateLessonRateDiscount: function(lessonPeriods) {
+    var discount = 0;
+    for(var i=0; i<lessonPeriods.length; i++) {
+      var lessonPeriod = lessonPeriods[i];
+      if(i === 1) {
+        discount = 200 * lessonPeriod.lesson_count;
+      } else if (i >= 2) {
+        discount = 400 * lessonPeriod.lesson_count;
+      }
+    }
+    return discount;
   },
   calculateQuantityDiscount: function() {
 

@@ -52,30 +52,13 @@ var Header = React.createClass({
           </div>
           {this.props.hasSubmitted ? 
             <div id="navbar" className="navbar-collapse collapse"></div> :
-            <div id="navbar" className="navbar-collapse collapse">
-              <ul className="nav navbar-nav navbar-right">
-                <li role="separator" className="divider"></li>
-                <li className="total-lessons"><a>
-                  <span className="header-small">Lessons:</span> 
-                  <span className="header-large">{lessonCount}</span>
-                </a></li>
-                <li role="separator" className="divider"></li>
-                <li id="possibleDiscount" className={"possible-discount"}><a>
-                  <span className="header-small">Possible Discount:</span> 
-                  <span className={"header-large " + maxDiscountClass}>{possibleDiscount}</span>
-                </a></li>                
-                <li role="separator" className="divider"></li>
-                <li id="currentDiscount" className="current-discount"><a>
-                  <span className="header-small">Current Discount:</span> 
-                  <span className="header-large">{totalDiscount}</span>
-                </a></li>              
-                <li role="separator" className="divider"></li>
-                <li id="totalOwed" className="total-owed"><a>
-                  <span className="header-small">Due June 1st:</span>
-                  <span className="header-large">{payment}</span>
-                </a></li>
-              </ul>
-            </div>
+            <Dashboard  {...this.state} 
+                        lessonCount={lessonCount}
+                        total={total}
+                        payment={payment}
+                        totalDiscount={totalDiscount}
+                        possibleDiscount={possibleDiscount}
+                        maxDiscountClass={maxDiscountClass}  />
           }
         </div>
       </div>

@@ -44,8 +44,13 @@ var updateLessonLengthInWeeks = function(weeks, newLength) {
 }
 
 var monetize = function(amount) {
+  var roundedAmount = round(amount, 0);
 // currency formatting 
-  return ("$" + (amount/100));
+  return ("$" + (roundedAmount/100));
+}
+
+var round = function(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
 
 // var calculatePricing = function(lessonPeriods, allWeeks) {

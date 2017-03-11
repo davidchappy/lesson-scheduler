@@ -16,10 +16,10 @@
 //= require turbolinks
 //= require react
 //= require react_ujs
-//= require 'utils'
-//= require 'default_settings'
-//= require 'admin_settings'
+//= require ./vendor/react-tooltip.min
+//= require settings
+//= require utils
 //= require components
-//= require 'app'
+//= require jqueryeffects
 //= require_tree .
 

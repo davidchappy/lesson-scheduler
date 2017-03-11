@@ -28,6 +28,7 @@ var Header = React.createClass({
     var family = this.props.family;
     var lessonCount = getTotalLessonCount(this.props.lessonPeriods);
     var total = monetize(this.state.totalOwed);
+    var payment = monetize(this.state.totalOwed / 3);
     var totalDiscount = monetize(this.state.totalDiscount);
     var possibleDiscount = monetize(this.state.possibleDiscount);
     var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
@@ -70,8 +71,8 @@ var Header = React.createClass({
                 </a></li>              
                 <li role="separator" className="divider"></li>
                 <li id="totalOwed" className="total-owed"><a>
-                  <span className="header-small">Total:</span>
-                  <span className="header-large">{total}</span>
+                  <span className="header-small">Due June 1st:</span>
+                  <span className="header-large">{payment}</span>
                 </a></li>
               </ul>
             </div>

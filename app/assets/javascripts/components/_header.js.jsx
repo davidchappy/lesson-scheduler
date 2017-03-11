@@ -9,7 +9,7 @@ var Header = React.createClass({
     this.updatePricing(this.props.lessonPeriods);
   },
   updatePricing(lessonPeriods) {
-    var pricing = Helper.calculatePricing(lessonPeriods, this.props.allWeeks);
+    var pricing = Pricer.calculatePricing(lessonPeriods, this.props.allWeeks);
     this.setState({
       totalDiscount: pricing.discount,
       totalOwed: pricing.totalOwed,
@@ -27,10 +27,10 @@ var Header = React.createClass({
 
     var family = this.props.family;
     var lessonCount = Helper.getTotalLessonCount(this.props.lessonPeriods);
-    var total = Helper.monetize(this.state.totalOwed);
-    var payment = Helper.monetize(this.state.totalOwed / 3);
-    var totalDiscount = Helper.monetize(this.state.totalDiscount);
-    var possibleDiscount = Helper.monetize(this.state.possibleDiscount);
+    var total = Pricer.monetize(this.state.totalOwed);
+    var payment = Pricer.monetize(this.state.totalOwed / 3);
+    var totalDiscount = Pricer.monetize(this.state.totalDiscount);
+    var possibleDiscount = Pricer.monetize(this.state.possibleDiscount);
     var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
 
     return (

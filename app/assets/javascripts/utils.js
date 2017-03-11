@@ -1,4 +1,4 @@
-//= require ./utils/discounter
+//= require ./utils/pricer
 //= require ./utils/helpers
 
 

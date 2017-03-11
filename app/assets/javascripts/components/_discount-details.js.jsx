@@ -2,7 +2,7 @@
 //   render() {
 //     var studentDiscounts = this.props.studentDiscounts.map((student) => {
 //       return (
-//         <li>{student.name}: {Helper.monetize(student.discount)}</li>
+//         <li>{student.name}: {Pricer.monetize(student.discount)}</li>
 //       )
 //     };
 

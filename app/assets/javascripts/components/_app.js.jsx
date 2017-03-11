@@ -132,7 +132,7 @@ var App = React.createClass({
   submitForm() {
     // Ensure the form record has the current total cost
     var id = this.state.form.id;
-    var pricing = Helper.calculatePricing(this.state.lessonPeriods, this.state.allWeeks);
+    var pricing = Pricer.calculatePricing(this.state.lessonPeriods, this.state.allWeeks);
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'PUT',

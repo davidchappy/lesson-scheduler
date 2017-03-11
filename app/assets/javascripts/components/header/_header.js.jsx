@@ -32,6 +32,8 @@ var Header = React.createClass({
     var totalDiscount = Pricer.monetize(this.state.totalDiscount);
     var possibleDiscount = Pricer.monetize(this.state.possibleDiscount);
     var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
+    var discountObject = Pricer.calculateCurrentDiscounts(this.props.lessonPeriods, this.props.allWeeks);
+    var possibleDiscountObject = Pricer.calculatePossibleDiscount(this.props.lessonPeriods, this.props.allWeeks);
 
     return (
       <div className="navbar navbar-inverse navbar-fixed-top header">
@@ -56,9 +58,12 @@ var Header = React.createClass({
                         lessonCount={lessonCount}
                         total={this.state.totalOwed}
                         payment={payment}
+                        lessonPeriods={this.props.lessonPeriods}
                         totalDiscount={totalDiscount}
                         possibleDiscount={possibleDiscount}
-                        maxDiscountClass={maxDiscountClass}  />
+                        maxDiscountClass={maxDiscountClass}  
+                        currentDiscounts={discountObject}
+                        possibleDiscounts={possibleDiscountObject} />
           }
         </div>
       </div>

@@ -14,6 +14,11 @@ teacher.instruments << piano
 teacher2 = Teacher.create(first_name: 'David', last_name: 'Chapman')
 teacher2.instruments << guitar
 
+teacher.unavailable_dates << Date.new(2017, 6, 8)
+teacher2.unavailable_dates << Date.new(2017, 8, 16)
+teacher.save
+teacher2.save
+
 form = Form.create( year: Date.today.year, family_id: family.id,
                     start_date: Date.new(2017,6,5), end_date: Date.new(2017,9,1))
 

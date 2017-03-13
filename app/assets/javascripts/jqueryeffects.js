@@ -33,7 +33,8 @@ jQuery( document ).ready(function( $ ) {
     $(this).parents(".lesson-period-header").toggleClass('editing');
   });
 
-  $("body").on('hover', '.unavailable', function() {
-    // add tooltip explaining teacher has requested no lessons be scheduled this week
-  });
+  $("body").on('click', '#nav-help-icon', function(event) {
+    event.preventDefault();
+    
+  })
 });

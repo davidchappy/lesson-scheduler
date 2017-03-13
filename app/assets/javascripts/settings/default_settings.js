@@ -1,7 +1,9 @@
 var defaultSettings = {
   lessonLengthOptions: [30, 45, 60, 75, 90, 105, 120],
   thirtyMinRate: 2000,
-  baseLessonLength: 30
+  baseLessonLength: 30,
+  adminEmail: "nja@dmusicstudios.com",
+  adminPhone: "864-363-8526",
   // paymentDates: function(year) {
   //   // returns array of 3 payments (def: 1st June/July/August of current year)
   //   var day = 1;

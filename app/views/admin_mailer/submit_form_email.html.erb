@@ -1,18 +1,42 @@
-<h3>The <%= @family.last_name %> family submitted a lessons form on <%= @form.submitted_at %>.</h3>
+<h1 class="top-headline">The <%= @family.last_name %> family submitted a lessons form on <%= strftime(@form.submitted_at) %>.</h1>
 
-<p>Students:</p>
+<div class="student-info">
+  <h2>All Students (<%= @students.length %>)</h2>
 
-<ul>
-  <% @lesson_periods.each do |lesson_period| %>
-    <li>
-      <p>Student: <%= lesson_period.student.name %></p>
-      <p>Instrument: <%= lesson_period.instrument.name %></p>
-      <p>Teacher: <%= lesson_period.teacher.first_name %> <%= lesson_period.teacher.last_name %></p>
-      <p>Lesson count: <%= lesson_period.lesson_count %></p>
-    </li>
-  <% end %>
-</ul>
+  <ul>
+    <% @lesson_periods.each do |lesson_period| %>
+      <li class="lesson-period">
+        <p>Name: <%= lesson_period.student.name %></p>
+        <p>Instrument: <%= lesson_period.instrument.name %></p>
+        <p>Teacher: <%= lesson_period.teacher.first_name %> <%= lesson_period.teacher.last_name %></p>
+        <p><%= lesson_period.lesson_count %> Lessons</p>
+    
+        <table>
+          <thead>
+            <tr>
+              <th>Week</th>
+              <th>Lesson?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% lesson_period.weeks.each do |week| %>
+              <% lesson = week.lesson ? "Yes" : "No" %>
+               <tr>
+                 <td><%= week.week_string %> - </td>
+                 <td><%= lesson %></td>
+               </tr> </li>
+            <% end %>
+          </tbody>
 
-<p>Total owed: <%= @form.total_cost %></p>
+        </table>
+
+      </li>
+    <% end %>
+  </ul>
+
+</div>
+
+
+<h3 class="total-owed">Total owed: <span><%= @form.total_cost %></span></h3>
 
 

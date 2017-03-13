@@ -28,6 +28,16 @@ var App = React.createClass({
       }
     });
   },
+  submitForm() {
+    // Ensure the form record has the current total cost
+    var id = this.state.form.id;
+    var pricing = Pricer.calculatePricing(this.state.lessonPeriods, this.state.allWeeks);
+    $.ajax({
+      url: `/api/v1/forms/${id}.json`, 
+      type: 'PUT',
+      data: { form: { total_cost: Pricer.monetize(pricing.totalOwed) } }
+    });
+  },
   toggleCreating() {
     // shows or hides add lesson period button
     var showLessonPeriod = this.state.isCreating ? false : true;
@@ -128,16 +138,6 @@ var App = React.createClass({
     lessonPeriods[index] = lessonPeriod;
 
     this.setState({ lessonPeriods: lessonPeriods, allWeeks: allWeeks })
-  },
-  submitForm() {
-    // Ensure the form record has the current total cost
-    var id = this.state.form.id;
-    var pricing = Pricer.calculatePricing(this.state.lessonPeriods, this.state.allWeeks);
-    $.ajax({
-      url: `/api/v1/forms/${id}.json`, 
-      type: 'PUT',
-      data: { form: { total_cost: pricing.totalOwed } }
-    });
   },
   render() {
     if ( !this.state.family || !this.state.form || !this.state.lessonPeriods) {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310115520) do
+ActiveRecord::Schema.define(version: 20170313141632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20170310115520) do
     t.date     "start_date"
     t.date     "end_date"
     t.integer  "student_count"
-    t.integer  "total_cost"
+    t.string   "total_cost"
     t.integer  "family_id"
     t.index ["family_id"], name: "index_forms_on_family_id", using: :btree
   end

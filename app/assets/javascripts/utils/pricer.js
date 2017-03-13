@@ -28,20 +28,29 @@ var Pricer = {
   calculatePossibleDiscount: function(lessonPeriods, allWeeks) {
   // utility to calculate possible discount from the number of lesson periods
     var lessonPeriodCount = lessonPeriods.length;
-    var possibleDiscount = (3000 * lessonPeriodCount)
+
+    // possible lessons discount
+    var possibleDiscount = (3000 * lessonPeriodCount);
+
+    // possible bonus quantity discount
     if(lessonPeriodCount > 0) {
-      possibleDiscount += 500 * (lessonPeriodCount-1);
+      for(var i=0; i<lessonPeriods.length; i++) {
+        if(i > 0 && lessonPeriods[i].lesson_count > 9) {
+          possibleDiscount += 500;
+        }
+      }
     }
 
+    // possible rate discount
     for(var i=0; i<lessonPeriods.length; i++) {
       var lessonPeriod = lessonPeriods[i];
       var weeks = allWeeks[lessonPeriod.id];
-      var possibleLessons = (13 * lessonPeriod.default_lesson_length) / appSettings.baseLessonLength;
-      if(lessonPeriodCount >= 2 && i === 1) { 
-        possibleDiscount += (200 * possibleLessons); 
+      var adjustedLessonCount = (13 * lessonPeriod.default_lesson_length) / appSettings.baseLessonLength;
+      if(i === 1) { 
+        possibleDiscount += 200 * adjustedLessonCount; 
       } 
-      if(lessonPeriodCount > 2 && i >= 2) { 
-        possibleDiscount += ((400 * possibleLessons) * (lessonPeriodCount-2)); 
+      if(i >= 2) { 
+        possibleDiscount += 400 * adjustedLessonCount; 
       } 
     }
     return possibleDiscount;

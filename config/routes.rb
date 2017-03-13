@@ -10,5 +10,8 @@ Rails.application.routes.draw do
     end
   end
   root to: 'site#index'
+  devise_scope :user do
+    get '/users', to: 'devise/sessions#new'
+  end
   devise_for :users, :controllers => { :registrations => "users/registrations" }
 end

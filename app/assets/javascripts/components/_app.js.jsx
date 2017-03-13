@@ -23,7 +23,7 @@ var App = React.createClass({
                         lessonPeriods: response.lesson_periods,
                         allWeeks: response.weeks,
                         hasSubmitted: response.form.submitted,
-                        isSubmittable: isSubmittable
+                        isSubmittable: isSubmittable,
                       });
       }
     });

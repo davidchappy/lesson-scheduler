@@ -12,7 +12,7 @@ class Api::V1::AppController < Api::V1::BaseController
 
       respond_with  instruments: @instruments, teachers: @teachers, 
                     family: @family, students: @students, form: @form, 
-                    lesson_periods: @lesson_periods, weeks: @weeks 
+                    lesson_periods: @lesson_periods, weeks: @weeks
                     
     elsif current_user.type == 'Admin'
       # admin

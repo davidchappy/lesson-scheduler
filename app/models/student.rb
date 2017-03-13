@@ -9,4 +9,11 @@ class Student < ApplicationRecord
   has_many    :teachers, through: :lesson_periods
   has_many    :forms, through: :lesson_periods
 
+  def self.purge_unused
+    students = Student.all
+    students.each do |student|
+      student.destroy if student.lesson_periods.empty?
+    end
+  end
+
 end

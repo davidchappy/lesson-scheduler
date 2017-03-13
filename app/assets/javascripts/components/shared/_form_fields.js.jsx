@@ -102,7 +102,8 @@ var FormFields = React.createClass({
     return (
       <form className="new-lesson-period-form form-inline" id="new-lesson-period-form">
         <input  ref="studentName" type="text" className="form-control studentName" id="studentName" 
-                placeholder="Student's name" required list='selectStudent' onInput={this.handleStudentName} />
+                placeholder={this.state.studentName || "Student's name"} required list='selectStudent' 
+                onInput={this.handleStudentName} />
         <datalist ref="selectStudent" className="form-control selectStudent" id="selectStudent">
             {students}
         </datalist>

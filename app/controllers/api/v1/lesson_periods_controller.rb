@@ -1,5 +1,6 @@
 class Api::V1::LessonPeriodsController < Api::V1::BaseController
   include ApplicationHelper
+  after_action :purge_unused_students, only: [:update, :destroy]
 
   def index
     if current_user.type == 'Admin'
@@ -42,15 +43,17 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
 
   def update
     lesson_period = LessonPeriod.find(params["id"])
+    family =  lesson_period.student.family
 
-    # first, update this period's student name
-    student = Student.find(lesson_period.student_id)
-    student.update_attribute(:name, params[:name])
+    # find or create (if renamed) the student for this lesson period 
+    student = Student.where(name: params[:name]).take || 
+              family.students.create(name: params[:name])
 
     # then update the lesson_period with the params
-    default_lesson_length = lesson_period.default_lesson_length
+    new_default_lesson_length = lesson_period.default_lesson_length
+    lesson_period.update_attribute(:student, student)
     lesson_period.update_attributes(lesson_periods_params)
-    lesson_period.update_weeks if default_lesson_length != lesson_period.default_lesson_length
+    lesson_period.update_weeks if new_default_lesson_length != lesson_period.default_lesson_length
 
     response = { lesson_period: lesson_period, student: student }
     respond_with response, json: response
@@ -65,6 +68,10 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
     def lesson_periods_params
       params.require(:lesson_period).permit(  :form_id, :instrument_id, 
                                               :teacher_id, :default_lesson_length )
+    end
+
+    def purge_unused_students
+      Student.purge_unused
     end
 
 end

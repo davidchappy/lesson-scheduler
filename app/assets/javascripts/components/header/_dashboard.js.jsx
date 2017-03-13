@@ -1,13 +1,4 @@
 var Dashboard = React.createClass({
-  getInitialState() {
-    return { pupHelp: false }
-  },
-
-  toggleHelpPup() {
-    var helpActive = this.state.pupHelp ? false : true;
-    this.setState({ pupHelp: helpActive });
-  },
-
   render() {
     return (
       <div id="navbar" className="navbar-collapse collapse">
@@ -49,15 +40,10 @@ var Dashboard = React.createClass({
             </ReactTooltip>
           </li>
           <li className="nav-help-icon">
-            <a id="nav-help-icon" onClick={this.toggleHelpPup} >?</a>
+            <a id="nav-help-icon" onClick={this.props.onClickHelpPup} >?</a>
           </li>
         </ul>
-        {this.state.pupHelp ? (
-          <HelpPopup />
-          ) : (
-          null 
-          )
-        }
+        <HelpPopup />
       </div>
     )
   }

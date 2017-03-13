@@ -84,6 +84,7 @@ var LessonPeriod = React.createClass({
       header = <FormFields  {...this.state}
                             instruments={this.props.instruments}
                             teachers={this.props.teachers}
+                            students={this.props.students}
                             lessonPeriod={this.props.lessonPeriod}
                             buttonText={buttonText} 
                             lessonLengthsEnabled={true}

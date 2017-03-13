@@ -27,9 +27,10 @@ var FormFields = React.createClass({
                     submitEnabled: this.props.submitEnabled 
                   })
   },
-  handleTypeName(event) {
+  handleStudentName(event) {
     var name = event.target.value;
-    this.setState({ studentName: name, instrumentEnabled: true });
+    var instrumentEnabled = name.length ? true : false;
+    this.setState({ studentName: name, instrumentEnabled: instrumentEnabled });
   },
   handleInstrumentSelect(event) {
     var instrumentId = event.target.value;
@@ -63,6 +64,12 @@ var FormFields = React.createClass({
     var instrumentId = this.state.instrument ? this.state.instrument.id : "";
     var teacherId = this.state.teacher ? this.state.teacher.id : "";
 
+    var students = this.props.students.map((student) => {
+      return (
+        <option value={student.name} key={student.id} className="student" />
+      )
+    });
+
     var instruments = this.props.instruments.map((instrument) => {
       return (
         <option value={instrument.id} key={instrument.id} className="instrument">{instrument.name}</option>
@@ -94,18 +101,22 @@ var FormFields = React.createClass({
 
     return (
       <form className="new-lesson-period-form form-inline" id="new-lesson-period-form">
-        <input ref="studentName" type="text" className="form-control studentName" id="studentName" 
-          placeholder="Student's name" onKeyUp={this.handleTypeName} defaultValue={this.state.studentName} required/>
+        <input  ref="studentName" type="text" className="form-control studentName" id="studentName" 
+                placeholder="Student's name" required list='selectStudent' onInput={this.handleStudentName} />
+        <datalist ref="selectStudent" className="form-control selectStudent" id="selectStudent">
+            {students}
+        </datalist>
+      
         <select ref="selectTeacher" className="form-control selectTeacher" id="selectTeacher"
           onChange={this.handleTeacherSelect}   
           disabled={ teacherEnabled } required defaultValue={teacherId}>
-            <option value='' className="placeholder">Teacher</option>
+            <option value='' className="placeholder">TEACHER</option>
             {teachers}
         </select>
         <select ref="selectInstrument" className="form-control selectInstrument" id="selectInstrument" 
           onChange={this.handleInstrumentSelect}  
           disabled={ instrumentEnabled } required defaultValue={instrumentId}>
-            <option value='' className="placeholder">Instrument</option>
+            <option value='' className="placeholder">INSTRUMENT</option>
             {instruments}
         </select>
         <div className={"default-lesson-length " + lessonLengthsClass} >{defaultLessonLength()}&nbsp;Lessons</div>

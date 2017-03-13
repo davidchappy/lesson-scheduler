@@ -14,10 +14,13 @@ class Api::V1::FormsController < Api::V1::BaseController
       @form = Form.find(params[:id])
       @form.submitted = true
       @form.submitted_at = DateTime.now
-      @form.save
-      @form.update_attributes(form_params)
-      # respond_with @form, json: @form
-      redirect_to root_url
+      @form.total_cost = form_params[:total_cost]
+      if @form.save
+        AdminMailer.submit_form_email(@form).deliver_now
+        redirect_to root_url
+      else
+        flash[:error] = "There was a problem submitting your form. Please try again later."
+      end
     else
       # admin
     end

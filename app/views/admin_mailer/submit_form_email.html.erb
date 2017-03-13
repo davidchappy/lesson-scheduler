@@ -1,0 +1,18 @@
+<h3>The <%= @family.last_name %> family submitted a lessons form on <%= @form.submitted_at %>.</h3>
+
+<p>Students:</p>
+
+<ul>
+  <% @lesson_periods.each do |lesson_period| %>
+    <li>
+      <p>Student: <%= lesson_period.student.name %></p>
+      <p>Instrument: <%= lesson_period.instrument.name %></p>
+      <p>Teacher: <%= lesson_period.teacher.first_name %> <%= lesson_period.teacher.last_name %></p>
+      <p>Lesson count: <%= lesson_period.lesson_count %></p>
+    </li>
+  <% end %>
+</ul>
+
+<p>Total owed: <%= @form.total_cost %></p>
+
+

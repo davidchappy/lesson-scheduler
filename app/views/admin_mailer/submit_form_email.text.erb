@@ -1,0 +1,14 @@
+The <%= @family.last_name %> family submitted a lessons form on <%= @form.submitted_at %>.
+Students:
+
+  <% @lesson_periods.each do |lesson_period| %>
+      Student: <%= lesson_period.student.name %>
+      Instrument: <%= lesson_period.instrument.name %>
+      Teacher: <%= lesson_period.teacher.first_name %> <%= lesson_period.teacher.last_name %>
+      Lesson count: <%= lesson_period.lesson_count %>
+
+  <% end %>
+
+Total owed: <%= @form.total_cost %>
+
+

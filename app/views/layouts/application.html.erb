@@ -12,7 +12,12 @@
 
   <body>
     <% flash.each do |key, value| %>
-      <div class="alert alert-<%= key %>">
+      <% top = ''; top = 'top' if key == 'error' || key =='alert' %> 
+      <% key = 'danger' if key == 'error' %>
+      <% key = 'info' if key == 'notice' %>
+      <% key = 'warning' if key == 'alert' %>
+
+      <div class="alert alert-<%= key %> <%= top %>">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

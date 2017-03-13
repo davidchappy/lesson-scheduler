@@ -40,7 +40,6 @@ jQuery( document ).ready(function( $ ) {
   });
 
   $("html").on('click', 'body', function(event) {
-    event.preventDefault();
     $("#pup-Help").hide();
   });
 });

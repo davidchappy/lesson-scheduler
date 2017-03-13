@@ -1,4 +1,4 @@
-<h1 class="top-headline">The <%= @family.last_name %> family submitted a lessons form on <%= strftime(@form.submitted_at) %>.</h1>
+<h1 class="top-headline">The <%= @family.last_name %> family submitted a lessons form on <%= @form.submitted_at.strftime("%a, %b %e, %Y at %l:%M%p") %>.</h1>
 
 <div class="student-info">
   <h2>All Students (<%= @students.length %>)</h2>

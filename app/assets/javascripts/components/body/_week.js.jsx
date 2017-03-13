@@ -24,7 +24,7 @@ var Week = React.createClass({
     var week = this.props.week; 
     var weekNumber = "week" + week.id;
     var selected = this.state.selected ? "selected" : "";
-    var unavailable = this.props.unavailable ? "unavailable" : "";
+    var unavailable = this.props.unavailable;
 
     var lessonLengths = defaultSettings.lessonLengthOptions.map((length, index) => {
       var lessonLengthString = Helper.convertMinutesToHours(length);
@@ -43,15 +43,33 @@ var Week = React.createClass({
     }
     
     return (
-      <div className={"week " + unavailable}>
-        <span>{week.week_string}</span>
-        <div className={"checkbox"}>
-          <input  ref='week' id={weekNumber} type="checkbox" 
-                  className={"form-control select-week " + selected} 
-                  onClick={this.handleCheckWeek}></input>
-          {lessonLength()}
-        </div>
-        
+      <div>
+        {unavailable ? ( 
+            <div className={"week unavailable"} data-tip data-for='ttUnavailableMessage'>
+              <span>{week.week_string}</span>
+              <div className={"checkbox"}>
+                <input  ref='week' id={weekNumber} type="checkbox" 
+                        className={"form-control select-week " + selected} 
+                        onClick={this.handleCheckWeek}></input>
+                {lessonLength()}
+              </div>
+              <ReactTooltip id='ttUnavailableMessage' type='dark' effect='solid' 
+                            place='bottom' className="tt-unavailable-message">
+                <UnavailableMessage />
+              </ReactTooltip>
+            </div>
+          ) : (
+            <div className={"week"}>
+              <span>{week.week_string}</span>
+              <div className={"checkbox"}>
+                <input  ref='week' id={weekNumber} type="checkbox" 
+                        className={"form-control select-week " + selected} 
+                        onClick={this.handleCheckWeek}></input>
+                {lessonLength()}
+              </div>
+            </div>
+          )
+        }
       </div>
     )
   }

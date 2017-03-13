@@ -377,6 +377,11 @@ body {
         background: lighten(#ccc, 15%);
       }
     }
+
+    .tt-unavailable-message {
+      max-width: 250px;
+      line-height: 1.3;
+    }
   }
 }
 

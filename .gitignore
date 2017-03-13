@@ -21,3 +21,5 @@
 
 # Persisted rspec test file data
 /spec/examples.txt
+# Ignore application configuration
+/config/application.yml

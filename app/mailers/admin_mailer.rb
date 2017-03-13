@@ -5,7 +5,7 @@ class AdminMailer < ApplicationMailer
     @family = form.family
     @students = form.students
     @lesson_periods = form.lesson_periods
-    mail(to: 'davidchappy@gmail.com', subject: ("Form submission from the " + @family.last_name + " family") )
+    mail(to: ['davidchappy@gmail.com', 'nja@dmusicstudios.com'], subject: ("Form submission from the " + @family.last_name + " family") )
   end
 
 end

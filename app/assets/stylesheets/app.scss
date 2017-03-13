@@ -174,8 +174,8 @@ body {
     }
 
     .nav-help-icon {
-      margin-top: 13px;
-      font-size: 2.4em;
+      margin-top: 15px;
+      font-size: 1.8em;
       
       a {
         cursor: pointer;
@@ -188,9 +188,9 @@ body {
 
 
 #pup-Help {
+  display: none;
   width: 150px;
   padding: 1rem 1rem 0.5rem 1rem;
-  display: block;
   position: fixed;
   top: 70px;
   right: 10px;
@@ -480,6 +480,40 @@ body {
     box-sizing: border-box;
     cursor: pointer;
   }
+
+  #studentName {
+    height: 28px;
+    max-width: 50%;
+    padding: 0;
+    padding-left: 0.3rem;
+    margin-left: -0.3rem;
+    font-size: 1.1em;
+    line-height: 0.9;
+    font-weight: bold;
+    top: 0.4rem;
+    left: 1rem;
+    border: none;
+    color: rgb(51,51,51);
+    box-shadow: none;
+
+    
+    &:focus {
+      background: #eee;
+    }
+
+    &:hover {
+      color: lighten(rgb(51,51,51), 40%);
+    }
+    
+    * {
+      margin-left: 1rem;
+    }
+  }
+
+  #selectStudent {
+    background: none;
+    border: none;
+  }
   
   #selectTeacher {
     top: 3px;
@@ -530,31 +564,6 @@ body {
     
     &:hover {
       color: lighten($blue, 40%);
-    }
-  }
-
-  #studentName {
-    max-width: 50%;
-    font-size: 1.1em;
-    line-height: 0.9;
-    font-weight: bold;
-    top: 0.4rem;
-    left: 1rem;
-    border: none;
-    color: rgb(51,51,51);
-    box-shadow: none;
-    padding: 0;
-    
-    &:focus {
-      background: #eee;
-    }
-
-    &:hover {
-      color: lighten(rgb(51,51,51), 40%);
-    }
-    
-    * {
-      margin-left: 1rem;
     }
   }
 

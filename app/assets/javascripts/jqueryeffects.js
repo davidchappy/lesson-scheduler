@@ -35,6 +35,12 @@ jQuery( document ).ready(function( $ ) {
 
   $("body").on('click', '#nav-help-icon', function(event) {
     event.preventDefault();
-    
-  })
+    event.stopPropagation();
+    $("#pup-Help").toggle();
+  });
+
+  $("html").on('click', 'body', function(event) {
+    event.preventDefault();
+    $("#pup-Help").hide();
+  });
 });

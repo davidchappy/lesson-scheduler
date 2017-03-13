@@ -110,14 +110,19 @@ var App = React.createClass({
     this.setState({ lessonPeriods: lessonPeriods, students: students, allWeeks: allWeeks });
   },
   updateFromDeleteLessonPeriod(lessonPeriod) {
-    // update app state lesson periods after deleting a lesson period
+    // update app state lesson periods 
     var lessonPeriods = this.state.lessonPeriods;
     var lessonPeriodIndex = lessonPeriods.indexOf(lessonPeriod);
     lessonPeriods.splice(lessonPeriodIndex, 1);
 
+    // update app state weeks
+    var allWeeks = this.state.allWeeks;
+    allWeeks[lessonPeriod.id] = null;
+
+    // ensures there's a minimum of one lesson period to submit form
     var isSubmittable = lessonPeriods.length ? true : false;
 
-    this.setState({ lessonPeriods: lessonPeriods, isSubmittable: isSubmittable });
+    this.setState({ lessonPeriods: lessonPeriods, isSubmittable: isSubmittable, allWeeks: allWeeks });
   },
   updateFromWeekChange(week) {
     // get the weeks array for this week

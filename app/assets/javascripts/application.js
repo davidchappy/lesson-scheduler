@@ -20,6 +20,6 @@
 //= require settings
 //= require utils
 //= require components
-//= require jqueryeffects
+//= require effects
 //= require_tree .
 

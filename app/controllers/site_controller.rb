@@ -2,9 +2,15 @@ class SiteController < ApplicationController
   before_action :authenticate_user!
   
   def index
-  	@admin = current_user.type === 'Admin'
-  	puts "Admin logged in?: #{@admin}"
-  	@family_id = current_user.type === 'Family' ? current_user.id : nil
-  	puts "Family id: #{@family_id}"
+  	if current_user.type === 'Family'
+  		@admin = false
+  		@family_id = current_user.id
+  	elsif current_user.type === 'Admin'
+  		@admin = true
+  		@family_id = params["family_id"] || nil
+  	else 
+  		flash[:error] = "Please try logging in again"
+  		redirect_to root_url
+  	end
   end
 end

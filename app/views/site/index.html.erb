@@ -1,1 +1,8 @@
-<%= react_component('App', admin: @admin, family_id: @family_id) %>
+<% if @family_id %>
+	<%= react_component('App', family_id: @family_id) %>
+<% elsif @admin %>
+	<%= react_component('AdminPortal', family_id: @family_id) %>
+<% else %>
+	<% redirect_to root_url %>
+<% end %>
+

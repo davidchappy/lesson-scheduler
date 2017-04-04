@@ -7,7 +7,7 @@ RSpec.describe "the signup process", type: :feature do
   end
 
   it "signs up a family user" do
-    expect(page).to have_content 'Sign up'
+    expect(page).to have_selector("input[type=submit][value='Sign up']")
     expect(page).to have_content 'Log in'
 
     within("#new_user") do

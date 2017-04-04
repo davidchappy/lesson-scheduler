@@ -7,7 +7,7 @@ RSpec.describe "the signin process", type: :feature do
   it "signs in a family user" do
     visit '/'
     expect(current_path).to eq('/users/sign_in')
-    expect(page).to have_content 'Log in'
+    expect(page).to have_selector("input[type=submit][value='Log in']")
     expect(page).to have_content 'Email'
     expect(page).to have_content 'Password'
     expect(page).to have_content 'Sign up'

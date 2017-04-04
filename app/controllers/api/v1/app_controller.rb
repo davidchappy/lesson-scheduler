@@ -4,7 +4,7 @@ class Api::V1::AppController < Api::V1::BaseController
     if current_user.type == 'Family'
       @instruments = Instrument.all
       @teachers = Teacher.all
-      @family = Family.find(current_user.id)
+      @family = Family.find(params['family_id'])
       @students = @family.students
       @form = @family.find_or_create_current_form 
       @lesson_periods = @form.lesson_periods.order(:created_at)

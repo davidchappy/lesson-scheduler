@@ -12,6 +12,7 @@ var App = React.createClass({
     $.ajax({
       url: '/api/v1/app.json', 
       type: 'GET',
+      data: { family_id: this.props.family_id },
       success: (response) => {
         var isSubmittable = response.lesson_periods.length ? true : false;
         this.setState({ 

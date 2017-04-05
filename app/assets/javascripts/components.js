@@ -7,5 +7,4 @@
 //= require_tree ./components/admin
 //= require_tree ./components/admin/header
 //= require_tree ./components/admin/body
-
-
+//= require_tree ./components/alerts

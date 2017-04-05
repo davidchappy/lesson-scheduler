@@ -15,6 +15,7 @@ var App = React.createClass({
       data: { family_id: this.props.family_id },
       success: (response) => {
         var isSubmittable = response.lesson_periods.length ? true : false;
+        window.flash_messages.printMessages(response.messages);
         this.setState({ 
                         instruments: response.instruments,
                         teachers: response.teachers,

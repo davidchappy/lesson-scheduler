@@ -743,11 +743,12 @@ body {
 // flashes
 .alert {
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 50px;
   height: 50px;
   text-align: center;
-  // border-radius: 0;
+  z-index: 1002;
+  border-radius: 0;
   
   @media screen and (min-width: $small) {
     top: 63px;
@@ -775,4 +776,15 @@ body {
       margin: 0 0.5rem;
     }
   }
+}
+
+// ***** ADMIN ******
+
+.admin-subheader {
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.setting {
+  margin-bottom: 0.5rem;
 }

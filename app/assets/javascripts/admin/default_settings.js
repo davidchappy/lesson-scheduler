@@ -1,9 +1,26 @@
+// All values should be strings
 var defaultSettings = {
-  lessonLengthOptions: [30, 45, 60, 75, 90, 105, 120],
-  thirtyMinRate: 2000,
-  baseLessonLength: 30,
-  adminEmail: "nja@dmusicstudios.com",
-  adminPhone: "864-363-8526",
+  lessonLengthOptions: {
+    name: 'Lesson Lengths', 
+    value: "30, 45, 60, 75, 90, 105, 120", 
+    description: "" },
+  thirtyMinRate: { 
+    name: '30Min Rate',
+    value: "2000",
+    description: "" },
+  baseLessonLength: { 
+    name: 'Base Lesson Length',
+    value: "30",
+    description: "" },
+  adminEmail: { 
+    name: 'Admin Email',
+    value: "nja@dmusicstudios.com",
+    description: "" }, 
+  adminPhone: { 
+    name: 'Admin Phone',
+    value: "864-363-8526",
+    description: "" }, 
+
   // paymentDates: function(year) {
   //   // returns array of 3 payments (def: 1st June/July/August of current year)
   //   var day = 1;

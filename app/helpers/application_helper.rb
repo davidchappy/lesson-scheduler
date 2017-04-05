@@ -11,4 +11,10 @@ module ApplicationHelper
     wk_string += week.end_date.strftime("%b #{finish}")
     return wk_string
   end
+
+  def flash_messages
+    flash.map do |type, text|
+      { id: text.object_id, type: type, text: text }
+    end
+  end
 end

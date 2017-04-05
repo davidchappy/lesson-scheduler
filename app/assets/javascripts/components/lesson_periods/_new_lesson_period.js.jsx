@@ -11,6 +11,7 @@ var NewLessonPeriod = React.createClass({
                                 teacher_id: teacherId, default_lesson_length: defaultLessonLength } 
             },
       success: (response) => { 
+        window.flash_messages.printMessages(response.messages);
         var lessonPeriod = response.lesson_period;
         var student = response.student;
         var weeks = response.weeks;

@@ -1,4 +1,5 @@
 class Api::V1::AppController < Api::V1::BaseController
+  include ApplicationHelper
 
   def index
     @family = nil
@@ -16,7 +17,8 @@ class Api::V1::AppController < Api::V1::BaseController
 
     respond_with  instruments: @instruments, teachers: @teachers, 
                   family: @family, students: @students, form: @form, 
-                  lesson_periods: @lesson_periods, weeks: @weeks
+                  lesson_periods: @lesson_periods, weeks: @weeks,
+                  messages: flash_messages 
   end
 
 end

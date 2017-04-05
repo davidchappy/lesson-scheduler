@@ -5,4 +5,7 @@
 //= require_tree ./components/shared
 //= require_tree ./components/footer
 //= require_tree ./components/admin
+//= require_tree ./components/admin/header
+//= require_tree ./components/admin/body
+
 

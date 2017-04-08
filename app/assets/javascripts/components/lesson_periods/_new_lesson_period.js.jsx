@@ -28,9 +28,7 @@ var NewLessonPeriod = React.createClass({
     return (
       <div className="lesson-period col-sm-6 col-md-4">
         <div className="lesson-period-header">
-          <FormFields instruments={this.props.instruments}
-                      students={this.props.students}
-                      teachers={this.props.teachers} 
+          <FormFields {...this.props}
                       buttonText={buttonText}
                       submitLessonPeriodForm={this.postLessonPeriodForm} />
         </div>

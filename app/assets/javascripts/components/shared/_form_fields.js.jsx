@@ -84,7 +84,7 @@ var FormFields = React.createClass({
       }
     });
 
-    var lessonLengthsArray = defaultSettings.lessonLengthOptions.value.split(",");
+    var lessonLengthsArray = this.props.appSettings.lessonLengthOptions.value.split(",");
     var lessonLengths = lessonLengthsArray.map((length, index) => {
       var lessonLengthString = Helper.convertMinutesToHours(length);
       return (

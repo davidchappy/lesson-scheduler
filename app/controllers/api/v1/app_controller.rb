@@ -14,11 +14,12 @@ class Api::V1::AppController < Api::V1::BaseController
     @form = @family.find_or_create_current_form 
     @lesson_periods = @form.lesson_periods.order(:created_at)
     @weeks = LessonPeriod.get_weeks_as_hash(@lesson_periods)
+    @app_settings = AppSetting.all.index_by(&:key)
 
     respond_with  instruments: @instruments, teachers: @teachers, 
                   family: @family, students: @students, form: @form, 
                   lesson_periods: @lesson_periods, weeks: @weeks,
-                  messages: flash_messages 
+                  messages: flash_messages, app_settings: @app_settings 
   end
 
 end

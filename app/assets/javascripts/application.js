@@ -17,7 +17,6 @@
 //= require react
 //= require react_ujs
 //= require ./vendor/react-tooltip.min
-//= require admin
 //= require utils
 //= require components
 //= require effects

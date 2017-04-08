@@ -82,10 +82,7 @@ var LessonPeriod = React.createClass({
     } else if (this.state.editing) {
       var buttonText = "Save Student"
       header = <FormFields  {...this.state}
-                            instruments={this.props.instruments}
-                            teachers={this.props.teachers}
-                            students={this.props.students}
-                            lessonPeriod={this.props.lessonPeriod}
+                            {...this.props}
                             buttonText={buttonText} 
                             lessonLengthsEnabled={true}
                             instrumentEnabled={true}
@@ -113,7 +110,8 @@ var LessonPeriod = React.createClass({
         <div className={headerClasses}>
           {header}
         </div>
-        <Weeks  lessonPeriodId={this.props.lessonPeriod.id} 
+        <Weeks  appSettings={this.props.appSettings}
+                lessonPeriodId={this.props.lessonPeriod.id} 
                 allWeeks={this.props.allWeeks}
                 updateFromWeekChange={this.updateFromWeekChange}
                 unavailableDates={this.state.unavailableDates} />

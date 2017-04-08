@@ -1,20 +1,20 @@
 var Pricer = {
-  calculatePricing: function(lessonPeriods, allWeeks) {
+  calculatePricing: function(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate) {
   // calculate form cost and discounts from lesson and lesson period counts
 
     // get lesson count adjusted for lessons longer than base lesson length (30 mins)
-    var adjustedLessonCount = Helper.getTotalLessonMinutes(allWeeks) / appSettings.baseLessonLength.value;
+    var adjustedLessonCount = Helper.getTotalLessonMinutes(allWeeks) / baseLessonLength;
 
     // total cost without discounts                        
-    var rawTotalOwed = adjustedLessonCount * appSettings.thirtyMinRate.value;
+    var rawTotalOwed = adjustedLessonCount * thirtyMinRate;
 
     // get possible discount
     var lessonPeriodCount = lessonPeriods.length;
     var possibleDiscount =  lessonPeriodCount > 0 ? 
-                            this.calculatePossibleDiscount(lessonPeriods, allWeeks) : 0;
+                            this.calculatePossibleDiscount(lessonPeriods, allWeeks, baseLessonLength) : 0;
     
     // get discount
-    var discountObject = this.calculateCurrentDiscounts(lessonPeriods, allWeeks);
+    var discountObject = this.calculateCurrentDiscounts(lessonPeriods, allWeeks, baseLessonLength);
     var discount = Helper.sumObject(discountObject);
     if(discount > possibleDiscount) {
       discount = possibleDiscount;
@@ -25,7 +25,7 @@ var Pricer = {
   
     return { discount: discount, totalOwed: totalOwed, possibleDiscount: possibleDiscount}
   },
-  calculatePossibleDiscount: function(lessonPeriods, allWeeks) {
+  calculatePossibleDiscount: function(lessonPeriods, allWeeks, baseLessonLength) {
   // utility to calculate possible discount from the number of lesson periods
     var lessonPeriodCount = lessonPeriods.length;
 
@@ -45,7 +45,7 @@ var Pricer = {
     for(var i=0; i<lessonPeriods.length; i++) {
       var lessonPeriod = lessonPeriods[i];
       var weeks = allWeeks[lessonPeriod.id];
-      var adjustedLessonCount = (13 * lessonPeriod.default_lesson_length) / appSettings.baseLessonLength.value;
+      var adjustedLessonCount = (13 * lessonPeriod.default_lesson_length) / baseLessonLength;
       if(i === 1) { 
         possibleDiscount += 200 * adjustedLessonCount; 
       } 
@@ -55,7 +55,7 @@ var Pricer = {
     }
     return possibleDiscount;
   },
-  calculateCurrentDiscounts: function(lessonPeriods, allWeeks) {
+  calculateCurrentDiscounts: function(lessonPeriods, allWeeks, baseLessonLength) {
     var discounts = {
       rate: 0,
       quantity: 0,
@@ -64,7 +64,7 @@ var Pricer = {
     for(var i=0; i<lessonPeriods.length; i++) {
       var lessonPeriod = lessonPeriods[i];
       var weeks = allWeeks[lessonPeriod.id];
-      var adjustedLessonCount = Helper.getLessonMinutesFromWeeks(weeks) / appSettings.baseLessonLength.value;
+      var adjustedLessonCount = Helper.getLessonMinutesFromWeeks(weeks) / baseLessonLength;
 
       discounts.lessons += Pricer._lessonsDiscount(adjustedLessonCount);
       discounts.rate += Pricer._rateDiscount(adjustedLessonCount, i);

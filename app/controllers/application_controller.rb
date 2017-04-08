@@ -4,9 +4,10 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def flash_to_http_header
-    return if flash.empty?
-    response.headers['X-FlashMessages'] = flash.to_hash.to_json
-    flash.discard
-  end
+	  def flash_to_http_header
+	    return if flash.empty?
+	    response.headers['X-FlashMessages'] = flash.to_hash.to_json
+	    flash.discard
+	  end
+
 end

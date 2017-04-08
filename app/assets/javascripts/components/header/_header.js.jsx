@@ -9,7 +9,10 @@ var Header = React.createClass({
     this.updatePricing(this.props.lessonPeriods);
   },
   updatePricing(lessonPeriods) {
-    var pricing = Pricer.calculatePricing(lessonPeriods, this.props.allWeeks);
+    var settings = this.props.appSettings;
+    var pricing = Pricer.calculatePricing(lessonPeriods, this.props.allWeeks,
+                                          settings.baseLessonLength.value,
+                                          settings.thirtyMinRate.value);
     this.setState({
       totalDiscount: pricing.discount,
       totalOwed: pricing.totalOwed,
@@ -17,7 +20,7 @@ var Header = React.createClass({
     })  
   },
   render() {
-    if ( !this.props.family ) {
+    if ( !this.props.family || !this.props.appSettings) {
       return (
         <div>
           <p>Loading</p>
@@ -32,8 +35,11 @@ var Header = React.createClass({
     var totalDiscount = Pricer.monetize(this.state.totalDiscount);
     var possibleDiscount = Pricer.monetize(this.state.possibleDiscount);
     var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
-    var discountObject = Pricer.calculateCurrentDiscounts(this.props.lessonPeriods, this.props.allWeeks);
-    var possibleDiscountObject = Pricer.calculatePossibleDiscount(this.props.lessonPeriods, this.props.allWeeks);
+    console.log("App settings in Header", this.props.appSettings);
+    var discountObject = Pricer.calculateCurrentDiscounts(this.props.lessonPeriods, this.props.allWeeks,
+                                                          this.props.appSettings.baseLessonLength.value);
+    var possibleDiscountObject = Pricer.calculatePossibleDiscount(this.props.lessonPeriods, this.props.allWeeks,
+                                                                  this.props.appSettings.baseLessonLength.value);
 
     return (
       <div className="navbar navbar-inverse navbar-fixed-top header">
@@ -55,6 +61,7 @@ var Header = React.createClass({
           {this.props.hasSubmitted ? 
             <div id="navbar" className="navbar-collapse collapse"></div> :
             <Dashboard  {...this.state} 
+                        appSettings={this.props.appSettings}
                         lessonCount={lessonCount}
                         total={this.state.totalOwed}
                         payment={payment}

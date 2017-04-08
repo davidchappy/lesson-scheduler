@@ -6,25 +6,12 @@ var AdminPortal = React.createClass({
 	},
 
 	componentDidMount() {
-		// defaultSettings = global var in app/assets/javascripts/admin
-		var settings = defaultSettings;
-
 		$.ajax({
       url: '/api/v1/admin_portal.json', 
       type: 'GET',
       success: (response) => {
-      	var custom_settings = response.app_settings;
-      	console.log("Response: ", response);
-      	for(var key in settings) {
-      		if(custom_settings[key]) {
-      			console.log("Key found: ", key);
-      			settings[key] = custom_settings[key];
-      			console.log("Altered Settings: ", settings);
-      		}
-      	}
-
         this.setState({ 
-                        appSettings: settings,
+                        appSettings: response.app_settings,
                       });
       }
     });

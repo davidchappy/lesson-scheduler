@@ -10,12 +10,17 @@ var AdminPortal = React.createClass({
       url: '/api/v1/admin_portal.json', 
       type: 'GET',
       success: (response) => {
-        this.setState({ 
-                        appSettings: response.app_settings,
-                      });
+        // console.log("App Settings in app component", response.app_settings);
+        this.setState({ appSettings: response.app_settings });
       }
     });
 	},
+
+	handleSaveSettings(e) {
+		e.preventDefault();
+		console.log("Event in handleSaveSettings", e);
+		console.log("Settings form ref", this.refs);
+	},	
 
 	render() {
 		if ( !this.state.appSettings ) {
@@ -28,7 +33,8 @@ var AdminPortal = React.createClass({
 
 		return (
 			<div>
-				<AdminBody {...this.state}/>
+				<AdminBody 	{...this.state}
+										handleSaveSettings={this.handleSaveSettings} />
 			</div>
 		)
 		// Admin header

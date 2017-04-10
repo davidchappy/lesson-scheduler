@@ -786,5 +786,28 @@ body {
 }
 
 .setting {
-  margin-bottom: 0.5rem;
+  margin-bottom: 2rem;
+
+  .setting-name {
+    font-weight: normal;
+
+    .setting-value {
+      font-weight: 700;
+    }
+  }
+
+  .setting-description {
+    font-style: italic;
+    font-size: 0.9em;
+  }
+
+  .setting-input {
+    padding: 0.5rem;
+    width: 100%;
+  }
+}
+
+.submit-admin-form {
+  margin-top: 1rem;
+  width: 100%;
 }

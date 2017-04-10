@@ -15,6 +15,7 @@ var App = React.createClass({
       type: 'GET',
       data: { family_id: this.props.family_id },
       success: (response) => {
+        // console.log("App Settings in app component", response.app_settings);
         var isSubmittable = response.lesson_periods.length ? true : false;
         window.flash_messages.printMessages(response.messages);
         this.setState({ 

@@ -845,7 +845,22 @@ body {
   margin-bottom: 1rem;
 }
 
+.admin-edit-item-input {
+  width: 100px;
+  padding: 0.5rem;
+}
+
+.admin-edit-item-button {
+  width: 60px;
+  
+  &.btn {
+    vertical-align: baseline;
+    border-radius: 0;
+  }
+}
+
 .admin-list {
   list-style: none;
   padding-left: 0;
+  margin-bottom: 0;
 }

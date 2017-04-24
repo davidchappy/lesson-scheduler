@@ -15,8 +15,20 @@ class Api::V1::InstrumentsController < Api::V1::BaseController
     end
   end
 
+  def update
+    instrument = Instrument.find(params[:id])
+    if instrument.update_attributes(instruments_params)
+      respond_with instrument, json: instrument
+    else
+      redirect_to root_url
+    end
+  end
+
   def destroy
-    # admin
+    Instrument.destroy(params[:id])
+    flash[:success] = "Instrument Removed"
+    instruments = JSON.parse(Instrument.all.order(:created_at).to_json(include: :teachers))
+    respond_with instruments, json: instruments
   end
 
   private

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       resources :forms, only: [:index, :show, :update]
       resources :lesson_periods, only: [:index, :show, :create, :destroy, :update]
       resources :weeks, only: [:update]
-      resources :instruments, only: [:index, :create, :destroy]
+      resources :instruments, only: [:index, :create, :destroy, :update]
       resources :teachers, only: [:index, :create, :destroy, :update]
       resources :app_settings, only: [:index, :create, :destroy, :update]
       resources :admin_portal, only: [:index]

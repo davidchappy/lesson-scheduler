@@ -54,6 +54,33 @@ var AdminPortal = React.createClass({
     });
   },
 
+  updateInstrument(instrumentId, name) {
+    $.ajax({
+      url: `/api/v1/instruments/${instrumentId}.json`, 
+      type: 'PUT',
+      data: { instrument: { name: name } },
+      success: (response) => {
+        var instruments = this.state.instruments;
+        var instrument = Helper.findElementInArrayById(instrumentId, instruments);
+        var index = instruments.indexOf(instrument);
+
+        instrument.name = name;
+        instruments[index] = instrument;
+        this.setState({ instruments: instruments });
+      }
+    });
+  },
+
+  deleteInstrument(instrumentId) {
+    $.ajax({
+      url: `/api/v1/instruments/${instrumentId}.json`, 
+      type: 'DELETE',
+      success: (instruments) => {
+        this.setState({ instruments: instruments })
+      }
+    });
+  },
+
 	render() {
 		if ( !this.state.appSettings || !this.state.families) {
       return (
@@ -68,7 +95,9 @@ var AdminPortal = React.createClass({
 				<AdminHeader />
 				<AdminBody 	{...this.state}
 										saveAppSetting={this.saveAppSetting}
-                    createNewInstrument={this.createNewInstrument} />
+                    createNewInstrument={this.createNewInstrument}
+                    updateInstrument={this.updateInstrument}
+                    deleteInstrument={this.deleteInstrument} />
 			</div>
 		)
 		// Admin header

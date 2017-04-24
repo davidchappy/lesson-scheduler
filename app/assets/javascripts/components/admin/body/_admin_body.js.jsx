@@ -11,7 +11,9 @@ var AdminBody = React.createClass({
 				    <AdminFamilies {...this.props} />
 				    <AdminTeachers {...this.props} />
 				    <AdminInstruments {...this.props} 
-                              createNewInstrument={this.props.createNewInstrument} />
+                              createNewInstrument={this.props.createNewInstrument}
+                              updateInstrument={this.props.updateInstrument} 
+                              deleteInstrument={this.props.deleteInstrument} />
 				    <div role="tabpanel" className="tab-pane" id="account">Account</div>
         	</div>
         </div>

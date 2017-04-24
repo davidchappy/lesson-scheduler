@@ -2,7 +2,9 @@ var AdminInstruments = React.createClass({
   render() {
     var instruments = this.props.instruments.map((instrument) => {
       return (<AdminInstrument  key={instrument.id}
-                                instrument={instrument} />);
+                                instrument={instrument} 
+                                updateInstrument={this.props.updateInstrument}
+                                handleDeleteInstrument={this.props.deleteInstrument} />);
     })
 
     return(
@@ -13,15 +15,19 @@ var AdminInstruments = React.createClass({
             <table className="table table-striped table-hover">
               <tbody>
                 <tr>
-                  <th>Instrument Name</th>
+                  <th>Instrument</th>
                   <th>Teachers</th>
+                  <th></th>
                 </tr>
                 {instruments}
               </tbody>
             </table>
           </div>
-          <SimpleForm handleNewInstrument={this.props.createNewInstrument}
-                      formType="Instrument" />
+          <SimpleForm handleSubmit={this.props.createNewInstrument}
+                      placeholderText="New Instrument"
+                      inputClass="admin-new-item-input"
+                      btnClass="submit-form-button"
+                      btnText="Add Instrument" />
 
         </div>
       </div>

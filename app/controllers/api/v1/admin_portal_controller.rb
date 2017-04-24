@@ -1,7 +1,7 @@
 class Api::V1::AdminPortalController < Api::V1::BaseController
 
 	def index
-		instruments = Instrument.all
+		instruments = JSON.parse(Instrument.all.to_json(include: :teachers))
 		teachers = JSON.parse(Teacher.all.to_json(include: :instruments))
 		families = Family.all
 		students = Student.all

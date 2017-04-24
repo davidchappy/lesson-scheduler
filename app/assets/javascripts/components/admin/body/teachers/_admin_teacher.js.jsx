@@ -18,7 +18,7 @@ var AdminTeacher = React.createClass({
       <tr>
         <td>{name}</td>
         <td>
-          <ul className="instrument-list">{instruments}</ul>
+          <ul className="admin-list">{instruments}</ul>
         </td>
         <td><a href="#" onClick={this.handleAddInstrument}>Add Instrument</a></td>
       </tr>

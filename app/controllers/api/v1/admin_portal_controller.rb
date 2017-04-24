@@ -2,7 +2,7 @@ class Api::V1::AdminPortalController < Api::V1::BaseController
 
 	def index
 		instruments = Instrument.all
-		teachers = Teacher.all
+		teachers = JSON.parse(Teacher.all.to_json(include: :instruments))
 		families = Family.all
 		students = Student.all
 		app_settings = AppSetting.all.order(:created_at).index_by(&:key)

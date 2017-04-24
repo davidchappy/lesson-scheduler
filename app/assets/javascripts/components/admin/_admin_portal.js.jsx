@@ -15,6 +15,7 @@ var AdminPortal = React.createClass({
       url: '/api/v1/admin_portal.json', 
       type: 'GET',
       success: (response) => {
+        console.log("Admin Portal data: ", response);
       	var settings = response.app_settings;
       	var updatedSettings = Helper.clone(settings);
         this.setState({ appSettings: settings, updatedSettings: updatedSettings,

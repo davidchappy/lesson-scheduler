@@ -15,7 +15,7 @@ var AdminFamilies = React.createClass({
     })
 
     return(
-      <div role="tabpanel" className="tab-pane active" id="families">
+      <div role="tabpanel" className="tab-pane" id="families">
         <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
           <h1>All Registered Families</h1>
           <div className="table-responsive">

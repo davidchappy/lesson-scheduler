@@ -24,27 +24,20 @@ var AdminPortal = React.createClass({
     });
 	},
 
-	handleUpdateSetting(e) {
-		var name = e.target.name;
-		var val = e.target.value;
-		var updatedSettings = this.state.updatedSettings;
-		updatedSettings[name] = val;
-		this.setState({ updatedSettings: updatedSettings });
-		console.log("Updated Settings", this.state.updatedSettings);
-	},
+	saveAppSetting(settingName, value) {
+    var settings = this.state.appSettings;
+    var id = settings[settingName].id;
+    settings[settingName].value = value;
+		this.setState({ appSettings: settings });
 
-	saveAppSettings(e) {
-		e.preventDefault();
-		console.log("Data for", e.target);
-		// this.setState({ appSettings: this.state.updatedSettings });
-		// $.ajax({
-  //     url: '/api/v1/app_settings.json', 
-  //     type: 'POST',
-  //     data: { app_settings: this.state.appSettings },
-  //     success: (response) => {
-  //       console.log("App Settings in saveAppSettings", response);
-  //     }
-  //   });
+  	$.ajax({
+      url: `/api/v1/app_settings/${id}.json`, 
+      type: 'PUT',
+      data: { app_settings: { value: value } },
+      success: (response) => {
+        console.log("App Settings in saveAppSettings", response);
+      }
+    });
 	},	
 
 	render() {
@@ -60,8 +53,7 @@ var AdminPortal = React.createClass({
 			<div>
 				<AdminHeader />
 				<AdminBody 	{...this.state}
-										handleSaveSetting={this.saveAppSetting}
-										handleUpdateSetting={this.handleUpdateSetting} />
+										saveAppSetting={this.saveAppSetting} />
 			</div>
 		)
 		// Admin header

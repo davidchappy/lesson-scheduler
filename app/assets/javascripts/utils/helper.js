@@ -1,4 +1,17 @@
 var Helper = {
+  prettifySettingValue: function(rawValue, settingName) {
+    var valueString = rawValue;
+
+    if (settingName === 'thirtyMinRate') {
+      valueString = "$" + (Number(rawValue) / 100);
+    }
+
+    if (settingName === 'baseLessonLength') {
+      valueString = valueString + " minutes";
+    }
+
+    return valueString;
+  },
   clone: function(object) {
     return JSON.parse(JSON.stringify(object));
   },

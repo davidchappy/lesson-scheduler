@@ -21,7 +21,7 @@ class Api::V1::AppSettingsController < Api::V1::BaseController
 	private
 
 		def app_settings_params
-			params.require(:app_settings).permit(:name, :value)
+			params.require(:app_settings).permit(:value)
 		end
 
 end

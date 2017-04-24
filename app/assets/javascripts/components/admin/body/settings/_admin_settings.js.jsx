@@ -5,26 +5,14 @@ var AdminSettings = React.createClass({
 		var settings = settingNames.map((settingName) => {
 			var name = settingsObject[settingName].name;
 			var value = settingsObject[settingName].value;
-			var valueString = value;
 			var description = settingsObject[settingName].description;
-
-			if (settingName === 'thirtyMinRate') {
-				valueString = Pricer.monetize(Number(value));
-				value = Number(value) / 100;
-			}
-
-			if (settingName === 'baseLessonLength') {
-				valueString = valueString + " minutes";
-			}
 
 			return (
 				<AdminSetting key={settingName}
 											settingName={settingName}
-											name={name}
+											htmlName={name}
 											rawValue={value}
-											valueString={valueString}
 											description={description}
-											handleChangeSetting={this.props.handleUpdateSetting}
 											handleSaveSetting={this.props.handleSaveSetting} />
 			)
 		});

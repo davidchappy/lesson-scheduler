@@ -1,3 +1,4 @@
+//= require ./utils/extensions
 //= require ./utils/pricer
 //= require ./utils/helper
 

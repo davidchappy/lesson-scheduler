@@ -2,7 +2,11 @@ var AdminPortal = React.createClass({
 	getInitialState() {
 		return {
 			appSettings: undefined,
-			updatedSettings: undefined
+			updatedSettings: undefined,
+      families: undefined,
+      students: undefined,
+      instruments: undefined,
+      teachers: undefined
 		}
 	},
 
@@ -13,7 +17,9 @@ var AdminPortal = React.createClass({
       success: (response) => {
       	var settings = response.app_settings;
       	var updatedSettings = Helper.clone(settings);
-        this.setState({ appSettings: settings, updatedSettings: updatedSettings });
+        this.setState({ appSettings: settings, updatedSettings: updatedSettings,
+                        families: response.families, students: response.students,
+                        instruments: response.instruments, teachers: response.teachers });
       }
     });
 	},
@@ -42,7 +48,7 @@ var AdminPortal = React.createClass({
 	},	
 
 	render() {
-		if ( !this.state.appSettings ) {
+		if ( !this.state.appSettings || !this.state.families) {
       return (
         <div>
           <p>Loading</p>

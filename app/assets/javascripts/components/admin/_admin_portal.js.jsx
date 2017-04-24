@@ -2,6 +2,7 @@ var AdminPortal = React.createClass({
 	getInitialState() {
 		return {
 			appSettings: undefined,
+			updatedSettings: undefined
 		}
 	},
 
@@ -10,16 +11,34 @@ var AdminPortal = React.createClass({
       url: '/api/v1/admin_portal.json', 
       type: 'GET',
       success: (response) => {
-        // console.log("App Settings in app component", response.app_settings);
-        this.setState({ appSettings: response.app_settings });
+      	var settings = response.app_settings;
+      	var updatedSettings = Helper.clone(settings);
+        this.setState({ appSettings: settings, updatedSettings: updatedSettings });
       }
     });
 	},
 
-	handleSaveSettings(e) {
+	handleUpdateSetting(e) {
+		var name = e.target.name;
+		var val = e.target.value;
+		var updatedSettings = this.state.updatedSettings;
+		updatedSettings[name] = val;
+		this.setState({ updatedSettings: updatedSettings });
+		console.log("Updated Settings", this.state.updatedSettings);
+	},
+
+	saveAppSettings(e) {
 		e.preventDefault();
-		console.log("Event in handleSaveSettings", e);
-		console.log("Settings form ref", this.refs);
+		console.log("Data for", e.target);
+		// this.setState({ appSettings: this.state.updatedSettings });
+		// $.ajax({
+  //     url: '/api/v1/app_settings.json', 
+  //     type: 'POST',
+  //     data: { app_settings: this.state.appSettings },
+  //     success: (response) => {
+  //       console.log("App Settings in saveAppSettings", response);
+  //     }
+  //   });
 	},	
 
 	render() {
@@ -33,8 +52,10 @@ var AdminPortal = React.createClass({
 
 		return (
 			<div>
+				<AdminHeader />
 				<AdminBody 	{...this.state}
-										handleSaveSettings={this.handleSaveSettings} />
+										handleSaveSetting={this.saveAppSetting}
+										handleUpdateSetting={this.handleUpdateSetting} />
 			</div>
 		)
 		// Admin header

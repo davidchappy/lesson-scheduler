@@ -780,9 +780,30 @@ body {
 
 // ***** ADMIN ******
 
+.admin-header {
+
+}
+
+.tab-pane h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.admin-navigation {
+  padding-top: 50px;
+
+  .nav-pills > li > a {
+    border-radius: 0;
+  }
+}
+
 .admin-subheader {
   margin-bottom: 1rem;
   font-weight: 700;
+}
+
+.body.admin-body {
+  padding-top: 0;
 }
 
 .setting {
@@ -803,11 +824,13 @@ body {
 
   .setting-input {
     padding: 0.5rem;
-    width: 100%;
   }
 }
 
 .submit-admin-form {
-  margin-top: 1rem;
   width: 100%;
+
+  &.btn {
+    border-radius: 0;
+  }
 }

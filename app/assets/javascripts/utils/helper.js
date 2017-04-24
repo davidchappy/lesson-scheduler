@@ -1,4 +1,7 @@
 var Helper = {
+  clone: function(object) {
+    return JSON.parse(JSON.stringify(object));
+  },
   getTotalLessonCount: function(lessonPeriods) {
     var lessonCount = 0;
     lessonPeriods.forEach(function(lessonPeriod) {

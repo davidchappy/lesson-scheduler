@@ -11,6 +11,7 @@ var NewLessonPeriod = React.createClass({
                                 teacher_id: teacherId, default_lesson_length: defaultLessonLength } 
             },
       success: (response) => { 
+        window.flash_messages.printMessages(response.messages);
         var lessonPeriod = response.lesson_period;
         var student = response.student;
         var weeks = response.weeks;
@@ -27,9 +28,7 @@ var NewLessonPeriod = React.createClass({
     return (
       <div className="lesson-period col-sm-6 col-md-4">
         <div className="lesson-period-header">
-          <FormFields instruments={this.props.instruments}
-                      students={this.props.students}
-                      teachers={this.props.teachers} 
+          <FormFields {...this.props}
                       buttonText={buttonText}
                       submitLessonPeriodForm={this.postLessonPeriodForm} />
         </div>

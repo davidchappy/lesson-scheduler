@@ -29,9 +29,10 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
     
     if new_lesson_period.valid?
       new_lesson_period.save
-      flash[:success] = "Lesson period created!"
+      flash[:success] = "Lesson period created"
       response = {  lesson_period: new_lesson_period, 
-                    student: student, weeks: new_lesson_period.weeks }
+                    student: student, weeks: new_lesson_period.weeks,
+                    messages: flash_messages }
       respond_with response, json: response
     else
       message = new_lesson_period.errors.full_messages.first
@@ -56,15 +57,18 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
     lesson_period.update_attributes(lesson_periods_params)
     lesson_period.update_weeks if new_default_lesson_length != lesson_period.default_lesson_length
 
-    flash[:success] = "Lesson period updated!"
+    flash.now[:success] = "Lesson period updated"
 
-    response = { lesson_period: lesson_period, student: student }
+    response = {  lesson_period: lesson_period, student: student,
+                  messages: flash_messages }
     respond_with response, json: response
   end
 
   def destroy
-    flash[:success] = "Lesson period deleted!"
-    respond_with LessonPeriod.destroy(params["id"])
+    lesson_period = LessonPeriod.destroy(params["id"])
+    flash[:success] = "Lesson period deleted"
+    response = { lesson_period: lesson_period, messages: flash_messages }
+    respond_with response, json: response
   end
 
   private

@@ -5,6 +5,7 @@ var Body = React.createClass({
       url: `/api/v1/lesson_periods/${id}.json`, 
       type: 'DELETE',
       success: (response) => { 
+        window.flash_messages.printMessages(response.messages);
         this.props.updateFromDeleteLessonPeriod(lessonPeriod);
       }
     });
@@ -21,6 +22,7 @@ var Body = React.createClass({
               name: name 
             },
       success: (response) => {
+        window.flash_messages.printMessages(response.messages);
         var lessonPeriod = response.lesson_period;
         var student = response.student;
         this.props.updateFromEditLessonPeriod(lessonPeriod, student);
@@ -55,7 +57,6 @@ var Body = React.createClass({
                       lessonPeriod={lessonPeriod} 
                       {...this.props}
 
-                      updateFromWeekChange={this.props.updateFromWeekChange}
                       updateLessonCount={this.passLessonCount} 
                       handleDelete={this.delDeleteLessonPeriod}
                       passEditLessonPeriod={this.putEditLessonPeriod} />
@@ -68,18 +69,13 @@ var Body = React.createClass({
       <div className="wrapper">
         <div className="body container">      
           {this.props.isConfirming ?
-            <Confirmation handleToggleConfirming={this.props.handleToggleConfirming}
-                          handleSubmitForm={this.props.submitForm} 
-                          lessonPeriods={this.props.lessonPeriods} 
-                          lessonCount={this.props.lessonCount} 
-                          allWeeks={this.props.allWeeks} /> :
+            <Confirmation {...this.props} /> :
             <div>
               <div className="lesson-periods row">
                 {lessonPeriods}
                 {this.props.isCreating ? 
 
-                  <NewLessonPeriod  {...this.props} 
-                                    updateFromNewLessonPeriod={this.props.updateFromNewLessonPeriod} /> :
+                  <NewLessonPeriod  {...this.props} /> :
 
                   <div className="new-lesson-period-button col-sm-6 col-md-4">
                     <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 

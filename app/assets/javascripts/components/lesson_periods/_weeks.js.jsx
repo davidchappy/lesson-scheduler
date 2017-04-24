@@ -59,7 +59,8 @@ var Weeks = React.createClass({
       var unavailable = this.isUnavailable(week);
 
       return (
-        <Week key={week.id} 
+        <Week appSettings={this.props.appSettings}
+              key={week.id} 
               week={week}
               updateFromWeekChange={this.putUpdateWeek} 
               unavailable={unavailable} />

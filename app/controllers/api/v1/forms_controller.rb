@@ -17,7 +17,7 @@ class Api::V1::FormsController < Api::V1::BaseController
       @form.total_cost = form_params[:total_cost]
       if @form.save
         AdminMailer.submit_form_email(@form).deliver_now
-        flash[:success] = "Your form has been submitted!"
+        flash[:success] = "Your form has been submitted"
         redirect_to root_url
       else
         flash[:error] = "There was a problem submitting your form. Please try again later."

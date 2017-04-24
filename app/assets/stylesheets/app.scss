@@ -743,11 +743,12 @@ body {
 // flashes
 .alert {
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 50px;
   height: 50px;
   text-align: center;
-  // border-radius: 0;
+  z-index: 1002;
+  border-radius: 0;
   
   @media screen and (min-width: $small) {
     top: 63px;
@@ -774,5 +775,62 @@ body {
     a {
       margin: 0 0.5rem;
     }
+  }
+}
+
+// ***** ADMIN ******
+
+.admin-header {
+
+}
+
+.tab-pane h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.admin-navigation {
+  padding-top: 50px;
+
+  .nav-pills > li > a {
+    border-radius: 0;
+  }
+}
+
+.admin-subheader {
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.body.admin-body {
+  padding-top: 0;
+}
+
+.setting {
+  margin-bottom: 2rem;
+
+  .setting-name {
+    font-weight: normal;
+
+    .setting-value {
+      font-weight: 700;
+    }
+  }
+
+  .setting-description {
+    font-style: italic;
+    font-size: 0.9em;
+  }
+
+  .setting-input {
+    padding: 0.5rem;
+  }
+}
+
+.submit-admin-form {
+  width: 100%;
+
+  &.btn {
+    border-radius: 0;
   }
 }

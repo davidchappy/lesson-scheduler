@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       resources :weeks, only: [:update]
       resources :instruments, only: [:index, :create, :destroy]
       resources :teachers, only: [:index, :create, :destroy, :update]
+      resources :app_settings, only: [:index, :create, :destroy, :update]
+      resources :admin_portal, only: [:index]
     end
   end
   root to: 'site#index'

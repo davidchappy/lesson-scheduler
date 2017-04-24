@@ -43,7 +43,7 @@ var Dashboard = React.createClass({
             <a id="nav-help-icon" onClick={this.props.onClickHelpPup} >?</a>
           </li>
         </ul>
-        <HelpPopup />
+        <HelpPopup appSettings={this.props.appSettings}/>
       </div>
     )
   }

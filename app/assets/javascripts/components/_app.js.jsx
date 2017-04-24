@@ -3,7 +3,8 @@ var App = React.createClass({
     return {  instruments: undefined, teachers: undefined,
               family: undefined, form: undefined, students: undefined, 
               lessonPeriods: undefined, allWeeks: undefined, isCreating: false, 
-              isConfirming: false, hasSubmitted: false, isSubmittable: false }
+              isConfirming: false, hasSubmitted: false, isSubmittable: false,
+              appSettings: undefined }
   },
   componentDidMount() {
     this.fetchAppData();    
@@ -12,8 +13,11 @@ var App = React.createClass({
     $.ajax({
       url: '/api/v1/app.json', 
       type: 'GET',
+      data: { family_id: this.props.family_id },
       success: (response) => {
+        // console.log("App Settings in app component", response.app_settings);
         var isSubmittable = response.lesson_periods.length ? true : false;
+        window.flash_messages.printMessages(response.messages);
         this.setState({ 
                         instruments: response.instruments,
                         teachers: response.teachers,
@@ -24,14 +28,18 @@ var App = React.createClass({
                         allWeeks: response.weeks,
                         hasSubmitted: response.form.submitted,
                         isSubmittable: isSubmittable,
+                        appSettings: response.app_settings,
                       });
       }
     });
   },
   submitForm() {
     // Ensure the form record has the current total cost
+    settings = this.state.appSettings;
     var id = this.state.form.id;
-    var pricing = Pricer.calculatePricing(this.state.lessonPeriods, this.state.allWeeks);
+    var pricing = Pricer.calculatePricing(this.state.lessonPeriods, this.state.allWeeks, 
+                                          settings.baseLessonLength.value,
+                                          settings.thirtyMinRate.value);
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'PUT',
@@ -145,7 +153,7 @@ var App = React.createClass({
     this.setState({ lessonPeriods: lessonPeriods, allWeeks: allWeeks })
   },
   render() {
-    if ( !this.state.family || !this.state.form || !this.state.lessonPeriods) {
+    if ( !this.state.family || !this.state.form || !this.state.lessonPeriods || !this.state.appSettings) {
       return (
         <div>
           <p>Loading</p>
@@ -153,17 +161,16 @@ var App = React.createClass({
       )
     }
 
+    console.log("Appsettings from app component", this.state.appSettings);
+
     return (
       <div>
-        <Header family={this.state.family} 
-                lessonPeriods={this.state.lessonPeriods}
-                hasSubmitted={this.state.hasSubmitted}
-                handleClickAddStudent={this.toggleCreating}
-                allWeeks={this.state.allWeeks} />
+        <Header {...this.state} />
 
         {this.state.hasSubmitted ? 
 
-          <AlreadySubmitted submitted_at={this.state.form.submitted_at} /> :
+          <AlreadySubmitted submittedAt={this.state.form.submitted_at}
+                            appSettings={this.state.appSettings} /> :
 
           <Body {...this.state}
                 handleToggleConfirming={this.toggleConfirming}
@@ -173,8 +180,7 @@ var App = React.createClass({
                 updateFromNewLessonPeriod={this.updateFromNewLessonPeriod}
                 updateFromEditLessonPeriod={this.updateFromEditLessonPeriod}
                 updateFromDeleteLessonPeriod={this.updateFromDeleteLessonPeriod} 
-                submitForm={this.submitForm} 
-                isSubmittable={this.state.isSubmittable} />
+                submitForm={this.submitForm} />
         }
       </div>
     )

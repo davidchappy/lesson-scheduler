@@ -1,4 +1,7 @@
 var Helper = {
+  clone: function(object) {
+    return JSON.parse(JSON.stringify(object));
+  },
   getTotalLessonCount: function(lessonPeriods) {
     var lessonCount = 0;
     lessonPeriods.forEach(function(lessonPeriod) {
@@ -93,6 +96,19 @@ var Helper = {
       }
     }
     return sum;
-  }
+  },
+  // Gets the 3 payment dates for a given year
+  // paymentDates: function(year) {
+  //   // returns array of 3 payments (def: 1st June/July/August of current year)
+  //   var day = 1;
+  //   var firstMonth = 6;
+  //   var currentYear = year || new Date().getFullYear;
+  //   var dates = [];
+  //   for(var i=0; i<3; i++) {
+  //     var string = currentYear + "-" + (i+firstMonth) + "-" + day;
+  //     dates[i] = new Date(string);
+  //   }
+  //   return dates;
+  // },
 
 } 

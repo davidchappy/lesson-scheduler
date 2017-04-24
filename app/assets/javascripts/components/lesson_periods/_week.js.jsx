@@ -26,7 +26,8 @@ var Week = React.createClass({
     var selected = this.state.selected ? "selected" : "";
     var unavailable = this.props.unavailable;
 
-    var lessonLengths = defaultSettings.lessonLengthOptions.map((length, index) => {
+    var lessonLengthsArray = this.props.appSettings.lessonLengthOptions.value.split(",");
+    var lessonLengths = lessonLengthsArray.map((length, index) => {
       var lessonLengthString = Helper.convertMinutesToHours(length);
       return (
         <option value={length} key={index}>{lessonLengthString}</option>

@@ -1,4 +1,8 @@
 FactoryGirl.define do
+  factory :app_setting do
+    name "MyString"
+    value "MyText"
+  end
   factory :family do
     first_name "Jane"
     last_name "Johnson"

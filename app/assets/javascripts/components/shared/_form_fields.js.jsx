@@ -84,7 +84,8 @@ var FormFields = React.createClass({
       }
     });
 
-    var lessonLengths = appSettings.lessonLengthOptions.map((length, index) => {
+    var lessonLengthsArray = this.props.appSettings.lessonLengthOptions.value.split(",");
+    var lessonLengths = lessonLengthsArray.map((length, index) => {
       var lessonLengthString = Helper.convertMinutesToHours(length);
       return (
         <option value={length} key={index}>{lessonLengthString}</option>

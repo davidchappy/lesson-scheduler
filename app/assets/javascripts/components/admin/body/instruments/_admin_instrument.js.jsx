@@ -2,13 +2,16 @@ var AdminInstrument = React.createClass({
 
   render() {
     var instrument = this.props.instrument;
-    var teachers = instrument.teachers.map((teacher) => {
-      var name = teacher.first_name + " " + teacher.last_name;
+    var teachers;
+    if(instrument.teachers && instrument.teachers.length > 0) {
+        teachers = instrument.teachers.map((teacher) => {
+        var name = teacher.first_name + " " + teacher.last_name;
 
-      return (
-        <li key={instrument.id}>{name}</li>
-      );
-    })
+        return (
+          <li key={instrument.id}>{name}</li>
+        );
+      })
+    }
 
     return (
       <tr>

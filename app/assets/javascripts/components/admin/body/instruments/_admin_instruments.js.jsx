@@ -9,7 +9,7 @@ var AdminInstruments = React.createClass({
       <div role="tabpanel" className="tab-pane" id="instruments">
         <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
           <h1>All Instruments</h1>
-          <div className="table-responsive">
+          <div className="table-responsive admin-table">
             <table className="table table-striped table-hover">
               <tbody>
                 <tr>
@@ -20,6 +20,9 @@ var AdminInstruments = React.createClass({
               </tbody>
             </table>
           </div>
+          <SimpleForm handleNewInstrument={this.props.createNewInstrument}
+                      formType="Instrument" />
+
         </div>
       </div>
     )

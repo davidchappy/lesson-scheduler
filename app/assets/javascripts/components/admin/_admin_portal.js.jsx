@@ -41,6 +41,19 @@ var AdminPortal = React.createClass({
     });
 	},	
 
+  createNewInstrument(name) {
+    $.ajax({
+      url: '/api/v1/instruments.json', 
+      type: 'POST',
+      data: { instrument: { name: name } },
+      success: (response) => {
+        var instruments = this.state.instruments;
+        instruments.push(response);
+        this.setState({ instruments: instruments });
+      }
+    });
+  },
+
 	render() {
 		if ( !this.state.appSettings || !this.state.families) {
       return (
@@ -54,7 +67,8 @@ var AdminPortal = React.createClass({
 			<div>
 				<AdminHeader />
 				<AdminBody 	{...this.state}
-										saveAppSetting={this.saveAppSetting} />
+										saveAppSetting={this.saveAppSetting}
+                    createNewInstrument={this.createNewInstrument} />
 			</div>
 		)
 		// Admin header

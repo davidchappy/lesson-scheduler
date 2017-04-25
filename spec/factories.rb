@@ -1,4 +1,7 @@
 FactoryGirl.define do
+  factory :instrument_teacher do
+    
+  end
   factory :app_setting do
     name "MyString"
     value "MyText"

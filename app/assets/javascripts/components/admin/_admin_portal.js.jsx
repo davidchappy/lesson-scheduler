@@ -96,23 +96,18 @@ var AdminPortal = React.createClass({
     });
   },
 
-  updateTeacher(teacherId, firstName, lastName, instruments) {
-    var teachers = this.state.teachers;
-    var teacher = Helper.findElementInArrayById(teacherId, teachers);
-    var index = teachers.indexOf(teacher);
-    var updatedInstruments = instruments || teacher.instruments;
-
+  updateTeacher(teacherId, firstName, lastName, addedInstrumentId) {
     $.ajax({
       url: `/api/v1/teachers/${teacherId}.json`, 
       type: 'PUT',
-      data: { teacher: {  first_name: firstName, 
-                          last_name: lastName, 
-                          instruments: updatedInstruments } },
+      data: { teacher: 
+              { 
+                first_name: firstName, 
+                last_name: lastName,
+                instrument_id: addedInstrumentId } 
+              },
       success: (response) => {
-        teacher.first_name = firstName;
-        teacher.last_name = lastName;
-        teacher.instruments = updatedInstruments;
-        teachers[index] = teacher;
+        var teachers = response;
         this.setState({ teachers: teachers });
       }
     });
@@ -126,6 +121,10 @@ var AdminPortal = React.createClass({
         this.setState({ teachers: teachers })
       }
     });
+  },
+
+  addInstrumentToTeacher(teacher, instrumentId) {
+    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, instrumentId);
   },
 
 	render() {
@@ -147,7 +146,8 @@ var AdminPortal = React.createClass({
                     deleteInstrument={this.deleteInstrument}
                     createTeacher={this.createTeacher}
                     updateTeacher={this.updateTeacher}
-                    deleteTeacher={this.deleteTeacher} />
+                    deleteTeacher={this.deleteTeacher}
+                    addInstrumentToTeacher={this.addInstrumentToTeacher} />
 			</div>
 		)
 		// Admin header

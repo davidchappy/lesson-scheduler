@@ -17,8 +17,18 @@ class Api::V1::TeachersController < Api::V1::BaseController
 
   def update
     teacher = Teacher.find(params[:id])
-    if teacher.update_attributes(teachers_params)
-      respond_with teacher, json: teacher
+    puts params.inspect
+    
+    if params[:teacher][:instrument_id]
+      added_instrument = Instrument.find(params[:teacher][:instrument_id])
+      teacher.instruments << added_instrument
+      teacher.save
+    end
+    
+    if teacher.update_attributes( first_name: params[:teacher][:first_name], 
+                                  last_name: params[:teacher][:last_name])
+      teachers = JSON.parse(Teacher.all.order(:created_at).to_json(include: :instruments))
+      respond_with teachers, json: teachers
     else
       redirect_to root_url
     end
@@ -34,7 +44,7 @@ class Api::V1::TeachersController < Api::V1::BaseController
   private
 
     def teachers_params
-      params.require(:teacher).permit(:first_name, :last_name, :instruments)
+      params.require(:teacher).permit(:first_name, :last_name, :instrument_id)
     end
 
 end

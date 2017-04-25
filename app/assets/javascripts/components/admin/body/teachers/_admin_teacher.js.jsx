@@ -28,8 +28,8 @@ var AdminTeacher = React.createClass({
     this.setState({ addingInstrument: addingInstrument });
   },
 
-  handleAddInstrumentToTeacher(instrument, teacher) {
-
+  handleAddInstrumentToTeacher(instrumentId) {
+    this.props.addInstrumentToTeacher(this.props.teacher, instrumentId)
   },
 
   render() {
@@ -42,6 +42,12 @@ var AdminTeacher = React.createClass({
       });
     }
     var name = teacher.first_name + " " + teacher.last_name;
+    var displayedInstruments = this.props.instruments.filter((instrument) => {
+      if(Helper.findElementInArrayById(instrument.id, teacher.instruments)) {
+        return false;  
+      }
+      return instrument;
+    });
 
     return (
       <tr>
@@ -61,12 +67,13 @@ var AdminTeacher = React.createClass({
           {
             (this.state.addingInstrument)
               ? 
-                <SelectForm selectOptions={this.props.instruments}
+                <SelectForm selectOptions={displayedInstruments}
                             displayValue="name"
                             selectClass="admin-select"
                             selectId="addInstrumentToTeacher"
                             btnClass="admin-select-submit-button"
-                            btnText="Add" />
+                            btnText="Add"
+                            handleAddInstrumentToTeacher={this.handleAddInstrumentToTeacher} />
               : null  
           } 
         </td>       

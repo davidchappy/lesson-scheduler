@@ -5,7 +5,8 @@ var AdminTeachers = React.createClass({
                             teacher={teacher}
                             instruments={this.props.instruments}
                             updateTeacher={this.props.updateTeacher}
-                            handleDeleteTeacher={this.props.deleteTeacher} />);
+                            handleDeleteTeacher={this.props.deleteTeacher}
+                            addInstrumentToTeacher={this.props.addInstrumentToTeacher} />);
     })
 
     return(

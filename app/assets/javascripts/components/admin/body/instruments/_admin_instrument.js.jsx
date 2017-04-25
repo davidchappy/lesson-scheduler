@@ -29,7 +29,7 @@ var AdminInstrument = React.createClass({
         var name = teacher.first_name + " " + teacher.last_name;
 
         return (
-          <li key={instrument.id}>{name}</li>
+          <li key={teacher.id}>{name}</li>
         );
       })
     }

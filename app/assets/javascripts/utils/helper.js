@@ -75,11 +75,15 @@ var Helper = {
     return string;  
   },
   findElementInArrayById: function(id, targetArray) {
-    for (var i=0; i < targetArray.length; i++) {
-      var elem = targetArray[i];
-      if (elem.id === Number(id)) {
-        return elem;
+    if(targetArray && targetArray.length > 0) {
+      for (var i=0; i < targetArray.length; i++) {
+        var elem = targetArray[i];
+        if (elem.id === Number(id)) {
+          return elem;
+        }
       }
+    } else {
+      return null;
     }
   },
   contains: function(needle) {

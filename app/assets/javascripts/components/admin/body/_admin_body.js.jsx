@@ -12,7 +12,8 @@ var AdminBody = React.createClass({
 				    <AdminTeachers    {...this.props} 
                               createTeacher={this.props.createTeacher}
                               updateTeacher={this.props.updateTeacher} 
-                              deleteTeacher={this.props.deleteTeacher}/>
+                              deleteTeacher={this.props.deleteTeacher}
+                              addInstrumentToTeacher={this.props.addInstrumentToTeacher} />
 				    <AdminInstruments {...this.props} 
                               createNewInstrument={this.props.createNewInstrument}
                               updateInstrument={this.props.updateInstrument} 

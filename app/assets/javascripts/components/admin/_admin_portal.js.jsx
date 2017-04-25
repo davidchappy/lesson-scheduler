@@ -81,6 +81,53 @@ var AdminPortal = React.createClass({
     });
   },
 
+  createTeacher(submittedName) {
+    var names = Helper.processTeacherName(submittedName);
+
+    $.ajax({
+      url: '/api/v1/teachers.json', 
+      type: 'POST',
+      data: { teacher: { first_name: names[0], last_name: names[1] } },
+      success: (response) => {
+        var teachers = this.state.teachers;
+        teachers.push(response);
+        this.setState({ teachers: teachers });
+      }
+    });
+  },
+
+  updateTeacher(teacherId, firstName, lastName, instruments) {
+    var teachers = this.state.teachers;
+    var teacher = Helper.findElementInArrayById(teacherId, teachers);
+    var index = teachers.indexOf(teacher);
+    var updatedInstruments = instruments || teacher.instruments;
+
+    $.ajax({
+      url: `/api/v1/teachers/${teacherId}.json`, 
+      type: 'PUT',
+      data: { teacher: {  first_name: firstName, 
+                          last_name: lastName, 
+                          instruments: updatedInstruments } },
+      success: (response) => {
+        teacher.first_name = firstName;
+        teacher.last_name = lastName;
+        teacher.instruments = updatedInstruments;
+        teachers[index] = teacher;
+        this.setState({ teachers: teachers });
+      }
+    });
+  },
+
+  deleteTeacher(teacherId) {
+    $.ajax({  
+      url: `/api/v1/teachers/${teacherId}.json`, 
+      type: 'DELETE',
+      success: (teachers) => {
+        this.setState({ teachers: teachers })
+      }
+    });
+  },
+
 	render() {
 		if ( !this.state.appSettings || !this.state.families) {
       return (
@@ -97,7 +144,10 @@ var AdminPortal = React.createClass({
 										saveAppSetting={this.saveAppSetting}
                     createNewInstrument={this.createNewInstrument}
                     updateInstrument={this.updateInstrument}
-                    deleteInstrument={this.deleteInstrument} />
+                    deleteInstrument={this.deleteInstrument}
+                    createTeacher={this.createTeacher}
+                    updateTeacher={this.updateTeacher}
+                    deleteTeacher={this.deleteTeacher} />
 			</div>
 		)
 		// Admin header

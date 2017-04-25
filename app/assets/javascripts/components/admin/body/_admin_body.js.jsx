@@ -5,11 +5,14 @@ var AdminBody = React.createClass({
 			<div className="wrapper">
         <div className="body admin-body container">  
         	<div className="tab-content">
-        		<AdminSettings 	{...this.props}	
-        										handleSaveSetting={this.props.saveAppSetting} />
+          	<AdminSettings 	  {...this.props}	
+          										handleSaveSetting={this.props.saveAppSetting} />
         		<div role="tabpanel" className="tab-pane" id="content">Content</div>
-				    <AdminFamilies {...this.props} />
-				    <AdminTeachers {...this.props} />
+				    <AdminFamilies    {...this.props} />
+				    <AdminTeachers    {...this.props} 
+                              createTeacher={this.props.createTeacher}
+                              updateTeacher={this.props.updateTeacher} 
+                              deleteTeacher={this.props.deleteTeacher}/>
 				    <AdminInstruments {...this.props} 
                               createNewInstrument={this.props.createNewInstrument}
                               updateInstrument={this.props.updateInstrument} 

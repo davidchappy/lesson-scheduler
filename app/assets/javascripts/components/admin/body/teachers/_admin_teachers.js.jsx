@@ -2,7 +2,9 @@ var AdminTeachers = React.createClass({
   render() {
     var teachers = this.props.teachers.map((teacher) => {
       return (<AdminTeacher key={teacher.id}
-                            teacher={teacher} />);
+                            teacher={teacher}
+                            updateTeacher={this.props.updateTeacher}
+                            handleDeleteTeacher={this.props.deleteTeacher} />);
     })
 
     return(
@@ -21,6 +23,11 @@ var AdminTeachers = React.createClass({
               </tbody>
             </table>
           </div>
+          <SimpleForm handleSubmit={this.props.createTeacher}
+                      placeholderText="New Teacher"
+                      inputClass="admin-new-item-input"
+                      btnClass="submit-form-button"
+                      btnText="Add Teacher" />
         </div>
       </div>
     )

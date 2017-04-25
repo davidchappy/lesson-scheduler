@@ -865,3 +865,17 @@ body {
   padding-left: 0;
   margin-bottom: 0;
 }
+
+.admin-select {
+  padding: 0.3rem;
+  width: 80px;
+  margin-left: -2px;
+  margin-right: 5px;
+  border-radius: 0;
+}
+
+.admin-select-submit-button.btn {
+  padding: 3px;
+  border-radius: 0;
+  vertical-align: baseline;
+}

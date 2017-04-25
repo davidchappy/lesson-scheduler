@@ -56,15 +56,20 @@ var AdminTeacher = React.createClass({
               </td>
             : <td>{name}</td>
         }
-        {
-          (this.state.addingInstrument)
-            ? <td>
-                <p>Adding Instrument</p>
-              </td>
-            : <td> 
-                <ul className="admin-list">{instruments}</ul>
-              </td>
-        }        
+        <td>
+          <ul className="admin-list">{instruments}</ul>
+          {
+            (this.state.addingInstrument)
+              ? 
+                <SelectForm selectOptions={this.props.instruments}
+                            displayValue="name"
+                            selectClass="admin-select"
+                            selectId="addInstrumentToTeacher"
+                            btnClass="admin-select-submit-button"
+                            btnText="Add" />
+              : null  
+          } 
+        </td>       
         <td>
           <a href="#" onClick={this.toggleEdit}>Edit</a>&nbsp;|&nbsp;
           <a href="#" onClick={this.handleDelete}>Delete</a>&nbsp;|&nbsp;

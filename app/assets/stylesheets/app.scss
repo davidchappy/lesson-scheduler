@@ -388,12 +388,13 @@ body {
       width: 30px;
       line-height: 30px;
       border-radius: 50%;
+      box-sizing: border-box;
       box-shadow: none;
       text-shadow: none;
       text-align: center;
       color: #fff;
-      border: 3px solid #eee;
-      background: $red;
+      border: 1px solid #ccc;
+      background: #fff;
       cursor: pointer;
       
       &:focus {
@@ -401,15 +402,23 @@ body {
       }
 
       &:hover {
-        background: $green;
+        border: none;
+        background: transparentize($green, 0.50);
+        &::before {
+          content: "\e013";
+        }
       }
       
       &.selected {
-        background: $green;
         border: none;
+        background: $green;
         
         &:hover {
-          background: $red;
+          background: #fff;
+          line-height: 28px;
+          border: 1px solid $red;
+          color: $red;
+          
           &::before {
             content: "\e014";
           }
@@ -432,11 +441,32 @@ body {
     }
 
     &.unavailable {
-      // text-decoration: line-through;
       color: #ccc;
       
-      .select-week.selected {
-        background: lighten($green, 15%);
+      .select-week {
+        background: #fff;
+        border: 1px solid #eee;
+        
+        &:hover {
+          border: none;
+          background: transparentize($green, 0.50);
+        }
+
+        &.selected {
+          border: none;
+          background: lighten($green, 25%);
+          
+          &:hover {
+            background: #fff;
+            line-height: 28px;
+            border: 1px solid lighten($red, 25%);
+            color: lighten($red, 25%);
+            
+            &::before {
+              content: "\e014";
+            }
+          }
+        }
       }
     }
 

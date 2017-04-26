@@ -29,7 +29,12 @@ var AdminTeacher = React.createClass({
   },
 
   handleAddInstrumentToTeacher(instrumentId) {
-    this.props.addInstrumentToTeacher(this.props.teacher, instrumentId)
+    this.props.addInstrumentToTeacher(instrumentId, this.props.teacher)
+  },
+
+  handleRemoveInstrumentFromTeacher(e) {
+    var id = e.target.getAttribute('data-id');
+    this.props.removeInstrumentFromTeacher(id, this.props.teacher);
   },
 
   render() {
@@ -37,7 +42,11 @@ var AdminTeacher = React.createClass({
     if(teacher.instruments && teacher.instruments.length > 0) {
       var instruments = teacher.instruments.map((instrument) => {
         return (
-          <li key={instrument.id}>{instrument.name}</li>
+          <li key={instrument.id} className="admin-instrument-list-item">{instrument.name}
+            <span data-id={instrument.id} className="glyphicon glyphicon-minus admin-remove-instrument" 
+                  onClick={this.handleRemoveInstrumentFromTeacher}>
+            </span>
+          </li>
         );
       });
     }

@@ -879,3 +879,26 @@ body {
   border-radius: 0;
   vertical-align: baseline;
 }
+
+.admin-instrument-list-item {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.admin-instrument-list-item:hover .admin-remove-instrument {
+  display: inline-block;
+  position: absolute;
+  background: #E65854;
+  text-align: center;
+  color: #fff;
+  height: 20px;
+  width: 20px;
+  line-height: 19px;
+  border-radius: 50%;
+}
+
+.admin-remove-instrument.glyphicon {
+  display: none;
+  cursor: pointer;
+  margin-left: 2rem;
+}

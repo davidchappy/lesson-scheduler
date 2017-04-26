@@ -123,7 +123,11 @@ var AdminPortal = React.createClass({
     });
   },
 
-  addInstrumentToTeacher(teacher, instrumentId) {
+  addInstrumentToTeacher(instrumentId, teacher) {
+    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, instrumentId);
+  },
+
+  removeInstrumentFromTeacher(instrumentId, teacher) {
     this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, instrumentId);
   },
 
@@ -147,7 +151,8 @@ var AdminPortal = React.createClass({
                     createTeacher={this.createTeacher}
                     updateTeacher={this.updateTeacher}
                     deleteTeacher={this.deleteTeacher}
-                    addInstrumentToTeacher={this.addInstrumentToTeacher} />
+                    addInstrumentToTeacher={this.addInstrumentToTeacher}
+                    removeInstrumentFromTeacher={this.removeInstrumentFromTeacher} />
 			</div>
 		)
 		// Admin header

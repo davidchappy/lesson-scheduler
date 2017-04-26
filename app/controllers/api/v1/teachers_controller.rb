@@ -21,7 +21,12 @@ class Api::V1::TeachersController < Api::V1::BaseController
     
     if params[:teacher][:instrument_id]
       added_instrument = Instrument.find(params[:teacher][:instrument_id])
-      teacher.instruments << added_instrument
+      if teacher.instruments.include?(added_instrument)
+        teacher.instruments.delete(added_instrument)
+      else
+        teacher.instruments << added_instrument
+      end
+      teacher.instruments = teacher.instruments.order(:created_at)
       teacher.save
     end
     

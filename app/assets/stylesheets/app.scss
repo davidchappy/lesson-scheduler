@@ -12,11 +12,12 @@
   background: #fff;
 }
 
-$green: #00FF48; 
+$green: #69D469; 
 $bootstrap-green: #5cb85c;
 $blue: #3498db;
 $red: #d9534f;
 $orange: #FF530D;
+$header-text-gray: #a8abaf;
 $gray-light: #eee;
 
 $small: 768px;
@@ -48,6 +49,10 @@ body {
 
 // Header
 .header {
+
+  &.navbar-inverse {
+    background-color: #252930;
+  }
 
   .navbar-header {
     line-height: 50px;
@@ -81,6 +86,11 @@ body {
 
   }
 
+  // Overwriting bootstrap nav text color
+  &.navbar-inverse .navbar-nav > li > a {
+    color: $header-text-gray;
+  }
+
   .navbar-nav {
     font-size: 0.9em;
     
@@ -100,7 +110,7 @@ body {
     .total-lessons {
       height: 44px;
       line-height: 44px;
-      border-right: 1px solid #9d9d9d;
+      border-right: 1px solid $header-text-gray;
       margin-top: 10px;
       
       .header-small {
@@ -117,7 +127,7 @@ body {
     .possible-discount {
       max-width: 140px;
       margin-right: 1rem;
-      border-right: 1px solid #9d9d9d;
+      border-right: 1px solid $header-text-gray;
       margin-top: 10px;
 
 
@@ -147,7 +157,7 @@ body {
     }
 
     .possible-discount .header-large {
-      color: $orange;
+      color: $red;
       
       &.max-discount {
         color: $green;
@@ -376,11 +386,14 @@ body {
       margin-bottom: 0;
       height: 30px;
       width: 30px;
+      line-height: 30px;
       border-radius: 50%;
       box-shadow: none;
       text-shadow: none;
+      text-align: center;
+      color: #fff;
       border: 3px solid #eee;
-      background: #fff;
+      background: $red;
       cursor: pointer;
       
       &:focus {
@@ -388,12 +401,23 @@ body {
       }
 
       &:hover {
-        background: rgba(0,0,0,0.1);
+        background: $green;
       }
       
       &.selected {
-        background: #ccc;
+        background: $green;
         border: none;
+        
+        &:hover {
+          background: $red;
+          &::before {
+            content: "\e014";
+          }
+        }
+        
+        &::before {
+          content: "\e013";
+        }
       }
     }
 
@@ -412,7 +436,7 @@ body {
       color: #ccc;
       
       .select-week.selected {
-        background: lighten(#ccc, 15%);
+        background: lighten($green, 15%);
       }
     }
 

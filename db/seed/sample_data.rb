@@ -4,6 +4,11 @@ module SampleDataSeeds
   											password: 'password', 
   											password_confirmation: 'password')
 
+	admin2 = Admin.create( first_name: 'Vistor', last_name: 'AdminAccount', 
+											email: 'vistor@example.com', 
+											password: 'password', 
+											password_confirmation: 'password')
+
 	family = Family.create(first_name: 'John', last_name: 'Smith', 
 	  email: 'family@example.com',
 	  password: 'password', password_confirmation: 'password')

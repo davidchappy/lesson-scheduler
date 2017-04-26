@@ -50,7 +50,7 @@ var Week = React.createClass({
               <span>{week.week_string}</span>
               <div className={"checkbox"}>
                 <input  ref='week' id={weekNumber} type="checkbox" 
-                        className={"form-control select-week " + selected} 
+                        className={"form-control select-week glyphicon " + selected} 
                         onClick={this.handleCheckWeek}></input>
                 {lessonLength()}
               </div>
@@ -64,7 +64,7 @@ var Week = React.createClass({
               <span>{week.week_string}</span>
               <div className={"checkbox"}>
                 <input  ref='week' id={weekNumber} type="checkbox" 
-                        className={"form-control select-week " + selected} 
+                        className={"form-control select-week glyphicon " + selected} 
                         onClick={this.handleCheckWeek}></input>
                 {lessonLength()}
               </div>

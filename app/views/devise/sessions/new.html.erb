@@ -4,12 +4,6 @@
     <h2>Welcome to<br/>DMS Summer Lesson Signups!</h2>
     <small><em>If this is your first visit, please click "Sign up" below to get started!</em></small>
     
-    <!-- remove for production -->
-    <br>
-    <br>
-    <small><strong>If you are visiting from my portfolio site, please log in with:<br>Email: vistor@example.com<br>Password: "password"</strong></small>
-    <!-- /remove for production -->
-
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="field">
         <%= f.label :email %><br />

@@ -162,7 +162,8 @@ var App = React.createClass({
 
     return (
       <div>
-        <Header {...this.state} />
+        <Header {...this.state}
+                {...this.props} />
 
         {this.state.hasSubmitted ? 
 

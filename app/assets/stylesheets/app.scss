@@ -966,3 +966,21 @@ body {
   cursor: pointer;
   margin-left: 2rem;
 }
+
+// button in family views
+.return-to-admin.btn {
+  border-radius: 5px;
+  display: inline-block;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 32px;
+  margin-left: 15px;
+  background: darken($gray-light, 7%);
+  color: $blue;
+  transition: 0.3s;
+  
+  &:hover {
+    background: $blue;
+    color: #fff !important;
+  }
+}

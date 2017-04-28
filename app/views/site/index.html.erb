@@ -1,5 +1,5 @@
 <% if @family_id %>
-	<%= react_component('App', family_id: @family_id) %>
+	<%= react_component('App', family_id: @family_id, admin: current_user.type === "Admin") %>
 <% elsif @admin %>
 	<%= react_component('AdminPortal', family_id: @family_id) %>
 <% else %>

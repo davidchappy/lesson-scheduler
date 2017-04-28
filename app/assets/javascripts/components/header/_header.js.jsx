@@ -51,10 +51,12 @@ var Header = React.createClass({
               <span className="icon-bar"></span>
             </button>
             <a className="navbar-brand" href="#">The {family.last_name} Family</a>
-            {this.props.hasSubmitted ? null :
-              <button className="btn add-lesson-period" onClick={this.props.handleClickAddStudent}>
-                <span className="glyphicon glyphicon-plus"></span>
-              </button>
+            { this.props.admin 
+                ? <ReturnToAdmin /> 
+                : this.props.hasSubmitted ? null :
+                    <button className="btn add-lesson-period" onClick={this.props.handleClickAddStudent}>
+                      <span className="glyphicon glyphicon-plus"></span>
+                    </button>
             }
           </div>
           {this.props.hasSubmitted ? 

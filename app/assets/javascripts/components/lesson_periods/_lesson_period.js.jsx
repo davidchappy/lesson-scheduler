@@ -3,10 +3,12 @@ var LessonPeriod = React.createClass({
     return  {  
               lessonCount: 0, student: undefined, 
               instrument: undefined, teacher: undefined,  
-              deleting: false, editing: false, unavailableDates: [] 
+              deleting: false, editing: false, 
+              unavailableDates: [], locked: undefined 
             }
   },
   componentWillReceiveProps(nextProps) {
+    console.log("componentWillReceiveProps props: ", nextProps);
     this.updateStateFromProps(nextProps);
   },
   componentDidMount() {
@@ -27,7 +29,8 @@ var LessonPeriod = React.createClass({
                     student: student,       
                     instrument: instrument, 
                     teacher: teacher,       
-                    unavailableDates: teacher.unavailable_dates });
+                    unavailableDates: teacher.unavailable_dates,
+                    locked: lessonPeriod.locked });
   },
   updateFromWeekChange(week) {
     this.props.updateFromWeekChange(week);
@@ -54,6 +57,24 @@ var LessonPeriod = React.createClass({
   },
   handleDelete() {
     this.setState({ deleting: true });
+  },
+  lockLessons() {
+    var lessonPeriod = this.props.lessonPeriod;
+    lessonPeriod.locked = true;
+    this.props.passEditLessonPeriod(this.state.student.name, 
+                                    lessonPeriod.instrumentId, 
+                                    lessonPeriod.teacherId, 
+                                    lessonPeriod);
+    console.log("Locking lesson period");
+  },
+  unlockLessons() {
+    var lessonPeriod = this.props.lessonPeriod;
+    lessonPeriod.locked = false;
+    this.props.passEditLessonPeriod(this.state.student.name, 
+                                    lessonPeriod.instrumentId, 
+                                    lessonPeriod.teacherId, 
+                                    lessonPeriod);
+    console.log("Unlocking lesson period");
   },
   render() {
     if ( !this.state.instrument || !this.state.teacher || !this.state.student) {
@@ -110,11 +131,13 @@ var LessonPeriod = React.createClass({
         <div className={headerClasses}>
           {header}
         </div>
-        <Weeks  appSettings={this.props.appSettings}
-                lessonPeriodId={this.props.lessonPeriod.id} 
+        <Weeks  {...this.state}
+                appSettings={this.props.appSettings}
+                lessonPeriod={this.props.lessonPeriod} 
                 allWeeks={this.props.allWeeks}
                 updateFromWeekChange={this.updateFromWeekChange}
-                unavailableDates={this.state.unavailableDates} />
+                lockLessons={this.lockLessons}
+                unlockLessons={this.unlockLessons} />
       </div>
     )
   }

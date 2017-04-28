@@ -1,19 +1,27 @@
 var Week = React.createClass({
   getInitialState() {
-    return { selected: true, lesson_length: undefined }
+    return { selected: true, lesson_length: undefined, disabledSelect: undefined }
   },
   componentWillReceiveProps(nextProps) {
     this.setState({ selected: nextProps.week.lesson, 
-                    lesson_length: nextProps.week.lesson_length });
+                    lesson_length: nextProps.week.lesson_length,
+                    disabledSelect: nextProps.disabledSelect });
   },
   componentDidMount() {
     this.setState({ selected: this.props.week.lesson,
-                    lesson_length: this.props.week.lesson_length });
+                    lesson_length: this.props.week.lesson_length,
+                    disabledSelect: this.props.disabledSelect });
   },
-  handleCheckWeek(event) {
-    week = this.props.week;
-    week.lesson = week.lesson ? false : true;
-    this.props.updateFromWeekChange(week);
+  handleCheckWeek(e) {
+    e.preventDefault();
+    var week = this.props.week;
+    if(this.state.selected) {
+      week.lesson = false;
+      this.props.updateFromWeekChange(week);
+    } else {
+      week.lesson = true;
+      this.props.updateFromWeekChange(week);
+    }
   },
   handleSelectLessonLength(event) {
     week = this.props.week;
@@ -42,35 +50,52 @@ var Week = React.createClass({
                 </select>;
       }
     }
+
+    var htmlAttributes = {
+      "data-tip": this.props.unavailable || this.state.disabledSelect ? "" : null,
+      className: "week"
+    }
+
+    var idSuffix = this.props.week.id + this.props.week.lesson_period_id;
+
+    if(this.props.unavailable) {
+      htmlAttributes["data-for"] = "ttUnavailableMessage" + idSuffix;
+      htmlAttributes.className += " unavailable"
+    }
+
+    if(this.state.disabledSelect) {
+      htmlAttributes["data-for"] = "lockedLesson" + idSuffix;
+    }
     
     return (
       <div>
-        {unavailable ? ( 
-            <div className={"week unavailable"} data-tip data-for='ttUnavailableMessage'>
-              <span>{week.week_string}</span>
-              <div className={"checkbox"}>
-                <input  ref='week' id={weekNumber} type="checkbox" 
-                        className={"form-control select-week glyphicon " + selected} 
-                        onClick={this.handleCheckWeek}></input>
-                {lessonLength()}
-              </div>
-              <ReactTooltip id='ttUnavailableMessage' type='dark' effect='solid' 
-                            place='bottom' className="tt-unavailable-message">
-                <UnavailableMessage />
-              </ReactTooltip>
-            </div>
-          ) : (
-            <div className={"week"}>
-              <span>{week.week_string}</span>
-              <div className={"checkbox"}>
-                <input  ref='week' id={weekNumber} type="checkbox" 
-                        className={"form-control select-week glyphicon " + selected} 
-                        onClick={this.handleCheckWeek}></input>
-                {lessonLength()}
-              </div>
-            </div>
-          )
-        }
+        <div {...htmlAttributes}>
+          <span>{week.week_string}</span>
+          <div className={"checkbox"}>
+            <input  ref='week' id={weekNumber} type="checkbox" 
+                    className={"form-control select-week glyphicon " + selected} 
+                    onClick={this.handleCheckWeek}
+                    disabled={this.state.disabledSelect} ></input>
+            {lessonLength()}
+          </div>
+          {
+            this.props.unavailable && !this.state.disabledSelect
+
+              ? <ReactTooltip id={'ttUnavailableMessage'+idSuffix} type='dark' effect='solid' 
+                              place='right' className="tt-in-body" data-type="warning">
+                  <UnavailableMessage />
+                </ReactTooltip>
+              : null
+          }
+          {
+            this.state.disabledSelect 
+              ? <ReactTooltip id={'lockedLesson'+idSuffix} type='dark' effect='solid' 
+                              place='right' className="tt-in-body">
+                  <LockedLesson />
+                </ReactTooltip> 
+              : null
+          }
+        </div>
       </div>
     )
   }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405140741) do
+ActiveRecord::Schema.define(version: 20170427200646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,8 +59,9 @@ ActiveRecord::Schema.define(version: 20170405140741) do
     t.integer  "form_id"
     t.integer  "lesson_count"
     t.integer  "default_lesson_length", default: 30
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.boolean  "locked",                default: false
     t.index ["form_id"], name: "index_lesson_periods_on_form_id", using: :btree
     t.index ["instrument_id"], name: "index_lesson_periods_on_instrument_id", using: :btree
     t.index ["student_id"], name: "index_lesson_periods_on_student_id", using: :btree

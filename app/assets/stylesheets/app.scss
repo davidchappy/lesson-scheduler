@@ -403,10 +403,11 @@ body {
 
       &:hover {
         border: none;
-        background: transparentize($green, 0.50);
-        &::before {
-          content: "\e013";
-        }
+        background: #eee;
+        // background: transparentize($green, 0.50);
+        // &::before {
+        //   content: "\e013";
+        // }
       }
       
       &.selected {
@@ -416,16 +417,24 @@ body {
         &:hover {
           background: #fff;
           line-height: 28px;
-          border: 1px solid $red;
-          color: $red;
+          // border: 1px solid $red;
+          // color: $red;
           
+          // &::before {
+          //   content: "\e014";
+          // }
+          background: transparentize($green, 0.50);
           &::before {
-            content: "\e014";
+            content: "\e013";
           }
         }
         
         &::before {
           content: "\e013";
+        }
+
+        &:disabled::before {
+          content: "\e033";
         }
       }
     }
@@ -468,11 +477,6 @@ body {
           }
         }
       }
-    }
-
-    .tt-unavailable-message {
-      max-width: 250px;
-      line-height: 1.3;
     }
   }
 }
@@ -811,6 +815,12 @@ body {
   &.top {
     top: 0;
   }
+}
+
+// Tooltips
+.tt-in-body {
+  max-width: 250px;
+  line-height: 1.3;
 }
 
 // Footer

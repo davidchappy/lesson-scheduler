@@ -78,7 +78,6 @@ var App = React.createClass({
     } else {
       students.push(student);
     }
-
     this.setState({ 
                     students: students, 
                     lessonPeriods: lessonPeriods, 
@@ -114,6 +113,7 @@ var App = React.createClass({
       index = s.id === student.id ? i : index;
     });
     students[index] = student;
+    console.log("updateFromEditLessonPeriod state:", this.state);
 
     this.setState({ lessonPeriods: lessonPeriods, students: students, allWeeks: allWeeks });
   },
@@ -160,8 +160,6 @@ var App = React.createClass({
         </div>
       )
     }
-
-    console.log("Appsettings from app component", this.state.appSettings);
 
     return (
       <div>

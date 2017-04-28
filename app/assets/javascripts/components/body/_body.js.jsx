@@ -18,6 +18,7 @@ var Body = React.createClass({
       data: { 
               lesson_period: {  instrument_id: instrumentId, teacher_id: teacherId,
                                 default_lesson_length: lessonPeriod.defaultLessonLength, 
+                                locked: lessonPeriod.locked,
                                 form_id: this.props.form.id },
               name: name 
             },
@@ -26,6 +27,7 @@ var Body = React.createClass({
         var lessonPeriod = response.lesson_period;
         var student = response.student;
         this.props.updateFromEditLessonPeriod(lessonPeriod, student);
+        console.log("Hello from putEditLessonPeriod");
       }
     });
   },
@@ -52,16 +54,16 @@ var Body = React.createClass({
     }
 
     var lessonPeriods = this.props.lessonPeriods.map((lessonPeriod) => {
+      console.log("Hello from Body > lessonPeriods");
       return (
         <LessonPeriod key={lessonPeriod.id} 
                       lessonPeriod={lessonPeriod} 
                       {...this.props}
-
                       updateLessonCount={this.passLessonCount} 
                       handleDelete={this.delDeleteLessonPeriod}
                       passEditLessonPeriod={this.putEditLessonPeriod} />
       )
-    })
+    });
 
     var disabled = this.props.isSubmittable ? false : true;
 

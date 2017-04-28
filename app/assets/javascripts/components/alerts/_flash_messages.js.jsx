@@ -32,7 +32,7 @@ var FlashMessages = React.createClass({
   },
   
   render () {
-    console.log("Messages from flash_messages: ", this.state.messages)
+    // console.log("Messages from flash_messages: ", this.state.messages)
     var alerts = this.state.messages.map( message =>
       <Alert key={ message.id } message={ message }
         onClose={ () => this.removeMessage(message) } />

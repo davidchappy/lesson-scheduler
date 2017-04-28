@@ -75,7 +75,8 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
 
     def lesson_periods_params
       params.require(:lesson_period).permit(  :form_id, :instrument_id, 
-                                              :teacher_id, :default_lesson_length )
+                                              :teacher_id, :default_lesson_length,
+                                              :locked )
     end
 
     def purge_unused_students

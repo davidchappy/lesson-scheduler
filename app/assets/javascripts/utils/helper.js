@@ -74,6 +74,14 @@ var Helper = {
       
     return string;  
   },
+  getWeeksWithLesson: function(weeksArray) {
+    var weeksWithLesson = weeksArray.filter((week) => {
+      if(week.lesson === true) {
+        return week;
+      }
+    });
+    return weeksWithLesson;
+  },
   findElementInArrayById: function(id, targetArray) {
     if(targetArray && targetArray.length > 0) {
       for (var i=0; i < targetArray.length; i++) {

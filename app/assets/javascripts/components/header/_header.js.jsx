@@ -35,7 +35,6 @@ var Header = React.createClass({
     var totalDiscount = Pricer.monetize(this.state.totalDiscount);
     var possibleDiscount = Pricer.monetize(this.state.possibleDiscount);
     var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
-    console.log("App settings in Header", this.props.appSettings);
     var discountObject = Pricer.calculateCurrentDiscounts(this.props.lessonPeriods, this.props.allWeeks,
                                                           this.props.appSettings.baseLessonLength.value);
     var possibleDiscountObject = Pricer.calculatePossibleDiscount(this.props.lessonPeriods, this.props.allWeeks,

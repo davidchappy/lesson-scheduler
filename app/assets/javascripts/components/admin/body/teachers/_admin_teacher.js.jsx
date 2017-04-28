@@ -91,9 +91,9 @@ var AdminTeacher = React.createClass({
         </td>       
         <td className="admin-actions-icons">
           <a href="#" title="Edit" className="glyphicon glyphicon-pencil" onClick={this.toggleEdit}></a>&nbsp;
-          <a href="#" title="Delete" className="glyphicon glyphicon-remove" onClick={this.handleDelete}></a>&nbsp;
           <a href="#" title="Edit Instruments" className="glyphicon glyphicon-music" onClick={this.toggleAddInstrument}></a>&nbsp;
           <a href="#" title="Unavailable Dates" className="glyphicon glyphicon-ban-circle"></a>
+          <a href="#" title="Delete" className="glyphicon glyphicon-remove" onClick={this.handleDelete}></a>&nbsp;
         </td>
       </tr>
     );

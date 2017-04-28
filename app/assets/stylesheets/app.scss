@@ -946,6 +946,27 @@ body {
   margin-bottom: 0;
 }
 
+.admin-actions-icons {
+  a {
+    display: inline-block;
+    margin-right: 0.2rem;
+    font-size: 1.2em;
+    text-decoration: none;
+    padding: 0.6rem;
+    border-radius: 50%;
+    
+    &:hover, &:focus, &:active {
+      text-decoration: none;
+    }
+
+    &:hover {
+      background: #337ab7;
+      color: #fff;
+    }
+  }  
+
+}
+
 .admin-select {
   padding: 0.3rem;
   width: 80px;

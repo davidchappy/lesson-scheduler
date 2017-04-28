@@ -51,9 +51,9 @@ var AdminInstrument = React.createClass({
         <td>
           <ul className="admin-list">{teachers}</ul>
         </td>
-        <td>
-          <a href="#" onClick={this.toggleEdit}>Edit</a>&nbsp;|&nbsp;
-          <a href="#" onClick={this.handleDelete}>Delete</a>
+        <td className="admin-actions-icons">
+          <a href="#" title="Edit" className="glyphicon glyphicon-pencil" onClick={this.toggleEdit}></a>&nbsp;
+          <a href="#" title="Delete" className="glyphicon glyphicon-remove" onClick={this.handleDelete}></a>
         </td>
       </tr>
     );

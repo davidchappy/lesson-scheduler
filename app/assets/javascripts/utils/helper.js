@@ -75,7 +75,7 @@ var Helper = {
     return string;  
   },
   getWeeksWithLesson: function(weeksArray) {
-    var weeksWithLesson = weeksArray.filter((week) => {
+    var weeksWithLesson = weeksArray.filter(function(week) {
       if(week.lesson === true) {
         return week;
       }
@@ -119,7 +119,7 @@ var Helper = {
               return index;
           };
       }
-      return indexOf.call(this, needle) > -1;
+      return (indexOf.call(this, needle) > -1);
   },
   sumObject: function(obj) {
   // http://stackoverflow.com/questions/16449295/how-to-sum-the-values-of-a-javascript-object

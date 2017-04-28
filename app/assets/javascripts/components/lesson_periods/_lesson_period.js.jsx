@@ -51,7 +51,8 @@ var LessonPeriod = React.createClass({
     var lessonPeriod = this.props.lessonPeriod;
     var oldWeeks = Helper.clone(this.props.allWeeks[lessonPeriod.id]);
     var lessonMinimumState = Helper.checkLessonMinimum( lessonPeriod, 
-                                                        oldWeeks, 
+                                                        oldWeeks,
+                                                        this.props.appSettings.lessonMinimum.value, 
                                                         week);
 
     if(lessonMinimumState >= 0) {

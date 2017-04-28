@@ -1,13 +1,12 @@
 var Helper = {
-  checkLessonMinimum: function(lessonPeriod, weeks, changedWeek) {
+  checkLessonMinimum: function(lessonPeriod, weeks, minLessons, changedWeek) {
     if(changedWeek) {
       var oldWeek = this.findElementInArrayById(changedWeek.id, weeks);
       var index = weeks.indexOf(oldWeek);
       weeks[index] = changedWeek;
     }
-    var requiredMinutes = lessonPeriod.default_lesson_length * 7; // change to app setting
+    var requiredMinutes = lessonPeriod.default_lesson_length * minLessons; 
     var currentLessonMinutes = this.getLessonMinutesFromWeeks(weeks);
-    // console.log("checkLessonMinimum: ", this.spaceship(currentLessonMinutes, requiredMinutes));
     return this.spaceship(currentLessonMinutes, requiredMinutes);
   },
   processTeacherName: function(submittedName) {

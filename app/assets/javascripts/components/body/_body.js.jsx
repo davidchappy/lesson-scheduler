@@ -28,7 +28,8 @@ var Body = React.createClass({
         var student = response.student;
         var weeks = Helper.clone(this.props.allWeeks[lessonPeriod.id]);
         var lessonMinimumState = Helper.checkLessonMinimum( lessonPeriod, 
-                                                            weeks);
+                                                            weeks, 
+                                                            this.props.appSettings.lessonMinimum.value);
         console.log("lessonMinimumState in body", lessonMinimumState);
         var clonedLessonPeriod = Helper.clone(lessonPeriod);
         if(lessonMinimumState <= 0) {
@@ -75,7 +76,9 @@ var Body = React.createClass({
     var lessonPeriods = this.props.lessonPeriods.map((lessonPeriod) => {
       // ensure lessonPeriod is correctly locked/unlocked
       var weeks = this.props.allWeeks[lessonPeriod.id];
-      var lessonMinimumState = Helper.checkLessonMinimum(lessonPeriod, weeks);
+      var lessonMinimumState = Helper.checkLessonMinimum( lessonPeriod, 
+                                                          weeks, 
+                                                          this.props.appSettings.lessonMinimum.value);
       if(lessonMinimumState === 1) {
         lessonPeriod.locked = false;
       } else {

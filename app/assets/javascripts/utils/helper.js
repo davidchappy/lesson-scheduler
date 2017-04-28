@@ -1,4 +1,15 @@
 var Helper = {
+  checkLessonMinimum: function(lessonPeriod, weeks, changedWeek) {
+    if(changedWeek) {
+      var oldWeek = this.findElementInArrayById(changedWeek.id, weeks);
+      var index = weeks.indexOf(oldWeek);
+      weeks[index] = changedWeek;
+    }
+    var requiredMinutes = lessonPeriod.default_lesson_length * 7; // change to app setting
+    var currentLessonMinutes = this.getLessonMinutesFromWeeks(weeks);
+    // console.log("checkLessonMinimum: ", this.spaceship(currentLessonMinutes, requiredMinutes));
+    return this.spaceship(currentLessonMinutes, requiredMinutes);
+  },
   processTeacherName: function(submittedName) {
     var names = submittedName.split(" ");
     console.log("Names: ", names);
@@ -132,6 +143,20 @@ var Helper = {
     }
     return sum;
   },
+  // http://stackoverflow.com/questions/34852855/combined-comparison-spaceship-operator-in-javascript
+  spaceship: function(val1, val2) {
+    if ((val1 === null || val2 === null) || (typeof val1 != typeof val2)) {
+      return null;
+    }
+    if (typeof val1 === 'string') {
+      return (val1).localeCompare(val2);
+    }
+    else {
+      if (val1 > val2) { return 1 }
+      else if (val1 < val2) { return -1 }
+      return 0;
+    }
+  }
   // Gets the 3 payment dates for a given year
   // paymentDates: function(year) {
   //   // returns array of 3 payments (def: 1st June/July/August of current year)

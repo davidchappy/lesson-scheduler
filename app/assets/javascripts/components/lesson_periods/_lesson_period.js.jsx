@@ -14,7 +14,7 @@ var LessonPeriod = React.createClass({
     this.updateStateFromProps(this.props);  
   },
   updateStateFromProps(props) {
-    var lessonPeriod = props.lessonPeriod;
+    var lessonPeriod = props.lessonPeriod;    
     var instrument = props.instruments.find((instrument) => {
       return instrument.id === lessonPeriod.instrument_id;
     });
@@ -24,15 +24,14 @@ var LessonPeriod = React.createClass({
     var student = props.students.find((student) => {
       return student.id === lessonPeriod.student_id;
     });
-    this.setState({ lessonCount: lessonPeriod.lesson_count,
+    this.setState({ 
+                    lessonCount: lessonPeriod.lesson_count,
                     student: student,       
                     instrument: instrument, 
                     teacher: teacher,       
                     unavailableDates: teacher.unavailable_dates,
-                    locked: lessonPeriod.locked });
-  },
-  updateFromWeekChange(week) {
-    this.props.updateFromWeekChange(week);
+                    locked: lessonPeriod.locked 
+                  });
   },
   changeLessonCount(change) {
     var newCount = this.state.lessonCount + change;
@@ -48,6 +47,29 @@ var LessonPeriod = React.createClass({
     lessonPeriod.defaultLessonLength = defaultLessonLength;
     this.props.passEditLessonPeriod(name, instrumentId, teacherId, lessonPeriod);
   },
+  putUpdateWeek(week) {
+    var lessonPeriod = this.props.lessonPeriod;
+    var oldWeeks = Helper.clone(this.props.allWeeks[lessonPeriod.id]);
+    var lessonMinimumState = Helper.checkLessonMinimum( lessonPeriod, 
+                                                        oldWeeks, 
+                                                        week);
+
+    if(lessonMinimumState >= 0) {
+      $.ajax({
+        url: `/api/v1/weeks/${week.id}.json`,
+        type: 'PUT',
+        data: { week: { lesson: week.lesson, lesson_length: week.lesson_length } },
+        success: (response) => {
+          this.props.updateFromWeekChange(response);
+          if(lessonMinimumState === 0) {
+            this.props.toggleLock(true, lessonPeriod);
+          }
+        }
+      });
+    } else {
+      this.props.toggleLock(true, lessonPeriod);
+    } 
+  },
   confirmDelete() {
     this.props.handleDelete(this.props.lessonPeriod);
   },
@@ -56,22 +78,6 @@ var LessonPeriod = React.createClass({
   },
   handleDelete() {
     this.setState({ deleting: true });
-  },
-  lockLessons() {
-    var lessonPeriod = this.props.lessonPeriod;
-    lessonPeriod.locked = true;
-    this.props.passEditLessonPeriod(this.state.student.name, 
-                                    lessonPeriod.instrumentId, 
-                                    lessonPeriod.teacherId, 
-                                    lessonPeriod);
-  },
-  unlockLessons() {
-    var lessonPeriod = this.props.lessonPeriod;
-    lessonPeriod.locked = false;
-    this.props.passEditLessonPeriod(this.state.student.name, 
-                                    lessonPeriod.instrumentId, 
-                                    lessonPeriod.teacherId, 
-                                    lessonPeriod);
   },
   render() {
     if ( !this.state.instrument || !this.state.teacher || !this.state.student) {
@@ -132,9 +138,7 @@ var LessonPeriod = React.createClass({
                 appSettings={this.props.appSettings}
                 lessonPeriod={this.props.lessonPeriod} 
                 allWeeks={this.props.allWeeks}
-                updateFromWeekChange={this.updateFromWeekChange}
-                lockLessons={this.lockLessons}
-                unlockLessons={this.unlockLessons} />
+                putUpdateWeek={this.putUpdateWeek} />
       </div>
     )
   }

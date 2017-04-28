@@ -26,7 +26,19 @@ var Body = React.createClass({
         // window.flash_messages.printMessages(response.messages);
         var lessonPeriod = response.lesson_period;
         var student = response.student;
-        this.props.updateFromEditLessonPeriod(lessonPeriod, student);
+        var weeks = Helper.clone(this.props.allWeeks[lessonPeriod.id]);
+        var lessonMinimumState = Helper.checkLessonMinimum( lessonPeriod, 
+                                                            weeks);
+        console.log("lessonMinimumState in body", lessonMinimumState);
+        var clonedLessonPeriod = Helper.clone(lessonPeriod);
+        if(lessonMinimumState <= 0) {
+          console.log("should equal true");
+          clonedLessonPeriod.locked = true;
+        } else {
+          clonedLessonPeriod.locked = false;
+        }
+        console.log("lessonPeriod in body: ", clonedLessonPeriod);
+        this.props.updateFromEditLessonPeriod(clonedLessonPeriod, student);
       }
     });
   },
@@ -43,6 +55,14 @@ var Body = React.createClass({
 
     this.props.passLessonCount(lessonPeriods);
   },
+  toggleLock(bool, lessonPeriod) {
+    lessonPeriod.locked = bool;
+    var student = Helper.findElementInArrayById(lessonPeriod.student_id, this.props.students);
+    this.putEditLessonPeriod( student.name, 
+                              lessonPeriod.instrumentId, 
+                              lessonPeriod.teacherId, 
+                              lessonPeriod);
+  },
   render() {
     if ( !this.props.lessonPeriods ) {
       return (
@@ -53,13 +73,23 @@ var Body = React.createClass({
     }
 
     var lessonPeriods = this.props.lessonPeriods.map((lessonPeriod) => {
+      // ensure lessonPeriod is correctly locked/unlocked
+      var weeks = this.props.allWeeks[lessonPeriod.id];
+      var lessonMinimumState = Helper.checkLessonMinimum(lessonPeriod, weeks);
+      if(lessonMinimumState === 1) {
+        lessonPeriod.locked = false;
+      } else {
+        lessonPeriod.locked = true;
+      }
+
       return (
         <LessonPeriod key={lessonPeriod.id} 
                       lessonPeriod={lessonPeriod} 
                       {...this.props}
                       updateLessonCount={this.passLessonCount} 
                       handleDelete={this.delDeleteLessonPeriod}
-                      passEditLessonPeriod={this.putEditLessonPeriod} />
+                      passEditLessonPeriod={this.putEditLessonPeriod}
+                      toggleLock={this.toggleLock} />
       )
     });
 

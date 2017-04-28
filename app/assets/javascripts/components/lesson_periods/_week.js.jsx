@@ -1,6 +1,6 @@
 var Week = React.createClass({
   getInitialState() {
-    return { selected: true, lesson_length: undefined, disabledSelect: undefined }
+    return { selected: undefined, lesson_length: undefined, disabledSelect: undefined }
   },
   componentWillReceiveProps(nextProps) {
     this.setState({ selected: nextProps.week.lesson, 
@@ -15,17 +15,13 @@ var Week = React.createClass({
   handleCheckWeek(e) {
     e.preventDefault();
     var week = this.props.week;
-    if(this.state.selected) {
-      week.lesson = false;
-      this.props.updateFromWeekChange(week);
-    } else {
-      week.lesson = true;
-      this.props.updateFromWeekChange(week);
-    }
+    week.lesson = this.state.selected ? false : true;
+    this.props.updateFromWeekChange(week);
   },
-  handleSelectLessonLength(event) {
-    week = this.props.week;
-    week.lesson_length = event.target.value;
+  handleSelectLessonLength(e) {
+    e.preventDefault();
+    var week = this.props.week;
+    week.lesson_length = Number(e.target.value);
     this.props.updateFromWeekChange(week);
   },
   render() {
@@ -40,7 +36,7 @@ var Week = React.createClass({
       return (
         <option value={length.trim()} key={index}>{lessonLengthString}</option>
       )
-    })
+    });
 
     var lessonLength = () => {
       if(week.lesson) {
@@ -49,12 +45,12 @@ var Week = React.createClass({
                   {lessonLengths}
                 </select>;
       }
-    }
+    };
 
     var htmlAttributes = {
       "data-tip": this.props.unavailable || this.state.disabledSelect ? "" : null,
       className: "week"
-    }
+    };
 
     var idSuffix = this.props.week.id + this.props.week.lesson_period_id;
 
@@ -82,7 +78,7 @@ var Week = React.createClass({
             this.props.unavailable && !this.state.disabledSelect
 
               ? <ReactTooltip id={'ttUnavailableMessage'+idSuffix} type='dark' effect='solid' 
-                              place='right' className="tt-in-body" data-type="warning">
+                              place='right' className="tt-in-body">
                   <UnavailableMessage />
                 </ReactTooltip>
               : null

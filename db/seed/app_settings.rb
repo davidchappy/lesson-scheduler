@@ -6,6 +6,7 @@ module AppSettingSeeds
 		{key: "baseLessonLength", name: "Base Lesson Length", value: "30", description: ""},
 		{key: "adminEmail", name: "Admin Email", value: "nja@dmusicstudios.com", description: ""},
 		{key: "adminPhone", name: "Admin Phone", value: "864-363-8526", description: ""},
+		{key: "lessonMinimum", name: "Lesson Minimum", value: "7", description: ""},
 	]
 
 	settings.each do |setting|

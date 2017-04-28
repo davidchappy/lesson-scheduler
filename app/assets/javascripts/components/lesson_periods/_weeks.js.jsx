@@ -25,21 +25,6 @@ var Weeks = React.createClass({
       this.setState({ weeks: weeks });
     }
   },
-  putUpdateWeek(week) {
-    $.ajax({
-      url: `/api/v1/weeks/${week.id}.json`,
-      type: 'PUT',
-      data: { week: { lesson: week.lesson, lesson_length: week.lesson_length } },
-      success: (response) => {
-        this.props.updateFromWeekChange(response);
-        if(this.isAtLessonMinimum(week.lesson_length)) {
-          this.props.lockLessons();
-        } else {
-          this.props.unlockLessons();
-        }
-      }
-    });
-  },
   isUnavailable(week) {
     var dates = this.props.unavailableDates;
     if(dates.length > 0) {
@@ -52,16 +37,6 @@ var Weeks = React.createClass({
     }
     return false;
   },
-  isAtLessonMinimum(lessonLength) {
-    var defaultLessonLength = this.props.lessonPeriod.default_lesson_length;
-    var requiredMinutes = defaultLessonLength * 7;
-    var currentLessonMinutes = Helper.getLessonMinutesFromWeeks(this.state.weeks);
-    if(currentLessonMinutes - lessonLength < requiredMinutes) {
-      return true;
-    } else {
-      return false;
-    }
-  },  
   render() {
     if ( !this.state.weeks ) {
       return (
@@ -84,10 +59,9 @@ var Weeks = React.createClass({
         <Week appSettings={this.props.appSettings}
               key={week.id} 
               week={week}
-              updateFromWeekChange={this.putUpdateWeek} 
               unavailable={unavailable}
-              isAtLessonMinimum={this.isAtLessonMinimum}
-              disabledSelect={disabledSelect} />
+              disabledSelect={disabledSelect}
+              updateFromWeekChange={this.props.putUpdateWeek} />
       )
     });
 

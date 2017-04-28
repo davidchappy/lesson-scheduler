@@ -61,6 +61,8 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
 
     response = {  lesson_period: lesson_period, student: student,
                   messages: flash_messages }
+    # puts "response: "
+    # puts response.inspect
     respond_with response, json: response
   end
 

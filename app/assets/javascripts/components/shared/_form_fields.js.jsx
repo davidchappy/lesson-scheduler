@@ -88,11 +88,13 @@ var FormFields = React.createClass({
     var lessonLengths = lessonLengthsArray.map((length, index) => {
       var lessonLengthString = Helper.convertMinutesToHours(length);
       return (
-        <option value={length} key={index}>{lessonLengthString}</option>
+        <option value={length.trim()} key={index}>{lessonLengthString}</option>
       )
     })
 
     var defaultLessonLength = () => {
+      console.log("Default lesson length: ", this.state.defaultLessonLength);
+
       return  <select ref="selectDefaultLessonLength" id="default-lesson-length" className="lesson-length"
                 onChange={this.handleDefaultLessonLength} required disabled={lessonLengthsEnabled}
                 defaultValue={this.state.defaultLessonLength}>

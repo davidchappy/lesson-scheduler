@@ -64,9 +64,10 @@ var Helper = {
 
     return weeks;
   },
-  convertMinutesToHours: function(timeInMinutes) {      
-    var hours = Math.floor(Math.abs(timeInMinutes) / 60);  
-    var minutes = Math.abs(timeInMinutes) % 60; 
+  convertMinutesToHours: function(minutesString) {
+    var totalMinutes = Number(minutesString.trim());      
+    var hours = (Math.floor(Math.abs(totalMinutes) / 60)).toString();  
+    var minutes = (Math.abs(totalMinutes) % 60).toString(); 
 
     var string = "";
     string += hours > 0 ? hours + 'h ' : ''

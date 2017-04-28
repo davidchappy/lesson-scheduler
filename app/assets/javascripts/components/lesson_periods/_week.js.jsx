@@ -38,7 +38,7 @@ var Week = React.createClass({
     var lessonLengths = lessonLengthsArray.map((length, index) => {
       var lessonLengthString = Helper.convertMinutesToHours(length);
       return (
-        <option value={length} key={index}>{lessonLengthString}</option>
+        <option value={length.trim()} key={index}>{lessonLengthString}</option>
       )
     })
 

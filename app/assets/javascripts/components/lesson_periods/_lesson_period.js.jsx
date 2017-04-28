@@ -8,7 +8,6 @@ var LessonPeriod = React.createClass({
             }
   },
   componentWillReceiveProps(nextProps) {
-    console.log("componentWillReceiveProps props: ", nextProps);
     this.updateStateFromProps(nextProps);
   },
   componentDidMount() {
@@ -65,7 +64,6 @@ var LessonPeriod = React.createClass({
                                     lessonPeriod.instrumentId, 
                                     lessonPeriod.teacherId, 
                                     lessonPeriod);
-    console.log("Locking lesson period");
   },
   unlockLessons() {
     var lessonPeriod = this.props.lessonPeriod;
@@ -74,7 +72,6 @@ var LessonPeriod = React.createClass({
                                     lessonPeriod.instrumentId, 
                                     lessonPeriod.teacherId, 
                                     lessonPeriod);
-    console.log("Unlocking lesson period");
   },
   render() {
     if ( !this.state.instrument || !this.state.teacher || !this.state.student) {

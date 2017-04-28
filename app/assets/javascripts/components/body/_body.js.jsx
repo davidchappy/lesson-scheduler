@@ -5,7 +5,7 @@ var Body = React.createClass({
       url: `/api/v1/lesson_periods/${id}.json`, 
       type: 'DELETE',
       success: (response) => { 
-        window.flash_messages.printMessages(response.messages);
+        // window.flash_messages.printMessages(response.messages);
         this.props.updateFromDeleteLessonPeriod(lessonPeriod);
       }
     });
@@ -23,11 +23,10 @@ var Body = React.createClass({
               name: name 
             },
       success: (response) => {
-        window.flash_messages.printMessages(response.messages);
+        // window.flash_messages.printMessages(response.messages);
         var lessonPeriod = response.lesson_period;
         var student = response.student;
         this.props.updateFromEditLessonPeriod(lessonPeriod, student);
-        console.log("Hello from putEditLessonPeriod");
       }
     });
   },
@@ -54,7 +53,6 @@ var Body = React.createClass({
     }
 
     var lessonPeriods = this.props.lessonPeriods.map((lessonPeriod) => {
-      console.log("Hello from Body > lessonPeriods");
       return (
         <LessonPeriod key={lessonPeriod.id} 
                       lessonPeriod={lessonPeriod} 

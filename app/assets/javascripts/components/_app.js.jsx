@@ -17,7 +17,7 @@ var App = React.createClass({
       success: (response) => {
         // console.log("App Settings in app component", response.app_settings);
         var isSubmittable = response.lesson_periods.length ? true : false;
-        window.flash_messages.printMessages(response.messages);
+        // window.flash_messages.printMessages(response.messages);
         this.setState({ 
                         instruments: response.instruments,
                         teachers: response.teachers,
@@ -113,7 +113,6 @@ var App = React.createClass({
       index = s.id === student.id ? i : index;
     });
     students[index] = student;
-    console.log("updateFromEditLessonPeriod state:", this.state);
 
     this.setState({ lessonPeriods: lessonPeriods, students: students, allWeeks: allWeeks });
   },

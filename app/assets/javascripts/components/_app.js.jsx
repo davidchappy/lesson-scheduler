@@ -7,7 +7,10 @@ var App = React.createClass({
               appSettings: undefined }
   },
   componentDidMount() {
-    this.fetchAppData();    
+    this.fetchAppData();
+    // if(window.location.href.indexOf("?") > -1) {
+      $('#welcomeMessage').modal('show');
+    // }
   },
   fetchAppData() {
     $.ajax({

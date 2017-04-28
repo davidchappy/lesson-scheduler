@@ -92,7 +92,7 @@ var AdminTeacher = React.createClass({
         <td>
           <a href="#" onClick={this.toggleEdit}>Edit</a>&nbsp;|&nbsp;
           <a href="#" onClick={this.handleDelete}>Delete</a>&nbsp;|&nbsp;
-          <a href="#" onClick={this.toggleAddInstrument}>Add Instrument</a>
+          <a href="#" onClick={this.toggleAddInstrument}>Instruments</a>
         </td>
       </tr>
     );

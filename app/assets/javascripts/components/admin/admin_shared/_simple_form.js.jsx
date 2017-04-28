@@ -14,23 +14,23 @@ var SimpleForm = React.createClass({
   },
 
   handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault();  
+    var id = this.props.id;
+    $("#"+id)[0].reset();  
     this.setState({ submitDisabled: true });
     this.props.handleSubmit(this.state.currentValue);
   },
 
   render() {
     return(
-      <form onSubmit={this.handleSubmit}>
-        <input  type="text" id="newInstrument"
+      <form onSubmit={this.handleSubmit} id={this.props.id}>
+        <input  type="text" 
                 className={this.props.inputClass}
                 onChange={this.handleChangeInput} 
                 placeholder={this.props.placeholderText} />
         <button className={"btn btn-primary " + this.props.btnClass} 
                 disabled={this.state.submitDisabled}>{this.props.btnText}</button>
       </form>
-
-   
     )
   }
 

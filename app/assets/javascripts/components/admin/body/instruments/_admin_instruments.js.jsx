@@ -27,7 +27,8 @@ var AdminInstruments = React.createClass({
                       placeholderText="New Instrument"
                       inputClass="admin-new-item-input"
                       btnClass="submit-form-button"
-                      btnText="Add Instrument" />
+                      btnText="Add Instrument"
+                      id="addInstrument" />
 
         </div>
       </div>

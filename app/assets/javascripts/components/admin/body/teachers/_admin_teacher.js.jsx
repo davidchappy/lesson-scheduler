@@ -67,7 +67,8 @@ var AdminTeacher = React.createClass({
                             placeholderText={name}
                             inputClass="admin-edit-item-input"
                             btnClass="admin-edit-item-button"
-                            btnText="Save" />
+                            btnText="Save"
+                            id="editTeacher" />
               </td>
             : <td>{name}</td>
         }

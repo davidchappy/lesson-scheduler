@@ -30,7 +30,8 @@ var AdminTeachers = React.createClass({
                       placeholderText="New Teacher"
                       inputClass="admin-new-item-input"
                       btnClass="submit-form-button"
-                      btnText="Add Teacher" />
+                      btnText="Add Teacher"
+                      id="addTeacher" />
         </div>
       </div>
     )

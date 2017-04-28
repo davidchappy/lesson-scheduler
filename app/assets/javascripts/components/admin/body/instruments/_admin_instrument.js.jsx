@@ -43,7 +43,8 @@ var AdminInstrument = React.createClass({
                             placeholderText={instrument.name}
                             inputClass="admin-edit-item-input"
                             btnClass="admin-edit-item-button"
-                            btnText="Save" />
+                            btnText="Save"
+                            id="editInstrument" />
               </td>
             : <td>{instrument.name}</td>
         }

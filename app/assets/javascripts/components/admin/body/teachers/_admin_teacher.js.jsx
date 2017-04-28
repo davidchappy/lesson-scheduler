@@ -29,6 +29,7 @@ var AdminTeacher = React.createClass({
   },
 
   handleAddInstrumentToTeacher(instrumentId) {
+    this.setState({ addingInstrument: false });
     this.props.addInstrumentToTeacher(instrumentId, this.props.teacher)
   },
 
@@ -83,7 +84,8 @@ var AdminTeacher = React.createClass({
                             selectId="addInstrumentToTeacher"
                             btnClass="admin-select-submit-button"
                             btnText="Add"
-                            handleAddInstrumentToTeacher={this.handleAddInstrumentToTeacher} />
+                            handleAddInstrumentToTeacher={this.handleAddInstrumentToTeacher}
+                            id="selectInstrumentForTeacher" />
               : null  
           } 
         </td>       

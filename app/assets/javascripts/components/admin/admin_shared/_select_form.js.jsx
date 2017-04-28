@@ -28,7 +28,7 @@ var SelectForm = React.createClass({
     })
 
     return(
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} id={this.props.id}>
         <select className={this.props.selectClass} 
                 id={this.props.selectId}                
                 onChange={this.handleChangeSelect}>

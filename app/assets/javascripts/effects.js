@@ -42,4 +42,8 @@ jQuery( document ).ready(function( $ ) {
   $("html").on('click', 'body', function(event) {
     $("#pup-Help").hide();
   });
+
+  $(window).on('load', function() {
+    $('#welcomeMessage').modal('show');
+  });
 });

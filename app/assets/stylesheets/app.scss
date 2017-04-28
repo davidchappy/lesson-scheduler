@@ -190,11 +190,17 @@ body {
     }
 
     .nav-help-icon {
-      margin-top: 15px;
-      font-size: 1.8em;
+      margin-top: 4px;
+      cursor: pointer;
       
-      a {
-        cursor: pointer;
+      button.btn {
+        color: #a8abaf;
+        font-size: 2.2em;
+        background: transparent;  
+        
+        &:hover {
+          color: #fff;
+        }
       } 
     }
 
@@ -203,26 +209,26 @@ body {
 }
 
 
-#pup-Help {
-  display: none;
-  width: 150px;
-  padding: 1rem 1rem 0.5rem 1rem;
-  position: fixed;
-  top: 70px;
-  right: 10px;
-  background: rgba(0,0,0,0.8);
-  border: 1px solid #090909; 
-  color: #fff;
+// #pup-Help {
+//   display: none;
+//   width: 150px;
+//   padding: 1rem 1rem 0.5rem 1rem;
+//   position: fixed;
+//   top: 70px;
+//   right: 10px;
+//   background: rgba(0,0,0,0.8);
+//   border: 1px solid #090909; 
+//   color: #fff;
   
-  a {
-    color: $blue;
+//   a {
+//     color: $blue;
     
-    &:hover {
-      color: lighten($blue, 15%);
-    }
-  }
+//     &:hover {
+//       color: lighten($blue, 15%);
+//     }
+//   }
 
-}
+// }
 
 
 // Lesson Periods
@@ -821,6 +827,16 @@ body {
 .tt-in-body {
   max-width: 250px;
   line-height: 1.3;
+}
+
+// Welcome
+.modal-body {
+  padding: 1rem 4rem;
+  line-height: 1.7;  
+}
+
+.phone-number {
+  // font-weight: 700;
 }
 
 // Footer

@@ -40,10 +40,11 @@ var Dashboard = React.createClass({
             </ReactTooltip>
           </li>
           <li className="nav-help-icon">
-            <a id="nav-help-icon" onClick={this.props.onClickHelpPup} >?</a>
+            <button type="button" className="btn btn-secondary" data-toggle="modal" data-target="#welcomeMessage">
+              ?
+            </button>
           </li>
         </ul>
-        <HelpPopup appSettings={this.props.appSettings}/>
       </div>
     )
   }

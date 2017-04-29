@@ -19,7 +19,7 @@ class Api::V1::TeachersController < Api::V1::BaseController
     teacher = Teacher.find(params[:id])
     puts params.inspect
     
-    if params[:teacher][:instrument_id]
+    if params[:teacher][:instrument_id] && params[:teacher][:instrument_id] != ""
       added_instrument = Instrument.find(params[:teacher][:instrument_id])
       if teacher.instruments.include?(added_instrument)
         teacher.instruments.delete(added_instrument)
@@ -30,8 +30,12 @@ class Api::V1::TeachersController < Api::V1::BaseController
       teacher.save
     end
 
-    if params[:teacher][:unavailable_dates]
-      puts params[:teacher][:unavailable_dates]
+    if params[:teacher][:new_week_index] && params[:teacher][:new_week_index] != ""
+      index = params[:teacher][:new_week_index].to_i
+      summer_weeks = AppSetting.where(key: 'summerWeeks').take
+      week = de_stringify_week(summer_weeks.value[index])
+      teacher.unavailable_weeks.create( start_date: week["start_date"], 
+                                        end_date: week["end_date"])
     end
     
     if teacher.update_attributes( first_name: params[:teacher][:first_name], 
@@ -53,7 +57,9 @@ class Api::V1::TeachersController < Api::V1::BaseController
   private
 
     def teachers_params
-      params.require(:teacher).permit(:first_name, :last_name, :instrument_id, :unavailable_dates)
+      params.require(:teacher).permit(:first_name, :last_name, 
+                                      :instrument_id, :unavailable_weeks,
+                                      :new_week_index, :week_to_remove_id)
     end
 
 end

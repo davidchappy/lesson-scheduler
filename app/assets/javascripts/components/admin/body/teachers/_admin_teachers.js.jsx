@@ -3,13 +3,7 @@ var AdminTeachers = React.createClass({
     var teachers = this.props.teachers.map((teacher) => {
       return (<AdminTeacher key={teacher.id}
                             teacher={teacher}
-                            instruments={this.props.instruments}
-                            updateTeacher={this.props.updateTeacher}
-                            handleDeleteTeacher={this.props.deleteTeacher}
-                            addInstrumentToTeacher={this.props.addInstrumentToTeacher}
-                            removeInstrumentFromTeacher={this.props.removeInstrumentFromTeacher}
-                            addUnavailableToTeacher={this.props.addUnavailableToTeacher}
-                            removeUnavailableFromTeacher={this.props.removeUnavailableFromTeacher} />);
+                            {...this.props} />);
     })
 
     return(

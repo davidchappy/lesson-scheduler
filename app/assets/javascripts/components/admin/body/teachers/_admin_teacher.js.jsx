@@ -39,15 +39,16 @@ var AdminTeacher = React.createClass({
     this.props.removeInstrumentFromTeacher(id, this.props.teacher);
   },
 
-  toggleUnavailableDates(e) {
+  toggleunavailableWeeks(e) {
     e.preventDefault();
     var updatingUnavailables = this.state.updatingUnavailables ? false : true;
     this.setState({ updatingUnavailables: updatingUnavailables });
   },
 
-  handleAddUnavailableToTeacher(date) {
+  handleAddUnavailableToTeacher(weeksIndex) {
+    console.log("weeksIndex: ", weeksIndex);
     this.setState({ updatingUnavailables: false });
-    this.props.addUnavailableToTeacher(date, this.props.teacher);
+    this.props.addUnavailableToTeacher(weeksIndex, this.props.teacher);
   },
 
   handleRemoveUnavailableFromTeacher(e) {
@@ -76,17 +77,30 @@ var AdminTeacher = React.createClass({
       return instrument;
     });
 
-    if(teacher.unavailable_dates && teacher.unavailable_dates.length > 0) {
-      var unavailableDates = teacher.unavailable_dates.map((date, index) => {
+    if(teacher.unavailable_weeks && teacher.unavailable_weeks.length > 0) {
+      var unavailableWeeks = teacher.unavailable_weeks.map((week, index) => {
+        var start = week.start_date.slice(5);
+        var end = week.end_date.slice(5);
+
         return (
-          <li key={date.id} className="admin-instrument-list-item">{date.value}
-            <span data-date={date.value} className="glyphicon glyphicon-minus admin-remove-instrument" 
+          <li key={week.id} className="admin-instrument-list-item">{start} - {end}
+            <span data-date={week.id} className="glyphicon glyphicon-minus admin-remove-instrument" 
                   onClick={this.handleRemoveUnavailableFromTeacher}>
             </span>
           </li>
         );
       });
     }
+
+    var displayedWeeks = this.props.appSettings.summerWeeks.value.map((weekString, index) => {
+      var weekObject = {};
+      weekObject.id = index;
+      weekObject.value = weekString;
+
+      return weekObject;
+    });
+
+    console.log("displayedWeeks: ", displayedWeeks);
 
     return (
       <tr>
@@ -113,31 +127,33 @@ var AdminTeacher = React.createClass({
                             selectId="addInstrumentToTeacher"
                             btnClass="admin-select-submit-button"
                             btnText="Add"
-                            handleAddInstrumentToTeacher={this.handleAddInstrumentToTeacher}
-                            id="selectInstrumentForTeacher" />
+                            submitAction={this.handleAddInstrumentToTeacher}
+                            id="selectInstrumentForTeacher"
+                            placeholderText="Instruments" />
               : null  
           } 
         </td>
         <td>
-            <ul className="admin-list">{unavailableDates}</ul>
+            <ul className="admin-list">{unavailableWeeks}</ul>
             {
               (this.state.updatingUnavailables)
                 ? 
-                  <SelectForm selectOptions={displayedInstruments}
-                              displayValue="name"
+                  <SelectForm selectOptions={displayedWeeks}
+                              displayValue="value"
                               selectClass="admin-select"
-                              selectId="addInstrumentToTeacher"
+                              selectId="addUnavailableToTeacher"
                               btnClass="admin-select-submit-button"
                               btnText="Add"
-                              handleAddInstrumentToTeacher={this.handleAddInstrumentToTeacher}
-                              id="selectInstrumentForTeacher" />
+                              submitAction={this.handleAddUnavailableToTeacher}
+                              id="selectUnavailablesForTeacher"
+                              placeholderText="Dates" />
                 : null  
             } 
         </td>       
         <td className="admin-actions-icons">
           <a href="#" title="Edit" className="glyphicon glyphicon-pencil" onClick={this.toggleEdit}></a>&nbsp;
           <a href="#" title="Edit Instruments" className="glyphicon glyphicon-music" onClick={this.toggleAddInstrument}></a>&nbsp;
-          <a href="#" title="Unavailable Dates" className="glyphicon glyphicon-ban-circle" onClick={this.toggleUnavailableDates}></a>
+          <a href="#" title="Unavailable Dates" className="glyphicon glyphicon-ban-circle" onClick={this.toggleunavailableWeeks}></a>
           <a href="#" title="Delete" className="glyphicon glyphicon-remove" onClick={this.handleDelete}></a>&nbsp;
         </td>
       </tr>

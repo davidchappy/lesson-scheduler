@@ -21,8 +21,8 @@ module SampleDataSeeds
 	teacher2 = Teacher.create(first_name: 'David', last_name: 'Chapman')
 	teacher2.instruments << guitar
 
-	teacher.unavailable_dates.create(value: Date.new(2017, 6, 8)) 
-	teacher2.unavailable_dates.create(value: Date.new(2017, 8, 16))
+	teacher.unavailable_weeks.create(start_date: Date.new(2017, 6, 5), end_date: Date.new(2017, 6, 9)) 
+	teacher2.unavailable_weeks.create(start_date: Date.new(2017, 8, 14), end_date: Date.new(2017, 8, 18))
 	teacher.save
 	teacher2.save
 

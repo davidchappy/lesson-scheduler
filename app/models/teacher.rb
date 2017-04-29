@@ -5,5 +5,5 @@ class Teacher < ApplicationRecord
   has_many                  :lesson_periods
   has_many                  :forms, through: :lesson_periods
   has_many                  :students, through: :lesson_periods
-  has_many                  :unavailable_dates
+  has_many                  :unavailable_weeks
 end

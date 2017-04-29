@@ -6,7 +6,8 @@ var AdminPortal = React.createClass({
       families: undefined,
       students: undefined,
       instruments: undefined,
-      teachers: undefined
+      teachers: undefined,
+      summer_weeks: undefined
 		}
 	},
 
@@ -20,7 +21,8 @@ var AdminPortal = React.createClass({
       	var updatedSettings = Helper.clone(settings);
         this.setState({ appSettings: settings, updatedSettings: updatedSettings,
                         families: response.families, students: response.students,
-                        instruments: response.instruments, teachers: response.teachers });
+                        instruments: response.instruments, teachers: response.teachers,
+                        summer_weeks: response.summer_weeks });
       }
     });
 	},
@@ -96,7 +98,7 @@ var AdminPortal = React.createClass({
     });
   },
 
-  updateTeacher(teacherId, firstName, lastName, addedInstrumentId, unavailableDates) {
+  updateTeacher(teacherId, firstName, lastName, addedInstrumentId, weekToAddIndex, weekToRemoveId) {
     $.ajax({
       url: `/api/v1/teachers/${teacherId}.json`, 
       type: 'PUT',
@@ -105,7 +107,8 @@ var AdminPortal = React.createClass({
                 first_name: firstName, 
                 last_name: lastName,
                 instrument_id: addedInstrumentId,
-                unavailable_dates: unavailableDates } 
+                new_week_index: weekToAddIndex,
+                week_to_remove_id: weekToRemoveId } 
               },
       success: (response) => {
         var teachers = response;
@@ -132,13 +135,13 @@ var AdminPortal = React.createClass({
     this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, instrumentId);
   },
   
-  addUnavailableToTeacher(date, teacher) {
-    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, instrumentId);
+  addUnavailableToTeacher(weeksIndex, teacher) {
+    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, null, weeksIndex);
   },
 
-  removeUnavailableFromTeacher(date, teacher) {
+  removeUnavailableFromTeacher(weekId, teacher) {
     // find date by index, remove and update teacher
-    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, instrumentId);
+    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, null, null, weekId);
   },
 
 	render() {

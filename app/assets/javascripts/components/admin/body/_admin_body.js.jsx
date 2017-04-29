@@ -9,18 +9,8 @@ var AdminBody = React.createClass({
           										handleSaveSetting={this.props.saveAppSetting} />
         		<div role="tabpanel" className="tab-pane" id="content">Content</div>
 				    <AdminFamilies    {...this.props} />
-				    <AdminTeachers    {...this.props} 
-                              createTeacher={this.props.createTeacher}
-                              updateTeacher={this.props.updateTeacher} 
-                              deleteTeacher={this.props.deleteTeacher}
-                              addInstrumentToTeacher={this.props.addInstrumentToTeacher}
-                              removeInstrumentFromTeacher={this.props.removeInstrumentFromTeacher}
-                              addUnavailableToTeacher={this.props.addUnavailableToTeacher}
-                              removeUnavailableFromTeacher={this.props.removeUnavailableFromTeacher} />
-				    <AdminInstruments {...this.props} 
-                              createNewInstrument={this.props.createNewInstrument}
-                              updateInstrument={this.props.updateInstrument} 
-                              deleteInstrument={this.props.deleteInstrument} />
+				    <AdminTeachers    {...this.props} />
+				    <AdminInstruments {...this.props} />
 				    <div role="tabpanel" className="tab-pane" id="account">Account</div>
         	</div>
         </div>

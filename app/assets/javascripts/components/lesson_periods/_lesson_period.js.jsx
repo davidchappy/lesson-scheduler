@@ -4,7 +4,7 @@ var LessonPeriod = React.createClass({
               lessonCount: 0, student: undefined, 
               instrument: undefined, teacher: undefined,  
               deleting: false, editing: false, 
-              unavailableDates: [], locked: undefined 
+              unavailableWeeks: [], locked: undefined 
             }
   },
   componentWillReceiveProps(nextProps) {
@@ -29,7 +29,7 @@ var LessonPeriod = React.createClass({
                     student: student,       
                     instrument: instrument, 
                     teacher: teacher,       
-                    unavailableDates: teacher.unavailable_dates,
+                    unavailableWeeks: teacher.unavailable_weeks,
                     locked: lessonPeriod.locked 
                   });
   },

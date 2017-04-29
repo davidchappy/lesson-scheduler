@@ -17,7 +17,7 @@ var SelectForm = React.createClass({
     console.log("State value: ", this.state.currentValue);
     e.preventDefault();
     this.setState({ submitDisabled: true });
-    this.props.handleAddInstrumentToTeacher(this.state.currentValue);
+    this.props.submitAction(this.state.currentValue);
   },
 
   render() {
@@ -32,7 +32,7 @@ var SelectForm = React.createClass({
         <select className={this.props.selectClass} 
                 id={this.props.selectId}                
                 onChange={this.handleChangeSelect}>
-          <option value='' className="placeholder">Instruments</option>
+          <option value='' className="placeholder">{this.props.placeholderText}</option>
           {options}      
         </select>
         <button className={"btn btn-primary " + this.props.btnClass} 

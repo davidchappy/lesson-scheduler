@@ -26,11 +26,14 @@ var Weeks = React.createClass({
     }
   },
   isUnavailable(week) {
-    var dates = this.props.unavailableDates;
+    var dates = this.props.unavailableWeeks;
     if(dates.length > 0) {
       for(i=0; i < dates.length; i++) {
-        var date = new Date(dates[i]); // change to var date = new Date(dates[i].value); 
-        if(week.start_date <= date && week.end_date >= date) {
+        // http://stackoverflow.com/questions/15141762/how-to-initialize-javascript-date-to-a-particular-timezone
+        var unav_start_date = new Date(dates[i].start_date).toLocaleString("en-US", {timeZone: "America/New_York"})
+        var week_date = week.start_date.toLocaleString("en-US", {timeZone: "America/New_York"})
+        if(unav_start_date === week_date) {
+          console.log("FOUND A MATCH", unav_start_date);
           return true;
         }
       };

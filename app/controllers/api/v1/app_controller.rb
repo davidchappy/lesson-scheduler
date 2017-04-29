@@ -8,8 +8,8 @@ class Api::V1::AppController < Api::V1::BaseController
     else
       @family = Family.find(current_user.id)      
     end
-    @instruments = Instrument.all
-    @teachers = Teacher.all
+    @instruments = Instrument.all.order(:created_at)
+    @teachers = JSON.parse(Teacher.all.order(:created_at).to_json(include: [:instruments, :unavailable_weeks]))
     @students = @family.students
     @form = @family.find_or_create_current_form 
     @lesson_periods = @form.lesson_periods.order(:created_at)

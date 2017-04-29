@@ -40,7 +40,7 @@ RSpec.describe Teacher, :type => :model do
   end
 
   it "serializes its unavailable dates" do
-    expect(teacher.unavailable_dates).to be_a(Array)
+    expect(teacher.unavailable_weeks).to be_a(Array)
   end
 
 end

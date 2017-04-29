@@ -1,4 +1,9 @@
 FactoryGirl.define do
+  factory :unavailable_week do
+    start_date "2017-04-29"
+    end_date "2017-04-29"
+    teacher nil
+  end
   factory :unavailable_date do
     value "MyString"
     teacher nil

@@ -1,7 +1,12 @@
 var AdminSettings = React.createClass({
 	render() {
 		var settingsObject = this.props.appSettings;
-		var settingNames = Object.keys(settingsObject);
+		var settingNames = Object.keys(settingsObject).filter((settingName) => {
+			if(settingName === 'summerWeeks') {
+				return false;
+			}
+			return true;
+		});
 		var settings = settingNames.map((settingName) => {
 			var name = settingsObject[settingName].name;
 			var value = settingsObject[settingName].value;

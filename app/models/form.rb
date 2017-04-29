@@ -1,4 +1,5 @@
 class Form < ApplicationRecord
+  include ApplicationHelper
   validate :unique_year, on: :create
 
   belongs_to  :family
@@ -13,16 +14,9 @@ class Form < ApplicationRecord
                             start=nil, 
                             finish=nil)
     self.year = year
-
-    start = start || Date.new(year, 6, 1)
-    start += 1.days until start.wday == 1
-    self.start_date ||= start
-
-    finish = finish || Date.new(2017, 8, -1)
-    if finish.wday < 5
-      finish += 1.days until finish.wday == 5
-    end
-    self.end_date ||= finish
+    dates = get_summer_dates(start, finish, year)
+    self.start_date ||= dates[0]
+    self.end_date ||= dates[1]
   end
 
   def unique_year

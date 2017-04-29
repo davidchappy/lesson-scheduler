@@ -98,17 +98,18 @@ var AdminPortal = React.createClass({
     });
   },
 
-  updateTeacher(teacherId, firstName, lastName, addedInstrumentId, weekToAddIndex, weekToRemoveId) {
+  updateTeacher(teacherData) {
+    console.log("Teacher data: ", teacherData);
     $.ajax({
-      url: `/api/v1/teachers/${teacherId}.json`, 
+      url: `/api/v1/teachers/${teacherData.id}.json`, 
       type: 'PUT',
       data: { teacher: 
               { 
-                first_name: firstName, 
-                last_name: lastName,
-                instrument_id: addedInstrumentId,
-                new_week_index: weekToAddIndex,
-                week_to_remove_id: weekToRemoveId } 
+                first_name: teacherData.first_name, 
+                last_name: teacherData.last_name,
+                instrument_id: teacherData.instrumentId || null,
+                new_week_index: teacherData.weekToAddIndex || null,
+                week_to_remove_id: teacherData.weekToRemoveId  || null} 
               },
       success: (response) => {
         var teachers = response;
@@ -128,20 +129,27 @@ var AdminPortal = React.createClass({
   },
 
   addInstrumentToTeacher(instrumentId, teacher) {
-    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, instrumentId);
+    var teacherData = Helper.clone(teacher);
+    teacherData.instrumentId = instrumentId;
+    this.updateTeacher(teacherData);
   },
 
   removeInstrumentFromTeacher(instrumentId, teacher) {
-    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, instrumentId);
+    var teacherData = Helper.clone(teacher);
+    teacherData.instrumentId = instrumentId;
+    this.updateTeacher(teacherData);
   },
   
   addUnavailableToTeacher(weeksIndex, teacher) {
-    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, null, weeksIndex);
+    var teacherData = Helper.clone(teacher);
+    teacherData.weekToAddIndex = weeksIndex;
+    this.updateTeacher(teacherData);
   },
 
   removeUnavailableFromTeacher(weekId, teacher) {
-    // find date by index, remove and update teacher
-    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, null, null, weekId);
+    var teacherData = Helper.clone(teacher);
+    teacherData.weekToRemoveId = weekId;    
+    this.updateTeacher(teacherData);
   },
 
 	render() {

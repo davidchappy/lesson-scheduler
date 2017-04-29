@@ -52,8 +52,8 @@ var AdminTeacher = React.createClass({
   },
 
   handleRemoveUnavailableFromTeacher(e) {
-    var date = e.target.getAttribute('data-date');
-    this.props.removeInstrumentFromTeacher(index, this.props.teacher);
+    var index = e.target.getAttribute('data-id');
+    this.props.removeUnavailableFromTeacher(index, this.props.teacher);
   },
 
   render() {
@@ -84,7 +84,7 @@ var AdminTeacher = React.createClass({
 
         return (
           <li key={week.id} className="admin-instrument-list-item">{start} - {end}
-            <span data-date={week.id} className="glyphicon glyphicon-minus admin-remove-instrument" 
+            <span data-id={week.id} className="glyphicon glyphicon-minus admin-remove-instrument" 
                   onClick={this.handleRemoveUnavailableFromTeacher}>
             </span>
           </li>
@@ -99,8 +99,6 @@ var AdminTeacher = React.createClass({
 
       return weekObject;
     });
-
-    console.log("displayedWeeks: ", displayedWeeks);
 
     return (
       <tr>

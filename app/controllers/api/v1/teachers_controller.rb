@@ -29,6 +29,10 @@ class Api::V1::TeachersController < Api::V1::BaseController
       teacher.instruments = teacher.instruments.order(:created_at)
       teacher.save
     end
+
+    if params[:teacher][:unavailable_dates]
+      puts params[:teacher][:unavailable_dates]
+    end
     
     if teacher.update_attributes( first_name: params[:teacher][:first_name], 
                                   last_name: params[:teacher][:last_name])
@@ -49,7 +53,7 @@ class Api::V1::TeachersController < Api::V1::BaseController
   private
 
     def teachers_params
-      params.require(:teacher).permit(:first_name, :last_name, :instrument_id)
+      params.require(:teacher).permit(:first_name, :last_name, :instrument_id, :unavailable_dates)
     end
 
 end

@@ -29,7 +29,7 @@ var Weeks = React.createClass({
     var dates = this.props.unavailableDates;
     if(dates.length > 0) {
       for(i=0; i < dates.length; i++) {
-        var date = new Date(dates[i]);
+        var date = new Date(dates[i]); // change to var date = new Date(dates[i].value); 
         if(week.start_date <= date && week.end_date >= date) {
           return true;
         }

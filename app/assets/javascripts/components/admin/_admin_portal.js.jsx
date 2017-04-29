@@ -96,7 +96,7 @@ var AdminPortal = React.createClass({
     });
   },
 
-  updateTeacher(teacherId, firstName, lastName, addedInstrumentId) {
+  updateTeacher(teacherId, firstName, lastName, addedInstrumentId, unavailableDates) {
     $.ajax({
       url: `/api/v1/teachers/${teacherId}.json`, 
       type: 'PUT',
@@ -104,7 +104,8 @@ var AdminPortal = React.createClass({
               { 
                 first_name: firstName, 
                 last_name: lastName,
-                instrument_id: addedInstrumentId } 
+                instrument_id: addedInstrumentId,
+                unavailable_dates: unavailableDates } 
               },
       success: (response) => {
         var teachers = response;
@@ -130,6 +131,15 @@ var AdminPortal = React.createClass({
   removeInstrumentFromTeacher(instrumentId, teacher) {
     this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, instrumentId);
   },
+  
+  addUnavailableToTeacher(date, teacher) {
+    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, instrumentId);
+  },
+
+  removeUnavailableFromTeacher(date, teacher) {
+    // find date by index, remove and update teacher
+    this.updateTeacher(teacher.id, teacher.first_name, teacher.last_name, instrumentId);
+  },
 
 	render() {
 		if ( !this.state.appSettings || !this.state.families) {
@@ -152,7 +162,9 @@ var AdminPortal = React.createClass({
                     updateTeacher={this.updateTeacher}
                     deleteTeacher={this.deleteTeacher}
                     addInstrumentToTeacher={this.addInstrumentToTeacher}
-                    removeInstrumentFromTeacher={this.removeInstrumentFromTeacher} />
+                    removeInstrumentFromTeacher={this.removeInstrumentFromTeacher}
+                    addUnavailableToTeacher={this.addUnavailableToTeacher}
+                    removeUnavailableFromTeacher={this.removeUnavailableFromTeacher} />
 			</div>
 		)
 		// Admin header

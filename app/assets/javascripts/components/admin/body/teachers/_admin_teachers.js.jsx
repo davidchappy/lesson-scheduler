@@ -7,7 +7,9 @@ var AdminTeachers = React.createClass({
                             updateTeacher={this.props.updateTeacher}
                             handleDeleteTeacher={this.props.deleteTeacher}
                             addInstrumentToTeacher={this.props.addInstrumentToTeacher}
-                            removeInstrumentFromTeacher={this.props.removeInstrumentFromTeacher} />);
+                            removeInstrumentFromTeacher={this.props.removeInstrumentFromTeacher}
+                            addUnavailableToTeacher={this.props.addUnavailableToTeacher}
+                            removeUnavailableFromTeacher={this.props.removeUnavailableFromTeacher} />);
     })
 
     return(
@@ -20,6 +22,7 @@ var AdminTeachers = React.createClass({
                 <tr>
                   <th>Teacher Name</th>
                   <th>Instruments</th>
+                  <th>Unavailable</th>
                   <th></th>
                 </tr>
                 {teachers}

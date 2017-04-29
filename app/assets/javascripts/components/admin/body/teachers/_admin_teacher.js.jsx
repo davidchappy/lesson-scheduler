@@ -79,8 +79,8 @@ var AdminTeacher = React.createClass({
     if(teacher.unavailable_dates && teacher.unavailable_dates.length > 0) {
       var unavailableDates = teacher.unavailable_dates.map((date, index) => {
         return (
-          <li key={teacher.id+date} className="admin-instrument-list-item">{date}
-            <span data-date={date} className="glyphicon glyphicon-minus admin-remove-instrument" 
+          <li key={date.id} className="admin-instrument-list-item">{date.value}
+            <span data-date={date.value} className="glyphicon glyphicon-minus admin-remove-instrument" 
                   onClick={this.handleRemoveUnavailableFromTeacher}>
             </span>
           </li>

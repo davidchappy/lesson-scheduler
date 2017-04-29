@@ -1,4 +1,8 @@
 FactoryGirl.define do
+  factory :unavailable_date do
+    value "MyString"
+    teacher nil
+  end
   factory :instrument_teacher do
     
   end

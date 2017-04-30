@@ -71,7 +71,7 @@ var AdminTeacher = React.createClass({
     }
     var name = teacher.first_name + " " + teacher.last_name;
     var displayedInstruments = this.props.instruments.filter((instrument) => {
-      if(Helper.findElementInArrayById(instrument.id, teacher.instruments)) {
+      if(Helper.findInArrayById(instrument.id, teacher.instruments)) {
         return false;  
       }
       return instrument;

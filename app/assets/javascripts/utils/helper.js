@@ -1,7 +1,7 @@
 var Helper = {
   checkLessonMinimum: function(lessonPeriod, weeks, minLessons, changedWeek) {
     if(changedWeek) {
-      var oldWeek = this.findElementInArrayById(changedWeek.id, weeks);
+      var oldWeek = this.findInArrayById(changedWeek.id, weeks);
       var index = weeks.indexOf(oldWeek);
       weeks[index] = changedWeek;
     }
@@ -93,7 +93,7 @@ var Helper = {
     });
     return weeksWithLesson;
   },
-  findElementInArrayById: function(id, targetArray) {
+  findInArrayById: function(id, targetArray) {
     if(targetArray && targetArray.length > 0) {
       for (var i=0; i < targetArray.length; i++) {
         var elem = targetArray[i];
@@ -170,4 +170,18 @@ var Helper = {
   //   return dates;
   // },
 
+  // Potentially useful function for later
+  // var getArgs = function(args) {
+  //   // First match everything inside the function argument parens.
+  //   var args = args.toString().match(/function\s.*?\(([^)]*)\)/)[1];
+   
+  //   // Split the arguments string into an array comma delimited.
+  //   return args.split(',').map(function(arg) {
+  //     // Ensure no inline comments are parsed and trim the whitespace.
+  //     return arg.replace(/\/\*.*\*\//, '').trim();
+  //   }).filter(function(arg) {
+  //     // Ensure no undefined values are added.
+  //     return arg;
+  //   });
+  // }
 } 

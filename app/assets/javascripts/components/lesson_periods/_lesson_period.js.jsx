@@ -33,6 +33,7 @@ var LessonPeriod = React.createClass({
                     locked: lessonPeriod.locked 
                   });
   },
+
   changeLessonCount(change) {
     var newCount = this.state.lessonCount + change;
     this.props.updateLessonCount(newCount, this.props.lessonPeriod);
@@ -45,34 +46,10 @@ var LessonPeriod = React.createClass({
     this.handleToggleEditing();
     var lessonPeriod = this.props.lessonPeriod
     lessonPeriod.defaultLessonLength = defaultLessonLength;
-    this.props.passEditLessonPeriod(name, instrumentId, teacherId, lessonPeriod);
-  },
-  putUpdateWeek(week) {
-    var lessonPeriod = this.props.lessonPeriod;
-    var oldWeeks = Helper.clone(this.props.allWeeks[lessonPeriod.id]);
-    var lessonMinimumState = Helper.checkLessonMinimum( lessonPeriod, 
-                                                        oldWeeks,
-                                                        this.props.appSettings.lessonMinimum.value, 
-                                                        week);
-
-    if(lessonMinimumState >= 0) {
-      $.ajax({
-        url: `/api/v1/weeks/${week.id}.json`,
-        type: 'PUT',
-        data: { week: { lesson: week.lesson, lesson_length: week.lesson_length } },
-        success: (response) => {
-          this.props.updateFromWeekChange(response);
-          if(lessonMinimumState === 0) {
-            this.props.toggleLock(true, lessonPeriod);
-          }
-        }
-      });
-    } else {
-      this.props.toggleLock(true, lessonPeriod);
-    } 
+    this.props.editLessonPeriod(name, instrumentId, teacherId, lessonPeriod);
   },
   confirmDelete() {
-    this.props.handleDelete(this.props.lessonPeriod);
+    this.props.deleteLessonPeriod(this.props.lessonPeriod);
   },
   cancelDelete() {
     this.setState({ deleting: false });
@@ -136,10 +113,7 @@ var LessonPeriod = React.createClass({
           {header}
         </div>
         <Weeks  {...this.state}
-                appSettings={this.props.appSettings}
-                lessonPeriod={this.props.lessonPeriod} 
-                allWeeks={this.props.allWeeks}
-                putUpdateWeek={this.putUpdateWeek} />
+                {...this.props} />
       </div>
     )
   }

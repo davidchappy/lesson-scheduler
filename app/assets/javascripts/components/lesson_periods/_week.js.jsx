@@ -1,34 +1,20 @@
 var Week = React.createClass({
-  getInitialState() {
-    return { selected: undefined, lesson_length: undefined, disabledSelect: undefined }
-  },
-  componentWillReceiveProps(nextProps) {
-    this.setState({ selected: nextProps.week.lesson, 
-                    lesson_length: nextProps.week.lesson_length,
-                    disabledSelect: nextProps.disabledSelect });
-  },
-  componentDidMount() {
-    this.setState({ selected: this.props.week.lesson,
-                    lesson_length: this.props.week.lesson_length,
-                    disabledSelect: this.props.disabledSelect });
-  },
   handleCheckWeek(e) {
     e.preventDefault();
     var week = this.props.week;
-    week.lesson = this.state.selected ? false : true;
-    this.props.updateFromWeekChange(week);
+    week.lesson = this.props.week.lesson ? false : true;
+    this.props.editWeek(week);
   },
   handleSelectLessonLength(e) {
     e.preventDefault();
     var week = this.props.week;
     week.lesson_length = Number(e.target.value);
-    this.props.updateFromWeekChange(week);
+    this.props.editWeek(week);
   },
   render() {
     var week = this.props.week; 
     var weekNumber = "week" + week.id;
-    var selected = this.state.selected ? "selected" : "";
-    var unavailable = this.props.unavailable;
+    var selected = this.props.week.lesson ? "selected" : "";
 
     var lessonLengthsArray = this.props.appSettings.lessonLengthOptions.value.split(",");
     var lessonLengths = lessonLengthsArray.map((length, index) => {
@@ -48,7 +34,7 @@ var Week = React.createClass({
     };
 
     var htmlAttributes = {
-      "data-tip": this.props.unavailable || this.state.disabledSelect ? "" : null,
+      "data-tip": this.props.unavailable || this.props.disabledSelect ? "" : null,
       className: "week"
     };
 
@@ -59,7 +45,7 @@ var Week = React.createClass({
       htmlAttributes.className += " unavailable"
     }
 
-    if(this.state.disabledSelect) {
+    if(this.props.disabledSelect) {
       htmlAttributes["data-for"] = "lockedLesson" + idSuffix;
     }
     
@@ -71,11 +57,11 @@ var Week = React.createClass({
             <input  ref='week' id={weekNumber} type="checkbox" 
                     className={"form-control select-week glyphicon " + selected} 
                     onClick={this.handleCheckWeek}
-                    disabled={this.state.disabledSelect} ></input>
+                    disabled={this.props.disabledSelect} ></input>
             {lessonLength()}
           </div>
           {
-            this.props.unavailable && !this.state.disabledSelect
+            this.props.unavailable && !this.props.disabledSelect
 
               ? <ReactTooltip id={'ttUnavailableMessage'+idSuffix} type='dark' effect='solid' 
                               place='right' className="tt-in-body">
@@ -84,7 +70,7 @@ var Week = React.createClass({
               : null
           }
           {
-            this.state.disabledSelect 
+            this.props.disabledSelect 
               ? <ReactTooltip id={'lockedLesson'+idSuffix} type='dark' effect='solid' 
                               place='right' className="tt-in-body">
                   <LockedLesson />

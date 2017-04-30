@@ -33,7 +33,6 @@ var Weeks = React.createClass({
         var unav_start_date = new Date(dates[i].start_date).toLocaleString("en-US", {timeZone: "America/New_York"})
         var week_date = week.start_date.toLocaleString("en-US", {timeZone: "America/New_York"})
         if(unav_start_date === week_date) {
-          console.log("FOUND A MATCH", unav_start_date);
           return true;
         }
       };
@@ -42,11 +41,7 @@ var Weeks = React.createClass({
   },
   render() {
     if ( !this.state.weeks ) {
-      return (
-        <div>
-          <p>Loading Weeks...</p>
-        </div>
-      )
+      return (<Loading message="Weeks.." />)
     };
     
     var weeks = this.state.weeks.map((week, index) => {
@@ -59,12 +54,11 @@ var Weeks = React.createClass({
       }
 
       return (
-        <Week appSettings={this.props.appSettings}
-              key={week.id} 
+        <Week key={week.id} 
               week={week}
+              {...this.props} 
               unavailable={unavailable}
-              disabledSelect={disabledSelect}
-              updateFromWeekChange={this.props.putUpdateWeek} />
+              disabledSelect={disabledSelect} />
       )
     });
 

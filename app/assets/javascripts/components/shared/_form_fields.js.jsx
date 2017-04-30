@@ -34,12 +34,12 @@ var FormFields = React.createClass({
   },
   handleInstrumentSelect(event) {
     var instrumentId = event.target.value;
-    var instrument = Helper.findElementInArrayById(instrumentId, this.props.instruments);
+    var instrument = Helper.findInArrayById(instrumentId, this.props.instruments);
     this.setState({ instrument: instrument, teacherEnabled: true });
   },  
   handleTeacherSelect(event) {
     var teacherId = event.target.value;
-    var teacher = Helper.findElementInArrayById(teacherId, this.props.teachers);
+    var teacher = Helper.findInArrayById(teacherId, this.props.teachers);
     this.setState({ teacher: teacher, lessonLengthsEnabled: true, submitEnabled: true });
   },
   handleDefaultLessonLength(event) {

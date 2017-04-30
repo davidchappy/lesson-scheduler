@@ -2,7 +2,7 @@ var AlreadySubmitted = React.createClass({
   render() {
     var monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
-    var submittedAt = new Date(this.props.submittedAt);
+    var submittedAt = new Date(this.props.form.submitted_at);
     var dd = submittedAt.getDate();
     var mm = submittedAt.getMonth();
     var month_name = monthNames[mm];

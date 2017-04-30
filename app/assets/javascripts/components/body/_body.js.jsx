@@ -1,48 +1,4 @@
 var Body = React.createClass({
-  delDeleteLessonPeriod(lessonPeriod) {
-    var id = lessonPeriod.id;
-    $.ajax({
-      url: `/api/v1/lesson_periods/${id}.json`, 
-      type: 'DELETE',
-      success: (response) => { 
-        // window.flash_messages.printMessages(response.messages);
-        this.props.updateFromDeleteLessonPeriod(lessonPeriod);
-      }
-    });
-  },
-  putEditLessonPeriod(name, instrumentId, teacherId, lessonPeriod) {
-    var id = lessonPeriod.id;
-    $.ajax({
-      url: `/api/v1/lesson_periods/${id}.json`, 
-      type: 'PUT',
-      data: { 
-              lesson_period: {  instrument_id: instrumentId, teacher_id: teacherId,
-                                default_lesson_length: lessonPeriod.defaultLessonLength, 
-                                locked: lessonPeriod.locked,
-                                form_id: this.props.form.id },
-              name: name 
-            },
-      success: (response) => {
-        // window.flash_messages.printMessages(response.messages);
-        var lessonPeriod = response.lesson_period;
-        var student = response.student;
-        var weeks = Helper.clone(this.props.allWeeks[lessonPeriod.id]);
-        var lessonMinimumState = Helper.checkLessonMinimum( lessonPeriod, 
-                                                            weeks, 
-                                                            this.props.appSettings.lessonMinimum.value);
-        console.log("lessonMinimumState in body", lessonMinimumState);
-        var clonedLessonPeriod = Helper.clone(lessonPeriod);
-        if(lessonMinimumState <= 0) {
-          console.log("should equal true");
-          clonedLessonPeriod.locked = true;
-        } else {
-          clonedLessonPeriod.locked = false;
-        }
-        console.log("lessonPeriod in body: ", clonedLessonPeriod);
-        this.props.updateFromEditLessonPeriod(clonedLessonPeriod, student);
-      }
-    });
-  },
   passLessonCount(count, lessonPeriod) {
     lessonPeriod.lesson_count = count;
 
@@ -56,21 +12,9 @@ var Body = React.createClass({
 
     this.props.passLessonCount(lessonPeriods);
   },
-  toggleLock(bool, lessonPeriod) {
-    lessonPeriod.locked = bool;
-    var student = Helper.findElementInArrayById(lessonPeriod.student_id, this.props.students);
-    this.putEditLessonPeriod( student.name, 
-                              lessonPeriod.instrumentId, 
-                              lessonPeriod.teacherId, 
-                              lessonPeriod);
-  },
   render() {
     if ( !this.props.lessonPeriods ) {
-      return (
-        <div>
-          <p>Loading Lesson Periods..</p>
-        </div>
-      )
+      return (<Loading message="Lesson Periods.." />)
     }
 
     var lessonPeriods = this.props.lessonPeriods.map((lessonPeriod) => {
@@ -89,43 +33,41 @@ var Body = React.createClass({
         <LessonPeriod key={lessonPeriod.id} 
                       lessonPeriod={lessonPeriod} 
                       {...this.props}
-                      updateLessonCount={this.passLessonCount} 
-                      handleDelete={this.delDeleteLessonPeriod}
-                      passEditLessonPeriod={this.putEditLessonPeriod}
+                      updateLessonCount={this.passLessonCount}
                       toggleLock={this.toggleLock} />
       )
     });
 
-    var disabled = this.props.isSubmittable ? false : true;
+    var submitDisabled = this.props.isSubmittable ? false : true;
 
     return (
       <div className="wrapper">
         <div className="body container">      
-          {this.props.isConfirming ?
-            <Confirmation {...this.props} /> :
-            <div>
-              <div className="lesson-periods row">
-                {lessonPeriods}
-                {this.props.isCreating ? 
-
-                  <NewLessonPeriod  {...this.props} /> :
-
-                  <div className="new-lesson-period-button col-sm-6 col-md-4">
-                    <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 
-                      onClick={this.props.handleClickAddStudent}>
-                      <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-                      <span className="button-text">Add a Lesson Period</span>
-                    </button>
+          {
+            this.props.isConfirming 
+              ? <Confirmation {...this.props} /> 
+              : <div>
+                  <div className="lesson-periods row">
+                    {lessonPeriods}
+                    {
+                      this.props.isCreating 
+                        ? <NewLessonPeriod  {...this.props} /> 
+                        : <div className="new-lesson-period-button col-sm-6 col-md-4">
+                            <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 
+                              onClick={this.props.toggleCreating}>
+                              <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+                              <span className="button-text">Add a Lesson Period</span>
+                            </button>
+                          </div>
+                    }  
                   </div>
-                }  
-              </div>
-              <div className="submit-form row">
-                <div className="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                  <button className="btn btn-primary submit-form-button" disabled = {disabled}
-                          onClick={this.props.handleToggleConfirming}>Submit Form</button>
+                  <div className="submit-form row">
+                    <div className="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                      <button className="btn btn-primary submit-form-button" disabled={submitDisabled}
+                              onClick={this.props.toggleConfirming}>Submit Form</button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
           } 
         </div>
       </div>

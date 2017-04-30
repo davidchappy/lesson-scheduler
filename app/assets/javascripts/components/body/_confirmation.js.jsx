@@ -19,7 +19,7 @@ var Confirmation = React.createClass({
   render() {
     return ( 
       <div className='confirmation-page col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3'> 
-        <button className='btn btn-default' onClick={this.props.handleToggleConfirming}>Back</button>
+        <button className='btn btn-default' onClick={this.props.toggleConfirming}>Back</button>
         <div className='confirmation-text'>
           <p>Here's a quick breakdown of your payments for this summer.</p>
           <PaymentPlan total={this.state.totalOwed} />
@@ -27,7 +27,7 @@ var Confirmation = React.createClass({
         </div>
         <div>
           <button className="btn btn-success confirmation-button" 
-                  onClick={this.props.handleSubmitForm}>Submit Form!</button>
+                  onClick={this.props.submitForm}>Submit Form!</button>
         </div>
       </div>
     )

@@ -27,13 +27,13 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
               family.students.create(name: params[:name])
     new_lesson_period = student.lesson_periods.build(lesson_periods_params)
     
-    if new_lesson_period.valid?
-      new_lesson_period.save
+    if new_lesson_period.save
       flash[:success] = "Lesson period created"
-      response = {  lesson_period: new_lesson_period, 
-                    student: student, weeks: new_lesson_period.weeks,
-                    messages: flash_messages }
-      respond_with response, json: response
+      # response = {  lesson_period: new_lesson_period, 
+      #               student: student, weeks: new_lesson_period.weeks,
+      #               messages: flash_messages }
+      # respond_with response, json: response
+      render nothing: true, status: 200 
     else
       message = new_lesson_period.errors.full_messages.first
       flash[:danger] = message

@@ -63,7 +63,7 @@ var AdminPortal = React.createClass({
       data: { instrument: { name: name } },
       success: (response) => {
         var instruments = this.state.instruments;
-        var instrument = Helper.findElementInArrayById(instrumentId, instruments);
+        var instrument = Helper.findInArrayById(instrumentId, instruments);
         var index = instruments.indexOf(instrument);
 
         instrument.name = name;

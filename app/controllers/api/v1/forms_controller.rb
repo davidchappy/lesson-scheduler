@@ -10,7 +10,7 @@ class Api::V1::FormsController < Api::V1::BaseController
 
   # for marking submitted
   def update
-    if current_user.type == 'Family'
+    # if current_user.type == 'Family'
       @form = Form.find(params[:id])
       @form.submitted = true
       @form.submitted_at = DateTime.now
@@ -22,9 +22,9 @@ class Api::V1::FormsController < Api::V1::BaseController
       else
         flash[:error] = "There was a problem submitting your form. Please try again later."
       end
-    else
+    # else
       # admin
-    end
+    # end
   end
 
   private

@@ -54,24 +54,25 @@ var Header = React.createClass({
             { this.props.admin 
                 ? <ReturnToAdmin /> 
                 : this.props.hasSubmitted ? null :
-                    <button className="btn add-lesson-period" onClick={this.props.handleClickAddStudent}>
+                    <button className="btn add-lesson-period" onClick={this.props.toggleCreating}>
                       <span className="glyphicon glyphicon-plus"></span>
                     </button>
             }
           </div>
-          {this.props.hasSubmitted ? 
-            <div id="navbar" className="navbar-collapse collapse"></div> :
-            <Dashboard  {...this.state} 
-                        appSettings={this.props.appSettings}
-                        lessonCount={lessonCount}
-                        total={this.state.totalOwed}
-                        payment={payment}
-                        lessonPeriods={this.props.lessonPeriods}
-                        totalDiscount={totalDiscount}
-                        possibleDiscount={possibleDiscount}
-                        maxDiscountClass={maxDiscountClass}  
-                        currentDiscounts={discountObject}
-                        possibleDiscounts={possibleDiscountObject} />
+          {
+            this.props.hasSubmitted && new Date() > new Date(this.props.appSettings["submissionDeadline"].value)
+            ? <div id="navbar" className="navbar-collapse collapse"></div> 
+            : <Dashboard  {...this.state} 
+                          appSettings={this.props.appSettings}
+                          lessonCount={lessonCount}
+                          total={this.state.totalOwed}
+                          payment={payment}
+                          lessonPeriods={this.props.lessonPeriods}
+                          totalDiscount={totalDiscount}
+                          possibleDiscount={possibleDiscount}
+                          maxDiscountClass={maxDiscountClass}  
+                          currentDiscounts={discountObject}
+                          possibleDiscounts={possibleDiscountObject} />
           }
         </div>
       </div>

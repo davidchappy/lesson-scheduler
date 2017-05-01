@@ -1,119 +1,87 @@
 var LessonPeriod = React.createClass({
   getInitialState() {
-    return  {  
-              lessonCount: 0, student: undefined, 
-              instrument: undefined, teacher: undefined,  
-              deleting: false, editing: false, 
-              unavailableWeeks: [], locked: undefined 
-            }
-  },
-  componentWillReceiveProps(nextProps) {
-    this.updateStateFromProps(nextProps);
+    return  { deleting: false, editing: false }
   },
   componentDidMount() {
-    this.updateStateFromProps(this.props);  
-  },
-  updateStateFromProps(props) {
-    var lessonPeriod = props.lessonPeriod;    
-    var instrument = props.instruments.find((instrument) => {
-      return instrument.id === lessonPeriod.instrument_id;
+    $("html").click(function(e) {
+      if(!$(e.target).hasClass('editing')) {
+        this.setState({ editing: false });
+      }
     });
-    var teacher = props.teachers.find((teacher) => {
-      return teacher.id === lessonPeriod.teacher_id;
-    });
-    var student = props.students.find((student) => {
-      return student.id === lessonPeriod.student_id;
-    });
-    this.setState({ 
-                    lessonCount: lessonPeriod.lesson_count,
-                    student: student,       
-                    instrument: instrument, 
-                    teacher: teacher,       
-                    unavailableWeeks: teacher.unavailable_weeks,
-                    locked: lessonPeriod.locked 
-                  });
   },
-
-  changeLessonCount(change) {
-    var newCount = this.state.lessonCount + change;
-    this.props.updateLessonCount(newCount, this.props.lessonPeriod);
-  },
-  handleToggleEditing() {
+  toggleEditing() {
     var editing = this.state.editing ? false : true;
     this.setState({ editing: editing });
-  },
-  updateFromEditLessonPeriod(name, instrumentId, teacherId, defaultLessonLength) {
-    this.handleToggleEditing();
-    var lessonPeriod = this.props.lessonPeriod
-    lessonPeriod.defaultLessonLength = defaultLessonLength;
-    this.props.editLessonPeriod(name, instrumentId, teacherId, lessonPeriod);
   },
   confirmDelete() {
     this.props.deleteLessonPeriod(this.props.lessonPeriod);
   },
   cancelDelete() {
-    this.setState({ deleting: false });
+    this.setState({ deleting: false, editing: false });
   },
   handleDelete() {
-    this.setState({ deleting: true });
+    this.setState({ deleting: true, editing: false });
+  },
+  handleEditLessonPeriod(name, instrumentId, teacherId, defaultLessonLength) {
+    this.toggleEditing();
+    var lessonPeriod = this.props.lessonPeriod;
+    lessonPeriod.defaultLessonLength = defaultLessonLength;
+    this.props.editLessonPeriod(name, instrumentId, teacherId, lessonPeriod);
   },
   render() {
-    if ( !this.state.instrument || !this.state.teacher || !this.state.student) {
-      return (
-        <div className="lesson-period col-sm-6 col-md-4">
-          <p>Loading Lesson Period..</p>
-          <p>Teacher: {this.state.teacher}</p>
-          <p>Instrument: {this.state.instrument}</p>
-          <p>Student: {this.state.student}</p>
-        </div>
-      )
-    }
+    // ** Get Related Data ** (serialize to eliminate block below)
+    var lessonPeriod = this.props.lessonPeriod;    
+    var instrument = this.props.instruments.find((instrument) => {
+      return instrument.id === lessonPeriod.instrument_id;
+    });
+    var teacher = this.props.teachers.find((teacher) => {
+      return teacher.id === lessonPeriod.teacher_id;
+    });
+    var student = this.props.students.find((student) => {
+      return student.id === lessonPeriod.student_id;
+    });
 
-    var header; 
+    // ** Header **
+    var editing = this.state.editing ? "editing" : ""
+    var headerClasses = "lesson-period-header " + editing;
+    var header;
+
     if(this.state.deleting) {
-      header = 
-        <div className="lesson-period-delete-confirm-wrapper">
-          <div className="lesson-period-delete-confirm">
-            <h3>You sure?</h3>
-            <div>
-              <button className="btn btn-danger" onClick={this.confirmDelete}>Yes</button>
-              <button className="btn btn-default" onClick={this.cancelDelete}>Oops!</button>
-            </div>
-          </div>
-        </div>
+      header = <LessonPeriodDelete  confirmDelete={this.confirmDelete}
+                                    cancelDelete={this.cancelDelete} />
+    
     } else if (this.state.editing) {
-      var buttonText = "Save Student"
-      header = <FormFields  {...this.state}
-                            {...this.props}
-                            buttonText={buttonText} 
+      header = <FormFields  {...this.props}
+                            instrument={instrument}
+                            teacher={teacher}
+                            student={student}
+                            buttonText="Save Student"
                             lessonLengthsEnabled={true}
                             instrumentEnabled={true}
                             teacherEnabled={true}
                             submitEnabled={true}
-                            submitLessonPeriodForm={this.updateFromEditLessonPeriod} />
+                            submitLessonPeriodForm={this.handleEditLessonPeriod} />
     } else {
-      header = 
-        <div>
-          <h3>{this.state.student.name}</h3>
-          <p className="instrument">{this.state.instrument.name}</p>
-          <p className="teacher">{this.state.teacher.first_name} {this.state.teacher.last_name}</p>
-          <p className="lesson-count"><strong>{this.state.lessonCount}</strong> Lessons</p>
-          <div className="lesson-period-hover-menu">
-            <span className="edit-lesson-period glyphicon glyphicon-pencil" title="Edit" onClick={this.handleToggleEditing}></span> 
-            <span className="delete-lesson-period glyphicon glyphicon-remove" title="Delete" onClick={this.handleDelete}></span> 
-          </div>
-        </div>
+      header = <LessonPeriodHeader  {...this.props}
+                                    instrument={instrument}
+                                    teacher={teacher}
+                                    student={student} 
+                                    toggleEditing={this.toggleEditing}
+                                    handleDelete={this.handleDelete} />
     }
 
-    var editing = this.state.editing ? "editing" : ""
-    var headerClasses = "lesson-period-header " + editing;
+    // ** Weeks **
+    var rawWeeks = this.props.allWeeks[this.props.lessonPeriod.id];
+    var weeks = Helper.convertWeeksDatesToJS(rawWeeks);
+
     return (
       <div className="lesson-period col-sm-6 col-md-4">
-        <div className={headerClasses}>
+        <div className={headerClasses} tabIndex="0" onBlur={this.toggleEditing} >
           {header}
         </div>
-        <Weeks  {...this.state}
-                {...this.props} />
+        <Weeks  {...this.props}
+                weeks={weeks}
+                teacher={teacher} />
       </div>
     )
   }

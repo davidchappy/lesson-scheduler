@@ -237,6 +237,28 @@ body {
   
   .lesson-period {
     margin-bottom: 5rem;
+    position: relative;
+    
+    .cancel-new-lesson-period {
+      box-sizing: content-box;
+      position: absolute;
+      top: 80px;
+      left: -1px;
+      padding: 0;
+      height: 20px;
+      line-height: 20px;
+      width: 100%;
+      background: $red;
+      border: 1px solid darken($red, 3%);
+      transition: 0.2s;
+      border-radius: 0;
+      font-weight: bold;
+    
+      &:hover {
+        background: darken($red, 8%);
+        border-color: darken($red, 8%);
+      }
+    }
   }
 }
 
@@ -319,7 +341,7 @@ body {
   }
 
   .delete-lesson-period {
-    color: $orange;
+    color: $red;
   }
 
 }
@@ -327,7 +349,7 @@ body {
 .lesson-period-delete-confirm-wrapper {
   height: 60px;
   line-height: 60px;
-  background: $orange;
+  background: $red;
   position: relative;
   
   .lesson-period-delete-confirm {

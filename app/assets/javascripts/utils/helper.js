@@ -1,4 +1,28 @@
 var Helper = {
+  isUnavailable: function(week, unavailableWeeks) {
+    var dates = unavailableWeeks;
+    if(dates.length > 0) {
+      for(i=0; i < dates.length; i++) {
+        // http://stackoverflow.com/questions/15141762/how-to-initialize-javascript-date-to-a-particular-timezone
+        // ensure dates for comparizon are same timezone
+        var unav_start_date = new Date(dates[i].start_date).toLocaleString("en-US", {timeZone: "America/New_York"})
+        var week_date = week.start_date.toLocaleString("en-US", {timeZone: "America/New_York"})
+        if(unav_start_date === week_date) {
+          return true;
+        }
+      };
+    }
+    return false;
+  },
+  convertWeeksDatesToJS: function(weeksArray) {
+    weeksArray.forEach((week, index) => {
+      var start_date = new Date(week.start_date);
+      var end_date = new Date(week.end_date);
+      weeksArray[index].start_date = start_date;
+      weeksArray[index].end_date = end_date;
+    }); 
+    return weeksArray;
+  },
   checkLessonMinimum: function(lessonPeriod, weeks, minLessons, changedWeek) {
     if(changedWeek) {
       var oldWeek = this.findInArrayById(changedWeek.id, weeks);

@@ -39,7 +39,7 @@ jQuery( document ).ready(function( $ ) {
     $("#pup-Help").toggle();
   });
 
-  $("html").on('click', 'body', function(event) {
+  $("html").on('click', 'body', function(e) {
     $("#pup-Help").hide();
   });
 });

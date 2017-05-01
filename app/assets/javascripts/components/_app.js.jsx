@@ -43,6 +43,9 @@ var App = React.createClass({
     // shows or hides add lesson period button
     var showLessonPeriod = this.state.isCreating ? false : true;
     this.setState({ isCreating: showLessonPeriod });
+    if(!this.state.lessonPeriods.length) {
+      ReactTooltip.show($('#ttLessonPeriodTutorial'));
+    }
   },
 
   toggleConfirming() {
@@ -79,6 +82,7 @@ var App = React.createClass({
   createLessonPeriod(name, instrumentId, teacherId, defaultLessonLength) {
     this.toggleCreating();
     var formId = this.state.form.id;
+    ReactTooltip.hide($('#ttLessonPeriodTutorial'));
 
     $.ajax({
       url: '/api/v1/lesson_periods.json', 

@@ -39,6 +39,14 @@ var Body = React.createClass({
     });
 
     var submitDisabled = this.props.isSubmittable ? false : true;
+    var tutorial = this.props.lessonPeriods.length ? false : true;
+    var tutorialAttributes = {};
+    if(tutorial) {
+      tutorialAttributes = {
+        "data-tip": "",
+        "data-for": "ttLessonPeriodTutorial"
+      }
+    }
 
     return (
       <div className="wrapper">
@@ -54,12 +62,21 @@ var Body = React.createClass({
                         ? <NewLessonPeriod  {...this.props} /> 
                         : <div className="new-lesson-period-button col-sm-6 col-md-4">
                             <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 
-                              onClick={this.props.toggleCreating}>
+                              onClick={this.props.toggleCreating} {...tutorialAttributes} >
                               <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> 
                               <span className="button-text">Add a Lesson Period</span>
                             </button>
                           </div>
-                    }  
+                    }
+                    {
+                      tutorial
+                        ? <ReactTooltip id="ttLessonPeriodTutorial" type='dark' 
+                                        effect='solid' place='left' className="tt-tutorial">
+                            <LessonPeriodTutorial />
+                          </ReactTooltip> 
+                        : null
+                    }
+                    
                   </div>
                   <div className="submit-form row">
                     <div className="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">

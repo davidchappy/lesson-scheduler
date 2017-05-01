@@ -7,7 +7,7 @@ var AdminInstrument = React.createClass({
 
   handleDelete(e) {
     e.preventDefault();
-    this.props.handleDeleteInstrument(this.props.instrument.id);
+    this.props.deleteInstrument(this.props.instrument.id);
   },
 
   toggleEdit(e) {

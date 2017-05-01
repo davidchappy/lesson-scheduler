@@ -240,6 +240,7 @@ body {
     position: relative;
     
     .cancel-new-lesson-period {
+      z-index: 1001;
       box-sizing: content-box;
       position: absolute;
       top: 80px;
@@ -248,7 +249,7 @@ body {
       height: 20px;
       line-height: 20px;
       width: 100%;
-      background: $red;
+      background: transparentize($red, 0.7);
       border: 1px solid darken($red, 3%);
       transition: 0.2s;
       border-radius: 0;

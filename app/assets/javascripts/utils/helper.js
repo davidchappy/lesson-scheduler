@@ -35,11 +35,8 @@ var Helper = {
   },
   processTeacherName: function(submittedName) {
     var names = submittedName.split(" ");
-    console.log("Names: ", names);
     var lastName = names.splice(names.length-1, 1)[0];
     var firstName = names.join(" ");
-    console.log("First Name: ", firstName);
-    console.log("Last Name: ", lastName);
     return [firstName, lastName];
   },
   prettifySettingValue: function(rawValue, settingName) {

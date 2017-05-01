@@ -10,10 +10,11 @@ var SimpleForm = React.createClass({
   },
 
   handleChangeInput(e) {
-    var submitDisabled;
-    if(e.target.value && e.target.value !== "") {
-      submitDisabled = false;
-    }
+    console.log(e.target.value);
+    // var submitDisabled;
+    // if(e.target.value && e.target.value !== "") {
+    //   submitDisabled = false;
+    // }
     this.setState({ submitDisabled: false, currentValue: e.target.value });
   },
 
@@ -21,7 +22,7 @@ var SimpleForm = React.createClass({
     e.preventDefault();  
     var id = this.props.id;
     $("#"+id)[0].reset();  
-    this.setState({ submitDisabled: true });
+    // this.setState({ submitDisabled: true });
     this.props.handleSubmit(this.state.currentValue);
   },
 
@@ -30,11 +31,9 @@ var SimpleForm = React.createClass({
       <form onSubmit={this.handleSubmit} id={this.props.id}>
         <input  tabIndex="0" onBlur={this.props.toggleEdit}
                 type="text" 
+                onChange={this.handleChangeInput}
                 className={this.props.inputClass}
-                onChange={this.handleChangeInput} 
                 placeholder={this.props.placeholderText} />
-        <button className={"btn btn-primary " + this.props.btnClass} 
-                disabled={this.state.submitDisabled}>{this.props.btnText}</button>
       </form>
     )
   }

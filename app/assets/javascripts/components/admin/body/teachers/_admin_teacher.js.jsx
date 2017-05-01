@@ -20,7 +20,10 @@ var AdminTeacher = React.createClass({
   handleEdit(submittedName) {
     var names = Helper.processTeacherName(submittedName);
     this.setState({ editing: false });
-    this.props.updateTeacher(this.props.teacher.id, names[0], names[1]);
+    var teacher = Helper.clone(this.props.teacher);
+    teacher.first_name = names[0];
+    teacher.last_name = names[1];
+    this.props.updateTeacher(teacher);
   },
 
   toggleAddInstrument(e) {

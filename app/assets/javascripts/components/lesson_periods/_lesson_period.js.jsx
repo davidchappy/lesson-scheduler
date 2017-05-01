@@ -2,13 +2,6 @@ var LessonPeriod = React.createClass({
   getInitialState() {
     return  { deleting: false, editing: false }
   },
-  componentDidMount() {
-    $("html").click(function(e) {
-      if(!$(e.target).hasClass('editing')) {
-        this.setState({ editing: false });
-      }
-    });
-  },
   toggleEditing() {
     var editing = this.state.editing ? false : true;
     this.setState({ editing: editing });
@@ -29,6 +22,11 @@ var LessonPeriod = React.createClass({
     this.props.editLessonPeriod(name, instrumentId, teacherId, lessonPeriod);
   },
   render() {
+    if(!this.props.instruments || !this.props.teachers || !this.props.students || !this.props.lessonPeriod) {
+      return (<Loading message="Lesson period..." />)
+    }
+
+
     // ** Get Related Data ** (serialize to eliminate block below)
     var lessonPeriod = this.props.lessonPeriod;    
     var instrument = this.props.instruments.find((instrument) => {
@@ -60,7 +58,8 @@ var LessonPeriod = React.createClass({
                             instrumentEnabled={true}
                             teacherEnabled={true}
                             submitEnabled={true}
-                            submitLessonPeriodForm={this.handleEditLessonPeriod} />
+                            submitLessonPeriodForm={this.handleEditLessonPeriod}
+                            handleCancel={this.toggleEditing} />
     } else {
       header = <LessonPeriodHeader  {...this.props}
                                     instrument={instrument}
@@ -76,7 +75,7 @@ var LessonPeriod = React.createClass({
 
     return (
       <div className="lesson-period col-sm-6 col-md-4">
-        <div className={headerClasses} tabIndex="0" onBlur={this.toggleEditing} >
+        <div className={headerClasses} >
           {header}
         </div>
         <Weeks  {...this.props}

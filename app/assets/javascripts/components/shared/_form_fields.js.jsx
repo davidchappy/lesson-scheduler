@@ -126,6 +126,8 @@ var FormFields = React.createClass({
         <div className={"default-lesson-length " + lessonLengthsClass} >{defaultLessonLength()}&nbsp;Lessons</div>
         <button className="btn btn-primary submit-new-lesson-period" id="submit-new-lesson-period"
         disabled={ submitEnabled } onClick={this.handleSubmitLessonPeriodForm}>{this.props.buttonText}</button>
+        <button className="btn btn-danger cancel-new-lesson-period" 
+        id="cancel-new-lesson-period" onClick={this.props.handleCancel}>Cancel</button>            
       </form>
     )
   }

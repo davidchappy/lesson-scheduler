@@ -3,8 +3,7 @@ var AdminInstruments = React.createClass({
     var instruments = this.props.instruments.map((instrument) => {
       return (<AdminInstrument  key={instrument.id}
                                 instrument={instrument} 
-                                updateInstrument={this.props.updateInstrument}
-                                handleDeleteInstrument={this.props.deleteInstrument} />);
+                                {...this.props} />);
     })
 
     return(

@@ -223,32 +223,36 @@ var App = React.createClass({
                                                         week);
 
     if(lessonMinimumState >= 0) {
+      // Lock lesson period if at minimum state
+      lessonPeriod.locked = lessonMinimumState === 0 ? true : false;
+
+      // get the weeks array for this week
+      var lessonPeriodId = week.lesson_period_id;
+      var allWeeks = this.state.allWeeks;
+      var targetWeeks = allWeeks[lessonPeriodId];
+
+      // update weeks array and set it back in weeks object 
+      var index = targetWeeks.indexOf(week);
+      targetWeeks[index] = week;
+      allWeeks[lessonPeriodId] = targetWeeks;
+
+      // update count for this lesson period
+      var lessonPeriods = this.state.lessonPeriods;
+      var lessonPeriod = Helper.findInArrayById(lessonPeriodId, lessonPeriods);
+      var index = lessonPeriods.indexOf(lessonPeriod);
+      lessonPeriod.lesson_count = Helper.getLessonCountFromWeeks(targetWeeks);
+      lessonPeriods[index] = lessonPeriod;
+      this.setState({ lessonPeriods: lessonPeriods, allWeeks: allWeeks })
+
       $.ajax({
         url: `/api/v1/weeks/${week.id}.json`,
         type: 'PUT',
         data: { week: { lesson: week.lesson, lesson_length: week.lesson_length } },
         success: (response) => {
-          if(lessonMinimumState === 0) {
-            this.toggleLock(true, lessonPeriod);
-          }
-          this.fetchAppData();
-          // get the weeks array for this week
-          // var lessonPeriodId = week.lesson_period_id;
-          // var allWeeks = this.state.allWeeks;
-          // var targetWeeks = allWeeks[lessonPeriodId];
-
-          // // update weeks array and set it back in weeks object 
-          // var index = targetWeeks.indexOf(week);
-          // targetWeeks[index] = week;
-          // allWeeks[lessonPeriodId] = targetWeeks;
-
-          // // update count for this lesson period
-          // var lessonPeriods = this.state.lessonPeriods;
-          // var lessonPeriod = Helper.findInArrayById(lessonPeriodId, lessonPeriods);
-          // var index = lessonPeriods.indexOf(lessonPeriod);
-          // lessonPeriod.lesson_count = Helper.getLessonCountFromWeeks(targetWeeks);
-          // lessonPeriods[index] = lessonPeriod;
-          // this.setState({ lessonPeriods: lessonPeriods, allWeeks: allWeeks })
+          // if(lessonMinimumState === 0) {
+          //   this.toggleLock(true, lessonPeriod);
+          // }
+          // this.fetchAppData();
         }
       });
     } else {

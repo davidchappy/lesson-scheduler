@@ -39,7 +39,7 @@ var AdminTeacher = React.createClass({
     this.props.removeInstrumentFromTeacher(id, this.props.teacher);
   },
 
-  toggleunavailableWeeks(e) {
+  toggleUnavailableWeeks(e) {
     e.preventDefault();
     var updatingUnavailables = this.state.updatingUnavailables ? false : true;
     this.setState({ updatingUnavailables: updatingUnavailables });
@@ -106,6 +106,7 @@ var AdminTeacher = React.createClass({
           (this.state.editing)
             ? <td>
                 <SimpleForm handleSubmit={this.handleEdit}
+                            toggleEdit={this.toggleEdit}
                             placeholderText={name}
                             inputClass="admin-edit-item-input"
                             btnClass="admin-edit-item-button"
@@ -119,13 +120,14 @@ var AdminTeacher = React.createClass({
           {
             (this.state.addingInstrument)
               ? 
-                <SelectForm selectOptions={displayedInstruments}
+                <SelectForm submitAction={this.handleAddInstrumentToTeacher}
+                            toggleEdit={this.toggleAddInstrument}
+                            selectOptions={displayedInstruments}
                             displayValue="name"
                             selectClass="admin-select"
                             selectId="addInstrumentToTeacher"
                             btnClass="admin-select-submit-button"
                             btnText="Add"
-                            submitAction={this.handleAddInstrumentToTeacher}
                             id="selectInstrumentForTeacher"
                             placeholderText="Instruments" />
               : null  
@@ -136,13 +138,14 @@ var AdminTeacher = React.createClass({
             {
               (this.state.updatingUnavailables)
                 ? 
-                  <SelectForm selectOptions={displayedWeeks}
+                  <SelectForm submitAction={this.handleAddUnavailableToTeacher}
+                              toggleEdit={this.toggleUnavailableWeeks}
+                              selectOptions={displayedWeeks}
                               displayValue="value"
                               selectClass="admin-select"
                               selectId="addUnavailableToTeacher"
                               btnClass="admin-select-submit-button"
                               btnText="Add"
-                              submitAction={this.handleAddUnavailableToTeacher}
                               id="selectUnavailablesForTeacher"
                               placeholderText="Dates" />
                 : null  
@@ -151,7 +154,7 @@ var AdminTeacher = React.createClass({
         <td className="admin-actions-icons">
           <a href="#" title="Edit" className="glyphicon glyphicon-pencil" onClick={this.toggleEdit}></a>&nbsp;
           <a href="#" title="Edit Instruments" className="glyphicon glyphicon-music" onClick={this.toggleAddInstrument}></a>&nbsp;
-          <a href="#" title="Unavailable Dates" className="glyphicon glyphicon-ban-circle" onClick={this.toggleunavailableWeeks}></a>
+          <a href="#" title="Unavailable Dates" className="glyphicon glyphicon-ban-circle" onClick={this.toggleUnavailableWeeks}></a>
           <a href="#" title="Delete" className="glyphicon glyphicon-remove" onClick={this.handleDelete}></a>&nbsp;
         </td>
       </tr>

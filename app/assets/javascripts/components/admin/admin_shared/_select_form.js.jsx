@@ -5,6 +5,10 @@ var SelectForm = React.createClass({
     }
   },
 
+  componentDidMount() {
+    $("." + this.props.selectClass).focus();
+  },
+
   handleChangeSelect(e) {
     var submitDisabled;
     if(e.target.value && e.target.value !== "") {
@@ -28,10 +32,11 @@ var SelectForm = React.createClass({
     })
 
     return(
-      <form onSubmit={this.handleSubmit} id={this.props.id}>
+      <form onSubmit={this.handleSubmit} id={this.props.id} >
         <select className={this.props.selectClass} 
                 id={this.props.selectId}                
-                onChange={this.handleChangeSelect}>
+                onChange={this.handleChangeSelect}
+                tabIndex="0" onBlur={this.props.toggleEdit} >
           <option value='' className="placeholder">{this.props.placeholderText}</option>
           {options}      
         </select>

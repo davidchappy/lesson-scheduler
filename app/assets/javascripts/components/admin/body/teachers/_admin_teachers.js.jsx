@@ -8,7 +8,7 @@ var AdminTeachers = React.createClass({
 
     return(
       <div role="tabpanel" className="tab-pane" id="teachers">
-        <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+        <div className="col-sm-10 col-sm-offset-1">
           <h1>All DMS Teachers</h1>
           <div className="table-responsive">
             <table className="table table-striped table-hover">

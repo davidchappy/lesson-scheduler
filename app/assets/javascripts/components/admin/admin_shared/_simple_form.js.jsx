@@ -5,6 +5,10 @@ var SimpleForm = React.createClass({
     }
   },
 
+  componentDidMount() {
+    $("." + this.props.inputClass).focus();
+  },
+
   handleChangeInput(e) {
     var submitDisabled;
     if(e.target.value && e.target.value !== "") {
@@ -24,7 +28,8 @@ var SimpleForm = React.createClass({
   render() {
     return(
       <form onSubmit={this.handleSubmit} id={this.props.id}>
-        <input  type="text" 
+        <input  tabIndex="0" onBlur={this.props.toggleEdit}
+                type="text" 
                 className={this.props.inputClass}
                 onChange={this.handleChangeInput} 
                 placeholder={this.props.placeholderText} />

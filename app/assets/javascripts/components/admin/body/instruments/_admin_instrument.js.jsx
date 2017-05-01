@@ -40,6 +40,7 @@ var AdminInstrument = React.createClass({
           (this.state.editing)
             ? <td>
                 <SimpleForm handleSubmit={this.handleEdit}
+                            toggleEdit={this.toggleEdit}
                             placeholderText={instrument.name}
                             inputClass="admin-edit-item-input"
                             btnClass="admin-edit-item-button"

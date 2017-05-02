@@ -62,15 +62,13 @@ var App = React.createClass({
   // *** ACTIONS ***
   submitForm() {
     // Ensure the form record has the current total cost
-    settings = this.state.appSettings;
     var id = this.state.form.id;
-    var pricing = Pricer.getPricing(this.state.lessonPeriods, this.state.allWeeks, 
-                                          settings.baseLessonLength.value,
-                                          settings.thirtyMinRate.value);
+    var total = Pricer.monetize(this.state.pricingData.currentPricing.totalOwed);
+
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'PUT',
-      data: { form: { total_cost: Pricer.monetize(pricing.totalOwed) } }
+      data: { form: { total_cost: total } }
     });
   },
 

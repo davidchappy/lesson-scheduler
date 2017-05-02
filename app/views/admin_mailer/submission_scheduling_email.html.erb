@@ -1,7 +1,7 @@
-<h1 class="top-headline">The <%= @family.last_name %> family submitted a lessons form on <%= @form.submitted_at.strftime("%a, %b %e, %Y at %l:%M%p") %>.</h1>
+<h1 class="top-headline"><%= @family.last_name %>—Scheduling, <%= month_day_ordinal(@form.submitted_at) %> Submission <%= @form.submission_count %></h1>
 
 <div class="student-info">
-  <h2>All Students (<%= @students.length %>)</h2>
+  <h2>(<%= @students.length %>) Students</h2>
 
   <ul>
     <% @lesson_periods.each do |lesson_period| %>
@@ -35,16 +35,3 @@
   </ul>
 
 </div>
-
-<h3 class="total-owed">Total owed: <span><%= @form.total_cost %></span></h3>
-<br>
-<h3 class="total-owed">Payment Plan:</h3>
-<% payment = @form.total_cost[1..-1].to_i / 3 %>
-<ul>
-  <br>
-  <li>June 1: <span><%= "$#{payment}" %></span></li>
-  <li>July 1: <span><%= "$#{payment}" %></span></li>
-  <li>August 1: <span><%= "$#{payment}" %></span></li>
-</ul>
-
-

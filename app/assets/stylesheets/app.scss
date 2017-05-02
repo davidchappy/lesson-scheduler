@@ -19,6 +19,7 @@ $red: #d9534f;
 $orange: #FF530D;
 $header-text-gray: #a8abaf;
 $gray-light: #eee;
+$gray-disabled: #aaa;
 
 $small: 768px;
 $medium: 992px;
@@ -626,7 +627,7 @@ body {
     }
 
     &:hover {
-      color: lighten(rgb(51,51,51), 40%);
+      color: lighten(rgb(51,51,51), 10%);
     }
     
     * {
@@ -651,15 +652,15 @@ body {
     color: $blue;
     
     &:disabled {
-      color: $gray-light;
+      color: $gray-disabled;
       
       &:hover {
-        color: lighten($gray-light, 40%);
+        color: lighten($gray-disabled, 10%);
       }
     }
 
     &:hover {
-      color: lighten($blue, 40%);
+      color: lighten($blue, 10%);
     }
 
     option {
@@ -679,15 +680,15 @@ body {
     color: $blue;
     
     &:disabled {
-      color: $gray-light;
+      color: $gray-disabled;
       
       &:hover {
-        color: lighten($gray-light, 40%);
+        color: lighten($gray-disabled, 10%);
       }
     }
     
     &:hover {
-      color: lighten($blue, 40%);
+      color: lighten($blue, 10%);
     }
   }
 
@@ -702,14 +703,14 @@ body {
     cursor: auto;
     
     &:hover .lesson-length {
-      color: lighten(rgb(51,51,51), 40%);
+      color: lighten(rgb(51,51,51), 10%);
     }
 
     &.disabled {
-      color: $gray-light;
+      color: $gray-disabled;
         
       &:hover {
-        color: lighten($gray-light, 40%);
+        color: lighten($gray-disabled, 10%);
       }
     }
     
@@ -721,14 +722,14 @@ body {
       color: $blue;
       
       &:hover {
-        color: lighten($blue, 40%);
+        color: lighten($blue, 10%);
       }
 
       &:disabled {
-        color: $gray-light;
+        color: $gray-disabled;
         
         &:hover {
-          color: lighten($gray-light, 40%);
+          color: lighten($gray-disabled, 10%);
         }
       }
     }

@@ -16,7 +16,7 @@ class AdminMailer < ApplicationMailer
     @students = form.students
     @lesson_periods = form.lesson_periods
     admin_email = AppSetting.where(key: "adminEmail").take.value
-    mail(to: ['davidchappy@gmail.com', admin_email], subject: ("Form submission from the " + @family.last_name + " family  -- Scheduling") )
+    mail(to: ['davidchappy@gmail.com', admin_email, @family.email], subject: ("Thanks for signing up! Lesson schedule for the " + @family.last_name + " family") )
   end
 
 end

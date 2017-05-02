@@ -19,11 +19,12 @@
             </tr>
           </thead>
           <tbody>
-            <% lesson_period.weeks.each do |week| %>
+            <% lesson_period.weeks.order(:created_at).each do |week| %>
               <% lesson = week.lesson ? "Yes" : "No" %>
-               <tr>
-                 <td><%= week.week_string %> - </td>
-                 <td><%= lesson %></td>
+              <% classes = week.lesson ? "" : "no-lesson" %>
+               <tr class="<%= classes %>">
+                 <td class="week-string"><%= week.week_string %></td>
+                 <td class="lesson-boolean"><%= lesson %></td>
                </tr> </li>
             <% end %>
           </tbody>
@@ -31,6 +32,8 @@
         </table>
 
       </li>
+
+      <hr>
     <% end %>
   </ul>
 

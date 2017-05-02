@@ -1,0 +1,18 @@
+<%= @family.last_name %>—Scheduling, <%= month_day_ordinal(@form.submitted_at) %> Submission <%= @form.submission_count %>
+
+(<%= @students.length %>) Students
+
+    <% @lesson_periods.each do |lesson_period| %>
+      Name: <%= lesson_period.student.name %>
+      Instrument: <%= lesson_period.instrument.name %>
+      Teacher: <%= lesson_period.teacher.first_name %> <%= lesson_period.teacher.last_name %>
+      <%= lesson_period.lesson_count %> Lessons
+    
+            <% lesson_period.weeks.each do |week| %>
+              <% lesson = week.lesson ? "Lesson" : "No Lesson" %>
+                  <%= week.week_string %> - 
+                  <%= lesson %>
+            <% end %>
+
+
+    <% end %>

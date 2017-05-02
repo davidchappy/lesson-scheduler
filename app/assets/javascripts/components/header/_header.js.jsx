@@ -1,39 +1,19 @@
 var Header = React.createClass({
-  getInitialState() {
-    return { totalDiscount: 0, totalOwed: 0, possibleDiscount: 0 }
-  },
-  componentWillReceiveProps(nextProps) {
-    this.updatePricing(nextProps.lessonPeriods);
-  },
-  componentDidMount() {
-    this.updatePricing(this.props.lessonPeriods);
-  },
-  updatePricing(lessonPeriods) {
-    var settings = this.props.appSettings;
-    var pricing = Pricer.calculatePricing(lessonPeriods, this.props.allWeeks,
-                                          settings.baseLessonLength.value,
-                                          settings.thirtyMinRate.value);
-    this.setState({
-      totalDiscount: pricing.discount,
-      totalOwed: pricing.totalOwed,
-      possibleDiscount: pricing.possibleDiscount
-    })  
-  },
   render() {
-    if ( !this.props.family || !this.props.appSettings) {
-      return (
-        <div>
-          <p>Loading</p>
-        </div>
-      )
+    if ( !this.props.family || !this.props.appSettings || !this.props.lessonPeriods || !this.props.allWeeks) {
+      return (<Loading message="Header"/>)
     }
 
+    var pricing = Pricer.calculatePricing(this.props.lessonPeriods, 
+                                          this.props.allWeeks,
+                                          this.props.appSettings.baseLessonLength.value,
+                                          this.props.appSettings.thirtyMinRate.value);
     var family = this.props.family;
     var lessonCount = Helper.getTotalLessonCount(this.props.lessonPeriods);
-    var total = Pricer.monetize(this.state.totalOwed);
-    var payment = Pricer.monetize(this.state.totalOwed / 3);
-    var totalDiscount = Pricer.monetize(this.state.totalDiscount);
-    var possibleDiscount = Pricer.monetize(this.state.possibleDiscount);
+    var total = Pricer.monetize(pricing.totalOwed);
+    var payment = Pricer.monetize(pricing.totalOwed / 3);
+    var totalDiscount = Pricer.monetize(pricing.discount);
+    var possibleDiscount = Pricer.monetize(pricing.possibleDiscount);
     var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
     var discountObject = Pricer.calculateCurrentDiscounts(this.props.lessonPeriods, this.props.allWeeks,
                                                           this.props.appSettings.baseLessonLength.value);
@@ -60,12 +40,11 @@ var Header = React.createClass({
             }
           </div>
           {
-            this.props.hasSubmitted && new Date() > new Date(this.props.appSettings["submissionDeadline"].value)
+            this.props.form.submitted && new Date() > new Date(this.props.appSettings["submissionDeadline"].value)
             ? <div id="navbar" className="navbar-collapse collapse"></div> 
-            : <Dashboard  {...this.state} 
-                          {...this.props}
+            : <Dashboard  {...this.props}
                           lessonCount={lessonCount}
-                          total={this.state.totalOwed}
+                          total={total}
                           payment={payment}
                           totalDiscount={totalDiscount}
                           possibleDiscount={possibleDiscount}

@@ -35,7 +35,7 @@ var Dashboard = React.createClass({
               <span className="header-large">{this.props.payment}</span>
             </a>
             <ReactTooltip id='ttPaymentInfo' type='dark' effect='solid' place='bottom'>
-              <PaymentPlan total={this.props.total} />
+              <PaymentPlan total={this.props.total} payment={this.props.payment} />
             </ReactTooltip>
           </li>
           <li className="nav-help-icon">

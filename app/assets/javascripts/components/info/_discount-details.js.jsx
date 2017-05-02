@@ -24,21 +24,21 @@ var DiscountDetails = React.createClass({
         <div className={'discount-lesson-rate' + studentClasses}>
           <h5>Multiple Student Discount:&nbsp; 
               <span className="discount-current">{Pricer.monetize(discounts.rate)}</span>&nbsp;
-              <span className="discount-possible">({Pricer.monetize(studentDiscount)} possible)</span>
+              <span className="discount-possible">({Pricer.monetize(studentDiscount)}</span> possible)
           </h5>
           <p><em>Rate is $20 for 1st student, $18 for 2nd, $16 for 3 or more</em></p>
         </div>
         <div className={'discount-student-lessons' + lessonClasses}>
           <h5>Rate discount from number of lessons:&nbsp;
             <span className="discount-current">{Pricer.monetize(discounts.lessons)}</span>&nbsp;
-          <span className="discount-possible">({Pricer.monetize(lessonsDiscount)} possible)</span>
+          <span className="discount-possible">({Pricer.monetize(lessonsDiscount)}</span> possible)
         </h5>
           <p><em>$20 off for 9-10 lessons; $30 off for 11 or more</em></p>
         </div>
         <div className={'discount-quantity' + bonusClasses}>
           <h5>Multiple Student Bonus:&nbsp;
             <span className="discount-current">{Pricer.monetize(discounts.quantity)}</span>&nbsp; 
-            <span className="discount-possible">({Pricer.monetize(studentBonus)} possible)</span>
+            <span className="discount-possible">({Pricer.monetize(studentBonus)}</span> possible)
           </h5>
           <p><em>Additional $5 off for each student (if more than one) with at least 9 lessons</em></p>
         </div>

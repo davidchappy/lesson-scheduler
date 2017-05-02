@@ -5,8 +5,7 @@ var App = React.createClass({
     return {  instruments: undefined, teachers: undefined,
               family: undefined, form: undefined, students: undefined, 
               lessonPeriods: undefined, allWeeks: undefined, isCreating: false, 
-              isConfirming: false, hasSubmitted: false, isSubmittable: false,
-              appSettings: undefined }
+              isConfirming: false, isSubmittable: false, appSettings: undefined }
   },
 
   componentDidMount() {
@@ -30,7 +29,6 @@ var App = React.createClass({
                         students: response.students,
                         lessonPeriods: response.lesson_periods,
                         allWeeks: response.weeks,
-                        hasSubmitted: response.form.submitted,
                         isSubmittable: isSubmittable,
                         appSettings: response.app_settings,
                       });
@@ -54,15 +52,6 @@ var App = React.createClass({
     this.setState({ isConfirming: isConfirming });
   },
 
-  toggleLock(bool, lessonPeriod) {
-    lessonPeriod.locked = bool;
-    var student = Helper.findInArrayById(lessonPeriod.student_id, this.state.students);
-    this.editLessonPeriod(  student.name, 
-                            lessonPeriod.instrumentId, 
-                            lessonPeriod.teacherId, 
-                            lessonPeriod);
-  },
-
 
   // *** ACTIONS ***
   submitForm() {
@@ -77,6 +66,15 @@ var App = React.createClass({
       type: 'PUT',
       data: { form: { total_cost: Pricer.monetize(pricing.totalOwed) } }
     });
+  },
+
+  toggleLock(bool, lessonPeriod) {
+    lessonPeriod.locked = bool;
+    var student = Helper.findInArrayById(lessonPeriod.student_id, this.state.students);
+    this.editLessonPeriod(  student.name, 
+                            lessonPeriod.instrumentId, 
+                            lessonPeriod.teacherId, 
+                            lessonPeriod);
   },
 
   createLessonPeriod(name, instrumentId, teacherId, defaultLessonLength) {
@@ -276,7 +274,7 @@ var App = React.createClass({
                 toggleCreating={this.toggleCreating} />
 
         {
-          this.props.hasSubmitted && new Date() > new Date(this.props.appSettings["submissionDeadline"].value)
+          this.state.form.submitted && new Date() > new Date(this.state.appSettings["submissionDeadline"].value)
             ? <AlreadySubmitted {...this.state}
                                 {...this.props} /> 
             : <Body {...this.state}

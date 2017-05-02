@@ -1,4 +1,5 @@
 var Body = React.createClass({
+
   passLessonCount(count, lessonPeriod) {
     lessonPeriod.lesson_count = count;
 
@@ -12,6 +13,7 @@ var Body = React.createClass({
 
     this.props.passLessonCount(lessonPeriods);
   },
+  
   render() {
     if ( !this.props.lessonPeriods ) {
       return (<Loading message="Lesson Periods.." />)

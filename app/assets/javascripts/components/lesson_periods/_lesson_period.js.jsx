@@ -1,31 +1,37 @@
 var LessonPeriod = React.createClass({
+
   getInitialState() {
     return  { deleting: false, editing: false }
   },
+
   toggleEditing() {
     var editing = this.state.editing ? false : true;
     this.setState({ editing: editing });
   },
-  confirmDelete() {
-    this.props.deleteLessonPeriod(this.props.lessonPeriod);
-  },
-  cancelDelete() {
-    this.setState({ deleting: false, editing: false });
-  },
-  handleDelete() {
-    this.setState({ deleting: true, editing: false });
-  },
+
   handleEditLessonPeriod(name, instrumentId, teacherId, defaultLessonLength) {
     this.toggleEditing();
     var lessonPeriod = this.props.lessonPeriod;
     lessonPeriod.defaultLessonLength = defaultLessonLength;
     this.props.editLessonPeriod(name, instrumentId, teacherId, lessonPeriod);
   },
+
+  confirmDelete() {
+    this.props.deleteLessonPeriod(this.props.lessonPeriod);
+  },
+
+  cancelDelete() {
+    this.setState({ deleting: false, editing: false });
+  },
+
+  handleDelete() {
+    this.setState({ deleting: true, editing: false });
+  },
+
   render() {
     if(!this.props.instruments || !this.props.teachers || !this.props.students || !this.props.lessonPeriod) {
       return (<Loading message="Lesson period..." />)
     }
-
 
     // ** Get Related Data ** (serialize to eliminate block below)
     var lessonPeriod = this.props.lessonPeriod;    

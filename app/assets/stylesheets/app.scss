@@ -407,6 +407,7 @@ body {
     position: relative;
     
     .select-week {
+      // http://www.inserthtml.com/2012/06/custom-form-radio-checkbox/
       display: none;
 
       & + label {
@@ -494,40 +495,16 @@ body {
 
       }
 
-     
-
-
-
-      
-      // &.selected {
-      //   border: none;
-      //   background: $green;
-        
-      //   &:hover {
-      //     background: #fff;
-      //     line-height: 28px;
-      //     background: transparentize($green, 0.50);
-      //     &::before {
-      //       content: "\e013";
-      //     }
-      //   }
-        
-      //   &::before {
-      //     content: "\e013";
-      //   }
-
-      //   &:disabled::before {
-      //     content: "\e033";
-      //   }
-      // }
     }
 
     .lesson-length {
       display: inline-block;
       width: 50px;
+      height: 30px;
+      // vertical-align: middle;
       position: absolute;
       right: -30px;
-      top: -10px;
+      top: 0;
       font-size: 0.8em;
       text-align: left;
     }

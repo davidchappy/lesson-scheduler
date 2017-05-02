@@ -11,9 +11,6 @@ var DiscountDetails = React.createClass({
     var lessonsDiscount = possibleDiscounts.manyLessonsDiscount;
     var studentBonus    = possibleDiscounts.multipleStudentBonus;
 
-    console.log("current discounts:", discounts);
-    console.log("possibleDiscounts:", possibleDiscounts);
-
     var maxDiscountClass  = " discount-possible-max";
     var studentClasses    = discounts.rate === studentDiscount ? maxDiscountClass : "";
     var lessonClasses     = discounts.lessons === lessonsDiscount ? maxDiscountClass : "";

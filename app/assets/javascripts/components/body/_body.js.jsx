@@ -1,19 +1,5 @@
 var Body = React.createClass({
 
-  passLessonCount(count, lessonPeriod) {
-    lessonPeriod.lesson_count = count;
-
-    // update the lessonPeriods array
-    var lessonPeriods = this.props.lessonPeriods;
-    var index; 
-    lessonPeriods.map( (l, i) => {
-      index = l.id === lessonPeriod.id ? i : index;
-    });
-    lessonPeriods[index] = lessonPeriod;
-
-    this.props.passLessonCount(lessonPeriods);
-  },
-  
   render() {
     if ( !this.props.lessonPeriods ) {
       return (<Loading message="Lesson Periods.." />)
@@ -35,7 +21,6 @@ var Body = React.createClass({
         <LessonPeriod key={lessonPeriod.id} 
                       lessonPeriod={lessonPeriod} 
                       {...this.props}
-                      updateLessonCount={this.passLessonCount}
                       toggleLock={this.toggleLock} />
       )
     });

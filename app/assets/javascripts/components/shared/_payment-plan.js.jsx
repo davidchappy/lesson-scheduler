@@ -1,4 +1,5 @@
 var PaymentPlan = React.createClass({
+
   render() {
     return (
       <div className='full-payment-info'>
@@ -12,4 +13,5 @@ var PaymentPlan = React.createClass({
       </div>
     )
   } 
+  
 });

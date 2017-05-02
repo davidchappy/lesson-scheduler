@@ -1,17 +1,13 @@
 var DiscountDetails = React.createClass({
+
   render() {
-    var studentCount = this.props.lessonPeriods.length;
-    var totalLessonCount = this.props.lessonCount;
-    
-    var discounts = this.props.currentDiscounts;
-    var possibleDiscounts = Pricer.getPossibleDiscounts(this.props.lessonPeriods,
-                                                        this.props.allWeeks,
-                                                        this.props.appSettings.baseLessonLength.value);
-    var studentDiscount = possibleDiscounts.multipleStudentDiscount;
-    var lessonsDiscount = possibleDiscounts.manyLessonsDiscount;
-    var studentBonus    = possibleDiscounts.multipleStudentBonus;
+    var pricingData       = this.props.pricingData;
+    var studentDiscount   = pricingData.possibleDiscounts.multipleStudentDiscount;
+    var lessonsDiscount   = pricingData.possibleDiscounts.manyLessonsDiscount;
+    var studentBonus      = pricingData.possibleDiscounts.multipleStudentBonus;
 
     var maxDiscountClass  = " discount-possible-max";
+    var discounts         = pricingData.currentDiscounts;
     var studentClasses    = discounts.rate === studentDiscount ? maxDiscountClass : "";
     var lessonClasses     = discounts.lessons === lessonsDiscount ? maxDiscountClass : "";
     var bonusClasses      = discounts.quantity === studentBonus ? maxDiscountClass : "";
@@ -45,4 +41,5 @@ var DiscountDetails = React.createClass({
       </div>
     )
   }
+  
 })

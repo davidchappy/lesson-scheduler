@@ -7,7 +7,7 @@ var Confirmation = React.createClass({
   },
   updatePricing(count, lessonPeriods) {
     var settings = this.props.appSettings;
-    var pricing = Pricer.calculatePricing(lessonPeriods, this.props.allWeeks,
+    var pricing = Pricer.getPricing(lessonPeriods, this.props.allWeeks,
                                           settings.baseLessonLength.value,
                                           settings.thirtyMinRate.value);
     this.setState({
@@ -22,7 +22,7 @@ var Confirmation = React.createClass({
         <button className='btn btn-default' onClick={this.props.toggleConfirming}>Back</button>
         <div className='confirmation-text'>
           <p>Here's a quick breakdown of your payments for this summer.</p>
-          <PaymentPlan total={this.state.totalOwed} />
+          <PaymentPlan total={this.state.totalOwed} payment={"payment"} />
           <p>If everything looks good, just click the green button!</p>
         </div>
         <div>

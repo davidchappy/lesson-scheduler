@@ -1,24 +1,18 @@
 var Header = React.createClass({
+
   render() {
     if ( !this.props.family || !this.props.appSettings || !this.props.lessonPeriods || !this.props.allWeeks) {
       return (<Loading message="Header"/>)
     }
 
-    var pricing = Pricer.calculatePricing(this.props.lessonPeriods, 
-                                          this.props.allWeeks,
-                                          this.props.appSettings.baseLessonLength.value,
-                                          this.props.appSettings.thirtyMinRate.value);
-    var family = this.props.family;
-    var lessonCount = Helper.getTotalLessonCount(this.props.lessonPeriods);
-    var total = Pricer.monetize(pricing.totalOwed);
-    var payment = Pricer.monetize(pricing.totalOwed / 3);
-    var totalDiscount = Pricer.monetize(pricing.discount);
-    var possibleDiscount = Pricer.monetize(pricing.possibleDiscount);
-    var maxDiscountClass = totalDiscount == possibleDiscount ? "max-discount" : "";
-    var discountObject = Pricer.calculateCurrentDiscounts(this.props.lessonPeriods, this.props.allWeeks,
-                                                          this.props.appSettings.baseLessonLength.value);
-    var possibleDiscountObject = Pricer.calculatePossibleDiscount(this.props.lessonPeriods, this.props.allWeeks,
-                                                                  this.props.appSettings.baseLessonLength.value);
+    var family            = this.props.family;
+    var lessonCount       = Helper.getTotalLessonCount(this.props.lessonPeriods);
+    var pricingData       = this.props.pricingData;
+    var total             = Pricer.monetize(pricingData.currentPricing.totalOwed);
+    var payment           = Pricer.monetize(pricingData.currentPricing.payment);
+    var totalDiscount     = Pricer.monetize(pricingData.currentPricing.discount);
+    var possibleDiscount  = Pricer.monetize(pricingData.currentPricing.possibleDiscount);
+    var maxDiscountClass  = totalDiscount == possibleDiscount ? "max-discount" : "";
 
     return (
       <div className="navbar navbar-inverse navbar-fixed-top header">
@@ -48,12 +42,11 @@ var Header = React.createClass({
                           payment={payment}
                           totalDiscount={totalDiscount}
                           possibleDiscount={possibleDiscount}
-                          maxDiscountClass={maxDiscountClass}  
-                          currentDiscounts={discountObject}
-                          possibleDiscounts={possibleDiscountObject} />
+                          maxDiscountClass={maxDiscountClass} />
           }
         </div>
       </div>
     )
   }
+  
 });

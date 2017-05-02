@@ -5,7 +5,8 @@ var App = React.createClass({
     return {  instruments: undefined, teachers: undefined,
               family: undefined, form: undefined, students: undefined, 
               lessonPeriods: undefined, allWeeks: undefined, isCreating: false, 
-              isConfirming: false, isSubmittable: false, appSettings: undefined }
+              isConfirming: false, isSubmittable: false, appSettings: undefined,
+              pricingData: undefined }
   },
 
   componentDidMount() {
@@ -20,6 +21,10 @@ var App = React.createClass({
       data: { family_id: this.props.family_id },
       success: (response) => {
         var isSubmittable = response.lesson_periods.length ? true : false;
+        var pricingData = Pricer.getPricingData(response.lesson_periods, 
+                                                response.weeks,
+                                                response.app_settings.baseLessonLength.value,
+                                                response.app_settings.thirtyMinRate.value) 
         // window.flash_messages.printMessages(response.messages);
         this.setState({ 
                         instruments: response.instruments,
@@ -31,6 +36,7 @@ var App = React.createClass({
                         allWeeks: response.weeks,
                         isSubmittable: isSubmittable,
                         appSettings: response.app_settings,
+                        pricingData: pricingData
                       });
       }
     });
@@ -58,7 +64,7 @@ var App = React.createClass({
     // Ensure the form record has the current total cost
     settings = this.state.appSettings;
     var id = this.state.form.id;
-    var pricing = Pricer.calculatePricing(this.state.lessonPeriods, this.state.allWeeks, 
+    var pricing = Pricer.getPricing(this.state.lessonPeriods, this.state.allWeeks, 
                                           settings.baseLessonLength.value,
                                           settings.thirtyMinRate.value);
     $.ajax({
@@ -244,7 +250,13 @@ var App = React.createClass({
       var index = lessonPeriods.indexOf(lessonPeriod);
       lessonPeriod.lesson_count = Helper.getLessonCountFromWeeks(targetWeeks);
       lessonPeriods[index] = lessonPeriod;
-      this.setState({ lessonPeriods: lessonPeriods, allWeeks: allWeeks })
+
+      // update pricing
+      var pricingData = Pricer.getPricingData(lessonPeriods, allWeeks, 
+                                              this.state.appSettings.baseLessonLength.value, 
+                                              this.state.appSettings.thirtyMinRate.value)
+
+      this.setState({ lessonPeriods: lessonPeriods, allWeeks: allWeeks, pricingData: pricingData })
 
       $.ajax({
         url: `/api/v1/weeks/${week.id}.json`,
@@ -281,7 +293,6 @@ var App = React.createClass({
                     {...this.props}
                     toggleConfirming={this.toggleConfirming}
                     toggleCreating={this.toggleCreating}
-                    passLessonCount={this.adjustLessonCount} 
                     editWeek={this.editWeek}
                     createLessonPeriod={this.createLessonPeriod}
                     editLessonPeriod={this.editLessonPeriod}

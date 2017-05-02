@@ -1,5 +1,17 @@
 var Pricer = {
-  calculatePricing: function(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate) {
+  getPricingData: function(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate) {
+    var currentPricing = this.getPricing(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate);
+    var possibleDiscounts = this.getPossibleDiscounts(lessonPeriods, allWeeks, baseLessonLength);
+    var currentDiscounts = this.getCurrentDiscounts(lessonPeriods, allWeeks, baseLessonLength);
+    currentPricing.payment = currentPricing.totalOwed / 3;
+
+    return {
+      currentPricing: currentPricing,
+      possibleDiscounts: possibleDiscounts,
+      currentDiscounts: currentDiscounts
+    }
+  },
+  getPricing: function(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate) {
   // calculate form cost and discounts from lesson and lesson period counts
 
     // get lesson count adjusted for lessons longer than base lesson length (30 mins)
@@ -11,10 +23,10 @@ var Pricer = {
     // get possible discount
     var lessonPeriodCount = lessonPeriods.length;
     var possibleDiscount =  lessonPeriodCount > 0 ? 
-                            this.calculatePossibleDiscount(lessonPeriods, allWeeks, baseLessonLength) : 0;
+                            Pricer.calculatePossibleDiscount(lessonPeriods, allWeeks, baseLessonLength) : 0;
     
     // get discount
-    var discountObject = this.calculateCurrentDiscounts(lessonPeriods, allWeeks, baseLessonLength);
+    var discountObject = Pricer.getCurrentDiscounts(lessonPeriods, allWeeks, baseLessonLength);
     var discount = Helper.sumObject(discountObject);
     if(discount > possibleDiscount) {
       discount = possibleDiscount;
@@ -27,7 +39,7 @@ var Pricer = {
   },
   calculatePossibleDiscount: function(lessonPeriods, allWeeks, baseLessonLength) {
     // utility to calculate possible discount from the number of lesson periods
-    var allDiscounts = this.getPossibleDiscounts(lessonPeriods, allWeeks, baseLessonLength);
+    var allDiscounts = Pricer.getPossibleDiscounts(lessonPeriods, allWeeks, baseLessonLength);
 
     var total = allDiscounts.multipleStudentDiscount 
               + allDiscounts.manyLessonsDiscount 
@@ -72,7 +84,7 @@ var Pricer = {
     return possibleDiscounts;
 
   },
-  calculateCurrentDiscounts: function(lessonPeriods, allWeeks, baseLessonLength) {
+  getCurrentDiscounts: function(lessonPeriods, allWeeks, baseLessonLength) {
     var discounts = {
       rate: 0,
       quantity: 0,

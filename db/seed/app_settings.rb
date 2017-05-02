@@ -8,6 +8,7 @@ module AppSettingSeeds
 		{key: "adminPhone", name: "Admin Phone", value: "864-363-8526", description: ""},
 		{key: "lessonMinimum", name: "Lesson Minimum", value: "7", description: ""},
 		{key: "submissionDeadline", name: "Submission Deadline", value: "June 1, 2017 00:00:00", description: ""},
+		{key: "displayedSubmissionDeadline", name: "Displayed Submission Deadline", value: "May 20, 2017 00:00:00", description: ""},
 	]
 
 	settings.each do |setting|

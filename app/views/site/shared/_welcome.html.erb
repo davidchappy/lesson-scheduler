@@ -1,15 +1,16 @@
 <% email = @app_settings["adminEmail"].value %>
 <% phone = @app_settings["adminPhone"].value %>
+<% deadline = parse_js_date_string(@app_settings["displayedSubmissionDeadline"].value)%>
 <div class="modal fade" id="welcomeMessage" tabindex="-1" role="dialog" aria-labelledby="welcomeTitle">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="welcomeTitle">Welcome to our DMS online scheduling app! (Submission deadline—May  31st)</h4>
+        <h4 class="modal-title" id="welcomeTitle">Welcome to our DMS online scheduling app! (Submission deadline—<%= month_day_ordinal(deadline) %>)</h4>
       </div>
       <div class="modal-body">
         <p>To encourage students’ continued progress over the summer months, we offer discounts for multiple students and higher numbers of lessons (each student is asked to take at least 7 lessons over summer to reserve a lesson spot for the fall).</p> 
-        <p>This scheduling tool is optional—if students choose NOT to submit a schedule by May 31st (the deadline) they will remain on the the regular payment schedule for summer with the option to make up lessons as needed.<p>
+        <p>This scheduling tool is optional—if students choose NOT to submit a schedule by <%= month_day_ordinal(deadline) %> (the deadline) they will remain on the the regular payment schedule for summer with the option to make up lessons as needed.<p>
         <p>If there are any questions about these discounts or the schedule, please contact us below and we would be glad to help!</p>
         <p>Email: <a href="mailto:<%= email %>"><%= email %></a><br>
           Phone: <a class="phone-number" href="tel:<%= phone %>"><%= phone %></a></p>

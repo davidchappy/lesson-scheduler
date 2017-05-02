@@ -3,13 +3,23 @@ module ApplicationHelper
     return self.first_name + " " + self.last_name
   end
 
+  def parse_js_date_string(date_string)
+    parts = date_string.split(" ")
+    month         = parts[0]
+    day           = parts[1][0..-2]
+    year          = parts[2]
+    return Date.parse(year + " " + month + " " + day)
+  end
+
+  def month_day_ordinal(date)
+    day = ActiveSupport::Inflector.ordinalize(date.day)
+    return date.strftime("%b #{day}")
+  end
+
   def stringify_week(week, divider=' - ')
-    start = ActiveSupport::Inflector.ordinalize(week.start_date.day)
-    finish = ActiveSupport::Inflector.ordinalize(week.end_date.day)
-    wk_string = week.start_date.strftime("%b #{start}")
-    wk_string += divider
-    wk_string += week.end_date.strftime("%b #{finish}")
-    return wk_string
+    start = month_day_ordinal(week.start_date)
+    finish = month_day_ordinal(week.end_date)
+    return start + divider + finish
   end
 
   def de_stringify_week(week_string, week={}, divider=' - ')

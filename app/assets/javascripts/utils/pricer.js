@@ -26,34 +26,51 @@ var Pricer = {
     return { discount: discount, totalOwed: totalOwed, possibleDiscount: possibleDiscount}
   },
   calculatePossibleDiscount: function(lessonPeriods, allWeeks, baseLessonLength) {
-  // utility to calculate possible discount from the number of lesson periods
+    // utility to calculate possible discount from the number of lesson periods
+    var allDiscounts = this.getPossibleDiscounts(lessonPeriods, allWeeks, baseLessonLength);
+
+    var total = allDiscounts.multipleStudentDiscount 
+              + allDiscounts.manyLessonsDiscount 
+              + allDiscounts.multipleStudentBonus;
+
+    return total;
+
+  },
+  getPossibleDiscounts: function(lessonPeriods, allWeeks, baseLessonLength) {
+    var possibleDiscounts = {
+      manyLessonsDiscount: 0,
+      multipleStudentDiscount: 0,
+      multipleStudentBonus: 0
+    };
     var lessonPeriodCount = lessonPeriods.length;
 
-    // possible lessons discount
-    var possibleDiscount = (3000 * lessonPeriodCount);
+    // possible many lessons discount
+    possibleDiscounts.manyLessonsDiscount = (3000 * lessonPeriodCount);
 
     // possible bonus quantity discount
     if(lessonPeriodCount > 0) {
       for(var i=0; i<lessonPeriods.length; i++) {
         if(i > 0 && lessonPeriods[i].lesson_count > 9) {
-          possibleDiscount += 500;
+          possibleDiscounts.multipleStudentBonus += 500;
         }
       }
     }
 
-    // possible rate discount
+    // possible multiple student rate discount
     for(var i=0; i<lessonPeriods.length; i++) {
       var lessonPeriod = lessonPeriods[i];
       var weeks = allWeeks[lessonPeriod.id];
       var adjustedLessonCount = (13 * lessonPeriod.default_lesson_length) / baseLessonLength;
       if(i === 1) { 
-        possibleDiscount += 200 * adjustedLessonCount; 
+        possibleDiscounts.multipleStudentDiscount += (200 * adjustedLessonCount); 
       } 
       if(i >= 2) { 
-        possibleDiscount += 400 * adjustedLessonCount; 
+        possibleDiscounts.multipleStudentDiscount += (400 * adjustedLessonCount); 
       } 
     }
-    return possibleDiscount;
+
+    return possibleDiscounts;
+
   },
   calculateCurrentDiscounts: function(lessonPeriods, allWeeks, baseLessonLength) {
     var discounts = {

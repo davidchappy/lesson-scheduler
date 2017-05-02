@@ -23,10 +23,9 @@ var Dashboard = React.createClass({
               <span className="header-small">Current Discount:</span> 
               <span className="header-large">{this.props.totalDiscount}</span>
             </a>
-            <ReactTooltip id='ttDiscountDetails' type='dark' effect='solid' place='bottom'>
-              <DiscountDetails  currentDiscounts={this.props.currentDiscounts} 
-                                lessonPeriods={this.props.lessonPeriods}
-                                lessonCount={this.props.lessonCount} />
+            <ReactTooltip id='ttDiscountDetails' type='dark' effect='solid'  
+                          place='bottom' className="tt-discount-details">
+              <DiscountDetails  {...this.props} />
             </ReactTooltip>           
           </li>   
           <li role="separator" className="divider"></li>

@@ -63,11 +63,10 @@ var Header = React.createClass({
             this.props.hasSubmitted && new Date() > new Date(this.props.appSettings["submissionDeadline"].value)
             ? <div id="navbar" className="navbar-collapse collapse"></div> 
             : <Dashboard  {...this.state} 
-                          appSettings={this.props.appSettings}
+                          {...this.props}
                           lessonCount={lessonCount}
                           total={this.state.totalOwed}
                           payment={payment}
-                          lessonPeriods={this.props.lessonPeriods}
                           totalDiscount={totalDiscount}
                           possibleDiscount={possibleDiscount}
                           maxDiscountClass={maxDiscountClass}  

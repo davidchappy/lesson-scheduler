@@ -407,65 +407,119 @@ body {
     position: relative;
     
     .select-week {
-      overflow: hidden;
-      position: absolute;
-      top: 50%;
-      right: 30px;
-      margin-top: -15px;
-      margin-bottom: 0;
-      height: 30px;
-      width: 30px;
-      line-height: 30px;
-      border-radius: 50%;
-      box-sizing: border-box;
-      box-shadow: none;
-      text-shadow: none;
-      text-align: center;
-      color: #fff;
-      border: 1px solid #ccc;
-      background: #fff;
-      cursor: pointer;
-      
-      &:focus {
-        outline: 0;
-      }
+      display: none;
 
-      &:hover {
-        border: none;
-        background: #eee;
-        // background: transparentize($green, 0.50);
-        // &::before {
-        //   content: "\e013";
-        // }
-      }
-      
-      &.selected {
-        border: none;
-        background: $green;
-        
-        &:hover {
-          background: #fff;
-          line-height: 28px;
-          // border: 1px solid $red;
-          // color: $red;
+      & + label {
+        display: inline-block;
+        position: relative;
+        top: 2px;
+        right: 30px;
+        overflow: hidden;
+        box-sizing: border-box;
+        margin-top: -17px;
+        margin-bottom: 0;
+        padding: 15px;
+        line-height: 30px;
+        box-shadow: none;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        background: #fff;
+        text-shadow: none;
+        text-align: center;
+        color: #fff;
+        cursor: pointer;
+        transition: 0.2s;
           
-          // &::before {
-          //   content: "\e014";
-          // }
-          background: transparentize($green, 0.50);
+        &:active {
+          box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        &:hover {
+          color: transparentize($green, 0.25);
+          border: 1px solid transparentize($green, 0.25);
+          -ms-transform: scale(1.1, 1.1); 
+          -webkit-transform: scale(1.1, 1.1); 
+          transform: scale(1.1, 1.1);
           &::before {
             content: "\e013";
+            position: absolute;
+            top: 0px;
+            left: 50%;
+            margin-left: -0.5em;
           }
         }
+
+        &.selected {
+          border: 1px solid $green;
+          background: $green;
         
-        &::before {
-          content: "\e013";
+          &::before {
+            content: "\e013";
+            position: absolute;
+            top: 0px;
+            left: 50%;
+            margin-left: -0.5em;
+          }
+
+          &:hover {
+            background: transparentize($green, 0.50);
+            color: #fff;
+            &::before {
+              content: "\e013";
+              position: absolute;
+              top: 0px;
+              left: 50%;
+              margin-left: -0.5em;
+            }
+          }
+
+          &.disabled::before {
+            border-radius: 50%;
+            border: none;
+            background: $green;
+            content: "\e033";
+            position: absolute;
+            top: 0;
+            left: 0.5em;
+            width: 100%;
+            height: 100%;
+            
+            &:hover {
+              background: transparentize($green, 0.50);
+              color: #fff;
+            }
+          }
+
         }
 
-        &:disabled::before {
-          content: "\e033";
-        }
       }
+
+     
+
+
+
+      
+      // &.selected {
+      //   border: none;
+      //   background: $green;
+        
+      //   &:hover {
+      //     background: #fff;
+      //     line-height: 28px;
+      //     background: transparentize($green, 0.50);
+      //     &::before {
+      //       content: "\e013";
+      //     }
+      //   }
+        
+      //   &::before {
+      //     content: "\e013";
+      //   }
+
+      //   &:disabled::before {
+      //     content: "\e033";
+      //   }
+      // }
     }
 
     .lesson-length {

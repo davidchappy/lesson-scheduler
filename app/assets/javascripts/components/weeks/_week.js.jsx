@@ -14,7 +14,9 @@ var Week = React.createClass({
   render() {
     var week = this.props.week; 
     var weekNumber = "week" + week.id;
-    var selected = this.props.week.lesson ? "selected" : "";
+    var selected = this.props.week.lesson ? " selected" : "";
+    var disabled = this.props.disabledSelect ? " disabled" : "";
+    var inputDisabled = this.props.disabledSelect ? true : false;
 
     var lessonLengthsArray = this.props.appSettings.lessonLengthOptions.value.split(",");
     var lessonLengths = lessonLengthsArray.map((length, index) => {
@@ -55,11 +57,11 @@ var Week = React.createClass({
           <span>{week.week_string}</span>
           <div className={"checkbox"}>
             <input  ref='week' id={weekNumber} type="checkbox" 
-                    className={"form-control select-week glyphicon " + selected} 
-                    onClick={this.handleCheckWeek}
-                    disabled={this.props.disabledSelect} ></input>
-            {lessonLength()}
+                    className={"form-control select-week" } 
+                    onClick={this.handleCheckWeek} disabled={inputDisabled}></input>
+                    <label htmlFor={weekNumber} className={"glyphicon" + selected + disabled}></label>
           </div>
+          {lessonLength()}
           {
             this.props.unavailable && !this.props.disabledSelect
 

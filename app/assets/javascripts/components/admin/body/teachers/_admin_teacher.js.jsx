@@ -8,7 +8,7 @@ var AdminTeacher = React.createClass({
 
   handleDelete(e) {
     e.preventDefault();
-    this.props.handleDeleteTeacher(this.props.teacher.id);
+    this.props.deleteTeacher(this.props.teacher.id);
   },
 
   toggleEdit(e) {
@@ -55,8 +55,8 @@ var AdminTeacher = React.createClass({
   },
 
   handleRemoveUnavailableFromTeacher(e) {
-    var index = e.target.getAttribute('data-id');
-    this.props.removeUnavailableFromTeacher(index, this.props.teacher);
+    var id = e.target.getAttribute('data-id');
+    this.props.removeUnavailableFromTeacher(id, this.props.teacher);
   },
 
   render() {

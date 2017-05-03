@@ -95,6 +95,41 @@ body {
   .navbar-nav {
     font-size: 0.9em;
     
+    @media screen and (max-width: $small) {
+      & > li.divider {
+        display: none;
+      }
+
+      // & > li.total-lessons,
+      // & > li.possible-discount,
+      // & > li.current-discount {
+      //   border-right: none;
+      // }
+
+      & > li {
+        display: inline-block;
+      }
+    }
+    
+    @media screen and (min-width: $small) and (max-width: $medium) {
+      & > li,
+      & > li.current-discount,
+      & > li.possible-discount,
+      & > li.total-owed {
+        max-width: 120px;
+        margin-right: 0;
+        
+        .header-small {
+          margin-right: -1rem;
+        }
+      }
+
+      & > li > a {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+    
     @media screen and (min-width: $medium) {
       font-size: 1em;
     }
@@ -117,11 +152,27 @@ body {
       .header-small {
         margin-right: 5px;
         font-size: 0.9em;
+        
+        @media screen and (min-width: $small) and (max-width: $medium) {
+          margin-right: 2px;
+          font-size: 0.8em;
+        }
       }
 
       .header-large {
         font-weight: bold;
       }
+
+      // @media screen and (min-width: $small) and (max-width: $medium) {
+      //   .header-small {
+      //     margin-right: 2px;
+      //     font-size: 0.8em;
+      //   }
+
+      //   .header-large {
+      //     font-weight: bold;
+      //   }
+      // }
     }
 
     .current-discount,

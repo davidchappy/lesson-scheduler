@@ -12,8 +12,8 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
-config.secret_key = '86378f2e958e60d0e3ce005b366a6565a4d1565bf63766a3fa00fedb2358c07492a1e2360286dce46d6a5b95d536f5a1e2b83fabd7c310ef03aab421887291ee'
+  config.mailer_sender = 'nja@dmusicstudios.com'
+  config.secret_key = '86378f2e958e60d0e3ce005b366a6565a4d1565bf63766a3fa00fedb2358c07492a1e2360286dce46d6a5b95d536f5a1e2b83fabd7c310ef03aab421887291ee'
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 
@@ -195,7 +195,7 @@ config.secret_key = '86378f2e958e60d0e3ce005b366a6565a4d1565bf63766a3fa00fedb235
   # ==> Configuration for :recoverable
   #
   # Defines which key will be used when recovering the password for an account
-  # config.reset_password_keys = [:email]
+  config.reset_password_keys = [:email]
 
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
@@ -204,7 +204,7 @@ config.secret_key = '86378f2e958e60d0e3ce005b366a6565a4d1565bf63766a3fa00fedb235
 
   # When set to false, does not sign a user in automatically after their password is
   # reset. Defaults to true, so a user is signed in automatically after a reset.
-  # config.sign_in_after_reset_password = true
+  config.sign_in_after_reset_password = true
 
   # ==> Configuration for :encryptable
   # Allow you to use another hashing or encryption algorithm besides bcrypt (default).

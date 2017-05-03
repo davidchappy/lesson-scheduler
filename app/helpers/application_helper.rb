@@ -5,9 +5,9 @@ module ApplicationHelper
 
   def get_payments_from_total_string(total_string)
     total = ((total_string[1..-1].to_i * 100).to_f / 3) / 100
-    payment_one = total.ceil(2) 
-    payment_two = total.round(2) 
-    payment_three = total.round(2)
+    payment_one = total.ceil_to(2) 
+    payment_two = total.round_to(2) 
+    payment_three = total.round_to(2)
     return [payment_one, payment_two, payment_three]
   end
 

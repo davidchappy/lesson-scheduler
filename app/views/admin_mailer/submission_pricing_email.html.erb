@@ -42,12 +42,12 @@
 <h3 class="total-owed">Total owed: <span><%= @form.total_cost %></span></h3>
 <br>
 <h3 class="total-owed">Payment Plan:</h3>
-<% payment = @form.total_cost[1..-1].to_i / 3 %>
+<% payments = get_payments_from_total_string(@form.total_cost) %>
 <ul>
   <br>
-  <li>June 1: <span><%= "$#{payment}" %></span></li>
-  <li>July 1: <span><%= "$#{payment}" %></span></li>
-  <li>August 1: <span><%= "$#{payment}" %></span></li>
+  <li>June 1: <span><%= "$#{payments[0]}" %></span></li>
+  <li>July 1: <span><%= "$#{payments[1]}" %></span></li>
+  <li>August 1: <span><%= "$#{payments[2]}" %></span></li>
 </ul>
 
 

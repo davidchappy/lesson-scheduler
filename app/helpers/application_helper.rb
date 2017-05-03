@@ -3,6 +3,14 @@ module ApplicationHelper
     return self.first_name + " " + self.last_name
   end
 
+  def get_payments_from_total_string(total_string)
+    total = ((total_string[1..-1].to_i * 100).to_f / 3) / 100
+    payment_one = total.ceil(2) 
+    payment_two = total.round(2) 
+    payment_three = total.round(2)
+    return [payment_one, payment_two, payment_three]
+  end
+
   def parse_js_date_string(date_string)
     parts = date_string.split(" ")
     month         = parts[0]

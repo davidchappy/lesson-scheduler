@@ -23,7 +23,7 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
   def create
     family =  Family.find(params[:family_id]) ||
               Family.find(current_user.id)
-    student = Student.where(name: params[:name]).take || 
+    student = family.students.where(name: params[:name]).take || 
               family.students.create(name: params[:name])
     new_lesson_period = student.lesson_periods.build(lesson_periods_params)
     
@@ -44,7 +44,7 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
     family =  lesson_period.student.family
 
     # find or create (if renamed) the student for this lesson period 
-    student = Student.where(name: params[:name]).take || 
+    student = family.students.where(name: params[:name]).take || 
               family.students.create(name: params[:name])
 
     # then update the lesson_period with the params

@@ -1,7 +1,7 @@
 class Student < ApplicationRecord
   include ApplicationHelper
 
-  validates   :name, uniqueness: true
+  validates   :name, uniqueness: {scope: :family_id, message: "You already have a student by that name."}
 
   belongs_to  :family
   has_many    :lesson_periods, dependent: :destroy

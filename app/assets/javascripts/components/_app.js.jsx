@@ -65,6 +65,7 @@ var App = React.createClass({
     // Ensure the form record has the current total cost
     var id = this.state.form.id;
     var total = Pricer.monetize(this.state.pricingData.currentPricing.totalOwed);
+    // Reload to Thankyou view.
     this.setState({ isConfirming: false, isThanking: true });
 
     $.ajax({

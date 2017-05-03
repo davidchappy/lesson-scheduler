@@ -64,7 +64,7 @@ Rails.application.configure do
     :address              => "smtp.gmail.com",
     :user_name            => ENV['GMAIL_USERNAME'],
     :password             => ENV['GMAIL_PASSWORD'],
-    :domain               => "summer.dmusicstudios.com"
+    :domain               => "summer.dmusicstudios.com",
     # :address              => "smtp.mailgun.org",
     # :domain               => ENV['domain'],
     # :user_name            => ENV['username'],

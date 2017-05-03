@@ -11,6 +11,7 @@ gem 'responders'
 gem 'react-rails'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'figaro'
+gem 'mailgun-ruby', '~>1.1.4'
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'rspec-json_expectations'

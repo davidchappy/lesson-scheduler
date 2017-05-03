@@ -8,7 +8,7 @@ class Api::V1::AppController < Api::V1::BaseController
     else
       @family = Family.find(current_user.id)      
     end
-    @instruments = Instrument.all.order(:created_at)
+    @instruments = JSON.parse(Instrument.all.order(:created_at).to_json(include: :teachers))
     @teachers = JSON.parse(Teacher.all.order(:created_at).to_json(include: [:instruments, :unavailable_weeks]))
     @students = @family.students
     @form = @family.find_or_create_current_form 

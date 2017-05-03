@@ -76,13 +76,13 @@ var FormFields = React.createClass({
       )
     });
 
-    var teachers = this.props.teachers.map((teacher) => {
-      if(this.state.instrument && teacher.id === this.state.instrument.id) { 
+    if(this.state.instrument) {
+      var teachers = this.state.instrument.teachers.map((teacher) => {
         return (
           <option value={teacher.id} key={teacher.id} className="instrument">{teacher.first_name} {teacher.last_name}</option>
         )
-      }
-    });
+      });
+    }
 
     var lessonLengthsArray = this.props.appSettings.lessonLengthOptions.value.split(",");
     var lessonLengths = lessonLengthsArray.map((length, index) => {
@@ -112,19 +112,19 @@ var FormFields = React.createClass({
         </datalist>
         <select ref="selectTeacher" className="form-control selectTeacher" id="selectTeacher"
           onChange={this.handleTeacherSelect}   
-          disabled={ teacherEnabled } required defaultValue={teacherId}>
+          disabled={teacherEnabled} required defaultValue={teacherId}>
             <option value='' className="placeholder">TEACHER</option>
             {teachers}
         </select>
         <select ref="selectInstrument" className="form-control selectInstrument" id="selectInstrument" 
           onChange={this.handleInstrumentSelect}  
-          disabled={ instrumentEnabled } required defaultValue={instrumentId}>
+          disabled={instrumentEnabled} required defaultValue={instrumentId}>
             <option value='' className="placeholder">INSTRUMENT</option>
             {instruments}
         </select>
         <div className={"default-lesson-length " + lessonLengthsClass} >{defaultLessonLength()}&nbsp;Lessons</div>
         <button className="btn btn-primary submit-new-lesson-period" id="submit-new-lesson-period"
-        disabled={ submitEnabled } onClick={this.handleSubmitLessonPeriodForm}>{this.props.buttonText}</button>
+        disabled={submitEnabled} onClick={this.handleSubmitLessonPeriodForm}>{this.props.buttonText}</button>
         <button className="btn btn-danger cancel-new-lesson-period" 
         id="cancel-new-lesson-period" onClick={this.props.handleCancel}>Cancel</button>            
       </form>

@@ -5,15 +5,6 @@ var Header = React.createClass({
       return (<Loading message="Header"/>)
     }
 
-    var family            = this.props.family;
-    var lessonCount       = Helper.getTotalLessonCount(this.props.lessonPeriods);
-    var pricingData       = this.props.pricingData;
-    var total             = Pricer.monetize(pricingData.currentPricing.totalOwed);
-    var payment           = Pricer.monetize(pricingData.currentPricing.payment);
-    var totalDiscount     = Pricer.monetize(pricingData.currentPricing.discount);
-    var possibleDiscount  = Pricer.monetize(pricingData.currentPricing.possibleDiscount);
-    var maxDiscountClass  = totalDiscount == possibleDiscount ? "max-discount" : "";
-
     return (
       <div className="navbar navbar-inverse navbar-fixed-top header">
         <div className="container">
@@ -24,7 +15,7 @@ var Header = React.createClass({
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="navbar-brand" href="#">The {family.last_name} Family</a>
+            <a className="navbar-brand" href="#">The {this.props.family.last_name} Family</a>
             { this.props.admin 
                 ? <ReturnToAdmin /> 
                 : this.props.hasSubmitted ? null :
@@ -36,13 +27,7 @@ var Header = React.createClass({
           {
             this.props.form.submitted && new Date() > new Date(this.props.appSettings["submissionDeadline"].value)
             ? <div id="navbar" className="navbar-collapse collapse"></div> 
-            : <Dashboard  {...this.props}
-                          lessonCount={lessonCount}
-                          total={total}
-                          payment={payment}
-                          totalDiscount={totalDiscount}
-                          possibleDiscount={possibleDiscount}
-                          maxDiscountClass={maxDiscountClass} />
+            : <Dashboard  {...this.props} />
           }
         </div>
       </div>

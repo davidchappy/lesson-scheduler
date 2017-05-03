@@ -1,15 +1,22 @@
 var Pricer = {
   getPricingData: function(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate) {
-    var currentPricing = this.getPricing(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate);
+    var currentPricing    = this.getPricing(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate);
     var possibleDiscounts = this.getPossibleDiscounts(lessonPeriods, allWeeks, baseLessonLength);
-    var currentDiscounts = this.getCurrentDiscounts(lessonPeriods, allWeeks, baseLessonLength);
-    currentPricing.payment = currentPricing.totalOwed / 3;
+    var currentDiscounts  = this.getCurrentDiscounts(lessonPeriods, allWeeks, baseLessonLength);
+    var payments          = this.getPayments(currentPricing.totalOwed);
 
     return {
       currentPricing: currentPricing,
       possibleDiscounts: possibleDiscounts,
-      currentDiscounts: currentDiscounts
+      currentDiscounts: currentDiscounts,
+      payments: payments
     }
+  },
+  getPayments: function(totalOwed) {
+    var paymentOne = Math.ceil((totalOwed / 3).toFixed(2));
+    var paymentTwo = Math.round((totalOwed / 3).toFixed(2));
+    var paymentThree = Math.round((totalOwed / 3).toFixed(2));
+    return [paymentOne, paymentTwo, paymentThree];
   },
   getPricing: function(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate) {
   // calculate form cost and discounts from lesson and lesson period counts

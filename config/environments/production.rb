@@ -62,13 +62,14 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     :port                 => 587,
     :address              => "smtp.gmail.com",
-    :user_name            => ENV['gmail_username'],
-    :password             => ENV['gmail_password'],
+    :user_name            => ENV['GMAIL_USERNAME'],
+    :password             => ENV['GMAIL_PASSWORD'],
+    :domain               => "summer.dmusicstudios.com"
     # :address              => "smtp.mailgun.org",
     # :domain               => ENV['domain'],
     # :user_name            => ENV['username'],
     # :password             => ENV['password'],
-    :authentication       => "plain",
+    :authentication       => :plain,
     :enable_starttls_auto => true,
     :openssl_verify_mode  => 'none'
   }

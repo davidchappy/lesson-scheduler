@@ -110,7 +110,6 @@ var FormFields = React.createClass({
         <datalist ref="selectStudent" className="form-control selectStudent" id="selectStudent">
             {students}
         </datalist>
-      
         <select ref="selectTeacher" className="form-control selectTeacher" id="selectTeacher"
           onChange={this.handleTeacherSelect}   
           disabled={ teacherEnabled } required defaultValue={teacherId}>

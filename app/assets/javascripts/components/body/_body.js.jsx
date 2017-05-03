@@ -35,12 +35,19 @@ var Body = React.createClass({
       }
     }
 
+    var infoScreen = null;
+    if(this.props.isConfirming) {
+      infoScreen = <Confirmation {...this.props} />
+    } else if (this.props.isThanking) {
+      infoScreen = <ThankYou {...this.props} />
+    }
+
     return (
       <div className="wrapper">
-        <div className="body container">      
+        <div className="body container">    
           {
-            this.props.isConfirming 
-              ? <Confirmation {...this.props} /> 
+            infoScreen != null 
+              ? infoScreen 
               : <div>
                   <div className="lesson-periods row">
                     {lessonPeriods}
@@ -62,8 +69,7 @@ var Body = React.createClass({
                             <LessonPeriodTutorial />
                           </ReactTooltip> 
                         : null
-                    }
-                    
+                    }       
                   </div>
                   <div className="submit-form row">
                     <div className="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
@@ -71,7 +77,7 @@ var Body = React.createClass({
                               onClick={this.props.toggleConfirming}>Submit Form</button>
                     </div>
                   </div>
-                </div>
+                </div> 
           } 
         </div>
       </div>

@@ -29,10 +29,6 @@ class Api::V1::LessonPeriodsController < Api::V1::BaseController
     
     if new_lesson_period.save
       flash[:success] = "Lesson period created"
-      # response = {  lesson_period: new_lesson_period, 
-      #               student: student, weeks: new_lesson_period.weeks,
-      #               messages: flash_messages }
-      # respond_with response, json: response
       render nothing: true, status: 200 
     else
       message = new_lesson_period.errors.full_messages.first

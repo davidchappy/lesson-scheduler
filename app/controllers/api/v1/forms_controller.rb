@@ -18,12 +18,14 @@ class Api::V1::FormsController < Api::V1::BaseController
       @form.student_count = @form.lesson_periods.length
       @form.total_cost = form_params[:total_cost]
       if @form.save
-        AdminMailer.submission_pricing_email(@form).deliver_now
-        AdminMailer.submission_scheduling_email(@form).deliver_now
+        p "Emails sent"
+        # AdminMailer.submission_pricing_email(@form).deliver_now
+        # AdminMailer.submission_scheduling_email(@form).deliver_now
         flash[:success] = "Your form has been submitted"
-        redirect_to root_url
+        head :ok
       else
         flash[:error] = "There was a problem submitting your form. Please try again later."
+        redirect_to root_url
       end
     # else
       # admin

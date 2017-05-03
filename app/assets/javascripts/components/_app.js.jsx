@@ -6,7 +6,7 @@ var App = React.createClass({
               family: undefined, form: undefined, students: undefined, 
               lessonPeriods: undefined, allWeeks: undefined, isCreating: false, 
               isConfirming: false, isSubmittable: false, appSettings: undefined,
-              pricingData: undefined }
+              pricingData: undefined, isThanking: false }
   },
 
   componentDidMount() {
@@ -60,10 +60,12 @@ var App = React.createClass({
 
 
   // *** ACTIONS ***
-  submitForm() {
+  submitForm(e) {
+    e.preventDefault();
     // Ensure the form record has the current total cost
     var id = this.state.form.id;
     var total = Pricer.monetize(this.state.pricingData.currentPricing.totalOwed);
+    this.setState({ isConfirming: false, isThanking: true });
 
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 

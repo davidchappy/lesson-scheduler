@@ -1,8 +1,8 @@
 var AdminPortal = React.createClass({
-	getInitialState() {
+	
+  getInitialState() {
 		return {
 			appSettings: undefined,
-			updatedSettings: undefined,
       families: undefined,
       students: undefined,
       instruments: undefined,
@@ -12,20 +12,24 @@ var AdminPortal = React.createClass({
 	},
 
 	componentDidMount() {
-		$.ajax({
+		this.fetchAdminData();
+	},
+
+  fetchAdminData() {
+    $.ajax({
       url: '/api/v1/admin_portal.json', 
       type: 'GET',
       success: (response) => {
         console.log("Admin Portal data: ", response);
-      	var settings = response.app_settings;
-      	var updatedSettings = Helper.clone(settings);
-        this.setState({ appSettings: settings, updatedSettings: updatedSettings,
-                        families: response.families, students: response.students,
-                        instruments: response.instruments, teachers: response.teachers,
-                        summer_weeks: response.summer_weeks });
+        var appSettings = response.app_settings;
+        var settingProfiles = response.setting_profiles;
+        this.setState({ appSettings: appSettings, families: response.families, 
+                        students: response.students, instruments: response.instruments, 
+                        teachers: response.teachers, summer_weeks: response.summer_weeks,
+                        customSettingProfiles: settingProfiles });
       }
     });
-	},
+  },
 
 	saveAppSetting(settingName, value) {
     var settings = this.state.appSettings;
@@ -118,16 +122,6 @@ var AdminPortal = React.createClass({
     });
   },
 
-  deleteTeacher(teacherId) {
-    $.ajax({  
-      url: `/api/v1/teachers/${teacherId}.json`, 
-      type: 'DELETE',
-      success: (teachers) => {
-        this.setState({ teachers: teachers })
-      }
-    });
-  },
-
   addInstrumentToTeacher(instrumentId, teacher) {
     var teacherData = Helper.clone(teacher);
     teacherData.instrumentId = instrumentId;
@@ -152,13 +146,116 @@ var AdminPortal = React.createClass({
     this.updateTeacher(teacherData);
   },
 
+  deleteTeacher(teacherId) {
+    $.ajax({  
+      url: `/api/v1/teachers/${teacherId}.json`, 
+      type: 'DELETE',
+      success: (teachers) => {
+        this.setState({ teachers: teachers })
+      }
+    });
+  },
+
+  createCustomProfile(name, code, expiration) {
+    $.ajax({  
+      url: `/api/v1/setting_profiles`, 
+      type: 'POST',
+      data: { setting_profile: 
+              {
+                name: name,
+                code: code,
+                expiration: expiration,
+              }
+            },
+      success: (profile) => {
+        this.fetchAdminData();
+      }
+    });
+  },
+
+  updateCustomProfile(profile) {
+    console.log("Settings Profile data: ", profile);
+    $.ajax({
+      url: `/api/v1/setting_profiles/${profile.id}.json`, 
+      type: 'PUT',
+      data: { setting_profile: 
+              { 
+                code: profile.code, 
+                expiration: profile.expiration} 
+              },
+      success: (response) => {
+        this.fetchAdminData();
+      }
+    });
+  },
+
+  saveProfileCode(profile, code) {
+    var updatedProfile = Helper.clone(profile);
+    updatedProfile.code = code;
+    this.updateCustomProfile(updatedProfile);
+  },
+
+  saveProfileExpiration(profile, expiration) {
+    var updatedProfile = Helper.clone(profile);
+    updatedProfile.expiration = expiration;
+    this.updateCustomProfile(updatedProfile);
+  },
+
+  deleteCustomProfile(profile) {
+    $.ajax({  
+      url: `/api/v1/setting_profiles/${profile.id}.json`, 
+      type: 'DELETE',
+      success: (response) => {
+        this.fetchAdminData();
+      }
+    });
+  },
+
+  addSettingToProfile(settingId, profile) {
+    console.log("Add setting with id: ", settingId);
+    console.log("Add setting to profile: ", profile);
+    $.ajax({
+      url: `/api/v1/custom_settings.json`, 
+      type: 'POST',
+      data: { custom_setting: 
+              { 
+                setting_id: settingId, 
+                profile_id: profile.id} 
+              },
+      success: (response) => {
+        this.fetchAdminData();
+      }
+    });
+  },
+
+  removeSettingFromProfile(customSettingId) {
+    $.ajax({
+      url: `/api/v1/custom_settings/${customSettingId}.json`, 
+      type: 'DELETE',
+      success: (response) => {
+        this.fetchAdminData();
+      }
+    });
+  },
+
+  editCustomSetting(customSettingId, value) {
+    $.ajax({
+      url: `/api/v1/custom_settings/${customSettingId}.json`, 
+      type: 'PUT',
+      data: { custom_setting: 
+              { 
+                value: value, 
+              }
+            },
+      success: (response) => {
+        this.fetchAdminData();
+      }
+    });
+  },
+
 	render() {
 		if ( !this.state.appSettings || !this.state.families) {
-      return (
-        <div>
-          <p>Loading</p>
-        </div>
-      )
+      return ( <Loading message="Admin Portal.." /> )
     }
 
 		return (
@@ -175,23 +272,16 @@ var AdminPortal = React.createClass({
                     addInstrumentToTeacher={this.addInstrumentToTeacher}
                     removeInstrumentFromTeacher={this.removeInstrumentFromTeacher}
                     addUnavailableToTeacher={this.addUnavailableToTeacher}
-                    removeUnavailableFromTeacher={this.removeUnavailableFromTeacher} />
+                    removeUnavailableFromTeacher={this.removeUnavailableFromTeacher}
+                    createCustomProfile={this.createCustomProfile}
+                    saveProfileCode={this.saveProfileCode}
+                    saveProfileExpiration={this.saveProfileExpiration}
+                    deleteCustomProfile={this.deleteCustomProfile}
+                    addSettingToProfile={this.addSettingToProfile}
+                    removeSettingFromProfile={this.removeSettingFromProfile}
+                    editCustomSetting={this.editCustomSetting} />
 			</div>
 		)
-		// Admin header
-			// Name of admin?
-			// Navigation (tabs): Settings, Content, Families, Dashboard, Teachers, Instruments, Account? 
-		// Admin body
-			// AdminSettings 
-			// AdminContent
-			// AdminFamilies
-			// AdminTeachers
-			// AdminInstruments
-			// Admin Dashboard?
-				// Total number of family accounts
-				// Total number of forms submitted
-				// Total number of students taking lessons
-				// Total dollar amount from forms submitted
 	}
 
 });

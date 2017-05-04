@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502140036) do
+ActiveRecord::Schema.define(version: 20170504124443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,17 @@ ActiveRecord::Schema.define(version: 20170502140036) do
     t.datetime "updated_at",  null: false
     t.string   "description"
     t.string   "key"
+  end
+
+  create_table "custom_settings", force: :cascade do |t|
+    t.string   "key"
+    t.string   "name"
+    t.string   "value"
+    t.string   "description"
+    t.integer  "setting_profile_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.index ["setting_profile_id"], name: "index_custom_settings_on_setting_profile_id", using: :btree
   end
 
   create_table "forms", force: :cascade do |t|
@@ -67,6 +78,21 @@ ActiveRecord::Schema.define(version: 20170502140036) do
     t.index ["instrument_id"], name: "index_lesson_periods_on_instrument_id", using: :btree
     t.index ["student_id"], name: "index_lesson_periods_on_student_id", using: :btree
     t.index ["teacher_id"], name: "index_lesson_periods_on_teacher_id", using: :btree
+  end
+
+  create_table "setting_profiles", force: :cascade do |t|
+    t.string   "code"
+    t.date     "expiration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
+  end
+
+  create_table "setting_profiles_users", force: :cascade do |t|
+    t.integer "family_id"
+    t.integer "setting_profile_id"
+    t.index ["family_id"], name: "index_setting_profiles_users_on_family_id", using: :btree
+    t.index ["setting_profile_id"], name: "index_setting_profiles_users_on_setting_profile_id", using: :btree
   end
 
   create_table "students", force: :cascade do |t|
@@ -124,6 +150,7 @@ ActiveRecord::Schema.define(version: 20170502140036) do
     t.integer  "lesson_length"
   end
 
+  add_foreign_key "custom_settings", "setting_profiles"
   add_foreign_key "lesson_periods", "forms", on_delete: :cascade
   add_foreign_key "unavailable_weeks", "teachers"
 end

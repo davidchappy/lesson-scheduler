@@ -7,6 +7,7 @@ var AdminBody = React.createClass({
         	<div className="tab-content">
           	<AdminSettings 	  {...this.props}	
           										handleSaveSetting={this.props.saveAppSetting} />
+            <SettingProfiles  {...this.props} />
         		<div role="tabpanel" className="tab-pane" id="content">Content</div>
 				    <AdminFamilies    {...this.props} />
 				    <AdminTeachers    {...this.props} />

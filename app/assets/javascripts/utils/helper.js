@@ -1,4 +1,7 @@
 var Helper = {
+  applyCustomSettings: function(appSettings, customSettings) {
+    return appSettings;
+  },
   isUnavailable: function(week, unavailableWeeks) {
     var dates = unavailableWeeks;
     if(dates.length > 0) {

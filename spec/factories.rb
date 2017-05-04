@@ -1,4 +1,15 @@
 FactoryGirl.define do
+  factory :custom_setting do
+    key "MyString"
+    name "MyString"
+    value "MyString"
+    description "MyString"
+    setting_profile nil
+  end
+  factory :setting_profile do
+    code "MyString"
+    expiration "2017-05-03"
+  end
   factory :unavailable_week do
     start_date "2017-04-29"
     end_date "2017-04-29"

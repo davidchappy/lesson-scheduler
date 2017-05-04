@@ -2,6 +2,7 @@ class Family < User
 	has_many :forms, dependent: :destroy
   has_many :students, dependent: :destroy
   has_many :lesson_periods, through: :forms
+  has_and_belongs_to_many :setting_profiles
 
   def student_count
     return self.students.length

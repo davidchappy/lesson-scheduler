@@ -16,9 +16,11 @@ class Api::V1::AdminPortalController < Api::V1::BaseController
 			summer_weeks = AppSetting.create(key: 'summerWeeks', name: "Summer Weeks", value: weeks_array)
 		end
 		app_settings = AppSetting.all.order(:created_at).index_by(&:key)
+		setting_profiles = JSON.parse(SettingProfile.all.order(:created_at).to_json(include: [:custom_settings, :families]))
 		response = {  app_settings: app_settings, instruments: instruments,
                   teachers: teachers, families: families,
-                  students: students, summer_weeks: summer_weeks }
+                  students: students, summer_weeks: summer_weeks,
+                  setting_profiles: setting_profiles }
 		respond_with response, json: response
 	end
 

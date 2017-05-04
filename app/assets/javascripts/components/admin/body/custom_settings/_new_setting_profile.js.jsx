@@ -29,25 +29,25 @@ var NewSettingProfile = React.createClass({
 
   render() {
     return (
-      <form onSubmit={this.handleSubmitProfile}> 
+      <form onSubmit={this.handleSubmitProfile} className="settings-profile-create-setting"> 
         <div className="form-group">
           <input  type="text" className="form-control" 
-                  id="new-profile-name" placeholder="Name"
+                  id="new-profile-name" placeholder="Name (ex: Missionary Discount)"
                   onChange={this.handleUpdateName}></input>
         </div>
         <div className="form-group">
           <input  type="text" className="form-control" 
-                  id="new-profile-code" placeholder="Code"
+                  id="new-profile-code" placeholder="Code (ex: missionariesdms)"
                   onChange={this.handleUpdateCode}></input>
         </div>
         <div className="form-group">
           <input  type="text" className="form-control" 
-                  id="new-profile-expiration" placeholder="Expiration"
+                  id="new-profile-expiration" placeholder="Expiration (ex: 2017-12-31)"
                   onChange={this.handleUpdateExpiration}></input>
         </div>
         <button type="submit" className="btn btn-large btn-primary">Create</button>
         <button type="button" onClick={this.props.toggleCreating}
-                className="btn btn-large btn-secondary setting-profile-cancel">Cancel</button>
+                className="btn btn-large btn-default setting-profile-cancel">Cancel</button>
       </form>
     )
   }

@@ -1145,6 +1145,19 @@ body {
   margin-left: 1rem;
 }
 
+
+// ** Custom Settings Pane ** //
+
+.custom-settings-pane {
+  .settings-profile-create-setting {
+    margin-bottom: 2rem;
+    
+    .btn + .btn {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
 .setting-profiles-create-button.btn {
   display: block;
   margin: 0 auto 2rem;
@@ -1195,6 +1208,7 @@ body {
     margin-bottom: 1rem;
 
     .admin-select {
+      padding-left: 0.5rem;
       width: auto;
     }
   }

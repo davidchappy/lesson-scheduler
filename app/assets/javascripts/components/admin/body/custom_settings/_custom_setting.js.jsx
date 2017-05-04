@@ -39,16 +39,16 @@ var CustomSetting = React.createClass({
           </p>  
           <div>
             <input  type="text" defaultValue={this.props.rawValue} 
-                    className="setting-input col-xs-8" 
+                    className="setting-input col-xs-7" 
                     onChange={this.handleChangeSetting}
                     name={this.props.settingName} id={this.props.settingName}/>
-            <button className="btn btn-primary submit-admin-form col-xs-2" id="submitAdminSettingsForm"
-                    disabled={ this.state.submitDisabled } type="submit">
+            <button className="btn btn-primary submit-admin-form col-xs-3"
+                    disabled={this.state.submitDisabled} type="submit">
               Save
             </button>
-            <button className="btn btn-primary submit-admin-form col-xs-2" id="submitAdminSettingsForm"
+            <button className="btn btn-danger submit-admin-form col-xs-2"
                     onClick={this.handleRemoveSetting} type="button">
-              Remove
+              &times;
             </button>
           </div>  
         </div>    

@@ -19,7 +19,7 @@ var SettingProfiles = React.createClass({
     })
 
     return(
-      <div role="tabpanel" className="tab-pane" id="customSettings">
+      <div role="tabpanel" className="tab-pane custom-settings-pane" id="customSettings">
         <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
           <h1>Custom Setting Profiles</h1>
           {

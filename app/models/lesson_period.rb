@@ -36,6 +36,7 @@ class LessonPeriod < ApplicationRecord
   private
 
     def generate_weeks
+      unavailables = self.teacher.unavailable_weeks
       start = self.form.start_date
       finish = self.form.end_date
       start.step(finish, 7) do |week|
@@ -44,6 +45,9 @@ class LessonPeriod < ApplicationRecord
         new_week.start_date = week
         new_week.end_date = week + 4.days
         new_week.week_string = stringify_week(new_week)
+        if unavailables.any? {|unav| unav.start_date == new_week.start_date && unav.end_date == new_week.end_date }
+          new_week.lesson = false
+        end
         new_week.save
       end
       self.lesson_count = self.weeks.length

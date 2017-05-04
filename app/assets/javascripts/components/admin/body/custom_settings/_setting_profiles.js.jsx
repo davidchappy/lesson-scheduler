@@ -26,7 +26,7 @@ var SettingProfiles = React.createClass({
             this.state.isCreating 
               ? <NewSettingProfile  {...this.props}
                                     toggleCreating={this.toggleCreating} />
-              : <button className="btn btn-large btn-primary" 
+              : <button className="btn btn-large btn-primary setting-profiles-create-button" 
                         onClick={this.toggleCreating} >Create a Profile</button>
           }
           {/* Add Custom Setting Profile button */}

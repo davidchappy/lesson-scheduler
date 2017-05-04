@@ -37,15 +37,17 @@ var CustomSettingsSelect = React.createClass({
     });
     
     return(
-      <form onSubmit={this.handleSubmit} id={this.props.id} >
-        <select className={this.props.selectClass} 
-                id={this.props.selectId}                
-                onChange={this.handleSubmit}
-                tabIndex="0" onBlur={this.props.toggleEdit} >
-          <option value='' className="placeholder">{this.props.placeholderText}</option>
-          {settingOptions}      
-        </select>
-      </form>   
+      <div className="settings-profile-select-container">
+        <form onSubmit={this.handleSubmit} id={this.props.id} >
+          <select className={this.props.selectClass} 
+                  id={this.props.selectId}                
+                  onChange={this.handleSubmit}
+                  tabIndex="0" onBlur={this.props.toggleEdit} >
+            <option value='' className="placeholder">{this.props.placeholderText}</option>
+            {settingOptions}      
+          </select>
+        </form>   
+      </div>
     )
   }
 

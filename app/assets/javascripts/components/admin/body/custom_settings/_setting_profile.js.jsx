@@ -48,24 +48,30 @@ var SettingProfile = React.createClass({
 
     return (
       <div className="row settings-profile">
-        <h3>{this.props.profile.name} <a onClick={this.handleDeleteProfile}>(delete)</a></h3>
+        <h3>{this.props.profile.name} 
+          &nbsp;<a className="settings-profile-delete" onClick={this.handleDeleteProfile}>(delete)</a>
+        </h3>
         <form   data-profile-id={this.props.profile.id} 
                 className="admin-form-item settings-profile-form" 
                 id={"profileCode" + "-" + this.props.profile.id} 
                 onSubmit={this.handleSaveCode} >
-          <label htmlFor={"code" + "-" + this.props.profile.id}>Code:&nbsp;</label>
-          <input  type="text" id={"code" + "-" + this.props.profile.id}
-                  defaultValue={this.props.profile.code} 
-                  onChange={this.handleUpdateCode} />
+          <div className="form-group settings-profile-item">      
+            <label htmlFor={"code" + "-" + this.props.profile.id}>Code:&nbsp;</label>
+            <input  type="text" id={"code" + "-" + this.props.profile.id}
+                    defaultValue={this.props.profile.code} 
+                    onChange={this.handleUpdateCode} />
+          </div>
         </form>
         <form   data-profile-id={this.props.profile.id} 
                 className="admin-form-item settings-profile-form" 
                 id={"profileExpiration" + "-" + this.props.profile.id} 
                 onSubmit={this.handleSaveExpiration} >
-          <label htmlFor={"expiration" + "-" + this.props.profile.id}>Expires:&nbsp;</label>
-          <input  type="text" id={"expiration" + "-" + this.props.profile.id}
-                  defaultValue={this.props.profile.expiration} 
-                  onChange={this.handleUpdateExpiration} />
+          <div className="form-group settings-profile-item">      
+            <label htmlFor={"expiration" + "-" + this.props.profile.id}>Expires:&nbsp;</label>
+            <input  type="text" id={"expiration" + "-" + this.props.profile.id}
+                    defaultValue={this.props.profile.expiration} 
+                    onChange={this.handleUpdateExpiration} />
+          </div>
         </form>
         <CustomSettingsSelect {...this.props}
                               submitAction={this.props.addSettingToProfile}
@@ -76,7 +82,14 @@ var SettingProfile = React.createClass({
                               selectId="addCustomAppSetting"
                               id="selectAppSettings"
                               placeholderText="Add Settings" />
-        {settings}
+        <div className="settings-profile-list">
+          {
+            this.props.profile.custom_settings.length
+              ? <h4>Current Settings</h4>                      
+              : null
+          }
+          {settings}
+        </div>
       </div>
     )
   }

@@ -1145,6 +1145,63 @@ body {
   margin-left: 1rem;
 }
 
+.setting-profiles-create-button.btn {
+  display: block;
+  margin: 0 auto 2rem;
+  width: 50%;
+}
+
+.settings-profile-delete {
+  cursor: pointer;
+}
+
+.settings-profile {
+  margin-bottom: 4rem;
+  border: 1px solid #ccc;
+  padding: 1rem 1rem 2rem;
+
+  h3 {
+    margin-bottom: 2rem;
+  }
+
+  .settings-profile-list {
+    padding-top: 1rem;
+    
+    label {
+      margin-bottom: 0.2rem;
+    }
+    
+    .setting-description {
+      margin: 0;
+    }
+  }
+
+  .form-group.settings-profile-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    label {
+      width: 80px;
+    }
+    
+    input {
+      flex-grow: 1;
+      padding: 0.5rem;
+    }
+  }
+
+  .settings-profile-select-container {
+    margin-bottom: 1rem;
+
+    .admin-select {
+      width: auto;
+    }
+  }
+}
+
+
+
 // button in family views
 .return-to-admin.btn {
   border-radius: 5px;

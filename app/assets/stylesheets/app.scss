@@ -850,6 +850,20 @@ body {
   }
 }
 
+// Custom Settings Code
+.insert-settings-code {
+  & > div {
+    padding-top:4rem;
+  }
+
+  input {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+    padding: 0.5rem;
+  }
+}
+
 // registration and session styles
 
 .user-form-wrapper-outer {

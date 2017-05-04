@@ -275,6 +275,22 @@ var App = React.createClass({
     } 
   },
 
+  addSettingsCode(code) {
+    console.log("Adding code: ", code);
+    $.ajax({
+      url: `/api/v1/families/${this.state.family.id}.json`, 
+      type: 'PUT',
+      data: { 
+              family: {
+                code: code
+              } 
+            },
+      success: (response) => { 
+        location.reload();
+      }
+    });
+  },
+
   render() {
     if ( !this.state.family || !this.state.form || !this.state.lessonPeriods || !this.state.appSettings) {
       return (<Loading message="App"/>)
@@ -298,7 +314,8 @@ var App = React.createClass({
                     createLessonPeriod={this.createLessonPeriod}
                     editLessonPeriod={this.editLessonPeriod}
                     deleteLessonPeriod={this.deleteLessonPeriod} 
-                    submitForm={this.submitForm} />
+                    submitForm={this.submitForm}
+                    addSettingsCode={this.addSettingsCode} />
         }
       </div>
     )

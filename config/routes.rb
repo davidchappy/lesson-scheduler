@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :instruments,       only: [:index, :create, :destroy, :update]
       resources :teachers,          only: [:index, :create, :destroy, :update]
       resources :app_settings,      only: [:index, :create, :destroy, :update]
+      resources :families,          only: [:update]
       resources :admin_portal,      only: [:index]
       resources :custom_settings,   only: [:create, :destroy, :update]
       resources :setting_profiles,  only: [:create, :destroy, :update]

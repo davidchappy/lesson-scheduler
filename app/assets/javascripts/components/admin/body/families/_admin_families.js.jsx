@@ -10,6 +10,7 @@ var AdminFamilies = React.createClass({
       }).clean(null);
 
       return (<AdminFamily  key={family.id}
+                            {...this.props}
                             family={family} 
                             students={students} />);
     })

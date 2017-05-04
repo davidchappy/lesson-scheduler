@@ -15,6 +15,14 @@ class Api::V1::AppController < Api::V1::BaseController
     @lesson_periods = @form.lesson_periods.order(:created_at)
     @weeks = LessonPeriod.get_weeks_as_hash(@lesson_periods)
     @app_settings = AppSetting.all.index_by(&:key)
+    
+    setting_profiles = @family.setting_profiles.all.order(:created_at)
+    setting_profiles.each do |profile|
+      profile_settings = profile.custom_settings.all.index_by(&:key)
+      profile_settings.each do |key, setting|
+        @app_settings[key] = setting
+      end
+    end
 
     respond_with  instruments: @instruments, teachers: @teachers, 
                   family: @family, students: @students, form: @form, 

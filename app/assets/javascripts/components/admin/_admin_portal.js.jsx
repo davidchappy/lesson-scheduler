@@ -253,6 +253,21 @@ var AdminPortal = React.createClass({
     });
   },
 
+  removeCodeFromFamily(id, family) {
+    $.ajax({
+      url: `/api/v1/families/${family.id}.json`, 
+      type: 'PUT',
+      data: { 
+              family: {
+                code_id: id
+              } 
+            },
+      success: (response) => { 
+        this.fetchAdminData();
+      }
+    });
+  },
+
 	render() {
 		if ( !this.state.appSettings || !this.state.families) {
       return ( <Loading message="Admin Portal.." /> )
@@ -279,7 +294,8 @@ var AdminPortal = React.createClass({
                     deleteCustomProfile={this.deleteCustomProfile}
                     addSettingToProfile={this.addSettingToProfile}
                     removeSettingFromProfile={this.removeSettingFromProfile}
-                    editCustomSetting={this.editCustomSetting} />
+                    editCustomSetting={this.editCustomSetting}
+                    removeCodeFromFamily={this.removeCodeFromFamily} />
 			</div>
 		)
 	}

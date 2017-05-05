@@ -1,4 +1,10 @@
 var AdminFamily = React.createClass({
+
+  handleRemoveCodeFromFamily(e) {
+    var id = e.target.getAttribute('data-id');
+    this.props.removeCodeFromFamily(id, this.props.family);
+  },
+
   render() {
     var familyUrl = "/?family_id=" + this.props.family.id;
     var studentCount = this.props.family.lesson_periods.length;
@@ -10,7 +16,8 @@ var AdminFamily = React.createClass({
       return (
         <li key={profile.id}
             className="admin-instrument-list-item">{profile.code}
-            <span data-id={profile.id} className="glyphicon glyphicon-minus admin-remove-instrument" >
+            <span data-id={profile.id} className="glyphicon glyphicon-minus admin-remove-instrument" 
+                  onClick={this.handleRemoveCodeFromFamily}>
             </span>
         </li>
       );

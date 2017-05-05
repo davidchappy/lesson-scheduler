@@ -2,6 +2,10 @@ var AdminFamily = React.createClass({
   render() {
     var familyUrl = "/?family_id=" + this.props.family.id;
     var studentCount = this.props.family.lesson_periods.length;
+    
+    var form = this.props.family.forms[this.props.family.forms.length - 1];
+    var formSubmission = form.submitted_at ? Helper.formatDate(new Date(form.submitted_at)) : "Never";
+
     var profiles = this.props.family.setting_profiles.map((profile) => {
       return (
         <li key={profile.id}
@@ -19,14 +23,8 @@ var AdminFamily = React.createClass({
         <td>
           <ul className="admin-list">{profiles}</ul>
         </td>
-        <td>
-          {
-            this.props.family.forms[0].submitted_at
-              ? Helper.formatDate(new Date(this.props.family.forms[0].submitted_at))
-              : "Never"
-          }
-        </td>
-        <td>{this.props.family.forms[0].submission_count}</td>
+        <td>{formSubmission}</td>
+        <td>{form.submission_count}</td>
         <td><a href={familyUrl}>View/Edit</a></td>
       </tr>
     );

@@ -866,6 +866,18 @@ body {
   }
 }
 
+.invalid-code {
+  border: 1px solid $red;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  font-size: 0.9em;
+  color: #999;
+
+  p {
+    margin: 0;
+  }
+}
+
 .family-settings-list {
   padding-top: 2rem;
   text-align: center;

@@ -77,7 +77,8 @@ var Body = React.createClass({
                               onClick={this.props.toggleConfirming}>Submit Form</button>
                     </div>
                   </div>
-                  <CodeForm {...this.props} />
+                  <CodeForm {...this.props} 
+                            handleInvalidCode={this.toggleInvalidCodeTT}/>
                   <ActiveCodes {...this.props} />
                 </div> 
           } 

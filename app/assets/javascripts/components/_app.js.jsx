@@ -6,7 +6,7 @@ var App = React.createClass({
               family: undefined, form: undefined, students: undefined, 
               lessonPeriods: undefined, allWeeks: undefined, isCreating: false, 
               isConfirming: false, isSubmittable: false, appSettings: undefined,
-              pricingData: undefined, isThanking: false }
+              pricingData: undefined, isThanking: false, settingProfiles: undefined, }
   },
 
   componentDidMount() {
@@ -35,7 +35,8 @@ var App = React.createClass({
                         allWeeks: response.weeks,
                         isSubmittable: isSubmittable,
                         appSettings: response.app_settings,
-                        pricingData: pricingData
+                        pricingData: pricingData,
+                        settingProfiles: response.setting_profiles
                       });
       }
     });
@@ -274,7 +275,6 @@ var App = React.createClass({
   },
 
   addSettingsCode(code) {
-    console.log("Adding code: ", code);
     $.ajax({
       url: `/api/v1/families/${this.state.family.id}.json`, 
       type: 'PUT',

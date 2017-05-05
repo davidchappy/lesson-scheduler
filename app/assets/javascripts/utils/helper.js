@@ -1,4 +1,13 @@
 var Helper = {
+  isValidCode: function(code, settingProfiles) {
+    var valid = false;
+    for (var i = settingProfiles.length - 1; i >= 0; i--) {
+      if(settingProfiles[i].code === code) {
+        valid = true;
+      }
+    };
+    return valid;
+  },
   formatDate: function(date) {
     var monthNames = [
       "January", "February", "March",

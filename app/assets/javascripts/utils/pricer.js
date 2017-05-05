@@ -1,9 +1,9 @@
 var Pricer = {
-  getPricingData: function(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate) {
-    var currentPricing    = this.getPricing(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate);
-    var possibleDiscounts = this.getPossibleDiscounts(lessonPeriods, allWeeks, baseLessonLength);
-    var currentDiscounts  = this.getCurrentDiscounts(lessonPeriods, allWeeks, baseLessonLength);
-    var payments          = this.getPayments(currentPricing.totalOwed);
+  getPricingData: function(lessonPeriods, allWeeks, appSettings) {
+    var possibleDiscounts     = this.getPossibleDiscounts(lessonPeriods, allWeeks, appSettings);
+    var currentDiscounts      = this.getCurrentDiscounts(lessonPeriods, allWeeks, appSettings);
+    var currentPricing        = this.getPricing(allWeeks, appSettings, currentDiscounts, possibleDiscounts);
+    var payments              = this.getPayments(currentPricing.totalOwed);
 
     return {
       currentPricing: currentPricing,
@@ -18,117 +18,135 @@ var Pricer = {
     var paymentThree = Math.round((totalOwed / 3).toFixed(2));
     return [paymentOne, paymentTwo, paymentThree];
   },
-  getPricing: function(lessonPeriods, allWeeks, baseLessonLength, thirtyMinRate) {
+  getPricing: function(allWeeks, appSettings, discounts, possibleDiscounts) {
   // calculate form cost and discounts from lesson and lesson period counts
+    var baseLessonLength  = appSettings.baseLessonLength.value;
+    var thirtyMinRate     = appSettings.thirtyMinRate.value;
 
     // get lesson count adjusted for lessons longer than base lesson length (30 mins)
     var adjustedLessonCount = Helper.getTotalLessonMinutes(allWeeks) / baseLessonLength;
 
     // total cost without discounts                        
     var rawTotalOwed = adjustedLessonCount * thirtyMinRate;
-
-    // get possible discount
-    var lessonPeriodCount = lessonPeriods.length;
-    var possibleDiscount =  lessonPeriodCount > 0 ? 
-                            Pricer.calculatePossibleDiscount(lessonPeriods, allWeeks, baseLessonLength) : 0;
     
     // get discount
-    var discountObject = Pricer.getCurrentDiscounts(lessonPeriods, allWeeks, baseLessonLength);
-    var discount = Helper.sumObject(discountObject);
+    var discount = Helper.sumObject(discounts);
+
+    // get total possible discount
+    var possibleDiscount = this.calculatePossibleDiscount(possibleDiscounts);
+
+    // total cost is raw total minus discounts
+    var totalOwed = rawTotalOwed - discount;
+ 
+    // sanity check to ensure actual discount is never higher than possible discount 
     if(discount > possibleDiscount) {
       discount = possibleDiscount;
     }
 
-    // total cost is raw total minus discounts
-    var totalOwed = rawTotalOwed - discount;
-  
-    return { discount: discount, totalOwed: totalOwed, possibleDiscount: possibleDiscount}
+    return { discount: discount, totalOwed: totalOwed, possibleDiscount: possibleDiscount }
   },
-  calculatePossibleDiscount: function(lessonPeriods, allWeeks, baseLessonLength) {
-    // utility to calculate possible discount from the number of lesson periods
-    var allDiscounts = Pricer.getPossibleDiscounts(lessonPeriods, allWeeks, baseLessonLength);
-
-    var total = allDiscounts.multipleStudentDiscount 
-              + allDiscounts.manyLessonsDiscount 
-              + allDiscounts.multipleStudentBonus;
+  calculatePossibleDiscount: function(possibleDiscounts) {
+    var total = 0;
+    total +=  possibleDiscounts.rate 
+          +   possibleDiscounts.lessons 
+          +   possibleDiscounts.quantity;
 
     return total;
-
   },
-  getPossibleDiscounts: function(lessonPeriods, allWeeks, baseLessonLength) {
+  getPossibleDiscounts: function(lessonPeriods, allWeeks, appSettings) {
+    var baseLessonLength      = Number(appSettings.baseLessonLength.value);
+    var multipleStudentBonus  = Number(appSettings.multipleStudentBonus.value);
+    var lessonsDiscountTwo    = Number(appSettings.lessonsDiscountTwo.value);
+    var thirtyMinRate         = Number(appSettings.thirtyMinRate.value);
+    var thirtyMinRateTwo      = Number(appSettings.thirtyMinRateTwo.value);
+    var thirtyMinRateThree    = Number(appSettings.thirtyMinRateThreePlus.value);
+
     var possibleDiscounts = {
-      manyLessonsDiscount: 0,
-      multipleStudentDiscount: 0,
-      multipleStudentBonus: 0
+      lessons: 0,
+      rate: 0,
+      quantity: 0
     };
     var lessonPeriodCount = lessonPeriods.length;
 
     // possible many lessons discount
-    possibleDiscounts.manyLessonsDiscount = (3000 * lessonPeriodCount);
+    possibleDiscounts.lessons = lessonsDiscountTwo * lessonPeriodCount;
 
     // possible bonus quantity discount
     if(lessonPeriodCount > 0) {
       for(var i=0; i<lessonPeriods.length; i++) {
         if(i > 0 && lessonPeriods[i].lesson_count > 9) {
-          possibleDiscounts.multipleStudentBonus += 500;
+          possibleDiscounts.quantity += multipleStudentBonus;
         }
       }
     }
 
     // possible multiple student rate discount
+    var twoStudentDiscount    = thirtyMinRate - thirtyMinRateTwo;
+    var threeStudentDiscount  = thirtyMinRate - thirtyMinRateThree;
+     
     for(var i=0; i<lessonPeriods.length; i++) {
       var lessonPeriod = lessonPeriods[i];
       var weeks = allWeeks[lessonPeriod.id];
-      var adjustedLessonCount = (13 * lessonPeriod.default_lesson_length) / baseLessonLength;
+      var adjustedLessonCount = (weeks.length * lessonPeriod.default_lesson_length) / baseLessonLength;
       if(i === 1) { 
-        possibleDiscounts.multipleStudentDiscount += (200 * adjustedLessonCount); 
+        possibleDiscounts.rate += (twoStudentDiscount * adjustedLessonCount); 
       } 
       if(i >= 2) { 
-        possibleDiscounts.multipleStudentDiscount += (400 * adjustedLessonCount); 
+        possibleDiscounts.rate += (threeStudentDiscount * adjustedLessonCount); 
       } 
     }
 
     return possibleDiscounts;
 
   },
-  getCurrentDiscounts: function(lessonPeriods, allWeeks, baseLessonLength) {
+  getCurrentDiscounts: function(lessonPeriods, allWeeks, appSettings) {
+    var baseLessonLength      = Number(appSettings.baseLessonLength.value);
+    var lessonsDiscountOne    = Number(appSettings.lessonsDiscountOne.value); 
+    var lessonsDiscountTwo    = Number(appSettings.lessonsDiscountTwo.value);  
+    var quantityBonus         = Number(appSettings.multipleStudentBonus.value);
+    var thirtyMinRate         = Number(appSettings.thirtyMinRate.value);
+    var thirtyMinRateTwo      = Number(appSettings.thirtyMinRateTwo.value);
+    var thirtyMinRateThree    = Number(appSettings.thirtyMinRateThreePlus.value);
+    var twoStudentDiscount    = thirtyMinRate - thirtyMinRateTwo;
+    var threeStudentDiscount  = thirtyMinRate - thirtyMinRateThree;
+
     var discounts = {
       rate: 0,
       quantity: 0,
       lessons: 0
     };
     for(var i=0; i<lessonPeriods.length; i++) {
-      var lessonPeriod = lessonPeriods[i];
-      var weeks = allWeeks[lessonPeriod.id];
+      var lessonPeriod        = lessonPeriods[i];
+      var weeks               = allWeeks[lessonPeriod.id];
       var adjustedLessonCount = Helper.getLessonMinutesFromWeeks(weeks) / baseLessonLength;
 
-      discounts.lessons += Pricer._lessonsDiscount(adjustedLessonCount);
-      discounts.rate += Pricer._rateDiscount(adjustedLessonCount, i);
-      discounts.quantity += Pricer._quantityDiscount(adjustedLessonCount, i);
+      discounts.lessons   += Pricer._lessonsDiscount(adjustedLessonCount, lessonsDiscountOne, lessonsDiscountTwo);
+      discounts.rate      += Pricer._rateDiscount(adjustedLessonCount, i, twoStudentDiscount, threeStudentDiscount);
+      discounts.quantity  += Pricer._quantityDiscount(adjustedLessonCount, i, quantityBonus);
     }
     return discounts;
   },
-  _lessonsDiscount: function(lessonCount) {
+  _lessonsDiscount: function(lessonCount, lessonsDiscountOne, lessonsDiscountTwo) {
     if(lessonCount >= 9 && lessonCount <= 10) {
-      return 2000;
+      return lessonsDiscountOne;
     } else if(lessonCount >= 11) {
-      return 3000;
+      return lessonsDiscountTwo;
     } else {
       return 0;
     }
   },
-  _rateDiscount: function(lessonCount, i) {
+  _rateDiscount: function(lessonCount, i, twoStudentDiscount, threeStudentDiscount) {
     if(i === 1) {
-      return 200 * lessonCount;
+      return twoStudentDiscount * lessonCount;
     } else if (i >= 2) {
-     return 400 * lessonCount;
+     return threeStudentDiscount * lessonCount;
     } else {
       return 0;
     }
-  },
-  _quantityDiscount: function(lessonCount, i) {
+  },  
+  _quantityDiscount: function(lessonCount, i, quantityBonus) {
     if(i > 0 && lessonCount > 9) {
-      return 500;
+      return quantityBonus;
     } else {
       return 0;
     }

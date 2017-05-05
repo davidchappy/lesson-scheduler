@@ -23,8 +23,7 @@ var App = React.createClass({
         var isSubmittable = response.lesson_periods.length ? true : false;
         var pricingData = Pricer.getPricingData(response.lesson_periods, 
                                                 response.weeks,
-                                                response.app_settings.baseLessonLength.value,
-                                                response.app_settings.thirtyMinRate.value) 
+                                                response.app_settings) 
         // window.flash_messages.printMessages(response.messages);
         this.setState({ 
                         instruments: response.instruments,
@@ -254,8 +253,7 @@ var App = React.createClass({
 
       // update pricing
       var pricingData = Pricer.getPricingData(lessonPeriods, allWeeks, 
-                                              this.state.appSettings.baseLessonLength.value, 
-                                              this.state.appSettings.thirtyMinRate.value)
+                                              this.state.appSettings)
 
       this.setState({ lessonPeriods: lessonPeriods, allWeeks: allWeeks, pricingData: pricingData })
 

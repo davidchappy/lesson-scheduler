@@ -10,7 +10,7 @@ class Api::V1::FamiliesController < Api::V1::BaseController
       respond_with family, json: family
     else
       flash[:error] = "Couldn't add that code - please try typing your code again."
-      redirect_to root_url    
+      redirect_to root_url
     end
   end
 

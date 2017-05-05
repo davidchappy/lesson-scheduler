@@ -25,6 +25,8 @@ class Api::V1::AppController < Api::V1::BaseController
       end
     end
 
+    @family = JSON.parse(@family.to_json(include: :setting_profiles))
+
     respond_with  instruments: @instruments, teachers: @teachers, 
                   family: @family, students: @students, form: @form, 
                   lesson_periods: @lesson_periods, weeks: @weeks,

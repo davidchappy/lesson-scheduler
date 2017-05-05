@@ -2,9 +2,9 @@ var DiscountDetails = React.createClass({
 
   render() {
     var pricingData       = this.props.pricingData;
-    var studentDiscount   = pricingData.possibleDiscounts.multipleStudentDiscount;
-    var lessonsDiscount   = pricingData.possibleDiscounts.manyLessonsDiscount;
-    var studentBonus      = pricingData.possibleDiscounts.multipleStudentBonus;
+    var studentDiscount   = pricingData.possibleDiscounts.rate;
+    var lessonsDiscount   = pricingData.possibleDiscounts.lessons;
+    var studentBonus      = pricingData.possibleDiscounts.quantity;
 
     var maxDiscountClass  = " discount-possible-max";
     var discounts         = pricingData.currentDiscounts;

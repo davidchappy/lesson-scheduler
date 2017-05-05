@@ -852,6 +852,8 @@ body {
 
 // Custom Settings Code
 .insert-settings-code {
+  text-align: center;
+  
   & > div {
     padding-top:4rem;
   }
@@ -861,6 +863,31 @@ body {
     display: block;
     margin: 0 auto;
     padding: 0.5rem;
+  }
+}
+
+.family-settings-list {
+  padding-top: 2rem;
+  text-align: center;
+  
+  h5 {
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    margin: 0 auto;
+    width: 80%;
+    border: 1px solid $blue;
+    padding: 0.5rem;
+  }
+  
+  ul, li {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 1rem;
   }
 }
 

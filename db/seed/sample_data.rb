@@ -41,4 +41,8 @@ module SampleDataSeeds
 	                                            instrument_id: guitar.id, 
 	                                            student_id: sarah.id,
 	                                            default_lesson_length: 30)
+
+	setting_profile = SettingProfile.create(name: "Missionary Discount", 
+																					expiration: Date.new(2017, 12,31),
+																					code: "missionariesdms")
 end

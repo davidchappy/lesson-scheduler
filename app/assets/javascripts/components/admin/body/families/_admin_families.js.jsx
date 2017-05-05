@@ -17,7 +17,7 @@ var AdminFamilies = React.createClass({
 
     return(
       <div role="tabpanel" className="tab-pane" id="families">
-        <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+        <div className="col-xs-10 col-xs-offset-1">
           <h1>All Registered Families</h1>
           <div className="table-responsive">
             <table className="table table-striped table-hover">
@@ -25,6 +25,9 @@ var AdminFamilies = React.createClass({
                 <tr>
                   <th>Last Name</th>
                   <th># of Students</th>
+                  <th>Active Codes</th>
+                  <th>Last Submitted</th>
+                  <th>Submissions</th>
                   <th></th>
                 </tr>
                 {families}

@@ -96,9 +96,9 @@ ActiveRecord::Schema.define(version: 20170504124443) do
   end
 
   create_table "students", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "name"
     t.integer  "family_id"
     t.index ["family_id"], name: "index_students_on_family_id", using: :btree
   end

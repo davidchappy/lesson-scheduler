@@ -58,7 +58,7 @@ var Body = React.createClass({
                             <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 
                               onClick={this.props.toggleCreating} {...tutorialAttributes} >
                               <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-                              <span className="button-text">Add a Lesson Period</span>
+                              <span className="button-text">Add a Student</span>
                             </button>
                           </div>
                     }

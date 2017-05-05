@@ -1,5 +1,6 @@
 class Api::V1::AppController < Api::V1::BaseController
   include ApplicationHelper
+  before_action :eliminate_old_profiles
 
   def index
     @family = nil
@@ -32,5 +33,14 @@ class Api::V1::AppController < Api::V1::BaseController
                   lesson_periods: @lesson_periods, weeks: @weeks,
                   messages: flash_messages, app_settings: @app_settings 
   end
+
+  private
+
+    def eliminate_old_profiles
+      profiles = SettingProfile.all
+      profiles.each do |profile|
+        profile.families.destroy_all if profile.expiration < Date.today
+      end
+    end
 
 end

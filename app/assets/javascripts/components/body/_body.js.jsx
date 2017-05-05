@@ -61,7 +61,7 @@ var Body = React.createClass({
       var expiration = Helper.formatDate(new Date(profile.expiration));
 
       return (
-                <li>
+                <li key={profile.id}>
                     <p>{profile.name} (Expires: {expiration})</p>
                 </li>
               );
@@ -113,14 +113,18 @@ var Body = React.createClass({
                       </form>
                     </div>
                   </div>
-                  <div className="family-settings-list row">
-                    <div className="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                      <h5>Active Codes</h5>
-                      <ul>
-                        {activeCodes}
-                      </ul>
-                    </div>
-                  </div>
+                  {
+                    this.props.family.setting_profiles.length
+                      ?  <div className="family-settings-list row">
+                          <div className="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                            <h5>Active Codes</h5>
+                            <ul>
+                              {activeCodes}
+                            </ul>
+                          </div>
+                        </div>
+                      : null
+                  }
                 </div> 
           } 
         </div>

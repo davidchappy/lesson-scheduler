@@ -46,11 +46,12 @@ module ApplicationHelper
     custom_start = CustomSetting.where(key: "summerStartDate").take
     app_start = AppSetting.where(key: "summerStartDate").take
     # Check if family has a custom setting with a different start date
-    if custom_start && family.custom_settings.include?(custom_start) && Date.parse(custom_start.value) != form.start_date
-    
-      form.set_summer_dates(Date.today.year, Date.parse(custom_start.value))
-      form.adjust_lesson_period_dates
-      form.save
+    if custom_start && family.custom_settings.include?(custom_start)
+      if Date.parse(custom_start.value) != form.start_date
+        form.set_summer_dates(Date.today.year, Date.parse(custom_start.value))
+        form.adjust_lesson_period_dates
+        form.save
+      end
     elsif app_start && app_start.value != form.start_date
       form.set_summer_dates(Date.today.year, app_start.value)
       form.adjust_lesson_period_dates

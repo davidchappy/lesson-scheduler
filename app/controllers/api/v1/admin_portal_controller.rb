@@ -4,7 +4,8 @@ class Api::V1::AdminPortalController < Api::V1::BaseController
 	def index
 		instruments = JSON.parse(Instrument.all.order(:created_at).to_json(include: :teachers))
 		teachers = JSON.parse(Teacher.all.order(:created_at).to_json(include: [:instruments, :unavailable_weeks]))
-		families = JSON.parse(Family.all.order(:created_at).to_json(include: [:lesson_periods, :setting_profiles, :forms]))
+		families = add_last_seen_to_families(Family.all)
+		families = JSON.parse(families.order(:created_at).to_json(include: [:lesson_periods, :setting_profiles, :forms]))
 		students = Student.all.order(:created_at)
 
 		# check summerWeeks setting exists for current year or create it

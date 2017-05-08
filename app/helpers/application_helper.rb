@@ -3,6 +3,14 @@ module ApplicationHelper
     return self.first_name + " " + self.last_name
   end
 
+  def add_last_seen_to_families(families)
+    families.each do |family|
+      family.last_seen = family.last_sign_in_at.strftime("%Y-%m-%d")
+      family.save
+    end
+    families
+  end
+
   def get_payments_from_total_string(total_string)
     total = ((total_string[1..-1].to_i * 100).to_f / 3) / 100
     payment_one = total.ceil_to(2) 

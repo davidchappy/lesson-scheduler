@@ -15,5 +15,4 @@ class Family < User
     check_for_alternate_start_date(form)
     return form
   end
-
 end

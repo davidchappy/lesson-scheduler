@@ -32,6 +32,7 @@ var AdminFamily = React.createClass({
         </td>
         <td>{formSubmission}</td>
         <td>{form.submission_count}</td>
+        <td>{this.props.family.last_seen || "Never"}</td>
         <td><a href={familyUrl}>View/Edit</a></td>
       </tr>
     );

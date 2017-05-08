@@ -41,9 +41,26 @@ module ApplicationHelper
     return week
   end
 
+  def check_for_alternate_start_date(form)
+    family = form.family
+    custom_start = CustomSetting.where(key: "summerStartDate").take
+    app_start = AppSetting.where(key: "summerStartDate").take
+    # Check if family has a custom setting with a different start date
+    if custom_start && family.custom_settings.include?(custom_start) && Date.parse(custom_start.value) != form.start_date
+    
+      form.set_summer_dates(Date.today.year, Date.parse(custom_start.value))
+      form.adjust_lesson_period_dates
+      form.save
+    elsif app_start && app_start.value != form.start_date
+      form.set_summer_dates(Date.today.year, app_start.value)
+      form.adjust_lesson_period_dates
+      form.save
+    end
+  end
+
   def get_summer_weeks_as_strings(start_date=nil, end_date=nil)
     weeks = []
-    summer_dates = get_summer_dates(start_date, end_date)
+    summer_dates = get_summer_dates(Date.today.year, start_date)
     summer_dates[0].step(summer_dates[1], 7) do |day|
       temp_week = Week.new
       temp_week.start_date = day
@@ -54,13 +71,16 @@ module ApplicationHelper
     return weeks
   end
 
-  def get_summer_dates(start=nil, finish=nil, year=Date.today.year)
+  def get_summer_dates(year=Date.today.year, start=nil)
+    # Default start day is first (Monday) of June
     start = start || Date.new(year, 6, 1)
+
+    # First day of summer is always a Monday
     start += 1.days until start.wday == 1
-    finish = finish || Date.new(year, 8, -1)
-    if finish.wday < 5
-      finish += 1.days until finish.wday == 5
-    end
+
+    # Summer always lasts 13 weeks
+    finish = (start + 13.weeks) - (3.days)
+
     return [start, finish]
   end
 

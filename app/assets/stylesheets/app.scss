@@ -864,6 +864,14 @@ body {
     margin: 0 auto;
     padding: 0.5rem;
   }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  form {
+    margin-top: 1rem;
+  }
 }
 
 .invalid-code {

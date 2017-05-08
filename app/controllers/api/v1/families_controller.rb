@@ -20,6 +20,11 @@ class Api::V1::FamiliesController < Api::V1::BaseController
     end
   end
 
+  def destroy
+    family = Family.find(params[:id]).destroy
+    respond_with family, json: family
+  end
+
   private
 
     def families_params

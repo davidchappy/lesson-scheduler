@@ -30,6 +30,7 @@ var AdminFamilies = React.createClass({
                   <th>Submissions</th>
                   <th>Last Seen</th>
                   <th></th>
+                  <th></th>
                 </tr>
                 {families}
               </tbody>

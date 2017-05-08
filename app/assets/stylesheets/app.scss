@@ -1206,6 +1206,19 @@ body {
   margin-left: 1rem;
 }
 
+.admin-families-delete-confirm {
+
+  .red {
+    color: $red;  
+  }
+
+  a {
+    margin: 0 1rem;
+  }
+
+  text-align: right;
+}
+
 
 // ** Custom Settings Pane ** //
 

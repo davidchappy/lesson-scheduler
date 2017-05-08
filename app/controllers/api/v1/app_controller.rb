@@ -27,6 +27,9 @@ class Api::V1::AppController < Api::V1::BaseController
       end
     end
 
+    # Timestamp this family's last_seen
+    @family.last_seen = Date.today.strftime("%Y-%m-%d").to_s
+    @family.save
     @family = JSON.parse(@family.to_json(include: :setting_profiles))
 
     respond_with  instruments: @instruments, teachers: @teachers, 

@@ -79,7 +79,7 @@ var App = React.createClass({
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'PUT',
-      data: { form: { total_cost: total } }
+      data: { form: { total_cost: total, pricing_data: this.state.pricingData } }
     });
   },
 

@@ -43,14 +43,21 @@
 </div>
 
 <h3 class="total-owed">Total owed: <span><%= @form.total_cost %></span></h3>
-<br>
+
 <h3 class="total-owed">Payment Plan:</h3>
 <% payments = get_payments_from_total_string(@form.total_cost) %>
 <ul>
-  <br>
   <li>June 1: <span><%= "$#{payments[0]}" %></span></li>
   <li>July 1: <span><%= "$#{payments[1]}" %></span></li>
   <li>August 1: <span><%= "$#{payments[2]}" %></span></li>
+</ul>
+
+<h3 class="total-owed">Discounts:</h3>
+<ul>
+<% discounts = @pricing_data["currentDiscounts"] %>
+  <li>Multiple student discount: <span><strong><%= monetize(discounts["rate"]) %></strong></span></li>
+  <li>Rate discount from number of lessons: <span><strong><%= monetize(discounts["lessons"]) %></strong></span></li>
+  <li>Multiple student bonus: <span><strong><%= monetize(discounts["quantity"]) %></span></strong></li>
 </ul>
 
 

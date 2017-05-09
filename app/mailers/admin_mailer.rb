@@ -2,11 +2,13 @@ class AdminMailer < ApplicationMailer
   helper :application
   default from: 'summerscheduledms@gmail.com'
 
-  def submission_pricing_email(form)
+  def submission_pricing_email(form, pricing_data)
+    p pricing_data
     @form = form
-    @family = form.family
-    @students = form.students
-    @lesson_periods = form.lesson_periods
+    @family = @form.family
+    @students = @form.students
+    @lesson_periods = @form.lesson_periods
+    @pricing_data = pricing_data
     admin_email = AppSetting.where(key: "adminEmail").take.value
     mail( to: ['davidchappy@gmail.com', admin_email], 
           subject: ("Form submission from the " + @family.last_name + " family -- Pricing"))

@@ -12,6 +12,7 @@
  *
  *= require 'select-css'
  *= require 'select-css-compat'
+ *= require_tree './vendor'
  *= require 'app'
  *= require_tree .
  *= require_self

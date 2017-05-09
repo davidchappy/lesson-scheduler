@@ -16,7 +16,7 @@
 //= require turbolinks
 //= require react
 //= require react_ujs
-//= require ./vendor/react-tooltip.min
+//= require_tree ./vendor
 //= require_tree ./utils
 //= require_tree ./components
 //= require effects

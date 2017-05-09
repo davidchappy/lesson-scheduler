@@ -6,10 +6,17 @@ var App = React.createClass({
               family: undefined, form: undefined, students: undefined, 
               lessonPeriods: undefined, allWeeks: undefined, isCreating: false, 
               isConfirming: false, isSubmittable: false, appSettings: undefined,
-              pricingData: undefined, isThanking: false, settingProfiles: undefined, }
+              pricingData: undefined, isThanking: false, settingProfiles: undefined,
+              loading: false }
   },
 
   componentDidMount() {
+    $(document).ajaxStart(function() {
+      $("#loading-overlay").show();
+    });
+    $(document).ajaxStop(function() {
+      $("#loading-overlay").hide();
+    });
     this.fetchAppData();
     $('#welcomeMessage').modal('show');
   },
@@ -26,6 +33,7 @@ var App = React.createClass({
                                                 response.app_settings) 
         // window.flash_messages.printMessages(response.messages);
         this.setState({ 
+                        loading: false,
                         instruments: response.instruments,
                         teachers: response.teachers,
                         family: response.family,  
@@ -315,6 +323,8 @@ var App = React.createClass({
                     submitForm={this.submitForm}
                     addSettingsCode={this.addSettingsCode} />
         }
+
+        <Loading loading={this.state.loading}/>
       </div>
     )
   }

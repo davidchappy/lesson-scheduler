@@ -12,6 +12,13 @@ var AdminPortal = React.createClass({
 	},
 
 	componentDidMount() {
+    $(document).ajaxStart(function() {
+      $("#loading-overlay").show();
+    });
+    $(document).ajaxStop(function() {
+      $("#loading-overlay").hide();
+    });
+
 		this.fetchAdminData();
 	},
 
@@ -307,6 +314,7 @@ var AdminPortal = React.createClass({
                     editCustomSetting={this.editCustomSetting}
                     removeCodeFromFamily={this.removeCodeFromFamily}
                     deleteFamily={this.deleteFamily} />
+        <Loading />
 			</div>
 		)
 	}

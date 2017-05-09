@@ -1290,7 +1290,7 @@ body {
 
 
 
-// button in family views
+// admin button in family views
 .return-to-admin.btn {
   border-radius: 5px;
   display: inline-block;
@@ -1306,4 +1306,21 @@ body {
     background: $blue;
     color: #fff !important;
   }
+}
+
+
+// *** LOADING *** 
+.loading-overlay {
+
+  display:none;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0,0,0,0.3);
+  z-index: 2001;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
 }

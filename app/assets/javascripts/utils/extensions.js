@@ -21,3 +21,19 @@ Date.prototype.yyyymmdd = function(separator) {
           (dd>9 ? '' : '0') + dd
          ].join(separator);
 };
+
+// http://stackoverflow.com/questions/15397372/javascript-new-date-ordinal-st-nd-rd-th
+Number.prototype.getNth = function(){
+  if(this>3 && this<21) return 'th';
+  switch (this % 10) {
+      case 1:  return "st";
+      case 2:  return "nd";
+      case 3:  return "rd";
+      default: return "th";
+  }
+}
+
+Number.prototype.ordinalize = function(){
+  var nth = Number(this).getNth();
+  return String(this) + nth;
+}

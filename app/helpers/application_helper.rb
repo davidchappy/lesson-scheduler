@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def parse_js_date_string(date_string)
-    parts = date_string.split(" ")
+    parts         = date_string.split(" ")
     month         = parts[0]
     day           = parts[1][0..-2]
     year          = parts[2]

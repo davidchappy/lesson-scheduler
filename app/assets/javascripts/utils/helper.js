@@ -8,20 +8,87 @@ var Helper = {
     };
     return valid;
   },
-  formatDate: function(date) {
-    var monthNames = [
+  normalizeDate: function(dateString) {
+    var parts = dateString.split("-");
+    var y     = Number(parts[0]);
+    // JS months use 0-index
+    var m     = Number(parts[1]) - 1;
+    var d     = Number(parts[2]);
+    
+    // Use middday as norm
+    return new Date(Date.UTC(y, m, d, 12, 0, 0));
+  },
+  adjustPaymentDay: function(day, month) {
+    // Compensate for shorter months if start date is late in the month
+    var monthsWithThirtyOne = [0, 2, 4, 6, 7, 9, 11];
+    if(day > 28) {
+      if(month === 1) {
+        return 28;
+      } else if(day > 30 && !monthsWithThirtyOne.includes(month)) {
+        return 30;
+      }
+    }
+    return day;
+  },
+  generatePaymentDates: function(startDateString) {
+    // Return array of 3 payment date objects
+    // First payment is App Settings' summer start date 
+    // Second and third are same date next two months, adjusted for invalid dates (ex: Feb 30)
+    var date        = Helper.normalizeDate(startDateString);
+    var y           = date.getFullYear();
+    var m           = date.getMonth();
+    var d           = date.getDate();
+    var adjustedDay = d;
+
+    var first_payment = date;
+
+    m += 1;
+    adjustedDay = Helper.adjustPaymentDay(d, m);
+    var sec_payment   = new Date(y, m, adjustedDay);
+
+    m += 1;
+    adjustedDay = Helper.adjustPaymentDay(d, m);
+    var third_payment = new Date(y, m, adjustedDay);
+
+    return [first_payment, sec_payment, third_payment];
+  },
+  getPaymentStrings: function(startDateString) {
+    var payments = Helper.generatePaymentDates(startDateString);
+
+    var paymentOne    = Helper.ordinalizeMonthDay(payments[0]);
+    var paymentTwo    = Helper.ordinalizeMonthDay(payments[1]);
+    var paymentThree  = Helper.ordinalizeMonthDay(payments[2]);
+
+    return [paymentOne, paymentTwo, paymentThree];
+  },
+  getMonthNames: function() {
+    return [
       "January", "February", "March",
       "April", "May", "June", "July",
       "August", "September", "October",
       "November", "December"
     ];
+  },
+  formatDate: function(date) {
+    var months = Helper.getMonthNames();
 
     var day = date.getDate();
     var monthIndex = date.getMonth();
     var year = date.getFullYear();
 
-    return monthNames[monthIndex] + ' ' + day + ', ' + year;
-  }, 
+    return months[monthIndex] + ' ' + day + ', ' + year;
+  },
+  ordinalizeMonthDay: function(date) {
+    var months = Helper.getMonthNames();
+
+    var day = date.getDate().ordinalize();
+    var monthIndex = date.getMonth();
+
+    return months[monthIndex] + ' ' + day;
+  },
+  localizeDate: function(date)  {
+    return date.toLocaleString("en-US", {timeZone: "America/New_York"});
+  },
   applyCustomSettings: function(appSettings, customSettings) {
     return appSettings;
   },
@@ -31,8 +98,8 @@ var Helper = {
       for(i=0; i < dates.length; i++) {
         // http://stackoverflow.com/questions/15141762/how-to-initialize-javascript-date-to-a-particular-timezone
         // ensure dates for comparizon are same timezone
-        var unav_start_date = new Date(dates[i].start_date).toLocaleString("en-US", {timeZone: "America/New_York"});
-        var week_date = week.start_date.toLocaleString("en-US", {timeZone: "America/New_York"});
+        var unav_start_date = Helper.localizeDate(new Date(dates[i].start_date));
+        var week_date = Helper.localizeDate(week.start_date);
         if(unav_start_date === week_date) {
           return true;
         }

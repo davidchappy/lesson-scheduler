@@ -1,4 +1,5 @@
 class AdminMailer < ApplicationMailer
+  include ApplicationHelper
   helper :application
   default from: 'summerscheduledms@gmail.com'
 
@@ -9,8 +10,13 @@ class AdminMailer < ApplicationMailer
     @lesson_periods = @form.lesson_periods
     @pricing_data = pricing_data
     admin_email = AppSetting.where(key: "adminEmail").take.value
+    start_setting  = @family.custom_settings.where(key: "summerStartDate").take || AppSetting.where(key: "summerStartDate").take
+    @payment_dates  = payment_dates_as_string(start_setting)                  
+
     mail( to: ['davidchappy@gmail.com', admin_email], 
           subject: ("Form submission from the " + @family.last_name + " family -- Pricing"))
+
+
     # mg_client = Mailgun::Client.new ENV['api_key']
     # message_params = {
     #   to: ['davidchappy@gmail.com', AppSetting.where(key: "adminEmail").take.value],
@@ -26,8 +32,10 @@ class AdminMailer < ApplicationMailer
     @lesson_periods = form.lesson_periods
     admin_email = AppSetting.where(key: "adminEmail").take.value
     mail( to: ['davidchappy@gmail.com', admin_email, @family.email], 
-        subject: ("Thanks for signing up! Lesson schedule for the " + @family.last_name + " family"),
-        from: admin_email)
+          subject: ("Thanks for signing up! Lesson schedule for the " + @family.last_name + " family"),
+          from: admin_email)
+
+
     # mg_client = Mailgun::Client.new ENV['api_key']
     # message_params = {
     #   to: ['davidchappy@gmail.com', AppSetting.where(key: "adminEmail").take.value, @family.email],

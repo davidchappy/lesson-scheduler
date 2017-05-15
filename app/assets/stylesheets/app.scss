@@ -474,7 +474,7 @@ body {
         padding: 15px;
         line-height: 30px;
         box-shadow: none;
-        border: 1px solid #ccc;
+        border: 1px solid transparentize($red, 0.5);
         border-radius: 50%;
         background: #fff;
         text-shadow: none;
@@ -482,23 +482,35 @@ body {
         color: #fff;
         cursor: pointer;
         transition: 0.2s;
+        
+        &::before {
+          content: "\e014";
+          color: transparentize($red, 0.5);
+          position: absolute;
+          top: 0px;
+          left: 50%;
+          margin-left: -0.5em;
+        }
           
         &:active {
           box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
         }
 
         &:hover {
-          color: transparentize($green, 0.25);
-          border: 1px solid transparentize($green, 0.25);
+          // color: transparentize($green, 0.25);
+          // border: 1px solid transparentize($green, 0.25);
+          border: 1px solid $red;
           -ms-transform: scale(1.1, 1.1); 
           -webkit-transform: scale(1.1, 1.1); 
           transform: scale(1.1, 1.1);
           &::before {
-            content: "\e013";
-            position: absolute;
-            top: 0px;
-            left: 50%;
-            margin-left: -0.5em;
+            // content: "\e013";
+            // position: absolute;
+            // color: transparentize($green, 0.25);
+            color: $red;
+            // top: 0px;
+            // left: 50%;
+            // margin-left: -0.5em;
           }
         }
 
@@ -512,6 +524,7 @@ body {
             top: 0px;
             left: 50%;
             margin-left: -0.5em;
+            color: #fff;
           }
 
           &:hover {

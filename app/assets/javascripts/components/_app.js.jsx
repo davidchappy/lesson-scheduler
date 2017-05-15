@@ -309,7 +309,10 @@ var App = React.createClass({
                 toggleCreating={this.toggleCreating} />
 
         {
-          this.state.form.submitted && new Date() > new Date(this.state.appSettings["submissionDeadline"].value)
+          // Show submitted screen if a family has a submitted a form and deadline passed
+          this.state.form.submitted 
+          && new Date() > new Date(this.state.appSettings["submissionDeadline"].value)
+          && !this.props.admin
             ? <AlreadySubmitted {...this.state}
                                 {...this.props} /> 
             : <Body {...this.state}

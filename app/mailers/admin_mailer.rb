@@ -3,7 +3,6 @@ class AdminMailer < ApplicationMailer
   default from: 'summerscheduledms@gmail.com'
 
   def submission_pricing_email(form, pricing_data)
-    p pricing_data
     @form = form
     @family = @form.family
     @students = @form.students

@@ -95,11 +95,11 @@ module ApplicationHelper
   end
 
   def get_summer_dates(year=Date.today.year, start=nil)
-    # Default start day is first (Monday) of June
-    start = start || Date.new(year, 6, 1)
-    
     # Ensure start provided is a Date object
     start = start.class == Date ? start : Date.parse(start)
+
+    # Default start day is first (Monday) of June
+    start = start || Date.new(year, 6, 1)
 
     # First day of summer is always a Monday
     start += 1.days until start.wday == 1

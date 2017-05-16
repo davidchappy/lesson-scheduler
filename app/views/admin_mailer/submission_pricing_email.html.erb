@@ -47,9 +47,9 @@
 <h3 class="total-owed">Payment Plan:</h3>
 <% payments = get_payments_from_total_string(@form.total_cost) %>
 <ul>
-  <li><%= @payment_dates[0] %>: <span><%= "$#{payments[0]}" %></span></li>
-  <li><%= @payment_dates[1] %>: <span><%= "$#{payments[1]}" %></span></li>
-  <li><%= @payment_dates[2] %>: <span><%= "$#{payments[2]}" %></span></li>
+  <li>June 1: <span><%= "$#{payments[0]}" %></span></li>
+  <li>July 1: <span><%= "$#{payments[1]}" %></span></li>
+  <li>August 1: <span><%= "$#{payments[2]}" %></span></li>
 </ul>
 
 <h3 class="total-owed">Discounts:</h3>

@@ -24,9 +24,7 @@ var AdminFamily = React.createClass({
     var studentCount = this.props.family.lesson_periods.length;
     
     var form = this.props.family.forms[this.props.family.forms.length - 1];
-    if(form) {
-      var formSubmission = form.submitted_at ? Helper.formatDate(new Date(form.submitted_at)) : "Never";
-    }
+    var formSubmission = form.submitted_at ? Helper.formatDate(new Date(form.submitted_at)) : "Never";
 
     var profiles = this.props.family.setting_profiles.map((profile) => {
       return (

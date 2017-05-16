@@ -8,8 +8,6 @@ var Dashboard = React.createClass({
     var totalDiscount     = Pricer.monetize(pricingData.currentPricing.discount);
     var possibleDiscount  = Pricer.monetize(pricingData.currentPricing.possibleDiscount);
     var maxDiscountClass  = totalDiscount == possibleDiscount ? "max-discount" : "";
-    var start_date        = this.props.appSettings.summerStartDate.value;
-    var firstPayment      = Helper.getPaymentStrings(start_date)[0];
 
     return (
       <div id="navbar" className="navbar-collapse collapse">
@@ -42,7 +40,7 @@ var Dashboard = React.createClass({
           <li role="separator" className="divider"></li>
           <li id="totalOwed" className="total-owed">
             <a data-tip data-for='ttPaymentInfo'>
-              <span className="header-small">Due {firstPayment}:</span>
+              <span className="header-small">Due June 1st:</span>
               <span className="header-large">{paymentOne}</span>
             </a>
             <ReactTooltip id='ttPaymentInfo' type='dark' effect='solid' place='bottom'>

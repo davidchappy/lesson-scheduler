@@ -44,7 +44,7 @@ class Api::V1::AppController < Api::V1::BaseController
     def eliminate_old_profiles
       profiles = SettingProfile.all
       profiles.each do |profile|
-        profile.families.destroy_all if profile.expiration < Date.today
+        profile.families.destroy_all if profile.expiration && profile.expiration < Date.today
       end
     end
 

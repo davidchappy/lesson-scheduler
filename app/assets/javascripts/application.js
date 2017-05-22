@@ -10,13 +10,14 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require ./vendor/browser-polyfill.min
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require react
 //= require react_ujs
-//= require_tree ./vendor
+//= require ./vendor/react-tooltip.min
 //= require_tree ./utils
 //= require_tree ./components
 //= require effects

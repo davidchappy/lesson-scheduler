@@ -87,7 +87,10 @@ var Helper = {
     return months[monthIndex] + ' ' + day;
   },
   localizeDate: function(date)  {
-    return date.toLocaleString("en-US", {timeZone: "America/New_York"});
+    // https://www.csgpro.com/blog/2016/08/a-bad-date-with-internet-explorer-11-trouble-with-new-unicode-characters-in-javascript-date-strings
+    // See first comment
+    return date.toLocaleString("en-US", {timeZone: "America/New_York"})
+            .replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
   },
   applyCustomSettings: function(appSettings, customSettings) {
     return appSettings;
@@ -299,3 +302,4 @@ var Helper = {
   //   });
   // }
 } 
+window.helper = Helper;

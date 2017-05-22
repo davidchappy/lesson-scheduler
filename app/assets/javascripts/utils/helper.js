@@ -101,9 +101,11 @@ var Helper = {
       for(i=0; i < dates.length; i++) {
         // http://stackoverflow.com/questions/15141762/how-to-initialize-javascript-date-to-a-particular-timezone
         // ensure dates for comparizon are same timezone
-        var unav_start_date = Helper.localizeDate(new Date(dates[i].start_date));
-        var week_date = Helper.localizeDate(week.start_date);
-        if(unav_start_date === week_date) {
+        // var unav_start_date = Helper.localizeDate(new Date(dates[i].start_date));
+        // var week_date = Helper.localizeDate(week.start_date);
+        var unav_start_date = new Date(dates[i].start_date);
+        var week_date = week.start_date;
+        if(unav_start_date.getTime() === week_date.getTime()) {
           return true;
         }
       };

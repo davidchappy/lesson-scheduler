@@ -34,6 +34,7 @@ class LessonPeriod < ApplicationRecord
   end
 
   def generate_weeks
+    self.weeks.destroy_all if self.weeks.length
     unavailables = self.teacher.unavailable_weeks
     start = self.form.start_date
     finish = self.form.end_date

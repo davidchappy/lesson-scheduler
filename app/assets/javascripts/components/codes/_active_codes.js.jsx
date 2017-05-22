@@ -5,9 +5,10 @@ var ActiveCodes = React.createClass({
       var expirationTry = Helper.formatDate(new Date(profile.expiration));
       var expiration = expirationTry ? (<span>(Expires: {expirationTry})</span>) : null;
 
-      return (<li key={profile.id}>
-                <p>{profile.name} {expiration}</p>
-              </li>)
+      return (<ActiveCode key={profile.id}
+                          {...this.props} 
+                          profile={profile} 
+                          expiration={expiration} />)
     });
 
     return (

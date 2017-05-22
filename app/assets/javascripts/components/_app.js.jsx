@@ -297,6 +297,21 @@ var App = React.createClass({
     });
   },
 
+  removeCodeFromFamily(id, family) {
+    $.ajax({
+      url: `/api/v1/families/${family.id}.json`, 
+      type: 'PUT',
+      data: { 
+              family: {
+                code_id: id
+              } 
+            },
+      success: (response) => { 
+        this.fetchAppData();
+      }
+    });
+  },
+
   render() {
     if ( !this.state.family || !this.state.form || !this.state.lessonPeriods || !this.state.appSettings) {
       return (<Loading message="App"/>)
@@ -324,7 +339,8 @@ var App = React.createClass({
                     editLessonPeriod={this.editLessonPeriod}
                     deleteLessonPeriod={this.deleteLessonPeriod} 
                     submitForm={this.submitForm}
-                    addSettingsCode={this.addSettingsCode} />
+                    addSettingsCode={this.addSettingsCode}
+                    removeCodeFromFamily={this.removeCodeFromFamily} />
         }
 
         <Loading loading={this.state.loading}/>

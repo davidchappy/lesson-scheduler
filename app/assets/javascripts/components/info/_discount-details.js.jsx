@@ -24,27 +24,30 @@ var DiscountDetails = React.createClass({
     return(
       <div className='discount-details'>
         <div className='discount-header'>
-          <h4>Here is a breakdown of your savings:</h4>
+          <h4 dangerouslySetInnerHTML={{__html: this.props.contentEntries["discountDetailsTitle"].value}}></h4>
         </div>
         <div className={'discount-lesson-rate' + studentClasses}>
-          <h5>Multiple Student Discount:&nbsp; 
-              <span className="discount-current">{Pricer.monetize(discounts.rate)}</span>&nbsp;
-              <span className="discount-possible">({Pricer.monetize(studentDiscount)}</span> possible)
-          </h5>
+          <div>
+            <h5 dangerouslySetInnerHTML={{__html: this.props.contentEntries["discountMultipleText"].value}}></h5>&nbsp;
+            <span className="discount-current">{Pricer.monetize(discounts.rate)}</span>&nbsp;
+            (<span className="discount-possible">{Pricer.monetize(studentDiscount)}</span> possible)
+          </div>
           <p><em>Rate is {thirtyMinRate} for 1st student, {thirtyMinRateTwo} for 2nd, {thirtyMinRateThree} for 3 or more</em></p>
         </div>
         <div className={'discount-student-lessons' + lessonClasses}>
-          <h5>Rate discount from number of lessons:&nbsp;
+          <div>
+            <h5 dangerouslySetInnerHTML={{__html: this.props.contentEntries["discountRateText"].value}}></h5>&nbsp;
             <span className="discount-current">{Pricer.monetize(discounts.lessons)}</span>&nbsp;
-          <span className="discount-possible">({Pricer.monetize(lessonsDiscount)}</span> possible)
-        </h5>
+            (<span className="discount-possible">{Pricer.monetize(lessonsDiscount)}</span> possible)
+          </div>
           <p><em>{lessonsDiscountOne} off for 9-10 lessons; {lessonsDiscountTwo} off for 11 or more</em></p>
         </div>
         <div className={'discount-quantity' + bonusClasses}>
-          <h5>Multiple Student Bonus:&nbsp;
+          <div>
+            <h5 dangerouslySetInnerHTML={{__html: this.props.contentEntries["discountBonusText"].value}}></h5>&nbsp;
             <span className="discount-current">{Pricer.monetize(discounts.quantity)}</span>&nbsp; 
-            <span className="discount-possible">({Pricer.monetize(studentBonus)}</span> possible)
-          </h5>
+            (<span className="discount-possible">{Pricer.monetize(studentBonus)}</span> possible)
+          </div>
           <p><em>Additional {multipleStudentBonus} off for each student (if more than one) with at least 9 lessons</em></p>
         </div>
       </div>

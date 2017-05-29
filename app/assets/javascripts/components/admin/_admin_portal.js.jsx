@@ -28,12 +28,12 @@ var AdminPortal = React.createClass({
       type: 'GET',
       success: (response) => {
         console.log("Admin Portal data: ", response);
-        var appSettings = response.app_settings;
-        var settingProfiles = response.setting_profiles;
-        this.setState({ appSettings: appSettings, families: response.families, 
-                        students: response.students, instruments: response.instruments, 
-                        teachers: response.teachers, summer_weeks: response.summer_weeks,
-                        customSettingProfiles: settingProfiles });
+        this.setState({ appSettings: response.app_settings, 
+                        contentEntries: response.content_entries,
+                        families: response.families, students: response.students, 
+                        instruments: response.instruments, teachers: response.teachers, 
+                        summer_weeks: response.summer_weeks,
+                        customSettingProfiles: response.setting_profiles });
       }
     });
   },
@@ -52,7 +52,23 @@ var AdminPortal = React.createClass({
         console.log("App Settings in saveAppSettings", response);
       }
     });
-	},	
+	},
+
+  saveContentEntry(entryName, value) {
+    var entries = this.state.contentEntries;
+    var id = entries[entryName].id;
+    entries[entryName].value = value;
+    this.setState({ contentEntries: entries });
+
+    $.ajax({
+      url: `/api/v1/content_entries/${id}.json`, 
+      type: 'PUT',
+      data: { content_entries: { value: value } },
+      success: (response) => {
+        console.log("Content Entries in saveContentEntry", response);
+      }
+    });
+  },
 
   createNewInstrument(name) {
     $.ajax({
@@ -295,6 +311,7 @@ var AdminPortal = React.createClass({
 				<AdminHeader />
 				<AdminBody 	{...this.state}
 										saveAppSetting={this.saveAppSetting}
+                    saveContentEntry={this.saveContentEntry}
                     createNewInstrument={this.createNewInstrument}
                     updateInstrument={this.updateInstrument}
                     deleteInstrument={this.deleteInstrument}

@@ -16,6 +16,7 @@ class Api::V1::AppController < Api::V1::BaseController
     @lesson_periods = @form.lesson_periods.order(:created_at)
     @weeks = LessonPeriod.get_weeks_as_hash(@lesson_periods)
     @app_settings = AppSetting.all.index_by(&:key)
+    @content_entries = ContentEntry.all.index_by(&:key)
     @all_setting_profiles = SettingProfile.all.order(:created_at)
     
     # replace general app settings with custom settings
@@ -36,7 +37,7 @@ class Api::V1::AppController < Api::V1::BaseController
                   family: @family, students: @students, form: @form, 
                   lesson_periods: @lesson_periods, weeks: @weeks,
                   messages: flash_messages, app_settings: @app_settings,
-                  setting_profiles: @all_setting_profiles
+                  content_entries: @content_entries, setting_profiles: @all_setting_profiles
   end
 
   private

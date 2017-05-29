@@ -1,6 +1,6 @@
 var NewLessonPeriod = React.createClass({
   render() {
-    var buttonText = "Add Lesson Period";
+    var buttonText = "Add Student";
 
     return (
       <div className="lesson-period col-sm-6 col-md-4">

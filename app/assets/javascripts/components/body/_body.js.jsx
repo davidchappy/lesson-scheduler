@@ -58,7 +58,9 @@ var Body = React.createClass({
                             <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 
                               onClick={this.props.toggleCreating} {...tutorialAttributes} >
                               <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-                              <span className="button-text">Add a Student</span>
+                              <span className="button-text" 
+                                    dangerouslySetInnerHTML={{__html: this.props.contentEntries["addStudentButton"].value}}>
+                              </span>
                             </button>
                           </div>
                     }
@@ -74,7 +76,8 @@ var Body = React.createClass({
                   <div className="submit-form row">
                     <div className="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                       <button className="btn btn-primary submit-form-button" disabled={submitDisabled}
-                              onClick={this.props.toggleConfirming}>Submit Form</button>
+                              onClick={this.props.toggleConfirming} 
+                              dangerouslySetInnerHTML={{__html: this.props.contentEntries["formSubmitButton"].value}}></button>
                     </div>
                   </div>
                   <CodeForm {...this.props} 

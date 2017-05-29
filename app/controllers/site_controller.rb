@@ -2,7 +2,8 @@ class SiteController < ApplicationController
   before_action :authenticate_user!
   
   def index
-    @app_settings = AppSetting.all.index_by(&:key)
+    @app_settings     = AppSetting.all.index_by(&:key)
+    @content_entries  = ContentEntry.all.index_by(&:key)
 
   	if current_user.type === 'Family'
   		@admin = false

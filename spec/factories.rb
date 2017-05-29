@@ -1,4 +1,11 @@
 FactoryGirl.define do
+  factory :content_entry do
+    name "MyString"
+    value "MyText"
+    description "MyString"
+    key "MyString"
+    char_limit 1
+  end
   factory :custom_setting do
     key "MyString"
     name "MyString"

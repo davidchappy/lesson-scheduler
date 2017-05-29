@@ -43,6 +43,7 @@ var App = React.createClass({
                         allWeeks: response.weeks,
                         isSubmittable: isSubmittable,
                         appSettings: response.app_settings,
+                        contentEntries: response.content_entries,
                         pricingData: pricingData,
                         settingProfiles: response.setting_profiles
                       });

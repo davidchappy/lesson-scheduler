@@ -8,7 +8,7 @@ var PaymentPlan = React.createClass({
 
     return (
       <div className='full-payment-info'>
-        <h3>Payment Plan</h3>
+        <h3 dangerouslySetInnerHTML={{__html: this.props.contentEntries["paymentPlanTitle"].value}}></h3>
         <ul>
           <li>Due {paymentDates[0]}: <span>{Pricer.monetize(payments[0])}</span></li>
           <li>Due {paymentDates[1]}: <span>{Pricer.monetize(payments[1])}</span></li>

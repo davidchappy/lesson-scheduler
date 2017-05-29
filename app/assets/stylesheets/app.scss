@@ -964,6 +964,11 @@ body {
 
 // registration and session styles
 
+#error_explanation ul, 
+#error_explanation li {
+  list-style: none;
+}
+
 .user-form-wrapper-outer {
   padding: 4rem 0 0 0;
 

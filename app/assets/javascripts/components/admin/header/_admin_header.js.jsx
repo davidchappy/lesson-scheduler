@@ -19,7 +19,7 @@ var AdminHeader = React.createClass({
 				    <li role="presentation"><a href="#families" aria-controls="families" role="pill" data-toggle="pill">Families</a></li>
 				    <li role="presentation"><a href="#teachers" aria-controls="teachers" role="pill" data-toggle="pill">Teachers</a></li>
 				    <li role="presentation"><a href="#instruments" aria-controls="instruments" role="pill" data-toggle="pill">Instruments</a></li>
-				    <li role="presentation"><a href="#account" aria-controls="account" role="pill" data-toggle="pill">Account</a></li>
+				    <li role="presentation"><a href="users/edit" aria-controls="account">Account</a></li>
 				  </ul>
 				</div>
 			</div>

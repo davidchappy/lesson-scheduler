@@ -1,0 +1,206 @@
+
+// New Lesson Period section
+.new-lesson-period-button {
+  background: #fff;
+  display: block;
+  text-align: center;
+  margin: 0 auto 3rem;
+  width: 100%;
+
+  button {
+    padding: 0;
+    width: 70%;
+    height: 50px;
+    line-height:50px;
+    border-radius: 5px;
+    border: none;
+    background: $gray-light;
+    color: $blue;
+    transition: 0.3s;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+    &:hover {
+      background: $blue;
+      color: #fff;
+    }
+
+    .glyphicon {
+      display: inline-block;
+      margin-right: 1rem;
+      margin-top: -0.3em;
+      font-size: 1.6em;
+    }
+
+    .button-text {
+      display: inline-block;
+    }
+  }
+}
+
+.new-lesson-period-form {
+
+  * {
+    position: absolute;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+
+  #studentName {
+    height: 28px;
+    max-width: 50%;
+    padding: 0;
+    padding-left: 0.3rem;
+    margin-left: -0.3rem;
+    font-size: 1.1em;
+    line-height: 0.9;
+    font-weight: bold;
+    top: 0.4rem;
+    left: 1rem;
+    border: none;
+    color: rgb(51,51,51);
+    box-shadow: none;
+
+    
+    &:focus {
+      background: #eee;
+    }
+
+    &:hover {
+      color: lighten(rgb(51,51,51), 10%);
+    }
+    
+    * {
+      margin-left: 1rem;
+    }
+  }
+
+  #selectStudent {
+    background: none;
+    border: none;
+  }
+  
+  #selectTeacher {
+    top: 3px;
+    right: 1rem;
+    padding: 0;
+    padding-left: 1rem;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    text-align: right;
+    direction: rtl;
+    color: $blue;
+    
+    &:disabled {
+      color: $gray-disabled;
+      
+      &:hover {
+        color: lighten($gray-disabled, 10%);
+      }
+    }
+
+    &:hover {
+      color: lighten($blue, 10%);
+    }
+
+    option {
+      padding-left: 1rem;
+    }
+  }
+
+  #selectInstrument {
+    font-size: 0.8em;
+    bottom: 0;
+    left: 1rem;
+    padding: 0 !important;
+    line-height: 1;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    color: $blue;
+    
+    &:disabled {
+      color: $gray-disabled;
+      
+      &:hover {
+        color: lighten($gray-disabled, 10%);
+      }
+    }
+    
+    &:hover {
+      color: lighten($blue, 10%);
+    }
+  }
+
+  .default-lesson-length {
+    display: inline-block;
+    bottom: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    text-align: right;
+    font-size: 0.8em;
+    cursor: auto;
+    
+    &:hover .lesson-length {
+      color: lighten(rgb(51,51,51), 10%);
+    }
+
+    &.disabled {
+      color: $gray-disabled;
+        
+      &:hover {
+        color: lighten($gray-disabled, 10%);
+      }
+    }
+    
+    .lesson-length {
+      text-align: right;
+      direction: rtl;
+      display: inline;
+      position: static;
+      color: $blue;
+      
+      &:hover {
+        color: lighten($blue, 10%);
+      }
+
+      &:disabled {
+        color: $gray-disabled;
+        
+        &:hover {
+          color: lighten($gray-disabled, 10%);
+        }
+      }
+    }
+  }
+
+  .submit-new-lesson-period {
+    box-sizing: content-box;
+    bottom: -23px;
+    left: -1px;
+    padding: 0;
+    height: 20px;
+    line-height: 20px;
+    width: 100%;
+    background: $blue;
+    border: 1px solid darken($blue, 3%);
+    transition: 0.2s;
+    border-radius: 0;
+    font-weight: bold;
+    
+    &:hover {
+      background: lighten($blue, 8%);
+      border-color: lighten($blue, 8%);
+    }
+  }
+
+  .placeholder {
+    color: #eee;
+    font-weight: bold;
+  }
+}

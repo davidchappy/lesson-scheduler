@@ -1,0 +1,22 @@
+// Confirmation Page
+.confirmation-page {
+  text-align: center;
+  
+  .confirmation-text {
+    margin: 3rem auto;
+    
+    .full-payment-info {
+
+      ul, li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: center;
+      }
+    }
+  }
+  
+  .confirmation-button {
+    text-transform: uppercase;
+  }
+}

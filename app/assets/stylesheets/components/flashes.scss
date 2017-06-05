@@ -1,0 +1,18 @@
+// flashes
+.alert {
+  width: 100%;
+  position: fixed;
+  top: 50px;
+  height: 50px;
+  text-align: center;
+  z-index: 1002;
+  border-radius: 0;
+  
+  @media screen and (min-width: $small) {
+    top: 63px;
+  }
+
+  &.top {
+    top: 0;
+  }
+}

@@ -1,0 +1,79 @@
+// Temporary
+.logout, .login {
+  z-index: 101;
+  list-style: none;
+  border: 1px solid #ccc;
+  width: 70px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 0.5rem; 
+  background: #fff;
+}
+
+// registration and session styles
+
+#error_explanation ul, 
+#error_explanation li {
+  list-style: none;
+}
+
+.user-form-wrapper-outer {
+  padding: 4rem 0 0 0;
+
+  .user-form-wrapper-inner {
+    text-align: center;
+    
+    h2 {
+      margin-bottom: 0.5rem;
+      font-weight: normal;
+    }
+
+    form {
+      margin-top: 3rem;
+
+      .field {
+        width: 100%;
+        margin-bottom: 1.5rem;
+        
+        input:not([type=checkbox]) {
+          width: 300px;
+          height: 45px;
+          padding: 0 1rem;
+          background: #fff;
+          border: 0;
+          border: 1px solid #ccc;
+          font-size: 1.2em;
+          color: #666;
+        }
+      }
+
+      #user_remember_me {
+        -webkit-appearance: checkbox;
+      }
+
+      .actions {
+
+        input[type=submit] {
+          background: #fff;
+          
+          width: 70%;
+          height: 40px;
+          margin-bottom: 2rem;
+          background-color: $blue;
+          border-color: darken($blue, 3%);
+          text-transform: uppercase;
+
+          &:hover {
+            background-color: darken($blue, 10%);  
+          }
+        }
+
+      }
+    }
+    
+ 
+  }
+
+}

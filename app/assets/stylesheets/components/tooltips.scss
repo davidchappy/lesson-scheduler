@@ -1,0 +1,34 @@
+// Tooltips
+.tt-in-body {
+  max-width: 250px;
+  line-height: 1.3;
+}
+
+.tt-tutorial {
+  display: block;
+  max-width: 400px;
+  position: absolute !important;
+  margin-left: 500px !important;
+  top: 100px !important;
+  font-size: 1.2em !important;
+  line-height: 1.5 !important;
+}
+
+.tt-discount-details {
+
+  .discount-current {
+    color: $green;
+  }
+
+  .discount-possible {
+    color: $red;
+  }
+   
+  .discount-possible-max .discount-possible {
+    color: $green;
+  }
+
+  h5 {
+    display: inline-block;
+  }
+}

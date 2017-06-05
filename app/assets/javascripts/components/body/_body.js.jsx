@@ -55,13 +55,17 @@ var Body = React.createClass({
                       this.props.isCreating 
                         ? <NewLessonPeriod  {...this.props} /> 
                         : <div className="new-lesson-period-button col-sm-6 col-md-4">
-                            <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 
-                              onClick={this.props.toggleCreating} {...tutorialAttributes} >
-                              <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-                              <span className="button-text" 
-                                    dangerouslySetInnerHTML={{__html: this.props.contentEntries["addStudentButton"].value}}>
-                              </span>
-                            </button>
+                            <div className="new-lesson-period-button-inner">
+                              <button id="add-lesson-period" className={"btn btn-default add-lesson-period"} 
+                                onClick={this.props.toggleCreating} {...tutorialAttributes} >
+                                <p>
+                                  <span className="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+                                  <span className="button-text" 
+                                        dangerouslySetInnerHTML={{__html: this.props.contentEntries["addStudentButton"].value}}>
+                                  </span>
+                                </p>
+                              </button>
+                            </div>
                           </div>
                     }
                     {

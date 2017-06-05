@@ -5,40 +5,54 @@
   display: block;
   text-align: center;
   margin: 0 auto 3rem;
-  width: 100%;
-
-  button {
-    padding: 0;
-    width: 70%;
-    height: 50px;
-    // line-height:50px;
-    border-radius: 5px;
-    border: none;
-    background: $gray-light;
-    color: $blue;
-    transition: 0.3s;
-    margin: 0 auto;
+  // width: 100%;
+  
+  .new-lesson-period-button-inner {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    text-align: center;
     
-    &:hover {
-      background: $blue;
-      color: #fff;
-    }
+    button {
+      padding: 0;
+      width: 70%;
+      height: 50px;
+      // line-height:50px;
+      border-radius: 5px;
+      border: none;
+      background: $gray-light;
+      color: $blue;
+      transition: 0.3s;
+      margin: 0 auto;
 
-    .glyphicon {
-      // display: inline-block;
-      // margin-right: 1rem;
-      // margin-top: -0.3em;
-      font-size: 1.6em;
-    }
+      // text-align: center;
+      
+      &:hover {
+        background: $blue;
+        color: #fff;
+      }
 
-    // .button-text {
-    //   display: inline-block;
-    // }
+      .glyphicon {
+        margin-right: 1rem;
+        // margin-top: -0.2em;
+        font-size: 1.6em;
+      }
+
+      .button-text {
+        display: inline-block;
+      }
+
+      .new-lesson-period-button-text-container {
+        -webkit-margin-before:0;
+        -webkit-margin-after:0;
+        -webkit-margin-start:0;
+        -webkit-margin-end:0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+    }
   }
 }
 

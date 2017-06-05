@@ -5,8 +5,7 @@ var LessonPeriod = React.createClass({
   },
 
   toggleEditing() {
-    var editing = this.state.editing ? false : true;
-    this.setState({ editing: editing });
+    this.setState({ editing: !this.state.editing });
   },
 
   handleEditLessonPeriod(name, instrumentId, teacherId, defaultLessonLength) {

@@ -36,6 +36,7 @@
   position: relative;
   min-height: 6rem;
   border: 1px solid #eee;
+  cursor: pointer;
   
   h3, p {
     position: absolute;
@@ -67,7 +68,9 @@
     font-size: 1em;
   }
 
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     .lesson-period-hover-menu {
       display: flex;
     }

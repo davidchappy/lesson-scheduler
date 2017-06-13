@@ -29,7 +29,7 @@ class Api::V1::AppController < Api::V1::BaseController
     end
 
     # Timestamp this family's last_seen
-    @family.last_seen = Date.today.strftime("%Y-%m-%d").to_s
+    @family.last_seen = Date.today.strftime("%Y-%m-%d").to_s if current_user.type == 'Family'
     @family.save
     @family = JSON.parse(@family.to_json(include: :setting_profiles))
 

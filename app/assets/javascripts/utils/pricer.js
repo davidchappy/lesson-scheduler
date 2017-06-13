@@ -13,9 +13,15 @@ var Pricer = {
     }
   },
   getPayments: function(totalOwed) {
-    var paymentOne = Math.ceil((totalOwed / 3).toFixed(2));
-    var paymentTwo = Math.round((totalOwed / 3).toFixed(2));
-    var paymentThree = Math.round((totalOwed / 3).toFixed(2));
+    if(totalOwed % 3 === 0) {
+      var paymentOne = paymentTwo = paymentThree = totalOwed / 3;
+    } else if ( (totalOwed-1) % 3 === 0 ) {
+      var paymentOne = (totalOwed / 3) + 1;
+      var paymentTwo = paymentThree = totalOwed / 3;
+    } else if ( (totalOwed+1) % 3 === 0 ) {
+      var paymentOne = (totalOwed / 3) - 1;
+      var paymentTwo = paymentThree = totalOwed / 3;
+    }
     return [paymentOne, paymentTwo, paymentThree];
   },
   getPricing: function(allWeeks, appSettings, discounts, possibleDiscounts) {

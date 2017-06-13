@@ -76,7 +76,7 @@ var App = React.createClass({
     var total = Pricer.monetize(this.state.pricingData.currentPricing.totalOwed);
     // Reload to Thankyou view.
     this.setState({ isConfirming: false, isThanking: true });
-
+    console.log("Pricing data: ", this.state.pricingData);
     $.ajax({
       url: `/api/v1/forms/${id}.json`, 
       type: 'PUT',

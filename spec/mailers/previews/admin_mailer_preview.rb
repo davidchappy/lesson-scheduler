@@ -9,7 +9,8 @@ class AdminMailerPreview < ActionMailer::Preview
         "quantity" => 1000
       }
     }
-    AdminMailer.submission_pricing_email(Form.first, pricing_data)
+    form = Form.where(submitted: true).take
+    AdminMailer.submission_pricing_email(form, pricing_data)
   end
 
   def submission_scheduling

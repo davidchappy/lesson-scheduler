@@ -4,7 +4,7 @@ module ApplicationHelper
   end
 
   def monetize(amount)
-    return "$" + ((amount.to_i / 100).to_s)
+    return "$" + ((amount.to_f / 100).ceil(2).to_s)
   end
 
   def get_payment_dates(start_setting)
@@ -42,8 +42,10 @@ module ApplicationHelper
   end
 
   def month_day_ordinal(date)
-    day = ActiveSupport::Inflector.ordinalize(date.day)
-    return date.strftime("%b #{day}")
+    if date
+      day = ActiveSupport::Inflector.ordinalize(date.day) 
+      return date.strftime("%b #{day}")
+    end
   end
 
   def stringify_week(week, divider=' - ')

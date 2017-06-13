@@ -1,3 +1,4 @@
+<% p @pricing_data.inspect %>
 <h1 class="top-headline"><%= @family.last_name %>—Financial, <%= month_day_ordinal(@form.submitted_at) %> Submission <%= @form.submission_count %></h1>
 
 <div class="student-info">
@@ -23,7 +24,7 @@
             <% lesson_period.weeks.order(:created_at).each do |week| %>
               <% lesson = week.lesson ? "Yes" : "No" %>
               <% classes = week.lesson ? "" : "no-lesson" %>
-              <% length = week.lesson_length %>
+              <% length = week.lesson ? week.lesson_length : "" %>
                <tr class="<%= classes %>">
                  <td class="week-string"><%= week.week_string %></td>
                  <td class="lesson-boolean"><%= lesson %></td>
@@ -45,11 +46,12 @@
 <h3 class="total-owed">Total owed: <span><%= @form.total_cost %></span></h3>
 
 <h3 class="total-owed">Payment Plan:</h3>
-<% payments = get_payments_from_total_string(@form.total_cost) %>
+<% # payments = get_payments_from_total_string(@form.total_cost) %>
+<% payments = @pricing_data["payments"] %>
 <ul>
-  <li><%= @payment_dates[0] %>: <span><%= "$#{payments[0]}" %></span></li>
-  <li><%= @payment_dates[1] %>: <span><%= "$#{payments[1]}" %></span></li>
-  <li><%= @payment_dates[2] %>: <span><%= "$#{payments[2]}" %></span></li>
+  <li><%= @payment_dates[0] %>: <span><%= monetize(payments[0].to_f) %></span></li>
+  <li><%= @payment_dates[1] %>: <span><%= monetize(payments[0].to_f) %></span></li>
+  <li><%= @payment_dates[2] %>: <span><%= monetize(payments[0].to_f) %></span></li>
 </ul>
 
 <h3 class="total-owed">Discounts:</h3>

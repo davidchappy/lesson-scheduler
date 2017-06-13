@@ -26,8 +26,10 @@ module SampleDataSeeds
 	teacher.save
 	teacher2.save
 
-	form = Form.create( year: Date.today.year, family_id: family.id,
-	                    start_date: Date.new(2017,6,5), end_date: Date.new(2017,9,1))
+	form = 					Form.create(  year: Date.today.year, family_id: family.id,
+	                    					start_date: Date.new(2017,6,5), end_date: Date.new(2017,9,1),
+	                    					submitted: true, submitted_at: Date.new(2017,6,1),
+	                    					total_cost: "$391", submission_count: 1)
 
 	jim = family.students.create(name: 'Jim')
 	sarah = family.students.create(name: 'Sarah')
@@ -45,4 +47,11 @@ module SampleDataSeeds
 	setting_profile = SettingProfile.create(name: "Missionary Discount", 
 																					expiration: Date.new(2017, 12,31),
 																					code: "missionariesdms")
+
+	family2 = Family.create(first_name: 'Jane', last_name: 'Doe', 
+												  email: 'family2@example.com',
+												  password: 'password', password_confirmation: 'password')
+
+	form2 = Form.create( year: Date.today.year, family_id: family2.id,
+	                     start_date: Date.new(2017,6,5), end_date: Date.new(2017,9,1))
 end

@@ -23,7 +23,7 @@
             <% lesson_period.weeks.order(:created_at).each do |week| %>
               <% lesson = week.lesson ? "Yes" : "No" %>
               <% classes = week.lesson ? "" : "no-lesson" %>
-              <% length = week.lesson_length %>
+              <% length = week.lesson ? week.lesson_length : "" %>
                <tr class="<%= classes %>">
                  <td class="week-string"><%= week.week_string %></td>
                  <td class="lesson-boolean"><%= lesson %></td>

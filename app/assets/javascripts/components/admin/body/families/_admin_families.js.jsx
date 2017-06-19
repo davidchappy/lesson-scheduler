@@ -1,4 +1,32 @@
 var AdminFamilies = React.createClass({
+
+  getInitialState() {
+    return {
+      orderAttribute: undefined,
+      orderDirection: undefined
+    }
+  },
+
+  sortFamilies(attribute) {
+    var subset = null;
+    if(attribute == "submission_count" ||
+       attribute == "submitted_at" ||
+       attribute == "student_count") {
+      subset = "forms";
+    }
+    var direction = this.state.orderDirection === "ascending" ? "descending" : "ascending";
+    this.setState( {orderAttribute: attribute, orderDirection: direction} );
+    this.props.sortByAttribute("families", attribute, direction, subset);
+  },
+
+  sortBy(value) {
+    if(value === this.state.orderAttribute) {
+      return 'sortable ordering ' + this.state.orderDirection;
+    } else {
+      return 'sortable';
+    }
+  },
+
   render() {
     var families = this.props.families.map((family) => {
       var students = this.props.students.map((student) => {
@@ -23,12 +51,17 @@ var AdminFamilies = React.createClass({
             <table className="table table-striped table-hover">
               <tbody>
                 <tr>
-                  <th>Last Name</th>
-                  <th># of Students</th>
+                  <th onClick={this.sortFamilies.bind(this, "last_name")}
+                      className={this.sortBy("last_name")}>Last Name</th>
+                  <th onClick={this.sortFamilies.bind(this, "student_count")}
+                      className={this.sortBy("student_count")}># of Students</th>
                   <th>Active Codes</th>
-                  <th>Last Submitted</th>
-                  <th>Submissions</th>
-                  <th>Last Seen</th>
+                  <th onClick={this.sortFamilies.bind(this, "submitted_at")}
+                      className={this.sortBy("submitted_at")}>Last Submitted</th>
+                  <th onClick={this.sortFamilies.bind(this, "submission_count")}
+                      className={this.sortBy("submission_count")}>Submissions</th>
+                  <th onClick={this.sortFamilies.bind(this, "last_seen")}
+                      className={this.sortBy("last_seen")}>Last Seen</th>
                   <th></th>
                   <th></th>
                 </tr>

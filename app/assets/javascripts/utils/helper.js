@@ -1,4 +1,41 @@
 var Helper = {
+  sortCollection: function(collection, attribute, direction, subset) {
+    if(collection.length && collection[0][attribute]) {
+      return collection.sort(function(a,b) {
+        if(direction === "ascending") {
+          if (a[attribute] < b[attribute])
+            return -1;
+          if (a[attribute] > b[attribute])
+            return 1;
+        } else if (direction === "descending") {
+          if (a[attribute] > b[attribute])
+            return -1;
+          if (a[attribute] < b[attribute])
+            return 1;
+        }
+        return 0;
+      });
+    } else if (collection.length && collection[0][subset]) {
+      // for nested collection attribute (ex: families['forms'])
+      return collection.sort(function(a,b) {
+        var a_last = a[subset].length-1;
+        var b_last = b[subset].length-1;
+        if(direction === "ascending") {
+          if (a[subset][a_last][attribute] < b[subset][b_last][attribute])
+            return -1;
+          if (a[subset][a_last][attribute] > b[subset][b_last][attribute])
+            return 1;
+        } else if (direction === "descending") {
+          if (a[subset][a_last][attribute] > b[subset][b_last][attribute])
+            return -1;
+          if (a[subset][a_last][attribute] < b[subset][b_last][attribute])
+            return 1;
+        }
+        return 0;
+      });
+    }
+    return collection;
+  },
   isValidCode: function(code, settingProfiles) {
     var valid = false;
     for (var i = settingProfiles.length - 1; i >= 0; i--) {

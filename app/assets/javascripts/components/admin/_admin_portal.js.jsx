@@ -28,6 +28,7 @@ var AdminPortal = React.createClass({
       type: 'GET',
       success: (response) => {
         console.log("Admin Portal data: ", response);
+        families = response.families;
         this.setState({ appSettings: response.app_settings, 
                         contentEntries: response.content_entries,
                         families: response.families, students: response.students, 
@@ -301,6 +302,14 @@ var AdminPortal = React.createClass({
     });
   },
 
+  sortByAttribute(collection, attribute, direction, subset) {
+    console.log("subset", subset);
+    var unsorted = this.state[collection];
+    var sorted = Helper.sortCollection(unsorted, attribute, direction, subset);
+    console.log("sorted collection", sorted);
+    this.setState( { collection: sorted } );
+  },
+
 	render() {
 		if ( !this.state.appSettings || !this.state.families) {
       return ( <Loading message="Admin Portal.." /> )
@@ -330,7 +339,8 @@ var AdminPortal = React.createClass({
                     removeSettingFromProfile={this.removeSettingFromProfile}
                     editCustomSetting={this.editCustomSetting}
                     removeCodeFromFamily={this.removeCodeFromFamily}
-                    deleteFamily={this.deleteFamily} />
+                    deleteFamily={this.deleteFamily}
+                    sortByAttribute={this.sortByAttribute} />
         <Loading />
 			</div>
 		)

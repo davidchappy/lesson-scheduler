@@ -25,7 +25,9 @@ var Header = React.createClass({
             }
           </div>
           {
-            this.props.form.submitted && new Date() > new Date(this.props.appSettings["submissionDeadline"].value)
+            this.props.form.submitted 
+            && new Date() > new Date(this.props.appSettings["submissionDeadline"].value)          
+            && !this.props.admin
             ? <div id="navbar" className="navbar-collapse collapse"></div> 
             : <Dashboard  {...this.props} />
           }

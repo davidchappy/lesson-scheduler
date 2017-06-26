@@ -14,7 +14,7 @@ var AdminFamilyDetail = React.createClass({
       var formSubmission = form.submitted_at ? Helper.formatDate(new Date(form.submitted_at)) : "Never";
     }
 
-    var rawCost = form.total_cost;
+    var rawCost = form.total_cost ? form.total_cost : "$0";
     var payments = Pricer.getPayments(Pricer.deMonetize(rawCost)).map((payment, i) => {
       return (
         <li key={i} className="admin-instrument-list-item">{Pricer.monetize(payment)}</li>

@@ -14,6 +14,17 @@ var AdminFamilyDetail = React.createClass({
       var formSubmission = form.submitted_at ? Helper.formatDate(new Date(form.submitted_at)) : "Never";
     }
 
+    var rawCost = form.total_cost;
+    var payments = Pricer.getPayments(Pricer.deMonetize(rawCost)).map((payment, i) => {
+      return (
+        <li key={i} className="admin-instrument-list-item">{Pricer.monetize(payment)}</li>
+      );
+    });
+
+    var payment1 = Pricer.monetize(payments[0]);
+    var payment2 = Pricer.monetize(payments[1]);
+    var payment3 = Pricer.monetize(payments[2]);
+
     var profiles = this.props.family.setting_profiles.map((profile) => {
       return (
         <li key={profile.id}
@@ -52,6 +63,18 @@ var AdminFamilyDetail = React.createClass({
         <tr>
           <th>Last Seen</th>
           <td>{this.props.family.last_seen || "Never"}</td>
+        </tr>
+        <tr>
+          <th>Total Owed</th>
+          <td>
+          {form.total_cost}
+          </td>
+        </tr>
+        <tr>
+          <th>Payments</th>
+          <td>
+            <ul className="admin-list">{payments}</ul>
+          </td>
         </tr>
         <tr style={ {textAlign: "center"} }>
           <td colSpan="2"><a href={familyUrl}>View as Family</a></td>

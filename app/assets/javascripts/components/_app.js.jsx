@@ -110,36 +110,6 @@ var App = React.createClass({
       success: (response) => { 
         this.fetchAppData();
         // // window.flash_messages.printMessages(response.messages);
-        // var lessonPeriod = response.lesson_period;
-        // var student = response.student; // serialize
-        // var weeks = response.weeks; // serialize
-
-        // // update app state lesson periods after creating new lesson period
-        // var lessonPeriods = Helper.clone(this.state.lessonPeriods);
-        // lessonPeriods.push(lessonPeriod);
-
-        // // update weeks object
-        // var allWeeks = this.state.allWeeks;
-        // var id = weeks[0].lesson_period_id;
-        // allWeeks[id] = weeks;
-
-        // // update app state students after creating new lesson period
-        // var students = this.state.students;
-        // if(Helper.contains.call(students, student)) {
-        //   var index;
-        //   students.map((s, i) => {
-        //     index = s.id === student.id ? i : index;
-        //   });
-        //   students[index] = student;
-        // } else {
-        //   students.push(student);
-        // }
-        // this.setState({ 
-        //                 students: students, 
-        //                 lessonPeriods: lessonPeriods, 
-        //                 allWeeks: allWeeks,
-        //                 isSubmittable: true 
-        //               });
       }
     });
   },
@@ -159,50 +129,6 @@ var App = React.createClass({
       success: (response) => {
         // window.flash_messages.printMessages(response.messages);
         this.fetchAppData();
-
-        // var lessonPeriod = response.lesson_period;
-        // var student = response.student;
-        // var weeks = Helper.clone(this.props.allWeeks[lessonPeriod.id]);
-        // var lessonMinimumState = Helper.checkLessonMinimum( lessonPeriod, 
-        //                                                     weeks, 
-        //                                                     this.props.appSettings.lessonMinimum.value);
-        // console.log("lessonMinimumState in body", lessonMinimumState);
-        // var clonedLessonPeriod = Helper.clone(lessonPeriod);
-        // if(lessonMinimumState <= 0) {
-        //   console.log("should equal true");
-        //   clonedLessonPeriod.locked = true;
-        // } else {
-        //   clonedLessonPeriod.locked = false;
-        // }
-        // // find this lesson period in lessonPeriods
-        // var lessonPeriods = this.state.lessonPeriods;
-        // var index; 
-        // lessonPeriods.map( (l, i) => {
-        //   index = l.id === lessonPeriod.id ? i : index;
-        // });
-
-        // // if default lesson length has changed, update weeks' lesson length
-        // oldLessonLength = lessonPeriods[index].default_lesson_length;
-        // newLessonLength = lessonPeriod.default_lesson_length;
-        // var allWeeks = this.state.allWeeks;
-        // weeks = allWeeks[lessonPeriod.id];
-        // var isDefaultLengthChanged = oldLessonLength === newLessonLength ? false : true;
-        // if(isDefaultLengthChanged) {
-        //   var weeks = Helper.updateLessonLengthInWeeks(weeks, newLessonLength);
-        // }
-        // allWeeks[lessonPeriod.id] = weeks;
-
-        // // replace lessonPeriod in state
-        // lessonPeriods[index] = lessonPeriod;
-
-        // var students = this.state.students;
-        // var index; 
-        // students.map( (s, i) => {
-        //   index = s.id === student.id ? i : index;
-        // });
-        // students[index] = student;
-
-        // this.setState({ lessonPeriods: lessonPeriods, students: students, allWeeks: allWeeks });
       }
     });
   },
@@ -215,19 +141,6 @@ var App = React.createClass({
       success: (response) => { 
         // window.flash_messages.printMessages(response.messages);
         this.fetchAppData();
-        // update app state lesson periods 
-        // var lessonPeriods = this.state.lessonPeriods;
-        // var lessonPeriodIndex = lessonPeriods.indexOf(lessonPeriod);
-        // lessonPeriods.splice(lessonPeriodIndex, 1);
-
-        // // update app state weeks
-        // var allWeeks = this.state.allWeeks;
-        // allWeeks[lessonPeriod.id] = null;
-
-        // // ensures there's a minimum of one lesson period to submit form
-        // var isSubmittable = lessonPeriods.length ? true : false;
-
-        // this.setState({ lessonPeriods: lessonPeriods, isSubmittable: isSubmittable, allWeeks: allWeeks });
       }
     });
   },
@@ -266,17 +179,13 @@ var App = React.createClass({
                                               this.state.appSettings)
 
       this.setState({ lessonPeriods: lessonPeriods, allWeeks: allWeeks, pricingData: pricingData })
+      var total = Pricer.monetize(pricingData.currentPricing.totalOwed);
 
       $.ajax({
         url: `/api/v1/weeks/${week.id}.json`,
         type: 'PUT',
-        data: { week: { lesson: week.lesson, lesson_length: week.lesson_length } },
-        success: (response) => {
-          // if(lessonMinimumState === 0) {
-          //   this.toggleLock(true, lessonPeriod);
-          // }
-          // this.fetchAppData();
-        }
+        data: { lesson: week.lesson, lesson_length: week.lesson_length, total_owed: total },
+        success: (response) => {console.log(response)}
       });
     } else {
       this.toggleLock(true, lessonPeriod);

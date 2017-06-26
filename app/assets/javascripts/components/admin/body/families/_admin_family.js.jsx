@@ -27,7 +27,7 @@ var AdminFamily = React.createClass({
   render() {
     var familyUrl = "/?family_id=" + this.props.family.id;
     var studentCount = this.props.family.lesson_periods.length;
-    
+
     var form = this.props.family.forms[this.props.family.forms.length - 1];
     if(form) {
       var formSubmission = form.submitted_at ? Helper.formatDate(new Date(form.submitted_at)) : "Never";

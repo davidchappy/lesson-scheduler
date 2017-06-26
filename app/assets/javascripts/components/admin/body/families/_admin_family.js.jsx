@@ -19,6 +19,11 @@ var AdminFamily = React.createClass({
     this.props.deleteFamily(this.props.family.id);
   },
 
+  viewFamilyDetails(e) {
+    e.preventDefault();
+    this.props.viewFamilyDetails(this.props.family);
+  },
+
   render() {
     var familyUrl = "/?family_id=" + this.props.family.id;
     var studentCount = this.props.family.lesson_periods.length;
@@ -27,17 +32,6 @@ var AdminFamily = React.createClass({
     if(form) {
       var formSubmission = form.submitted_at ? Helper.formatDate(new Date(form.submitted_at)) : "Never";
     }
-
-    var profiles = this.props.family.setting_profiles.map((profile) => {
-      return (
-        <li key={profile.id}
-            className="admin-instrument-list-item">{profile.code}
-            <span data-id={profile.id} className="glyphicon glyphicon-minus admin-remove-instrument" 
-                  onClick={this.handleRemoveCodeFromFamily}>
-            </span>
-        </li>
-      );
-    });
 
     if(this.state.deleting) {
       return (
@@ -53,14 +47,12 @@ var AdminFamily = React.createClass({
         <tr>
           <td>{this.props.family.last_name}</td>
           <td>{studentCount}</td>
-          <td>
-            <ul className="admin-list">{profiles}</ul>
-          </td>
           <td>{formSubmission}</td>
           <td>{form.submission_count}</td>
           <td>{this.props.family.last_seen || "Never"}</td>
           <td><a href="#" onClick={this.toggleDeleteFamily}>Delete</a></td>
-          <td><a href={familyUrl}>View/Edit</a></td>
+          <td><a href="#" onClick={this.viewFamilyDetails}>Details</a></td>
+          <td><a href={familyUrl}>View as Family</a></td>
         </tr>
       )
     }

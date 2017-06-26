@@ -3,7 +3,8 @@ var AdminFamilies = React.createClass({
   getInitialState() {
     return {
       orderAttribute: undefined,
-      orderDirection: undefined
+      orderDirection: undefined,
+      viewingFamily: null
     }
   },
 
@@ -27,6 +28,15 @@ var AdminFamilies = React.createClass({
     }
   },
 
+  viewFamilyDetails(family) {
+    this.setState({ viewingFamily: family });
+  },
+
+  turnOffFamilyDetail(e) {
+    e.preventDefault();
+    this.setState({ viewingFamily: null });
+  },
+
   render() {
     var families = this.props.families.map((family) => {
       var students = this.props.students.map((student) => {
@@ -40,38 +50,54 @@ var AdminFamilies = React.createClass({
       return (<AdminFamily  key={family.id}
                             {...this.props}
                             family={family} 
-                            students={students} />);
+                            students={students}
+                            viewFamilyDetails={this.viewFamilyDetails} />);
     })
 
-    return(
+    return (
       <div role="tabpanel" className="tab-pane" id="families">
-        <div className="col-xs-10 col-xs-offset-1">
-          <h1>All Registered Families</h1>
-          <div className="table-responsive">
-            <table className="table table-striped table-hover">
-              <tbody>
-                <tr>
-                  <th onClick={this.sortFamilies.bind(this, "last_name")}
-                      className={this.sortBy("last_name")}>Last Name</th>
-                  <th onClick={this.sortFamilies.bind(this, "student_count")}
-                      className={this.sortBy("student_count")}># of Students</th>
-                  <th>Active Codes</th>
-                  <th onClick={this.sortFamilies.bind(this, "submitted_at")}
-                      className={this.sortBy("submitted_at")}>Last Submitted</th>
-                  <th onClick={this.sortFamilies.bind(this, "submission_count")}
-                      className={this.sortBy("submission_count")}>Submissions</th>
-                  <th onClick={this.sortFamilies.bind(this, "last_seen")}
-                      className={this.sortBy("last_seen")}>Last Seen</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-                {families}
-              </tbody>
-            </table>
+        { 
+          this.state.viewingFamily
+          ? <div className="col-xs-6 col-xs-offset-3">
+              <h1>Details for the {this.state.viewingFamily.last_name} Family&nbsp;
+                <a href="#" onClick={this.turnOffFamilyDetail}>(All Families)</a>
+              </h1>
+              <div className="table-responsive">
+                <table className="table table-striped table-hover">
+                  <AdminFamilyDetail {...this.props} family={this.state.viewingFamily}/>
+                </table>
+              </div>
+            </div>
+        
+          : <div className="col-xs-10 col-xs-offset-1">
+              <h1>All Registered Families</h1> 
+            
+              <div className="table-responsive">
+                <table className="table table-striped table-hover">
+                  <tbody>
+                    <tr>
+                      <th onClick={this.sortFamilies.bind(this, "last_name")}
+                          className={this.sortBy("last_name")}>Last Name</th>
+                      <th onClick={this.sortFamilies.bind(this, "student_count")}
+                          className={this.sortBy("student_count")}># of Students</th>
+                      <th onClick={this.sortFamilies.bind(this, "submitted_at")}
+                          className={this.sortBy("submitted_at")}>Last Submitted</th>
+                      <th onClick={this.sortFamilies.bind(this, "submission_count")}
+                          className={this.sortBy("submission_count")}>Submissions</th>
+                      <th onClick={this.sortFamilies.bind(this, "last_seen")}
+                          className={this.sortBy("last_seen")}>Last Seen</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                    {families}
+                  </tbody>
+                </table>
+              </div>
           </div>
-        </div>
+        }  
       </div>
-    )
+    );
   }
 
 });

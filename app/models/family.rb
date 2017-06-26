@@ -13,6 +13,8 @@ class Family < User
     form =  self.forms.where(year: Date.today.year).take || 
             self.forms.create(year: Date.today.year, lesson_count: 0)
     check_for_alternate_start_date(form)
+    form.student_count = self.lesson_periods.length
+    form.save
     return form
   end
 end

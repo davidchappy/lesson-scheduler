@@ -303,10 +303,8 @@ var AdminPortal = React.createClass({
   },
 
   sortByAttribute(collection, attribute, direction, subset) {
-    console.log("subset", subset);
     var unsorted = this.state[collection];
     var sorted = Helper.sortCollection(unsorted, attribute, direction, subset);
-    console.log("sorted collection", sorted);
     this.setState( { collection: sorted } );
   },
 

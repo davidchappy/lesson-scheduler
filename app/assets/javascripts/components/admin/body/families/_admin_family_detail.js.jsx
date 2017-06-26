@@ -67,7 +67,7 @@ var AdminFamilyDetail = React.createClass({
         <tr>
           <th>Total Owed</th>
           <td>
-          {form.total_cost}
+          {rawCost}
           </td>
         </tr>
         <tr>

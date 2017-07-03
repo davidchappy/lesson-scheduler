@@ -1,9 +1,5 @@
 // ***** ADMIN ******
 
-.admin-header {
-
-}
-
 .tab-pane h1 {
   text-align: center;
   margin-bottom: 2rem;
@@ -25,6 +21,12 @@
 
 .body.admin-body {
   padding-top: 0;
+}
+
+.admin-large-button {
+  display: block;
+  margin: 0 auto 2rem;
+  width: 50%;
 }
 
 .setting {
@@ -176,6 +178,11 @@
   text-align: right;
 }
 
+.admin-app-reset {
+  width: 70%;
+  text-align: center;
+  margin: 0 auto 50px;
+}
 
 // ** Custom Settings Pane ** //
 
@@ -187,12 +194,6 @@
       margin-left: 0.5rem;
     }
   }
-}
-
-.setting-profiles-create-button.btn {
-  display: block;
-  margin: 0 auto 2rem;
-  width: 50%;
 }
 
 .settings-profile-delete {

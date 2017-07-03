@@ -29,9 +29,11 @@ var AdminFamily = React.createClass({
     var studentCount = this.props.family.lesson_periods.length;
 
     var form = this.props.family.forms[this.props.family.forms.length - 1];
+    var formSubmission;
     if(form) {
-      var formSubmission = form.submitted_at ? Helper.formatDate(new Date(form.submitted_at)) : "Never";
+      formSubmission = form.submitted_at ? Helper.formatDate(new Date(form.submitted_at)) : "Never";
     }
+    var submissionCount = form ? form.submission_count : 0;
 
     if(this.state.deleting) {
       return (
@@ -48,7 +50,7 @@ var AdminFamily = React.createClass({
           <td>{this.props.family.last_name}</td>
           <td>{studentCount}</td>
           <td>{formSubmission}</td>
-          <td>{form.submission_count}</td>
+          <td>{submissionCount}</td>
           <td>{this.props.family.last_seen || "Never"}</td>
           <td><a href="#" onClick={this.toggleDeleteFamily}>Delete</a></td>
           <td><a href="#" onClick={this.viewFamilyDetails}>Details</a></td>

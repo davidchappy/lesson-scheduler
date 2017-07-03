@@ -4,7 +4,8 @@ var AdminFamilies = React.createClass({
     return {
       orderAttribute: undefined,
       orderDirection: undefined,
-      viewingFamily: null
+      viewingFamily: null,
+      resetting: false
     }
   },
 
@@ -37,6 +38,17 @@ var AdminFamilies = React.createClass({
     this.setState({ viewingFamily: null });
   },
 
+  toggleResetting(e) {
+    e.preventDefault();
+    this.setState({ resetting: !this.state.resetting });
+  },
+
+  handleResetApp(e) {
+    e.preventDefault();
+    this.setState({ resetting: false });
+    this.props.resetApp();
+  },
+
   render() {
     var families = this.props.families.map((family) => {
       var students = this.props.students.map((student) => {
@@ -53,6 +65,27 @@ var AdminFamilies = React.createClass({
                             students={students}
                             viewFamilyDetails={this.viewFamilyDetails} />);
     })
+
+    var reset = () => {
+      if(this.state.resetting) {
+        return (
+          <div className="admin-app-reset">
+            <p>Are you sure you want to reset all lesson and pricing data?<br/>(Familes, students, teachers, and instruments are preserved)</p>
+            <div className="actions">
+              <a className="btn btn-danger" href="#" onClick={this.handleResetApp}>Yes</a>&nbsp;&nbsp;
+              <a className="btn btn-default" href="#" onClick={this.toggleResetting}>Oops!</a>
+            </div>
+          </div>
+        )
+      } else {
+        return (
+          <div className="admin-app-reset">
+            <a className="btn btn-large btn-danger admin-large-button" 
+                    href="#" onClick={this.toggleResetting}>Reset App</a>
+          </div>
+        )
+      }
+    }; 
 
     return (
       <div role="tabpanel" className="tab-pane" id="families">
@@ -71,6 +104,7 @@ var AdminFamilies = React.createClass({
         
           : <div className="col-xs-10 col-xs-offset-1">
               <h1>All Registered Families</h1> 
+              {reset()}
             
               <div className="table-responsive">
                 <table className="table table-striped table-hover">
@@ -79,7 +113,7 @@ var AdminFamilies = React.createClass({
                       <th onClick={this.sortFamilies.bind(this, "last_name")}
                           className={this.sortBy("last_name")}>Last Name</th>
                       <th onClick={this.sortFamilies.bind(this, "student_count")}
-                          className={this.sortBy("student_count")}># of Students</th>
+                          className={this.sortBy("student_count")}># Lesson Periods</th>
                       <th onClick={this.sortFamilies.bind(this, "submitted_at")}
                           className={this.sortBy("submitted_at")}>Last Submitted</th>
                       <th onClick={this.sortFamilies.bind(this, "submission_count")}

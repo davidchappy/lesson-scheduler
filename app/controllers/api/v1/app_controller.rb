@@ -40,6 +40,18 @@ class Api::V1::AppController < Api::V1::BaseController
                   content_entries: @content_entries, setting_profiles: @all_setting_profiles
   end
 
+  # Used for admin 'reseting app', ie eliminating Forms and their dependents
+  # This is not super secure but is protected by (Devise) authentication
+  def reset_app
+    if current_user.type == 'Admin'
+      # Also eliminates all lesson_periods and weeks
+      Form.destroy_all
+      redirect_to root_url
+    else
+      respond_with messages: 'Only Admins may use this feature'
+    end
+  end
+
   private
 
     def eliminate_old_profiles

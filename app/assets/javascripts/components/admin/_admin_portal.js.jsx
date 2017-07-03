@@ -308,6 +308,13 @@ var AdminPortal = React.createClass({
     this.setState( { collection: sorted } );
   },
 
+  resetApp() {
+    $.ajax({
+      url: `/api/v1/app/reset.json`, 
+      type: 'POST'
+    });
+  },
+
 	render() {
 		if ( !this.state.appSettings || !this.state.families) {
       return ( <Loading message="Admin Portal.." /> )
@@ -338,7 +345,8 @@ var AdminPortal = React.createClass({
                     editCustomSetting={this.editCustomSetting}
                     removeCodeFromFamily={this.removeCodeFromFamily}
                     deleteFamily={this.deleteFamily}
-                    sortByAttribute={this.sortByAttribute} />
+                    sortByAttribute={this.sortByAttribute}
+                    resetApp={this.resetApp} />
         <Loading />
 			</div>
 		)

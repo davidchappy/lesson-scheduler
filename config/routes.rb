@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do 
     namespace :v1 do
+      post '/app/reset', to: 'app#reset_app'
       resources :app,               only: [:index]
       resources :forms,             only: [:index, :show, :update]
       resources :lesson_periods,    only: [:index, :show, :create, :destroy, :update]

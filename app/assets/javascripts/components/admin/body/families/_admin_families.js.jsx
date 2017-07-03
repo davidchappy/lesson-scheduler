@@ -4,8 +4,8 @@ var AdminFamilies = React.createClass({
     return {
       orderAttribute: undefined,
       orderDirection: undefined,
-      viewingFamily: null,
-      resetting: false
+      resetting: false,
+      familyDetails: undefined
     }
   },
 
@@ -29,15 +29,6 @@ var AdminFamilies = React.createClass({
     }
   },
 
-  viewFamilyDetails(family) {
-    this.setState({ viewingFamily: family });
-  },
-
-  turnOffFamilyDetail(e) {
-    e.preventDefault();
-    this.setState({ viewingFamily: null });
-  },
-
   toggleResetting(e) {
     e.preventDefault();
     this.setState({ resetting: !this.state.resetting });
@@ -49,8 +40,18 @@ var AdminFamilies = React.createClass({
     this.props.resetApp();
   },
 
+  viewFamilyDetails(family) {
+    this.setState({ familyDetails: family });
+  },
+
+  turnOffDetails(e) {
+    e.preventDefault();
+    this.setState({ familyDetails: undefined });  
+  },
+
   render() {
-    var families = this.props.families.map((family) => {
+
+    var families = this.props.families.map((family, index) => {
       var students = this.props.students.map((student) => {
         if(student.family_id === family.id) {
           return student;
@@ -63,8 +64,11 @@ var AdminFamilies = React.createClass({
                             {...this.props}
                             family={family} 
                             students={students}
-                            viewFamilyDetails={this.viewFamilyDetails} />);
-    })
+                            index={index}
+                            viewFamilyDetails={this.viewFamilyDetails}
+                            turnOffDetails={this.turnOffDetails}
+                            familyDetails={this.state.familyDetails} />)
+    });
 
     var reset = () => {
       if(this.state.resetting) {
@@ -85,51 +89,37 @@ var AdminFamilies = React.createClass({
           </div>
         )
       }
-    }; 
+    };
 
     return (
       <div role="tabpanel" className="tab-pane" id="families">
-        { 
-          this.state.viewingFamily
-          ? <div className="col-xs-6 col-xs-offset-3">
-              <h1>Details for the {this.state.viewingFamily.last_name} Family&nbsp;
-                <a href="#" onClick={this.turnOffFamilyDetail}>(All Families)</a>
-              </h1>
-              <div className="table-responsive">
-                <table className="table table-striped table-hover">
-                  <AdminFamilyDetail {...this.props} family={this.state.viewingFamily}/>
-                </table>
-              </div>
-            </div>
+        <div className="col-xs-10 col-xs-offset-1">
+          <h1>All Registered Families</h1> 
+          {reset()}
         
-          : <div className="col-xs-10 col-xs-offset-1">
-              <h1>All Registered Families</h1> 
-              {reset()}
-            
-              <div className="table-responsive">
-                <table className="table table-striped table-hover">
-                  <tbody>
-                    <tr>
-                      <th onClick={this.sortFamilies.bind(this, "last_name")}
-                          className={this.sortBy("last_name")}>Last Name</th>
-                      <th onClick={this.sortFamilies.bind(this, "student_count")}
-                          className={this.sortBy("student_count")}># Lesson Periods</th>
-                      <th onClick={this.sortFamilies.bind(this, "submitted_at")}
-                          className={this.sortBy("submitted_at")}>Last Submitted</th>
-                      <th onClick={this.sortFamilies.bind(this, "submission_count")}
-                          className={this.sortBy("submission_count")}>Submissions</th>
-                      <th onClick={this.sortFamilies.bind(this, "last_seen")}
-                          className={this.sortBy("last_seen")}>Last Seen</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                    {families}
-                  </tbody>
-                </table>
-              </div>
+          <div className="table-responsive">
+            <table className="table table-striped table-hover">
+              <tbody>
+                <tr>
+                  <th onClick={this.sortFamilies.bind(this, "last_name")}
+                      className={this.sortBy("last_name")}>Last Name</th>
+                  <th onClick={this.sortFamilies.bind(this, "student_count")}
+                      className={this.sortBy("student_count")}># Lesson Periods</th>
+                  <th onClick={this.sortFamilies.bind(this, "submitted_at")}
+                      className={this.sortBy("submitted_at")}>Last Submitted</th>
+                  <th onClick={this.sortFamilies.bind(this, "submission_count")}
+                      className={this.sortBy("submission_count")}>Submissions</th>
+                  <th onClick={this.sortFamilies.bind(this, "last_seen")}
+                      className={this.sortBy("last_seen")}>Last Seen</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+                {families}
+              </tbody>
+            </table>
           </div>
-        }  
+          </div>
       </div>
     );
   }

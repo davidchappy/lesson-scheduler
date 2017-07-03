@@ -14,7 +14,9 @@ var AdminFamilyDetail = React.createClass({
       var formSubmission = form.submitted_at ? Helper.formatDate(new Date(form.submitted_at)) : "Never";
     }
 
-    var rawCost = form.total_cost ? form.total_cost : "$0";
+    var submissionCount = form ? form.submission_count : 0;
+
+    var rawCost = form && form.total_cost ? form.total_cost : "$0";
     var payments = Pricer.getPayments(Pricer.deMonetize(rawCost)).map((payment, i) => {
       return (
         <li key={i} className="admin-instrument-list-item">{Pricer.monetize(payment)}</li>
@@ -37,49 +39,56 @@ var AdminFamilyDetail = React.createClass({
     });
 
     return (
-      <tbody>
-        <tr>
-          <th>Last Name</th>
-          <td>{this.props.family.last_name}</td>
-        </tr>
-        <tr>
-          <th># of Students</th>
-          <td>{studentCount}</td>
-        </tr>
-        <tr>
-         <th>Active Codes</th>
-          <td>
-            <ul className="admin-list">{profiles}</ul>
-          </td>
-        </tr>
-        <tr>
-          <th>Last Submitted</th>
-          <td>{formSubmission}</td>
-        </tr>
-        <tr>
-          <th>Submission</th>
-          <td>{form.submission_count}</td>
-        </tr>
-        <tr>
-          <th>Last Seen</th>
-          <td>{this.props.family.last_seen || "Never"}</td>
-        </tr>
-        <tr>
-          <th>Total Owed</th>
-          <td>
-          {rawCost}
-          </td>
-        </tr>
-        <tr>
-          <th>Payments</th>
-          <td>
-            <ul className="admin-list">{payments}</ul>
-          </td>
-        </tr>
-        <tr style={ {textAlign: "center"} }>
-          <td colSpan="2"><a href={familyUrl}>View as Family</a></td>
-        </tr>
-      </tbody>
+      <tr>
+        <td colSpan="8">
+          <table className="table table-striped table-hover admin-table-inner">
+            <tbody>
+              <tr>
+                <th>Last Name</th>
+                <td>{this.props.family.last_name}</td>
+              </tr>
+              <tr>
+                <th># of Students</th>
+                <td>{studentCount}</td>
+              </tr>
+              <tr>
+               <th>Active Codes</th>
+                <td>
+                  <ul className="admin-list">{profiles}</ul>
+                </td>
+              </tr>
+              <tr>
+                <th>Last Submitted</th>
+                <td>{formSubmission}</td>
+              </tr>
+              <tr>
+                <th>Submission</th>
+                <td>{submissionCount}</td>
+              </tr>
+              <tr>
+                <th>Last Seen</th>
+                <td>{this.props.family.last_seen || "Never"}</td>
+              </tr>
+              <tr>
+                <th>Total Owed</th>
+                <td>
+                {rawCost}
+                </td>
+              </tr>
+              <tr>
+                <th>Payments</th>
+                <td>
+                  <ul className="admin-list">{payments}</ul>
+                </td>
+              </tr>
+              <tr style={ {textAlign: "center"} }>
+                <td><strong><a href="#" onClick={this.props.turnOffDetails}>No Details</a></strong></td>
+                <td><a href={familyUrl}>View as Family</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
     )
   }
 

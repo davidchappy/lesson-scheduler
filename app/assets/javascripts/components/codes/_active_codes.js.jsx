@@ -2,8 +2,7 @@ var ActiveCodes = React.createClass({
   
   render() {
     var activeCodes = this.props.family.setting_profiles.map((profile) => {
-      var expirationTry = Helper.formatDate(new Date(profile.expiration));
-      var expiration = expirationTry ? (<span>(Expires: {expirationTry})</span>) : null;
+      var expiration = Helper.formatDate(new Date(profile.expiration));
 
       return (<ActiveCode key={profile.id}
                           {...this.props} 

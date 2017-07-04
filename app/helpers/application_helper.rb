@@ -7,24 +7,6 @@ module ApplicationHelper
     return "$" + ((amount.to_f / 100).ceil(2).to_s)
   end
 
-  def get_payment_dates(start_setting)
-    if(start_setting.value.class == Date)
-      first_payment = start_setting.value
-    else
-      first_payment = Date.parse(start_setting.value)
-    end
-
-    return [first_payment, first_payment + 1.month, first_payment + 2.months]
-  end
-
-  def payment_dates_as_string(start_setting)
-    payments        = get_payment_dates(start_setting)
-    first_payment   = month_day_ordinal(payments[0])
-    second_payment  = month_day_ordinal(payments[1])
-    third_payment   = month_day_ordinal(payments[2])
-    return [first_payment, second_payment, third_payment]
-  end
-
   def get_payments_from_total_string(total_string)
     total = ((total_string[1..-1].to_i * 100).to_f / 3) / 100
     payment_one = total.ceil_to(2) 
@@ -34,7 +16,7 @@ module ApplicationHelper
   end
 
   def parse_js_date_string(date_string)
-    parts         = date_string.split(" ")
+    parts = date_string.split(" ")
     month         = parts[0]
     day           = parts[1][0..-2]
     year          = parts[2]

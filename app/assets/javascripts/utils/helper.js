@@ -57,7 +57,7 @@ var Helper = {
     var monthIndex = date.getMonth();
     var year = date.getFullYear();
 
-    return months[monthIndex] + ' ' + day + ', ' + year;
+    return monthNames[monthIndex] + ' ' + day + ', ' + year;
   },
   ordinalizeMonthDay: function(date) {
     var months = Helper.getMonthNames();

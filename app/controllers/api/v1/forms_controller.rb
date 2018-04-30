@@ -11,7 +11,6 @@ class Api::V1::FormsController < Api::V1::BaseController
   # for marking submitted
   def update
     @pricing_data = params[:form][:pricing_data]
-    byebug
     @form = Form.find(params[:id])
     @form.submitted = true
     @form.submitted_at = DateTime.now

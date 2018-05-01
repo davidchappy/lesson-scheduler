@@ -48,15 +48,15 @@
 
 <ul>
   <li><%= @payment_dates[0] %>: <span><%= monetize(@pricing_data[:payments][0].to_f) %></span></li>
-  <li><%= @payment_dates[1] %>: <span><%= monetize(@pricing_data[:payments][1].to_f) %></span></li>
-  <li><%= @payment_dates[2] %>: <span><%= monetize(@pricing_data[:payments][2].to_f) %></span></li>
+  <li><%= @payment_dates[1] %>: <span><%= monetize(@pricing_data[:payments][0].to_f) %></span></li>
+  <li><%= @payment_dates[2] %>: <span><%= monetize(@pricing_data[:payments][0].to_f) %></span></li>
 </ul>
 
 <h3 class="total-owed">Discounts:</h3>
 <ul>
-  <li>Multiple student discount: <span><strong><%= monetize(@pricing_data[:currentDiscounts]["rate"]) %></strong></span></li>
-  <li>Rate discount from number of lessons: <span><strong><%= monetize(@pricing_data[:currentDiscounts]["lessons"]) %></strong></span></li>
-  <li>Multiple student bonus: <span><strong><%= monetize(@pricing_data[:currentDiscounts]["quantity"]) %></span></strong></li>
+  <li>Multiple student discount: <span><strong><%= monetize(@pricing_data[:currentDiscounts][:rate]) %></strong></span></li>
+  <li>Rate discount from number of lessons: <span><strong><%= monetize(@pricing_data[:currentDiscounts][:lessons]) %></strong></span></li>
+  <li>Multiple student bonus: <span><strong><%= monetize(@pricing_data[:currentDiscounts][:quantity]) %></span></strong></li>
 </ul>
 
 

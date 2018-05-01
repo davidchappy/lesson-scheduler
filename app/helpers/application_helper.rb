@@ -6,7 +6,7 @@ module ApplicationHelper
   def monetize(amount)
     puts 'AMOUNT'
     puts amount
-    return "$" + ((amount.to_f / 100).ceil(2).to_s)
+    return "$" + ((amount.to_f / 100).ceil_to(2).to_s)
   end
 
   def get_payments_from_total_string(total_string)

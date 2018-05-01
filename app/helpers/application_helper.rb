@@ -4,13 +4,15 @@ module ApplicationHelper
   end
 
   def monetize(amount)
+    puts 'AMOUNT'
+    puts amount
     return "$" + ((amount.to_f / 100).ceil(2).to_s)
   end
 
   def get_payments_from_total_string(total_string)
     total = ((total_string[1..-1].to_i * 100).to_f / 3) / 100
-    payment_one = total.ceil_to(2) 
-    payment_two = total.round_to(2) 
+    payment_one = total.ceil_to(2)
+    payment_two = total.round_to(2)
     payment_three = total.round_to(2)
     return [payment_one, payment_two, payment_three]
   end
@@ -25,7 +27,7 @@ module ApplicationHelper
 
   def month_day_ordinal(date)
     if date
-      day = ActiveSupport::Inflector.ordinalize(date.day) 
+      day = ActiveSupport::Inflector.ordinalize(date.day)
       return date.strftime("%b #{day}")
     end
   end
@@ -81,7 +83,7 @@ module ApplicationHelper
   def get_summer_dates(year=Date.today.year, start=nil)
     # Default start day is first (Monday) of June
     start = start || Date.new(year, 6, 1)
-    
+
     # Ensure start provided is a Date object
     start = start.class == Date ? start : Date.parse(start)
 

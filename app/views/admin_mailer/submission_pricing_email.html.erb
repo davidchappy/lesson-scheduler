@@ -45,6 +45,7 @@
 <h3 class="total-owed">Total owed: <span><%= @form.total_cost %></span></h3>
 
 <h3 class="total-owed">Payment Plan:</h3>
+
 <ul>
   <li><%= @payment_dates[0] %>: <span><%= monetize(@pricing_data[:payments][0].to_f) %></span></li>
   <li><%= @payment_dates[1] %>: <span><%= monetize(@pricing_data[:payments][1].to_f) %></span></li>

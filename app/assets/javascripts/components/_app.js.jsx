@@ -3,8 +3,8 @@ var App = React.createClass({
   // *** APP INIT
   getInitialState() {
     return {  instruments: undefined, teachers: undefined,
-              family: undefined, form: undefined, students: undefined, 
-              lessonPeriods: undefined, allWeeks: undefined, isCreating: false, 
+              family: undefined, form: undefined, students: undefined,
+              lessonPeriods: undefined, allWeeks: undefined, isCreating: false,
               isConfirming: false, isSubmittable: false, appSettings: undefined,
               pricingData: undefined, isThanking: false, settingProfiles: undefined,
               loading: false }
@@ -23,20 +23,20 @@ var App = React.createClass({
 
   fetchAppData() {
     $.ajax({
-      url: '/api/v1/app.json', 
+      url: '/api/v1/app.json',
       type: 'GET',
       data: { family_id: this.props.family_id },
       success: (response) => {
         var isSubmittable = response.lesson_periods.length ? true : false;
-        var pricingData = Pricer.getPricingData(response.lesson_periods, 
+        var pricingData = Pricer.getPricingData(response.lesson_periods,
                                                 response.weeks,
-                                                response.app_settings) 
+                                                response.app_settings)
         // window.flash_messages.printMessages(response.messages);
-        this.setState({ 
+        this.setState({
                         loading: false,
                         instruments: response.instruments,
                         teachers: response.teachers,
-                        family: response.family,  
+                        family: response.family,
                         form: response.form,
                         students: response.students,
                         lessonPeriods: response.lesson_periods,
@@ -78,7 +78,7 @@ var App = React.createClass({
     this.setState({ isConfirming: false, isThanking: true });
     console.log("Pricing data: ", this.state.pricingData);
     $.ajax({
-      url: `/api/v1/forms/${id}.json`, 
+      url: `/api/v1/forms/${id}.json`,
       type: 'PUT',
       data: { form: { total_cost: total, pricing_data: this.state.pricingData } }
     });
@@ -87,9 +87,9 @@ var App = React.createClass({
   toggleLock(bool, lessonPeriod) {
     lessonPeriod.locked = bool;
     var student = Helper.findInArrayById(lessonPeriod.student_id, this.state.students);
-    this.editLessonPeriod(  student.name, 
-                            lessonPeriod.instrumentId, 
-                            lessonPeriod.teacherId, 
+    this.editLessonPeriod(  student.name,
+                            lessonPeriod.instrumentId,
+                            lessonPeriod.teacherId,
                             lessonPeriod);
   },
 
@@ -99,15 +99,15 @@ var App = React.createClass({
     ReactTooltip.hide($('#ttLessonPeriodTutorial'));
 
     $.ajax({
-      url: '/api/v1/lesson_periods.json', 
+      url: '/api/v1/lesson_periods.json',
       type: 'POST',
-      data: { 
+      data: {
               family_id: this.props.family_id,
               name: name,
-              lesson_period: {  form_id: formId, instrument_id: instrumentId, 
-                                teacher_id: teacherId, default_lesson_length: defaultLessonLength } 
+              lesson_period: {  form_id: formId, instrument_id: instrumentId,
+                                teacher_id: teacherId, default_lesson_length: defaultLessonLength }
             },
-      success: (response) => { 
+      success: (response) => {
         this.fetchAppData();
         // // window.flash_messages.printMessages(response.messages);
       }
@@ -117,14 +117,14 @@ var App = React.createClass({
   editLessonPeriod(name, instrumentId, teacherId, lessonPeriod) {
     var id = lessonPeriod.id;
     $.ajax({
-      url: `/api/v1/lesson_periods/${id}.json`, 
+      url: `/api/v1/lesson_periods/${id}.json`,
       type: 'PUT',
-      data: { 
+      data: {
               lesson_period: {  instrument_id: instrumentId, teacher_id: teacherId,
-                                default_lesson_length: lessonPeriod.defaultLessonLength, 
+                                default_lesson_length: lessonPeriod.defaultLessonLength,
                                 locked: lessonPeriod.locked,
                                 form_id: this.state.form.id },
-              name: name 
+              name: name
             },
       success: (response) => {
         // window.flash_messages.printMessages(response.messages);
@@ -136,9 +136,9 @@ var App = React.createClass({
   deleteLessonPeriod(lessonPeriod) {
     var id = lessonPeriod.id;
     $.ajax({
-      url: `/api/v1/lesson_periods/${id}.json`, 
+      url: `/api/v1/lesson_periods/${id}.json`,
       type: 'DELETE',
-      success: (response) => { 
+      success: (response) => {
         // window.flash_messages.printMessages(response.messages);
         this.fetchAppData();
       }
@@ -148,9 +148,9 @@ var App = React.createClass({
   editWeek(week) {
     var lessonPeriod = Helper.findInArrayById(week.lesson_period_id, this.state.lessonPeriods);
     var oldWeeks = Helper.clone(this.state.allWeeks[lessonPeriod.id]);
-    var lessonMinimumState = Helper.checkLessonMinimum( lessonPeriod, 
+    var lessonMinimumState = Helper.checkLessonMinimum( lessonPeriod,
                                                         oldWeeks,
-                                                        this.state.appSettings.lessonMinimum.value, 
+                                                        this.state.appSettings.lessonMinimum.value,
                                                         week);
 
     if(lessonMinimumState >= 0) {
@@ -162,7 +162,7 @@ var App = React.createClass({
       var allWeeks = this.state.allWeeks;
       var targetWeeks = allWeeks[lessonPeriodId];
 
-      // update weeks array and set it back in weeks object 
+      // update weeks array and set it back in weeks object
       var index = targetWeeks.indexOf(week);
       targetWeeks[index] = week;
       allWeeks[lessonPeriodId] = targetWeeks;
@@ -175,7 +175,7 @@ var App = React.createClass({
       lessonPeriods[index] = lessonPeriod;
 
       // update pricing
-      var pricingData = Pricer.getPricingData(lessonPeriods, allWeeks, 
+      var pricingData = Pricer.getPricingData(lessonPeriods, allWeeks,
                                               this.state.appSettings)
 
       this.setState({ lessonPeriods: lessonPeriods, allWeeks: allWeeks, pricingData: pricingData })
@@ -189,19 +189,19 @@ var App = React.createClass({
       });
     } else {
       this.toggleLock(true, lessonPeriod);
-    } 
+    }
   },
 
   addSettingsCode(code) {
     $.ajax({
-      url: `/api/v1/families/${this.state.family.id}.json`, 
+      url: `/api/v1/families/${this.state.family.id}.json`,
       type: 'PUT',
-      data: { 
+      data: {
               family: {
                 code: code
-              } 
+              }
             },
-      success: (response) => { 
+      success: (response) => {
         location.reload();
       }
     });
@@ -209,14 +209,14 @@ var App = React.createClass({
 
   removeCodeFromFamily(id, family) {
     $.ajax({
-      url: `/api/v1/families/${family.id}.json`, 
+      url: `/api/v1/families/${family.id}.json`,
       type: 'PUT',
-      data: { 
+      data: {
               family: {
                 code_id: id
-              } 
+              }
             },
-      success: (response) => { 
+      success: (response) => {
         this.fetchAppData();
       }
     });
@@ -227,6 +227,8 @@ var App = React.createClass({
       return (<Loading message="App"/>)
     }
 
+    var submissionDeadline = new Date(this.state.appSettings["submissionDeadline"].value);
+
     return (
       <div>
         <Header {...this.state}
@@ -234,9 +236,9 @@ var App = React.createClass({
                 toggleCreating={this.toggleCreating} />
 
         {
-          this.state.form.submitted && new Date() > new Date(this.state.appSettings["submissionDeadline"].value)
+          this.state.form.submitted && new Date() > submissionDeadline
             ? <AlreadySubmitted {...this.state}
-                                {...this.props} /> 
+                                {...this.props} />
             : <Body {...this.state}
                     {...this.props}
                     toggleConfirming={this.toggleConfirming}
@@ -244,7 +246,7 @@ var App = React.createClass({
                     editWeek={this.editWeek}
                     createLessonPeriod={this.createLessonPeriod}
                     editLessonPeriod={this.editLessonPeriod}
-                    deleteLessonPeriod={this.deleteLessonPeriod} 
+                    deleteLessonPeriod={this.deleteLessonPeriod}
                     submitForm={this.submitForm}
                     addSettingsCode={this.addSettingsCode}
                     removeCodeFromFamily={this.removeCodeFromFamily} />

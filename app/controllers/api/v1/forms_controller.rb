@@ -10,7 +10,7 @@ class Api::V1::FormsController < Api::V1::BaseController
 
   # for marking submitted
   def update
-    @pricing_data = params[:form][:pricing_data]
+    @pricing_data = collect_pricing_data(form_params[:pricing_data])
     @form = Form.find(params[:id])
     @form.submitted = true
     @form.submitted_at = DateTime.now
@@ -29,8 +29,39 @@ class Api::V1::FormsController < Api::V1::BaseController
   end
 
   private
+    def collect_pricing_data(params)
+      {
+        currentPricing: {
+          discount: params[:currentPricing][:discount],
+          totalOwed: params[:currentPricing][:totalOwed],
+          possibleDiscount: params[:currentPricing][:possibleDiscount],
+        },
+        possibleDiscounts: {
+          lessons: params[:possibleDiscounts][:lessons],
+          rate: params[:possibleDiscounts][:rate],
+          quantity: params[:possibleDiscounts][:quantity],
+        },
+        currentDiscounts: {
+          lessons: params[:currentDiscounts][:lessons],
+          rate: params[:currentDiscounts][:rate],
+          quantity: params[:currentDiscounts][:quantity],
+        },
+        payments: params[:payments]
+      }
+    end
+
+    def pricing_data_params
+      pricing_data = {
+        pricing_data: {
+          currentPricing: [:discount, :totalOwed, :possibleDiscount],
+          possibleDiscounts: [:lessons, :rate, :quantity],
+          currentDiscounts: [:rate, :quantity, :lessons],
+          payments: []
+        }
+      }
+    end
 
     def form_params
-      params.require(:form).permit(:total_cost, :pricing_data)
+      params.require(:form).permit(:total_cost, pricing_data_params)
     end
 end

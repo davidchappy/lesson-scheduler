@@ -236,7 +236,7 @@ var App = React.createClass({
                 toggleCreating={this.toggleCreating} />
 
         {
-          this.state.form.submitted && new Date() > submissionDeadline
+          this.state.form.submitted && new Date() > submissionDeadline && !this.props.admin
             ? <AlreadySubmitted {...this.state}
                                 {...this.props} />
             : <Body {...this.state}

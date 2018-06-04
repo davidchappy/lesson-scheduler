@@ -90,7 +90,7 @@
 
 .admin-edit-item-button {
   width: 60px;
-  
+
   &.btn {
     vertical-align: baseline;
     border-radius: 0;
@@ -103,6 +103,10 @@
   margin-bottom: 0;
 }
 
+.full-width-table-data {
+  width: 100%;
+}
+
 .admin-actions-icons {
   a {
     display: inline-block;
@@ -111,7 +115,7 @@
     text-decoration: none;
     padding: 0.6rem;
     border-radius: 50%;
-    
+
     &:hover, &:focus, &:active {
       text-decoration: none;
     }
@@ -123,13 +127,13 @@
 
     &[title="Delete"] {
       color: $red;
-      
+
       &:hover {
         background: $red;
         color: #fff;
       }
     }
-  }  
+  }
 
 }
 
@@ -173,7 +177,7 @@
 .admin-families-delete-confirm {
 
   .red {
-    color: $red;  
+    color: $red;
   }
 
   a {
@@ -194,7 +198,7 @@
 .custom-settings-pane {
   .settings-profile-create-setting {
     margin-bottom: 2rem;
-    
+
     .btn + .btn {
       margin-left: 0.5rem;
     }
@@ -216,11 +220,11 @@
 
   .settings-profile-list {
     padding-top: 1rem;
-    
+
     label {
       margin-bottom: 0.2rem;
     }
-    
+
     .setting-description {
       margin: 0;
     }
@@ -230,11 +234,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
     label {
       width: 80px;
     }
-    
+
     input {
       flex-grow: 1;
       padding: 0.5rem;
@@ -263,7 +267,7 @@
   background: darken($gray-light, 7%);
   color: $blue;
   transition: 0.3s;
-  
+
   &:hover {
     background: $blue;
     color: #fff !important;

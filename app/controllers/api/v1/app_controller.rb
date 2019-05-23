@@ -1,6 +1,6 @@
 class Api::V1::AppController < Api::V1::BaseController
   include ApplicationHelper
-  before_action :eliminate_old_profiles, :eliminate_old_unavailable_weeks
+  before_action :eliminate_old_profiles, :eliminate_old_unavailable_weeks, :set_summer_start_date
 
   def index
     @family = nil
@@ -67,6 +67,15 @@ class Api::V1::AppController < Api::V1::BaseController
       unavailable_weeks.each do |week|
         week.destroy if week.start_date.year != Date.today.year
       end
+    end
+
+    def set_summer_start_date
+      summer_start = AppSetting.where(key: "summerStartDate").take
+
+      return if Date.parse(summer_start[:value]).year == Date.today.year
+
+      summer_start[:value] = get_summer_dates[0]
+      summer_start.save!
     end
 
 end

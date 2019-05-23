@@ -60,8 +60,8 @@ module ApplicationHelper
         form.adjust_lesson_period_dates
         form.save
       end
-    elsif app_start && app_start.value != form.start_date
-      form.set_summer_dates(Date.today.year, app_start.value)
+    elsif app_start && app_start[:value] != form.start_date
+      form.set_summer_dates(Date.today.year, app_start[:value])
       form.adjust_lesson_period_dates
       form.save
     end
@@ -93,7 +93,7 @@ module ApplicationHelper
     # Summer always lasts 13 weeks
     finish = (start + 13.weeks) - (3.days)
 
-    return [start, finish]
+    [start, finish]
   end
 
   def flash_messages
